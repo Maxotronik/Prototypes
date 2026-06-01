@@ -92,7 +92,7 @@
     document.head.appendChild(style);
 
     fab = document.createElement('button');
-    fab.className = 'inspect-fab';
+    fab.className = 'inspect-fab proto-ui';
     fab.innerHTML = CURSOR_ICON + ' Inspect';
     fab.addEventListener('click', toggle);
     document.body.appendChild(fab);
@@ -184,5 +184,11 @@
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
+  }
+
+  if (location.hostname === 'maxotronik.github.io') {
+    const hide = () => document.querySelectorAll('.proto-ui').forEach(el => el.style.display = 'none');
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hide);
+    else hide();
   }
 })();
