@@ -1489,7 +1489,7 @@
     }
 
     .compare-table .image-row .label-col { border-bottom: none; padding-bottom: 0; }
-    .compare-table .image-row .vehicle-col { padding-top: 0; padding-bottom: 16px; border-bottom: none; }
+    .compare-table .image-row .vehicle-col { padding-top: 8px; padding-bottom: 8px; border-bottom: none; }
 
     /* Desktop tfoot hidden — buttons live in #compare-footer instead */
     .compare-table tfoot { display: none; }
@@ -2073,7 +2073,7 @@
     .ib-mode-btn .material-symbols-outlined { font-size: 14px; }
     .ib-mode-btn:hover:not(.active) { border-color: #b0b4bd; }
     .ib-mode-btn.active { background: #1c1d1f; color: white; border-color: #1c1d1f; }
-    @media (max-width: 900px) { .ib-mode-switcher { display: none; } #ib-fab { display: none !important; } }
+    @media (max-width: 900px) { .ib-mode-switcher { display: none; } #ib-fab { display: none !important; } .proto-label { display: none; } }
 
     /* ── IB Pattern Switcher ── */
     .ib-pattern-switcher {
@@ -2838,8 +2838,8 @@
           return `<img src="${job.img}" alt="${job.name}" class="compare-img-thumb" data-src="${job.img}" data-name="${job.name}" style="width:100%;max-width:100px;height:70px;object-fit:cover;border-radius:4px;background:#e8e9eb;cursor:pointer;">`;
         case 'imageWithId':
           return `<div style="display:flex;flex-direction:column;align-items:flex-start;gap:5px;">
-            <img src="${job.img}" alt="${job.name}" class="compare-img-thumb" data-src="${job.img}" data-name="${job.name}" style="width:100%;max-width:100px;height:70px;object-fit:cover;border-radius:4px;background:#e8e9eb;cursor:pointer;">
             <span style="font-size:11px;color:#a0a3a8;font-weight:600;font-family:monospace;letter-spacing:0.3px;">#${job.orderId}</span>
+            <img src="${job.img}" alt="${job.name}" class="compare-img-thumb" data-src="${job.img}" data-name="${job.name}" style="width:100%;max-width:100px;height:70px;object-fit:cover;border-radius:4px;background:#e8e9eb;cursor:pointer;">
           </div>`;
         case 'orderId':
           return `<span style="color:#55575c;">${job.orderId}</span>`;
@@ -2927,7 +2927,8 @@
 
     const fieldDefs = [
       { label: 'Vehicle',               key: 'nameVin' },
-      { label: '',                      key: 'imageWithId' },
+      { label: 'Order ID',             key: 'orderId' },
+      { label: '',                     key: 'image' },
       { label: 'Price',                 key: 'pricePpm', bestFn: j => j.perMi ? parseFloat(j.perMi) : null, bestLabel: 'Best Pay', bestMax: true },
       { label: 'Drivetrain',            key: 'drivetrain' },
       { label: 'Transport Type',        key: 'transport', showIf: j => j.enclosed || j.drive },
@@ -3443,7 +3444,7 @@
       const puCity = job.pickupCity.replace(/,.*/, '');
       const delCity = job.deliveryCity.replace(/,.*/, '');
       const datesBlock = renderDualCalHTML();
-      return `<div class="ib-header"><h3>Instant Book</h3><div class="ib-pattern-switcher"><button class="ib-pattern-btn${currentIBPattern==='A'?' active':''}" data-pattern="A">Calendar</button><button class="ib-pattern-btn${currentIBPattern==='B'?' active':''}" data-pattern="B">Strip</button></div><button class="ib-close" id="ib-close">✕</button></div>
+      return `<div class="ib-header"><h3>Instant Book</h3><button class="ib-close" id="ib-close">✕</button></div>
         <div class="ib-body">
           <div class="ib-vehicle-summary">
             <img class="ib-vehicle-thumb" src="${job.img}" alt="${job.name}">
@@ -3522,7 +3523,7 @@
       const perMiStr = job.perMi ? ` · $${job.perMi}/mi.` : '';
       const puCity = job.pickupCity.replace(/,.*/, '');
       const delCity = job.deliveryCity.replace(/,.*/, '');
-      return `<div class="ib-header"><h3>Instant Book</h3><div class="ib-pattern-switcher"><button class="ib-pattern-btn${currentIBPattern==='A'?' active':''}" data-pattern="A">Calendar</button><button class="ib-pattern-btn${currentIBPattern==='B'?' active':''}" data-pattern="B">Strip</button></div><button class="ib-close" id="ib-close">✕</button></div>
+      return `<div class="ib-header"><h3>Instant Book</h3><button class="ib-close" id="ib-close">✕</button></div>
         <div class="ib-body">
           <div class="ib-vehicle-summary">
             <img class="ib-vehicle-thumb" src="${job.img}" alt="${job.name}">
@@ -3622,10 +3623,6 @@
       const job = pendingIBJob;
       cell.innerHTML = `
         <div class="ib-inline-header">
-          <div class="ib-inline-pattern-btns">
-            <button class="ib-inline-pattern-btn${currentIBPattern==='A'?' active':''}" data-pattern="A" style="padding:3px 10px;border:1.5px solid #dcdfe8;border-radius:100px;background:white;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#55575c;cursor:pointer;">Calendar</button>
-            <button class="ib-inline-pattern-btn${currentIBPattern==='B'?' active':''}" data-pattern="B" style="padding:3px 10px;border:1.5px solid #dcdfe8;border-radius:100px;background:white;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#55575c;cursor:pointer;">Strip</button>
-          </div>
           <button class="ib-inline-close">✕</button>
         </div>
         <div id="ib-inline-dates"></div>
@@ -4140,6 +4137,30 @@
 
   <script src="inspect.js"></script>
 
+  <!-- IB Pattern FAB (Calendar / Strip) -->
+  <div id="ib-pattern-fab" class="proto-ui" style="
+    position: fixed; bottom: 136px; left: 20px;
+    display: none; align-items: center; gap: 4px;
+    background: #1c1d1f; border-radius: 20px; padding: 5px;
+    z-index: 99990; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    opacity: 0.6; transition: opacity 0.15s;
+  " onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.6">
+    <button id="ib-fab-cal" onclick="setIBPattern('A')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap;
+      transition: background 0.1s, color 0.1s;
+    "><span class="material-symbols-outlined" style="font-size:15px;">calendar_month</span><span class="proto-label">Calendar</span></button>
+    <button id="ib-fab-strip" onclick="setIBPattern('B')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap;
+      transition: background 0.1s, color 0.1s;
+    "><span class="material-symbols-outlined" style="font-size:15px;">view_day</span><span class="proto-label">Strip</span></button>
+  </div>
+
   <!-- IB Mode FAB -->
   <div id="ib-fab" style="
     position: fixed;
@@ -4193,6 +4214,53 @@
     }
 
     setIBMode('popover');
+
+    // IB Pattern FAB
+    function updatePatternFab() {
+      const calBtn   = document.getElementById('ib-fab-cal');
+      const stripBtn = document.getElementById('ib-fab-strip');
+      if (!calBtn) return;
+      calBtn.style.background  = currentIBPattern === 'A' ? '#004e7d' : '';
+      calBtn.style.color       = currentIBPattern === 'A' ? 'white'   : '#a0a3a8';
+      stripBtn.style.background = currentIBPattern === 'B' ? '#004e7d' : '';
+      stripBtn.style.color      = currentIBPattern === 'B' ? 'white'   : '#a0a3a8';
+    }
+
+    window.setIBPattern = function(pattern) {
+      currentIBPattern = pattern;
+      updatePatternFab();
+      // Re-render whatever IB is currently open
+      if (pendingIBJob !== null && pendingIBColIndex !== null) {
+        if (ibDesktopMode === 'accordion') openIBInline(pendingIBJob, pendingIBColIndex);
+        else openIBFromCompare(pendingIBJob, pendingIBColIndex, document.querySelector(`[data-vi="${pendingIBColIndex}"].compare-instant-btn`));
+      } else if (pendingIBJob !== null) {
+        const modal = document.getElementById('ib-modal');
+        modal.className = `ib-pattern-${pattern.toLowerCase()}`;
+        if (pattern === 'A') modal.innerHTML = renderIBPatternA(pendingIBJob);
+        else modal.innerHTML = renderIBPatternB(pendingIBJob);
+      }
+    };
+
+    // Show pattern FAB when IB opens, hide when it closes
+    const _origOpenIBFromCompare = openIBFromCompare;
+    const _origOpenIBInline      = openIBInline;
+    const _origCloseIB           = closeIB;
+    const _origCloseIBInline     = closeIBInline;
+
+    const patternFab = document.getElementById('ib-pattern-fab');
+    function showPatternFab() { if (patternFab) { patternFab.style.display = 'flex'; updatePatternFab(); } }
+    function hidePatternFab() { if (patternFab) patternFab.style.display = 'none'; }
+
+    openIBFromCompare = function(...args) { _origOpenIBFromCompare(...args); showPatternFab(); };
+    openIBInline      = function(...args) { _origOpenIBInline(...args); showPatternFab(); };
+    closeIB           = function(...args) { _origCloseIB(...args); hidePatternFab(); };
+    closeIBInline     = function(...args) { _origCloseIBInline(...args); hidePatternFab(); };
+
+    updatePatternFab();
+
+    if (location.hostname === 'maxotronik.github.io') {
+      document.querySelectorAll('.proto-ui').forEach(el => el.style.display = 'none');
+    }
   </script>
 </body>
 </html>
