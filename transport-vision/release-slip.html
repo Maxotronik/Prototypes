@@ -846,6 +846,8 @@
     .fa-dismiss-btn:hover { text-decoration: underline; }
 
     /* ── Mobile ── */
+    @media (max-width: 900px) { .proto-label { display: none; } }
+
     @media (max-width: 768px) {
       /* Header overhaul */
       header { padding: 0 16px; }
@@ -1943,6 +1945,9 @@ if (activeActionRequired && activeScheduleView) {
         <button class="rs-share-btn rs-footer-desktop" onclick="emailRS()">
           <span class="material-symbols-outlined">mail</span>Email
         </button>
+        <button class="rs-share-btn rs-footer-desktop" onclick="shareSMS()">
+          <span class="material-symbols-outlined">sms</span>SMS
+        </button>
         <!-- Mobile: single Share button → native OS sheet (no link, content only) -->
         <button class="rs-share-btn rs-footer-mobile" onclick="shareRSNative()">
           <span class="material-symbols-outlined">share</span>Share
@@ -2108,17 +2113,16 @@ if (activeActionRequired && activeScheduleView) {
     <button class="rs-ctx-item" id="rs-ctx-view" onclick="closeAllCtxMenus(); openRSModal(_ctxJobIdx); event.stopPropagation()">
       <span class="material-symbols-outlined">visibility</span>View
     </button>
-    <button class="rs-ctx-item" id="rs-ctx-share" onclick="openCtxShare(_ctxJobIdx); event.stopPropagation()">
-      <span class="material-symbols-outlined">share</span>Share
+    <button class="rs-ctx-item" id="rs-ctx-email" onclick="emailRS(); closeAllCtxMenus(); event.stopPropagation()">
+      <span class="material-symbols-outlined">mail</span>Email
+    </button>
+    <button class="rs-ctx-item" id="rs-ctx-sms" onclick="shareSMS(); closeAllCtxMenus(); event.stopPropagation()">
+      <span class="material-symbols-outlined">sms</span>SMS
     </button>
   </div>
 
-  <!-- ── RS Share Sub-Popover (desktop context menu) ── -->
-  <div class="rs-ctx-share-pop" id="rs-ctx-share-pop">
-    <button class="rs-ctx-item" onclick="emailRS(); closeCtxSharePop(); closeAllCtxMenus();">
-      <span class="material-symbols-outlined">mail</span>Email
-    </button>
-  </div>
+  <!-- ── RS Share Sub-Popover (desktop context menu) — kept for reference ── -->
+  <div class="rs-ctx-share-pop" id="rs-ctx-share-pop" style="display:none;"></div>
 
   <!-- ── RS Context Menu Bottom Sheet (mobile) ── -->
   <div id="rs-ctx-sheet-overlay" onclick="closeCtxSheet()">
@@ -2138,6 +2142,65 @@ if (activeActionRequired && activeScheduleView) {
   </div>
 
   <script src="inspect.js"></script>
+
+  <!-- ── ProtoUI: Release Slip action tabs ── -->
+  <div class="proto-ui" id="rs-proto-fab" style="
+    position: fixed; bottom: 80px; left: 20px;
+    display: flex; align-items: center; gap: 4px;
+    background: #1c1d1f; border-radius: 20px; padding: 5px;
+    z-index: 99990; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    opacity: 0.6; transition: opacity 0.15s;
+  " onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.6">
+    <button id="rs-proto-ctx" onclick="setRSMode('context')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 14px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s; white-space: nowrap;
+    ">
+      <span class="material-symbols-outlined" style="font-size:15px;">more_horiz</span><span class="proto-label">Context Menu</span>
+    </button>
+    <button id="rs-proto-modal" onclick="setRSMode('modal')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 14px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s; white-space: nowrap;
+    ">
+      <span class="material-symbols-outlined" style="font-size:15px;">receipt_long</span><span class="proto-label">Modal</span>
+    </button>
+  </div>
+
+  <script>
+    (function () {
+      let rsMode = 'modal';
+
+      function setRSMode(mode) {
+        rsMode = mode;
+        const ctxBtn   = document.getElementById('rs-proto-ctx');
+        const modalBtn = document.getElementById('rs-proto-modal');
+        ctxBtn.style.background   = mode === 'context' ? '#004e7d' : '';
+        ctxBtn.style.color        = mode === 'context' ? 'white'   : '#a0a3a8';
+        modalBtn.style.background = mode === 'modal'   ? '#004e7d' : '';
+        modalBtn.style.color      = mode === 'modal'   ? 'white'   : '#a0a3a8';
+
+        // Update all jobs that show Release Slip
+        jobs.forEach(job => {
+          if (['dispatched', 'picked-up'].includes(job.status)) {
+            job.useContextMenu = (mode === 'context');
+          }
+        });
+        renderManageList();
+      }
+
+      window.setRSMode = setRSMode;
+      // Init active state after DOM ready
+      document.addEventListener('DOMContentLoaded', () => setRSMode('modal'));
+
+      // ProtoUI: hide on GitHub Pages
+      if (location.hostname === 'maxotronik.github.io') {
+        document.querySelectorAll('.proto-ui').forEach(el => el.style.display = 'none');
+      }
+    })();
+  </script>
 
   <!-- ── Feature Announcements HTML ── -->
   <div class="fa-overlay" id="fa-overlay" role="dialog" aria-modal="true">
