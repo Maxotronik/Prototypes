@@ -3117,7 +3117,7 @@
       }
       document.getElementById('compare-backdrop').classList.add('open');
       const ibFabEl = document.getElementById('ib-fab');
-      if (ibFabEl) { ibFabEl.style.display = 'flex'; setIBMode(ibDesktopMode); }
+      if (ibFabEl && location.hostname !== 'maxotronik.github.io') { ibFabEl.style.display = 'flex'; setIBMode(ibDesktopMode); }
       const scrollEl = getCompareScrollEl();
       if (scrollEl) {
         scrollEl.scrollLeft = 0;
@@ -4248,7 +4248,7 @@
     const _origCloseIBInline     = closeIBInline;
 
     const patternFab = document.getElementById('ib-pattern-fab');
-    function showPatternFab() { if (patternFab) { patternFab.style.display = 'flex'; updatePatternFab(); } }
+    function showPatternFab() { if (patternFab && location.hostname !== 'maxotronik.github.io') { patternFab.style.display = 'flex'; updatePatternFab(); } }
     function hidePatternFab() { if (patternFab) patternFab.style.display = 'none'; }
 
     openIBFromCompare = function(...args) { _origOpenIBFromCompare(...args); showPatternFab(); };
