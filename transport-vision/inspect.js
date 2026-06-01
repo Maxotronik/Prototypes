@@ -2,7 +2,7 @@
   const CSS = `
     .inspect-fab {
       position: fixed;
-      bottom: 20px;
+      bottom: 80px;
       right: 20px;
       display: flex;
       align-items: center;
@@ -24,7 +24,7 @@
     .inspect-fab { opacity: 0.6; }
     .inspect-fab:hover { background: #333436; opacity: 1; }
     .inspect-fab.active { background: #004e7d; opacity: 1; }
-    @media (max-width: 900px) { .inspect-fab { right: 120px; } }
+    @media (max-width: 900px) { .inspect-fab { right: 16px; padding: 8px 12px; font-size: 0; gap: 0; } .inspect-fab svg { width: 18px; height: 18px; } }
     .inspect-fab svg { width: 15px; height: 15px; flex-shrink: 0; }
 
     .inspect-ring {

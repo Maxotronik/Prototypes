@@ -1497,9 +1497,9 @@
     /* Sticky vehicle name row — pinned by JS */
     .compare-sticky-row td {
       background: white !important;
-      z-index: 3;
+      z-index: 10;
     }
-    .compare-sticky-row .label-col { z-index: 4; }
+    .compare-sticky-row .label-col { z-index: 11; }
     .compare-sticky-row-pinned td {
       box-shadow: 0 1px 0 #e8e9eb;
     }
@@ -1631,20 +1631,23 @@
     }
     .compare-acted-label .material-symbols-outlined { font-size: 22px; color: #00a576; }
 
-    .compare-remove-btn {
+.compare-remove-btn {
       background: none;
-      border: 1px solid #e0e3e8;
-      border-radius: 4px;
-      padding: 3px 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      color: #71747a;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      line-height: 1;
+      color: #a0a3a8;
       cursor: pointer;
-      white-space: nowrap;
-      align-self: flex-start;
+      padding: 0;
+      flex-shrink: 0;
     }
-    .compare-remove-btn:hover { background: #f7f8fa; border-color: #b0b4bd; color: #1c1d1f; }
+    .compare-remove-btn:hover { background: #f0f2f5; color: #1c1d1f; }
 
     .compare-shared-badge {
       display: inline-block;
@@ -1963,7 +1966,7 @@
         left: 0;
         width: 100vw;
         box-sizing: border-box;
-        z-index: 5;
+        z-index: 2;
         background: #f2f3f4;
         color: #888;
         font-size: 9px;
@@ -2053,7 +2056,7 @@
 
     /* ── IB Desktop Mode Switcher ── */
     .ib-mode-switcher {
-      display: flex; align-items: center; gap: 6px; margin-left: auto; margin-right: 16px;
+      display: none;
     }
     .ib-mode-label {
       font-size: 11px; font-weight: 600; color: #a1a1a1;
@@ -2070,7 +2073,7 @@
     .ib-mode-btn .material-symbols-outlined { font-size: 14px; }
     .ib-mode-btn:hover:not(.active) { border-color: #b0b4bd; }
     .ib-mode-btn.active { background: #1c1d1f; color: white; border-color: #1c1d1f; }
-    @media (max-width: 900px) { .ib-mode-switcher { display: none; } }
+    @media (max-width: 900px) { .ib-mode-switcher { display: none; } #ib-fab { display: none !important; } }
 
     /* ── IB Pattern Switcher ── */
     .ib-pattern-switcher {
@@ -2923,8 +2926,8 @@
     }
 
     const fieldDefs = [
-      { label: '',                      key: 'imageWithId' },
       { label: 'Vehicle',               key: 'nameVin' },
+      { label: '',                      key: 'imageWithId' },
       { label: 'Price',                 key: 'pricePpm', bestFn: j => j.perMi ? parseFloat(j.perMi) : null, bestLabel: 'Best Pay', bestMax: true },
       { label: 'Drivetrain',            key: 'drivetrain' },
       { label: 'Transport Type',        key: 'transport', showIf: j => j.enclosed || j.drive },
@@ -2974,25 +2977,27 @@
           if (!isImgKey) {
             html += `<tr class="compare-label-row"><td colspan="${n}"><div class="compare-label-band">${field.label}</div></td></tr>`;
           }
-          html += `<tr class="compare-row${isImgKey ? ' image-row' : ''}${field.key === 'nameVin' || field.key === 'name' ? ' compare-sticky-row' : ''}">`;
+          const isNameRowM = field.key === 'nameVin' || field.key === 'name';
+          html += `<tr class="compare-row${isImgKey ? ' image-row' : ''}${isNameRowM ? ' compare-sticky-row' : ''}">`;
           compareJobs.forEach((job, vi) => {
             const isBest = bestJobs.has(job);
             let cell = cellValue(job, field.key, isBest);
             if (isBest && field.key !== 'pricePpm') cell += ` <span class="compare-best-badge"><span class="material-symbols-outlined">auto_awesome</span>${field.bestLabel}</span>`;
-            if (isImgKey) cell = `<div style="display:flex;flex-direction:column;gap:5px;"><button class="compare-remove-btn" data-vi="${vi}">Remove ×</button>${cell}</div>`;
+            if (isNameRowM) cell = `<div style="position:relative;padding-right:30px;">${cell}<button class="compare-remove-btn" data-vi="${vi}" title="Remove" style="position:absolute;top:0;right:-8px;">✕</button></div>`;
             if (field.key === 'pickupFull' && sharedPickup.has(pickupZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
             if (field.key === 'deliveryFull' && sharedDelivery.has(deliveryZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
             html += `<td class="vehicle-col" data-col="${vi}">${cell}</td>`;
           });
           html += '</tr>';
         } else {
-          html += `<tr class="compare-row${isImgKey ? ' image-row' : ''}${field.key === 'nameVin' || field.key === 'name' ? ' compare-sticky-row' : ''}">`;
+          const isNameRow = field.key === 'nameVin' || field.key === 'name';
+          html += `<tr class="compare-row${isImgKey ? ' image-row' : ''}${isNameRow ? ' compare-sticky-row' : ''}">`;
           html += `<td class="label-col">${field.label}</td>`;
           compareJobs.forEach((job, vi) => {
             const isBest = bestJobs.has(job);
             let cell = cellValue(job, field.key, isBest);
             if (isBest && field.key !== 'pricePpm') cell += ` <span class="compare-best-badge"><span class="material-symbols-outlined">auto_awesome</span>${field.bestLabel}</span>`;
-            if (isImgKey) cell = `<div style="display:flex;flex-direction:column;gap:5px;"><button class="compare-remove-btn" data-vi="${vi}">Remove ×</button>${cell}</div>`;
+            if (isNameRow) cell = `<div style="position:relative;padding-right:30px;">${cell}<button class="compare-remove-btn" data-vi="${vi}" title="Remove" style="position:absolute;top:0;right:-8px;">✕</button></div>`;
             if (field.key === 'pickupFull' && sharedPickup.has(pickupZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
             if (field.key === 'deliveryFull' && sharedDelivery.has(deliveryZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
             html += `<td class="vehicle-col" data-col="${vi}">${cell}</td>`;
@@ -3070,6 +3075,8 @@
       row.classList.toggle('compare-sticky-row-pinned', isPinned);
       row.querySelectorAll('td').forEach(td => {
         td.style.transform = isPinned ? `translateY(${-rowTop}px)` : '';
+        td.style.position = 'relative';
+        td.style.zIndex = isPinned ? '20' : '10';
       });
     }
 
@@ -3108,6 +3115,8 @@
         }
       }
       document.getElementById('compare-backdrop').classList.add('open');
+      const ibFabEl = document.getElementById('ib-fab');
+      if (ibFabEl) { ibFabEl.style.display = 'flex'; setIBMode(ibDesktopMode); }
       const scrollEl = getCompareScrollEl();
       if (scrollEl) {
         scrollEl.scrollLeft = 0;
@@ -3139,6 +3148,8 @@
       }
       document.getElementById('compare-modal').style.width = '';
       document.getElementById('compare-backdrop').classList.remove('open');
+      const ibFabEl2 = document.getElementById('ib-fab');
+      if (ibFabEl2) ibFabEl2.style.display = 'none';
       window.scrollTo(0, savedScrollY);
     }
 
@@ -3187,7 +3198,7 @@
           if (job && job.orderId === removedJob.orderId) row.querySelector('.row-checkbox').checked = false;
         });
         updateSelection();
-        if (compareJobs.length < 2) {
+        if (compareJobs.length === 0) {
           closeCompare();
         } else {
           renderCompareTable();
@@ -4128,5 +4139,60 @@
   </script>
 
   <script src="inspect.js"></script>
+
+  <!-- IB Mode FAB -->
+  <div id="ib-fab" style="
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    background: #1c1d1f;
+    border-radius: 20px;
+    padding: 5px;
+    z-index: 99990;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    opacity: 0.6;
+    transition: opacity 0.15s;
+  " onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.6">
+    <button id="ib-fab-accordion" onclick="setIBMode('accordion')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
+      white-space: nowrap;
+    ">
+      <span class="material-symbols-outlined" style="font-size:15px;">table_rows</span>Accordion
+    </button>
+    <button id="ib-fab-popover" onclick="setIBMode('popover')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
+      white-space: nowrap;
+    ">
+      <span class="material-symbols-outlined" style="font-size:15px;">open_in_new</span>Popover
+    </button>
+  </div>
+
+  <script>
+    function setIBMode(mode) {
+      ibDesktopMode = mode;
+      document.querySelectorAll('.ib-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+      const fabAccordion = document.getElementById('ib-fab-accordion');
+      const fabPopover   = document.getElementById('ib-fab-popover');
+      const activeStyle  = 'background:#004e7d;color:white;';
+      const inactiveStyle = '';
+      fabAccordion.style.cssText += mode === 'accordion' ? activeStyle : inactiveStyle;
+      fabPopover.style.cssText   += mode === 'popover'   ? activeStyle : inactiveStyle;
+      fabAccordion.style.background = mode === 'accordion' ? '#004e7d' : '';
+      fabAccordion.style.color      = mode === 'accordion' ? 'white' : '#a0a3a8';
+      fabPopover.style.background   = mode === 'popover'   ? '#004e7d' : '';
+      fabPopover.style.color        = mode === 'popover'   ? 'white' : '#a0a3a8';
+    }
+
+    setIBMode('popover');
+  </script>
 </body>
 </html>
