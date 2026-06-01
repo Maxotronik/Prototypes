@@ -1,0 +1,2446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACV Transport — Manage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f7f8;
+      color: #1c1d1f;
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: white;
+      border-bottom: 1px solid #e8e9eb;
+      display: flex;
+      align-items: stretch;
+      padding: 0 20px;
+      height: 56px;
+      gap: 0;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+      flex-shrink: 0;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-logo svg {
+      height: 32px;
+      width: auto;
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .tab {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #71747a;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab:hover { color: #1c1d1f; }
+
+    .tab.active {
+      color: #004e7d;
+      border-bottom-color: #004e7d;
+      font-weight: 600;
+    }
+
+    .nav-user {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f26522;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    .user-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1c1d1f;
+    }
+
+    .badge-new {
+      background: #00a576;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 10px;
+    }
+
+    .user-company {
+      font-size: 11px;
+      color: #71747a;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #55575c;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      margin-left: 4px;
+    }
+
+    .menu-btn .material-symbols-outlined { font-size: 22px; }
+
+    /* ── Filter Bar ── */
+    .filter-bar {
+      background: white;
+      border-bottom: 1px solid #e8e9eb;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-bar-row1 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+    }
+
+    .filter-bar-row2 {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 0 8px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 6px 12px;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .search-box .material-symbols-outlined {
+      font-size: 16px;
+      color: #71747a;
+      flex-shrink: 0;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #1c1d1f;
+      background: none;
+      width: 100%;
+    }
+
+    .search-box input::placeholder { color: #a1a1a1; }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #55575c;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-chip:hover { border-color: #b0b4bd; }
+    .filter-chip .material-symbols-outlined { font-size: 14px; }
+
+    .sort-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #55575c;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 5px 4px;
+      margin-left: auto;
+    }
+    .sort-chip .material-symbols-outlined { font-size: 14px; }
+    .sort-chip span.val { color: #1c1d1f; }
+
+    /* status chip: "STATUS: ACTIVE" */
+    .status-chip-label { font-weight: 400; color: #71747a; }
+    .status-chip-val   { font-weight: 700; color: #1c1d1f; }
+
+    /* ── Row 2 toggle chips ── */
+    .toggle-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 1px solid #dcdfe8;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #55575c;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .12s, border-color .12s, color .12s;
+    }
+    .toggle-chip:hover { border-color: #b0b4bd; color: #1c1d1f; }
+    .toggle-chip.active {
+      background: #1c1d1f;
+      border-color: #1c1d1f;
+      color: white;
+    }
+    .toggle-chip .material-symbols-outlined { font-size: 14px; }
+
+    /* ── Schedule groups ── */
+    .schedule-group { margin-bottom: 4px; }
+    .schedule-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .schedule-group-header * { pointer-events: none; }
+    .schedule-group-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #55575c;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .schedule-group-count {
+      font-size: 11px;
+      color: #a1a1a1;
+      font-weight: 500;
+    }
+    .schedule-group-arrow {
+      font-size: 16px;
+      color: #a1a1a1;
+      margin-left: auto;
+      transition: transform .2s;
+    }
+    .schedule-group-arrow.collapsed { transform: rotate(-90deg); }
+    .schedule-group-body { display: flex; flex-direction: column; gap: 4px; padding-bottom: 4px; }
+    .schedule-group-body.collapsed { display: none; }
+
+    /* ── Status dropdown ── */
+    .status-wrap {
+      position: relative;
+    }
+
+    .status-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 8px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #55575c;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .status-btn:hover { border-color: #b0b4bd; }
+    .status-btn.open { border-color: #004e7d; color: #004e7d; }
+
+    .status-btn .material-symbols-outlined { font-size: 16px; }
+
+    .status-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      background: white;
+      border: 1px solid #e8e9eb;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      min-width: 180px;
+      z-index: 50;
+      overflow: hidden;
+    }
+
+    .status-menu.open { display: block; }
+
+    .status-option {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1c1d1f;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .status-option:hover { background: #f7f7f8; }
+    .status-option.selected { font-weight: 600; color: #004e7d; }
+
+    /* ── Job List ── */
+    .manage-list {
+      list-style: none;
+      padding: 12px 80px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ── Manage Card ── */
+    .manage-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .manage-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #f0f1f2;
+    }
+
+    .status-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .status-dispatched            { background: #dbeeff; color: #004e7d; }
+    .status-picked-up             { background: #e0f4f8; color: #00575f; }
+    .status-delivered             { background: #ebebeb; color: #55575c; }
+    .status-pending-offer         { background: #eef0ff; color: #3b4db8; }
+    .status-pending-verification  { background: #eef0ff; color: #3b4db8; }
+
+    /* ── Alert badges (inline in header) ── */
+    .alert-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .alert-pickup-past-due   { background: #ff8f00; color: white; }
+    .alert-pickup-today      { background: #fb8c00; color: white; }
+    .alert-delivery-past-due { background: #e53935; color: white; }
+    .alert-deliver-today     { background: #f9a825; color: white; }
+    .alert-no-bol            { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+
+    .pickup-eta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #71747a;
+    }
+
+    .pickup-eta strong { color: #1c1d1f; font-weight: 600; }
+
+    .card-action-btn {
+      border: 1.5px solid #f26522;
+      border-radius: 100px;
+      background: none;
+      color: #f26522;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+
+    .card-action-btn:hover { background: #fff5f0; }
+
+    .manage-card-body {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+    }
+
+    /* ── Vehicle thumb ── */
+    .vehicle-thumb {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #e6e9ef;
+      flex-shrink: 0;
+    }
+
+    /* ── Vehicle info ── */
+    .job-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .order-id-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .order-id-label { font-size: 13px; color: #71747a; }
+    .order-id-val   { font-size: 13px; font-weight: 500; color: #1c1d1f; }
+
+    .vehicle-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1c1d1f;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge-row { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+
+    .drivetrain-badge {
+      font-size: 12px; font-weight: 500; color: #55575c;
+      background: #e8e9eb; border-radius: 4px;
+      padding: 2px 7px; line-height: 16px;
+    }
+
+    .inop-badge {
+      font-size: 12px; font-weight: 500; color: #664d00;
+      background: #fff2cc; border-radius: 4px;
+      padding: 2px 7px; line-height: 16px;
+    }
+
+    .enclosed-badge {
+      font-size: 12px; font-weight: 500; color: #00422f;
+      background: #d2efe7; border-radius: 4px;
+      padding: 2px 7px; line-height: 16px;
+    }
+
+    .bundle-badge {
+      font-size: 12px; font-weight: 600; color: #4a3000;
+      background: #ffd966; border-radius: 4px;
+      padding: 2px 8px; line-height: 16px;
+    }
+
+    .disclosure-badge {
+      font-size: 12px; font-weight: 500; color: #003057;
+      background: #d0e8f7; border-radius: 4px;
+      padding: 2px 7px; line-height: 16px;
+    }
+
+    /* ── Route column ── */
+    .route-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 180px;
+      max-width: 240px;
+    }
+
+    .route-stop-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .route-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .pickup-dot  { border: 2px solid #1565c0; background: white; }
+    .delivery-dot { border: 2px solid #b0b4bd; background: white; }
+
+    .route-mid-row { display: flex; align-items: center; gap: 10px; }
+
+    .route-vert-line {
+      width: 1px; height: 14px; background: #dcdfe8;
+      margin-left: 4px; flex-shrink: 0;
+    }
+
+    .route-city     { font-size: 14px; color: #1c1d1f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .route-distance { font-size: 13px; color: #71747a; }
+
+    /* ── Price + Action wrapper ── */
+    .job-price-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Map + Price ── */
+    .map-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #004e7d;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .map-btn .material-symbols-outlined { font-size: 24px; color: #004e7d; }
+    .map-btn:hover { opacity: 0.75; }
+
+    .job-price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1c1d1f;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .release-slip-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #004e7d;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .release-slip-btn .material-symbols-outlined { font-size: 24px; color: #004e7d; }
+    .release-slip-btn:hover { opacity: 0.75; }
+    .release-slip-btn.downloading { color: #71747a; pointer-events: none; }
+    .release-slip-btn.downloading .material-symbols-outlined { color: #71747a; }
+
+    .card-actions-col {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 48px;
+      flex-shrink: 0;
+    }
+
+    .card-right-r1, .card-right-r2 { display: none; }
+
+    /* ── RS Modal ── */
+    .rs-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.48);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    .rs-overlay.open { display: flex; }
+
+    .rs-modal {
+      background: white;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    }
+
+    .rs-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid #e8e9eb;
+      flex-shrink: 0;
+    }
+    .rs-modal-title { font-size: 16px; font-weight: 600; color: #1c1d1f; }
+    .rs-modal-close {
+      background: none; border: none; cursor: pointer;
+      color: #71747a; display: flex; padding: 4px; border-radius: 50%;
+    }
+    .rs-modal-close:hover { background: #f7f7f8; }
+    .rs-modal-close .material-symbols-outlined { font-size: 20px; }
+
+    .rs-modal-body { flex: 1; overflow-y: auto; padding: 0; background: white; }
+
+    /* ── Slip document sections ── */
+    .rs-slip-bar {
+      background: #e84c1e;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .rs-slip-bar-title { font-size: 13px; font-weight: 800; color: white; letter-spacing: 0.2px; }
+    .rs-slip-bar-logo {
+      background: white; color: #e84c1e;
+      font-size: 10px; font-weight: 800;
+      padding: 2px 6px; border-radius: 2px;
+      text-align: center; line-height: 1.4; flex-shrink: 0;
+    }
+
+    .rs-info-band {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px; border-bottom: 1px solid #e8e9eb;
+    }
+    .rs-carrier-name { font-size: 13px; font-weight: 700; color: #1c1d1f; }
+    .rs-carrier-dot { font-size: 11px; color: #71747a; margin-top: 2px; }
+    .rs-ids { flex: 1; font-size: 11px; color: #71747a; line-height: 1.8; }
+    .rs-ids strong { color: #1c1d1f; }
+    .rs-enclosed-chip {
+      background: #004e7d; color: white;
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 4px;
+      white-space: nowrap; flex-shrink: 0; align-self: center;
+    }
+
+    .rs-locations {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid #e8e9eb;
+    }
+    .rs-loc-col { padding: 12px 14px; }
+    .rs-loc-col + .rs-loc-col { border-left: 1px solid #e8e9eb; }
+    .rs-loc-heading { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .rs-loc-heading strong { font-size: 13px; }
+    .rs-loc-badge {
+      font-size: 10px; color: #55575c;
+      background: #f0f1f2; padding: 1px 6px; border-radius: 10px;
+    }
+    .rs-dealer { font-size: 11px; font-weight: 700; color: #1c1d1f; text-transform: uppercase; margin-bottom: 5px; }
+    .rs-loc-line {
+      display: flex; align-items: flex-start; gap: 4px;
+      font-size: 11px; color: #55575c; margin-bottom: 3px; line-height: 1.4;
+    }
+    .rs-loc-line .material-symbols-outlined { font-size: 13px; color: #71747a; flex-shrink: 0; margin-top: 1px; }
+    .rs-instruct-head { font-size: 11px; font-weight: 700; color: #1c1d1f; margin: 8px 0 4px; }
+    .rs-instruct-flag {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600; margin-bottom: 4px;
+    }
+    .rs-instruct-flag .material-symbols-outlined { font-size: 13px; }
+    .rs-instruct-flag.ok { color: #1a6e2e; }
+    .rs-instruct-flag.no { color: #c0392b; }
+    .rs-instruct-text { font-size: 11px; color: #55575c; line-height: 1.5; }
+
+    .rs-vehicle-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 12px 16px; border-bottom: 1px solid #e8e9eb;
+    }
+    .rs-vehicle-img {
+      width: 100px; height: 70px;
+      object-fit: cover; border-radius: 4px;
+      flex-shrink: 0; background: #e8e9eb;
+    }
+    .rs-vehicle-name { font-size: 15px; font-weight: 700; color: #1c1d1f; margin-bottom: 8px; }
+    .rs-specs { display: flex; gap: 20px; }
+    .rs-spec-label { font-size: 10px; font-weight: 600; color: #71747a; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
+    .rs-spec-val { font-size: 12px; font-weight: 500; color: #1c1d1f; }
+
+    .rs-qr-band {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 16px; background: #f7f7f8; border-bottom: 1px solid #e8e9eb;
+    }
+    .rs-qr-text { flex: 1; font-size: 11px; color: #1c1d1f; line-height: 1.5; }
+    .rs-qr-text p + p { margin-top: 5px; }
+    .rs-qr-img { width: 64px; height: 64px; flex-shrink: 0; border-radius: 4px; }
+
+    .rs-support { padding: 10px 16px; font-size: 11px; color: #71747a; text-align: center; }
+
+    .rs-modal-footer {
+      display: flex; align-items: center; justify-content: flex-end;
+      gap: 8px; padding: 12px 20px;
+      border-top: 1px solid #e8e9eb; flex-shrink: 0;
+    }
+    .rs-share-wrapper { position: relative; }
+    .rs-share-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: none; border: 1px solid #e8e9eb; border-radius: 8px;
+      padding: 9px 16px; font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500; color: #1c1d1f; cursor: pointer;
+    }
+    .rs-share-btn:hover { background: #f7f7f8; }
+    .rs-share-btn .material-symbols-outlined { font-size: 18px; }
+    .rs-footer-mobile { display: none; }
+    .rs-footer-desktop { display: flex; }
+
+    .rs-download-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: #004e7d; border: none; border-radius: 8px;
+      padding: 9px 16px; font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 600; color: white; cursor: pointer;
+    }
+    .rs-download-btn:hover { background: #003d61; }
+    .rs-download-btn.loading { background: #71747a; pointer-events: none; }
+    .rs-download-btn.done { background: #1a6e2e; pointer-events: none; }
+    .rs-download-btn .material-symbols-outlined { font-size: 18px; }
+
+    .rs-share-popover {
+      display: none; position: absolute;
+      bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+      background: white; border: 1px solid #e8e9eb; border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      min-width: 160px; overflow: hidden; z-index: 10;
+    }
+    .rs-share-popover.open { display: block; }
+    .rs-share-sheet-overlay { display: none; }
+    .mobile-header-left,
+    .mobile-header-title,
+    .mobile-header-right,
+    .mobile-filters-btn,
+    .bottom-nav { display: none; }
+    .rs-share-option {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      background: none; border: none; padding: 12px 16px;
+      font-family: 'Inter', sans-serif; font-size: 14px; color: #1c1d1f;
+      cursor: pointer; text-align: left;
+    }
+    .rs-share-option + .rs-share-option { border-top: 1px solid #e8e9eb; }
+    .rs-share-option:hover { background: #f7f7f8; }
+    .rs-share-option .material-symbols-outlined { font-size: 18px; color: #71747a; }
+
+    @media (max-width: 1000px) {
+      .card-actions-col { gap: 16px; }
+    }
+
+    /* ── Feature Announcements ── */
+    .fa-nav-area { position: relative; display: flex; align-items: center; }
+    .fa-whats-new-btn { position: relative; display: flex; align-items: center; gap: 5px; background: none; border: 1px solid #e0e3e8; border-radius: 6px; padding: 6px 12px 6px 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #55575c; cursor: pointer; white-space: nowrap; transition: border-color .15s; }
+    .fa-whats-new-btn:hover { border-color: #b0b4bd; color: #1c1d1f; }
+    .fa-whats-new-btn .material-symbols-outlined { font-size: 17px; }
+    .fa-count-badge { background: #f26522; color: white; font-size: 11px; font-weight: 700; padding: 0 6px; border-radius: 10px; min-width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+    .fa-count-badge[data-count="0"] { display: none; }
+
+    .fa-panel-wrap { position: absolute; top: calc(100% + 8px); right: 0; z-index: 600; display: none; filter: drop-shadow(0 8px 24px rgba(0,0,0,.16)); }
+    .fa-panel-wrap.open { display: block; }
+    .fa-panel { background: white; border: 1px solid #e0e3e8; border-radius: 8px; width: 320px; overflow: hidden; font-family: 'Roboto', 'Inter', sans-serif; }
+    .fa-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #ebecef; }
+    .fa-panel-header-title { font-size: 14px; font-weight: 700; color: #21242a; }
+    .fa-panel-item { display: flex; flex-direction: column; gap: 3px; padding: 14px 20px; cursor: pointer; transition: background .12s; }
+    .fa-panel-item:hover { background: #f9f9fa; }
+    .fa-panel-item-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .fa-panel-item-title { font-size: 13px; font-weight: 500; color: #21242a; }
+    .fa-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: #f26522; flex-shrink: 0; }
+    .fa-panel-item-desc { font-size: 11px; color: #8c8f99; line-height: 1.4; }
+    .fa-panel-divider { height: 1px; background: #ebecef; }
+    .fa-panel-items-scroll { max-height: 420px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #dcdfe8 transparent; }
+    .fa-panel-items-scroll::-webkit-scrollbar { width: 4px; }
+    .fa-panel-items-scroll::-webkit-scrollbar-thumb { background: #dcdfe8; border-radius: 2px; }
+
+    .fa-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.48); z-index: 700; align-items: center; justify-content: center; }
+    .fa-overlay.open { display: flex; }
+    .fa-modal { background: #e3f1fc; border-radius: 16px; width: 420px; max-width: calc(100vw - 40px); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.28); font-family: 'Roboto', 'Inter', sans-serif; }
+    .fa-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 20px 12px 32px; }
+    .fa-modal-date { font-size: 11px; font-weight: 500; color: #005a8d; text-transform: uppercase; letter-spacing: 0.8px; }
+    .fa-modal-close { background: none; border: none; cursor: pointer; padding: 8px; color: #6b6f7a; font-size: 18px; line-height: 1; border-radius: 4px; }
+    .fa-modal-close:hover { background: rgba(0,0,0,.08); color: #1c1d1f; }
+    .fa-modal-img { margin: 0 32px 16px; height: 160px; border-radius: 10px; background: #6aa8ce; flex-shrink: 0; overflow: hidden; }
+    .fa-modal-body { padding: 0 32px 8px; }
+    .fa-modal-title { font-size: 18px; font-weight: 700; color: #1c1d1f; margin-bottom: 8px; line-height: 1.3; }
+    .fa-modal-desc { font-size: 13px; color: #55575c; line-height: 1.6; }
+    .fa-modal-footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 32px 28px; gap: 12px; }
+    .fa-step-dots { display: flex; gap: 6px; align-items: center; }
+    .fa-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,.2); transition: all .2s; }
+    .fa-dot.active { background: #f26522; width: 20px; border-radius: 4px; }
+    .fa-modal-actions { display: flex; align-items: center; gap: 8px; }
+    .fa-btn-prev { background: none; border: none; font-family: 'Roboto', 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #55575c; cursor: pointer; padding: 8px 12px; border-radius: 6px; }
+    .fa-btn-prev:hover { background: rgba(0,0,0,.07); }
+    .fa-btn-next { background: linear-gradient(147deg, #f26522 14%, #fc4243 86%); border: none; border-radius: 100px; padding: 9px 22px; font-family: 'Roboto', 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: white; cursor: pointer; }
+    .fa-btn-next:hover { opacity: .9; }
+
+    .fa-tooltip { position: fixed; z-index: 650; background: #e3f1fc; border: 1px solid #b8d8f0; border-radius: 8px; padding: 14px 16px; width: 248px; box-shadow: 0 4px 20px rgba(0,0,0,.16); font-family: 'Roboto', 'Inter', sans-serif; display: none; opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s; }
+    .fa-tooltip.show { display: block; opacity: 1; transform: translateY(0); }
+    .fa-tooltip::before { content: ''; position: absolute; top: -8px; left: 20px; border: 7px solid transparent; border-bottom-color: #b8d8f0; border-top: none; }
+    .fa-tooltip::after  { content: ''; position: absolute; top: -6px; left: 21px; border: 6px solid transparent; border-bottom-color: #e3f1fc; border-top: none; }
+    .fa-tooltip-title { font-size: 14px; font-weight: 500; color: #1c1d1f; margin-bottom: 5px; }
+    .fa-tooltip-desc  { font-size: 12px; color: #6b6f7a; line-height: 1.5; margin-bottom: 10px; }
+    .fa-tooltip-controls { display: flex; justify-content: flex-end; }
+    .fa-dismiss-btn { background: none; border: none; font-family: 'Roboto', 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #004e7d; cursor: pointer; }
+    .fa-dismiss-btn:hover { text-decoration: underline; }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      /* Header overhaul */
+      header { padding: 0 16px; }
+      .nav-logo { display: none; }
+      .nav-tabs { display: none; }
+      .fa-nav-area { display: none; }
+      .nav-user { display: none; }
+      header::before {
+        content: '';
+        display: flex;
+      }
+      .mobile-header-left,
+      .mobile-header-title,
+      .mobile-header-right { display: flex !important; }
+
+      /* Filter bar on mobile */
+      .filter-bar-row1 { display: none; }
+      .filter-bar { padding: 10px 16px; }
+      .filter-bar-row2 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0;
+      }
+      .mobile-filters-btn {
+        margin-left: auto;
+        display: flex !important;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: #1c1d1f;
+        cursor: pointer;
+        padding: 4px 0;
+      }
+      .mobile-filters-btn .material-symbols-outlined { font-size: 18px; }
+
+      /* Bottom nav */
+      .bottom-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 60px;
+        background: white;
+        border-top: 1px solid #e8e9eb;
+        z-index: 200;
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      .bottom-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        text-decoration: none;
+        color: #71747a;
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+      .bottom-nav-item.active { color: #f26522; }
+      .bottom-nav-item .material-symbols-outlined { font-size: 22px; }
+
+      .manage-list { padding: 8px 12px 80px; }
+
+      .manage-card-body {
+        display: grid;
+        grid-template-columns: 72px 1fr auto;
+        gap: 8px 12px;
+      }
+
+      .vehicle-thumb { grid-column: 1; grid-row: 1; align-self: start; }
+      .job-info      { grid-column: 2; grid-row: 1; }
+      .route-col     { grid-column: 1 / 3; grid-row: 2; }
+      .card-actions-col { display: none; }
+
+      .card-right-r1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      .card-right-r2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        grid-column: 3;
+        grid-row: 2;
+        gap: 16px;
+      }
+
+      .right-icon-btn {
+        display: flex; background: none; border: none;
+        cursor: pointer; padding: 0;
+      }
+      .right-icon-btn .material-symbols-outlined { font-size: 22px; color: #004e7d; }
+      .right-icon-btn:hover { opacity: 0.75; }
+
+      .right-price { font-size: 15px; font-weight: 700; color: #1c1d1f; }
+
+      /* Full-screen modal on mobile */
+      .rs-overlay { align-items: flex-start; justify-content: flex-start; }
+      .rs-modal {
+        border-radius: 0;
+        width: 100vw;
+        max-width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: none;
+      }
+      .rs-modal-body { flex: 1; overflow-y: auto; }
+      .rs-modal-footer {
+        flex-direction: row;
+        gap: 12px;
+        padding: 12px 16px;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        border-top: 1px solid #e8e9eb;
+        background: white;
+      }
+      .rs-share-wrapper { flex: 1; }
+      .rs-share-btn {
+        flex: 1; height: 48px;
+        border-radius: 100px;
+        border: 1.5px solid #f26522;
+        background: none;
+        color: #f26522;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .rs-share-btn:hover { background: #fff5f0; }
+      .rs-download-btn {
+        flex: 1; height: 48px;
+        border-radius: 100px;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .rs-share-popover { display: none !important; }
+      .rs-footer-desktop { display: none !important; }
+      .rs-footer-mobile { display: flex !important; }
+      .rs-share-btn .material-symbols-outlined,
+      .rs-download-btn .material-symbols-outlined { font-size: 20px; }
+
+      /* Share bottom sheet */
+      /* iOS Share Sheet simulation */
+      .rs-share-sheet-overlay {
+        position: fixed; inset: 0;
+        backdrop-filter: blur(4px) brightness(0.6);
+        -webkit-backdrop-filter: blur(4px) brightness(0.6);
+        background: rgba(0,0,0,0.25);
+        z-index: 700;
+        display: none;
+        align-items: flex-end;
+        flex-direction: column;
+        justify-content: flex-end;
+        font-family: -apple-system, 'SF Pro Text', 'Inter', sans-serif;
+      }
+      .rs-share-sheet-overlay.open { display: flex; }
+
+      .rs-share-sheet {
+        width: 100%;
+        background: transparent;
+        padding: 0 8px;
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+        display: flex; flex-direction: column; gap: 8px;
+      }
+      .rs-share-sheet-handle {
+        width: 36px; height: 5px;
+        background: rgba(255,255,255,0.5);
+        border-radius: 3px;
+        margin: 0 auto 4px;
+      }
+
+      /* Preview card */
+      .ios-share-preview {
+        display: flex; align-items: center; gap: 12px;
+        background: rgba(255,255,255,0.88);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-radius: 14px;
+        padding: 12px 14px;
+      }
+      .ios-share-preview-icon {
+        width: 48px; height: 48px; border-radius: 10px;
+        background: #004e7d;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+      .ios-share-preview-icon .material-symbols-outlined { font-size: 24px; color: white; }
+      .ios-share-preview-text { flex: 1; min-width: 0; }
+      .ios-share-preview-title {
+        font-size: 14px; font-weight: 600; color: #000;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .ios-share-preview-sub { font-size: 12px; color: #636366; margin-top: 2px; }
+      .ios-share-preview-options {
+        font-size: 13px; color: #007aff; white-space: nowrap; flex-shrink: 0;
+      }
+
+      /* People row */
+      .ios-share-people {
+        display: flex; gap: 0;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 14px 0 0;
+        border-bottom: 0.5px solid rgba(60,60,67,0.25);
+        margin-bottom: -1px;
+      }
+      .ios-share-people::-webkit-scrollbar { display: none; }
+      .ios-people-app {
+        display: flex; flex-direction: column; align-items: center;
+        gap: 6px; background: none; border: none; cursor: pointer;
+        min-width: 76px; padding: 0 4px 12px;
+        -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+      }
+      .ios-people-avatar {
+        width: 60px; height: 60px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden; font-size: 26px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        position: relative;
+      }
+      .ios-people-avatar-badge {
+        position: absolute; bottom: 0; right: 0;
+        width: 20px; height: 20px; border-radius: 50%;
+        background: #39c562;
+        border: 2px solid white;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .ios-people-avatar-badge svg { width: 11px; height: 11px; fill: white; }
+      .ios-people-label {
+        font-size: 11px; color: #000; text-align: center;
+        max-width: 72px; line-height: 1.3;
+      }
+
+      /* App row */
+      .ios-share-apps-wrap {
+        background: rgba(255,255,255,0.88);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-radius: 14px; overflow: hidden;
+      }
+      .ios-share-apps-inner {
+        display: flex; gap: 0;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; padding: 12px 4px;
+      }
+      .ios-share-apps-inner::-webkit-scrollbar { display: none; }
+      .ios-share-app {
+        display: flex; flex-direction: column; align-items: center;
+        gap: 6px; background: none; border: none; cursor: pointer;
+        min-width: 76px; padding: 0 4px;
+        -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+      }
+      .ios-share-app:active .ios-share-app-icon { opacity: 0.6; }
+      .ios-share-app-icon {
+        width: 60px; height: 60px; border-radius: 16px;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        overflow: hidden;
+      }
+      .ios-share-app-label {
+        font-size: 11px; color: #000; text-align: center;
+        max-width: 70px; line-height: 1.3;
+      }
+
+      /* Action groups */
+      .ios-share-actions {
+        background: rgba(255,255,255,0.88);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-radius: 14px; overflow: hidden;
+      }
+      .ios-share-action {
+        display: flex; align-items: center; justify-content: space-between;
+        width: 100%; padding: 14px 16px;
+        background: none; border: none; cursor: pointer;
+        font-family: -apple-system, 'SF Pro Text', 'Inter', sans-serif;
+        font-size: 17px; color: #000; text-align: left;
+        -webkit-tap-highlight-color: transparent;
+        border-bottom: 0.5px solid rgba(60,60,67,0.22);
+      }
+      .ios-share-action:last-child { border-bottom: none; }
+      .ios-share-action:active { background: rgba(0,0,0,0.08); }
+      .ios-share-action-right {
+        color: #3c3c43; opacity: 0.6;
+        display: flex; align-items: center;
+      }
+      .ios-share-action-right .material-symbols-outlined { font-size: 20px; }
+
+      /* Cancel */
+      .ios-share-cancel {
+        display: block; width: 100%; padding: 17px;
+        background: rgba(255,255,255,0.88);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border: none; border-radius: 14px;
+        font-family: -apple-system, 'SF Pro Text', 'Inter', sans-serif;
+        font-size: 17px; font-weight: 600; color: #007aff;
+        cursor: pointer; text-align: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .ios-share-cancel:active { background: rgba(209,209,214,0.88); }
+    }
+
+    /* ── RS Context Menu (desktop) ── */
+    .rs-ctx-wrap { position: relative; display: inline-block; }
+    .rs-ctx-menu {
+      display: none;
+      position: fixed;
+      background: white;
+      border: 1px solid #e8e9eb;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.14);
+      min-width: 160px;
+      z-index: 800;
+      overflow: hidden;
+    }
+    .rs-ctx-menu.open { display: block; }
+    .rs-ctx-share-pop {
+      display: none;
+      position: fixed;
+      background: white;
+      border: 1px solid #e8e9eb;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.14);
+      min-width: 140px;
+      z-index: 801;
+      overflow: hidden;
+    }
+    .rs-ctx-share-pop.open { display: block; }
+    .rs-ctx-item {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; padding: 11px 16px;
+      background: none; border: none;
+      font-family: 'Inter', sans-serif; font-size: 14px; color: #1c1d1f;
+      cursor: pointer; text-align: left;
+    }
+    .rs-ctx-item + .rs-ctx-item { border-top: 1px solid #f0f1f2; }
+    .rs-ctx-item:hover { background: #f7f7f8; }
+    .rs-ctx-item .material-symbols-outlined { font-size: 18px; color: #71747a; }
+
+    /* ── RS Context Bottom Sheet (mobile) ── */
+    #rs-ctx-sheet-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.48); z-index: 600;
+      align-items: flex-end;
+    }
+    #rs-ctx-sheet-overlay.open { display: flex; }
+    .rs-ctx-sheet {
+      background: white; border-radius: 16px 16px 0 0;
+      width: 100%; padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+    .rs-ctx-sheet-handle {
+      width: 36px; height: 4px; background: #e8e9eb; border-radius: 2px;
+      margin: 12px auto 4px;
+    }
+    .rs-ctx-sheet-title {
+      font-size: 15px; font-weight: 600; color: #1c1d1f;
+      padding: 8px 20px 12px; border-bottom: 1px solid #e8e9eb;
+    }
+    .rs-ctx-sheet-item {
+      display: flex; align-items: center; gap: 14px;
+      width: 100%; padding: 16px 20px;
+      background: none; border: none; border-bottom: 1px solid #f0f1f2;
+      font-family: 'Inter', sans-serif; font-size: 15px; color: #1c1d1f;
+      cursor: pointer; text-align: left;
+    }
+    .rs-ctx-sheet-item:last-child { border-bottom: none; }
+    .rs-ctx-sheet-item:active { background: #f7f7f8; }
+    .rs-ctx-sheet-item .material-symbols-outlined { font-size: 22px; color: #55575c; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <button class="mobile-header-left menu-btn" style="margin-left:0;margin-right:8px;">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <span class="mobile-header-title" style="font-size:17px;font-weight:700;color:#1c1d1f;flex:1;justify-content:center;">ACV Transport Load Board</span>
+    <button class="mobile-header-right menu-btn" style="margin-left:8px;">
+      <span class="material-symbols-outlined">search</span>
+    </button>
+    <a class="nav-logo" href="index.html">
+      <!-- ACV Transportation logo -->
+      <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+        <rect width="44" height="28" rx="3" fill="#f26522"/>
+        <text x="4" y="20" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="white">ACV</text>
+        <text x="0" y="36" font-family="Inter,sans-serif" font-size="7" font-weight="500" fill="#71747a" letter-spacing="0.5">TRANSPORTATION</text>
+      </svg>
+    </a>
+    <nav class="nav-tabs">
+      <a href="job-list.html" class="tab">Job List</a>
+      <a href="#" class="tab">Staged</a>
+      <a href="manage-page.html" class="tab active">Manage</a>
+    </nav>
+    <div class="fa-nav-area" style="margin-left:auto;margin-right:12px;">
+      <div style="position:relative;">
+        <button class="fa-whats-new-btn" id="fa-whats-new-btn">
+          <span class="material-symbols-outlined">notifications</span>
+          What's New
+          <span class="fa-count-badge" id="fa-count-badge" data-count="2">2</span>
+        </button>
+        <div class="fa-panel-wrap" id="fa-panel-wrap">
+          <div class="fa-panel">
+            <div class="fa-panel-header">
+              <span class="fa-panel-header-title">Announcements</span>
+            </div>
+            <div id="fa-panel-items" class="fa-panel-items-scroll"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-user" style="margin-left:0;">
+      <div class="avatar">M</div>
+      <div class="user-info">
+        <div class="user-name-row">
+          <span class="user-name">Max Test Gddd</span>
+          <span class="badge-new">New</span>
+        </div>
+        <span class="user-company">Jordan LLC</span>
+      </div>
+      <button class="menu-btn">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Filter Bar ── -->
+  <div class="filter-bar">
+    <div class="filter-bar-row1">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search VIN or Order ID" />
+      </div>
+      <div class="status-wrap">
+        <button class="filter-chip status-chip" id="status-btn">
+          <span class="status-chip-label">STATUS:</span>
+          <span class="status-chip-val" id="status-chip-val">ACTIVE</span>
+          <span class="material-symbols-outlined">keyboard_arrow_down</span>
+        </button>
+        <div class="status-menu" id="status-menu">
+          <button class="status-option selected">Active</button>
+          <button class="status-option">Pending Offer</button>
+          <button class="status-option">Dispatched</button>
+          <button class="status-option">Picked Up</button>
+          <button class="status-option">Delivered</button>
+        </div>
+      </div>
+      <button class="filter-chip">Pickup Location</button>
+      <button class="filter-chip">Delivery Location</button>
+      <button class="filter-chip">Job Type</button>
+      <button class="sort-chip" id="sort-chip">
+        <span class="material-symbols-outlined">swap_vert</span>
+        Sort By: <span class="val" id="sort-chip-val">Priority</span>
+      </button>
+    </div>
+    <div class="filter-bar-row2">
+      <button class="toggle-chip" id="chip-action-required">Action Required</button>
+      <button class="toggle-chip" id="chip-schedule">Schedule View</button>
+      <button class="mobile-filters-btn">
+        <span class="material-symbols-outlined">tune</span>Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Job List ── -->
+  <ul class="manage-list" id="manage-list"></ul>
+
+  <!-- ── Bottom Nav (mobile only) ── -->
+  <nav class="bottom-nav">
+    <a href="job-list.html" class="bottom-nav-item">
+      <span class="material-symbols-outlined">format_list_bulleted</span>
+      Job List
+    </a>
+    <a href="#" class="bottom-nav-item">
+      <span class="material-symbols-outlined">bookmark</span>
+      Stage
+    </a>
+    <a href="manage-page.html" class="bottom-nav-item active">
+      <span class="material-symbols-outlined">local_shipping</span>
+      Manage
+    </a>
+  </nav>
+
+  <script>
+    const jobs = [
+      // 1. Pending Offer
+      {
+        orderId: '74620819', name: '2021 Kia Sorento EX',
+        drivetrain: 'AWD', inop: false, enclosed: false,
+        pickupCity: 'Indianapolis, IN 46204', deliveryCity: 'Milwaukee, WI 53202',
+        distance: 290, price: 435,
+        status: 'pending-offer',
+        headerDates: [{ label: 'Offered', date: 'Jan 6' }],
+        alert: null, action: null,
+        img: 'LB/job list_files/bcaffd650eab4411843a7d450e5237e3.jpg'
+      },
+      // 2. Pending Verification
+      {
+        orderId: '29183046', name: '2019 Nissan Altima SR',
+        drivetrain: 'FWD', inop: true, enclosed: false,
+        pickupCity: 'Detroit, MI 48226', deliveryCity: 'Columbus, OH 43215',
+        distance: 200, price: 300,
+        status: 'pending-verification',
+        headerDates: [{ label: 'Dispatched', date: 'Jan 6' }, { label: 'Pickup ETA', date: 'Jan 10' }],
+        alert: null, action: null,
+        img: 'LB/job list_files/94d8ea891ac741d3ac8347f2434415b8.jpg'
+      },
+      // 3. Dispatched — normal (uses context menu release slip variant)
+      {
+        orderId: '383355', name: '2016 Mercedes-Benz SL-Class SL550',
+        drivetrain: 'AWD', inop: true, enclosed: true,
+        pickupCity: 'Massapequa, NY 11758', deliveryCity: 'Fulton, MS 38843',
+        distance: 135, price: 9999,
+        status: 'dispatched',
+        headerDates: [{ label: 'Pickup ETA', date: 'Jan 10' }],
+        alert: null, action: 'Mark as Picked Up',
+        img: 'LB/job list_files/78e96765-2885-4bfc-aa3e-5c9279e491b2.640x480.jpg',
+        useContextMenu: true,
+      },
+      // 4. Dispatched — Pickup Past Due
+      {
+        orderId: '383355', name: '2016 Mercedes-Benz SL-Class SL550',
+        drivetrain: 'AWD', inop: true, enclosed: true,
+        pickupCity: 'Massapequa, NY 11758', deliveryCity: 'Fulton, MS 38843',
+        distance: 135, price: 9999, bundle: 10,
+        status: 'dispatched',
+        headerDates: [{ label: 'Pickup ETA', date: 'Jan 10' }],
+        alert: { type: 'pickup-past-due', label: 'Pickup Past Due: 2 days' },
+        action: 'Mark as Picked Up',
+        img: 'LB/job list_files/78e96765-2885-4bfc-aa3e-5c9279e491b2.640x480.jpg'
+      },
+      // 5. Dispatched — Pickup Today
+      {
+        orderId: '92047183', name: '2020 BMW 3 Series 330i',
+        drivetrain: 'AWD', inop: false, enclosed: true,
+        pickupCity: 'Chicago, IL 60616', deliveryCity: 'Miami, FL 33101',
+        distance: 1377, price: 1850,
+        status: 'dispatched',
+        headerDates: [{ label: 'Pickup ETA', date: 'Jan 10' }],
+        alert: { type: 'pickup-today', label: 'Pickup Today' },
+        action: 'Mark as Picked Up',
+        img: 'LB/job list_files/57fba21acb324cb2be0f178d14afcf10.jpg'
+      },
+      // 6. Picked Up — normal
+      {
+        orderId: '81205634', name: '2019 Ford F-150 XLT',
+        drivetrain: '4WD', inop: false, enclosed: false,
+        pickupCity: 'Dallas, TX 75201', deliveryCity: 'Austin, TX 78701',
+        distance: 196, price: 450,
+        status: 'picked-up',
+        headerDates: [{ label: 'Delivery ETA', date: 'Jan 11' }],
+        alert: null, action: 'Mark as Delivered',
+        img: 'LB/job list_files/ccc6bcfb-be57-44b3-9c2d-a55653bd3e15.640x480.jpg'
+      },
+      // 7. Picked Up — Delivery Past Due
+      {
+        orderId: '67485019', name: '2020 Honda Civic Sport',
+        drivetrain: 'FWD', inop: false, enclosed: false,
+        pickupCity: 'Wichita, KS 67202', deliveryCity: 'Omaha, NE 68102',
+        distance: 190, price: 285, bundle: 3,
+        status: 'picked-up',
+        headerDates: [{ label: 'Delivery ETA', date: 'Jan 11' }],
+        alert: { type: 'delivery-past-due', label: 'Delivery Past Due: 2 days' },
+        action: 'Mark as Delivered',
+        img: 'LB/job list_files/5be517d4-d93b-459d-b0dd-3c8b932779fe.640x480.jpg'
+      },
+      // 8. Picked Up — Deliver Today
+      {
+        orderId: '84012739', name: '2021 Toyota RAV4 XLE',
+        drivetrain: 'AWD', inop: false, enclosed: false,
+        pickupCity: 'Minneapolis, MN 55401', deliveryCity: 'Des Moines, IA 50309',
+        distance: 245, price: 367,
+        status: 'picked-up',
+        headerDates: [{ label: 'Delivery ETA', date: 'Jan 11' }],
+        alert: { type: 'deliver-today', label: 'Deliver Today' },
+        action: 'Mark as Delivered',
+        img: 'LB/job list_files/b88a66d7c28c4bf8b80f8ca45e07d89c.jpg'
+      },
+      // 9. Delivered — normal
+      {
+        orderId: '47293015', name: '2017 Chevrolet Malibu LS',
+        drivetrain: 'FWD', inop: false, enclosed: false,
+        pickupCity: 'Phoenix, AZ 85004', deliveryCity: 'Albuquerque, NM 87102',
+        distance: 410, price: 574,
+        status: 'delivered',
+        headerDates: [{ label: 'Delivered', date: 'Jan 11' }],
+        alert: null, action: null,
+        img: 'LB/job list_files/7270194466fc4b909a0f66106406df6a.jpg'
+      },
+      // 10. Delivered — No BOL
+      {
+        orderId: '58301924', name: '2020 Audi Q7 Premium Plus',
+        drivetrain: 'AWD', inop: false, enclosed: true, disclosure: true,
+        pickupCity: 'Boulder, CO 80302', deliveryCity: 'Salt Lake City, UT 84111',
+        distance: 520, price: 832,
+        status: 'delivered',
+        headerDates: [{ label: 'Delivered', date: 'Jan 11' }],
+        alert: { type: 'no-bol', label: 'No BOL' },
+        action: null,
+        img: 'LB/job list_files/78e96765-2885-4bfc-aa3e-5c9279e491b2.640x480.jpg'
+      }
+    ];
+
+    const STATUS_LABEL = {
+      'dispatched':           'Dispatched',
+      'picked-up':            'Picked Up',
+      'delivered':            'Delivered',
+      'pending-offer':        'Pending Offer',
+      'pending-verification': 'Pending Verification'
+    };
+
+    const STATUS_CLASS = {
+      'dispatched':           'status-dispatched',
+      'picked-up':            'status-picked-up',
+      'delivered':            'status-delivered',
+      'pending-offer':        'status-pending-offer',
+      'pending-verification': 'status-pending-verification'
+    };
+
+    const ALERT_CLASS = {
+      'pickup-past-due':   'alert-pickup-past-due',
+      'pickup-today':      'alert-pickup-today',
+      'delivery-past-due': 'alert-delivery-past-due',
+      'deliver-today':     'alert-deliver-today',
+      'no-bol':            'alert-no-bol'
+    };
+
+    function buildHeader(job) {
+      const statusBadge = `<span class="status-badge ${STATUS_CLASS[job.status]}">${STATUS_LABEL[job.status]}</span>`;
+
+      const alertHtml = job.alert
+        ? `<span class="alert-badge ${ALERT_CLASS[job.alert.type]}">${job.alert.label}</span>`
+        : '';
+
+      const datesHtml = job.headerDates.map((d, i) => {
+        const isLast = i === job.headerDates.length - 1;
+        return `<span class="pickup-eta">${d.label} <strong>${d.date}</strong>${isLast ? alertHtml : ''}</span>`;
+      }).join('');
+
+      const actionHtml = job.action
+        ? `<button class="card-action-btn">${job.action}</button>`
+        : '';
+
+      return `${statusBadge}${datesHtml}${actionHtml}`;
+    }
+
+    const FILTER_STATUSES = {
+      'Active':               ['dispatched', 'picked-up'],
+      'Pending Offer':        ['pending-offer'],
+      'Pending Verification': ['pending-verification'],
+      'Dispatched':           ['dispatched'],
+      'Picked Up':            ['picked-up'],
+      'Delivered':            ['delivered']
+    };
+
+    let activeFilter        = 'Active';
+    let activeActionRequired = false;
+    let activeScheduleView   = false;
+
+    const ACTION_REQUIRED_ALERTS = new Set(['pickup-past-due','pickup-today','delivery-past-due','deliver-today','no-bol']);
+
+    function isActionRequired(job) {
+      return job.alert && ACTION_REQUIRED_ALERTS.has(job.alert.type);
+    }
+
+    // Returns 0=today, 1=tomorrow, 2=in 2 days, 3=later — based on alert type priority
+    function scheduleGroup(job) {
+      if (!job.alert) return 2;
+      if (job.alert.type === 'pickup-past-due' || job.alert.type === 'delivery-past-due') return 0;
+      if (job.alert.type === 'pickup-today'    || job.alert.type === 'deliver-today')     return 0;
+      if (job.alert.type === 'pickup-tomorrow' || job.alert.type === 'deliver-tomorrow')  return 1;
+      return 2;
+    }
+
+    // Which action label shows in the group header
+    function scheduleAction(job) {
+      if (job.status === 'dispatched') return 'PU';
+      if (job.status === 'picked-up')  return 'DEL';
+      if (job.status === 'delivered')  return '';
+      return '';
+    }
+
+    function buildCard(job) {
+      let badges = `<span class="drivetrain-badge">${job.drivetrain}</span>`;
+      if (job.inop)       badges += ' <span class="inop-badge">INOP</span>';
+      if (job.enclosed)   badges += ' <span class="enclosed-badge">Enclosed</span>';
+      if (job.disclosure) badges += ' <span class="disclosure-badge">Disclosure</span>';
+
+      const bundleHtml = job.bundle
+        ? `<span class="bundle-badge">Bundle of ${job.bundle}</span>` : '';
+
+      const showFooter = !activeActionRequired && ['dispatched', 'picked-up'].includes(job.status);
+
+      const li = document.createElement('li');
+      li.className = 'manage-card';
+      li.innerHTML = `
+        <div class="manage-card-header">${buildHeader(job)}</div>
+        <div class="manage-card-body">
+          <img class="vehicle-thumb" src="${job.img}" alt="${job.name}" />
+          <div class="job-info">
+            <div class="order-id-row">
+              ${bundleHtml}
+              <span class="order-id-label">Order ID</span>
+              <span class="order-id-val">${job.orderId}</span>
+            </div>
+            <span class="vehicle-name">${job.name}</span>
+            <div class="badge-row">${badges}</div>
+          </div>
+          <div class="route-col">
+            <div class="route-stop-row">
+              <span class="route-dot pickup-dot"></span>
+              <span class="route-city">${job.pickupCity}</span>
+            </div>
+            <div class="route-mid-row">
+              <span class="route-vert-line"></span>
+              <span class="route-distance">${job.distance} mi.</span>
+            </div>
+            <div class="route-stop-row">
+              <span class="route-dot delivery-dot"></span>
+              <span class="route-city">${job.deliveryCity}</span>
+            </div>
+          </div>
+          <div class="card-actions-col">
+            <button class="map-btn" onclick="event.stopPropagation()">
+              <span class="material-symbols-outlined">place</span><span class="btn-label">Map</span>
+            </button>
+            ${showFooter ? (job.useContextMenu ? `
+            <button class="release-slip-btn" onclick="toggleCtxMenu(${jobs.indexOf(job)}, this); event.stopPropagation()">
+              <span class="material-symbols-outlined">file_save</span><span class="btn-label">Release Slip</span>
+            </button>` : `
+            <button class="release-slip-btn" onclick="openRSModal(${jobs.indexOf(job)}); event.stopPropagation()">
+              <span class="material-symbols-outlined">file_save</span><span class="btn-label">Release Slip</span>
+            </button>`) : ''}
+            <div class="job-price-action">
+              <div class="job-price">
+                <span class="price">$${job.price.toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-right-r1">
+            ${showFooter ? (job.useContextMenu ? `
+            <button class="right-icon-btn" onclick="toggleCtxMenu(${jobs.indexOf(job)}, this); event.stopPropagation()">
+              <span class="material-symbols-outlined">file_save</span>
+            </button>` : `
+            <button class="right-icon-btn" onclick="openRSModal(${jobs.indexOf(job)}); event.stopPropagation()">
+              <span class="material-symbols-outlined">file_save</span>
+            </button>`) : ''}
+          </div>
+          <div class="card-right-r2">
+            <button class="right-icon-btn" onclick="event.stopPropagation()"><span class="material-symbols-outlined">place</span></button>
+            <span class="right-price">$${job.price.toLocaleString()}</span>
+          </div>
+        </div>`;
+      return li;
+    }
+
+    function renderManageList() {
+      const allowed = FILTER_STATUSES[activeFilter];
+      let visible = jobs.filter(j => allowed.includes(j.status));
+
+      if (activeActionRequired) {
+        visible = visible.filter(isActionRequired);
+      }
+
+      const list = document.getElementById('manage-list');
+      list.innerHTML = '';
+
+      if (activeScheduleView) {
+        const GROUP_LABELS = ['Today', 'Tomorrow', 'Later'];
+        const groups = [[], [], []];
+        visible.forEach(job => groups[scheduleGroup(job)].push(job));
+        groups.forEach((groupJobs, gi) => {
+          if (!groupJobs.length) return;
+          const section = document.createElement('div');
+          section.className = 'schedule-group';
+          const body = document.createElement('div');
+          body.className = 'schedule-group-body';
+          groupJobs.forEach(job => body.appendChild(buildCard(job)));
+          const hdr = document.createElement('div');
+          hdr.className = 'schedule-group-header';
+          const arrow = document.createElement('span');
+          arrow.className = 'material-symbols-outlined schedule-group-arrow';
+          arrow.textContent = 'expand_more';
+          hdr.innerHTML = `
+            <span class="schedule-group-label">${GROUP_LABELS[gi]}</span>
+            <span class="schedule-group-count">${groupJobs.length} job${groupJobs.length > 1 ? 's' : ''}</span>`;
+          hdr.appendChild(arrow);
+          hdr.addEventListener('click', () => {
+            const collapsed = body.classList.toggle('collapsed');
+            arrow.classList.toggle('collapsed', collapsed);
+          });
+          section.appendChild(hdr);
+          section.appendChild(body);
+          list.appendChild(section);
+        });
+        return;
+      }
+
+      visible.forEach(job => list.appendChild(buildCard(job)));
+    }
+
+    renderManageList();
+
+    // ── Status filter ──
+    const statusBtn = document.getElementById('status-btn');
+    const statusMenu = document.getElementById('status-menu');
+
+    statusBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      statusBtn.classList.toggle('open');
+      statusMenu.classList.toggle('open');
+    });
+
+    statusMenu.querySelectorAll('.status-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        statusMenu.querySelectorAll('.status-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        activeFilter = opt.textContent.trim();
+        document.getElementById('status-chip-val').textContent = opt.textContent.trim().toUpperCase();
+        statusBtn.classList.remove('open');
+        statusMenu.classList.remove('open');
+        renderManageList();
+      });
+    });
+
+    document.getElementById('chip-action-required').addEventListener('click', () => {
+      activeActionRequired = !activeActionRequired;
+      document.getElementById('chip-action-required').classList.toggle('active', activeActionRequired);
+if (activeActionRequired && activeScheduleView) {
+        activeScheduleView = false;
+        document.getElementById('chip-schedule').classList.remove('active');
+      }
+      renderManageList();
+    });
+
+    document.getElementById('chip-schedule').addEventListener('click', () => {
+      activeScheduleView = !activeScheduleView;
+      document.getElementById('chip-schedule').classList.toggle('active', activeScheduleView);
+      if (activeScheduleView && activeActionRequired) {
+        activeActionRequired = false;
+        document.getElementById('chip-action-required').classList.remove('active');
+      }
+      renderManageList();
+    });
+
+    document.addEventListener('click', (e) => {
+      statusBtn.classList.remove('open');
+      statusMenu.classList.remove('open');
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeRSModal(); closeAllCtxMenus(); closeCtxSheet(); } });
+
+    // ── RS Modal + Context Menu ──
+    let _rsJob = null;
+    let _ctxJobIdx = null;
+
+    function toggleCtxMenu(jobIdx, btn) {
+      _ctxJobIdx = jobIdx;
+      _rsJob = jobs[jobIdx];
+      if (window.innerWidth <= 768) {
+        document.getElementById('rs-ctx-sheet-overlay').classList.add('open');
+        return;
+      }
+      const menu = document.getElementById('rs-ctx-menu');
+      const alreadyOpen = menu.classList.contains('open');
+      closeAllCtxMenus();
+      if (alreadyOpen && _ctxJobIdx === jobIdx) return;
+      const rect = btn.getBoundingClientRect();
+      const menuH = 3 * 44;
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceBelow < menuH) {
+        menu.style.top  = (rect.top - menuH - 6) + 'px';
+      } else {
+        menu.style.top  = (rect.bottom + 6) + 'px';
+      }
+      menu.style.left = rect.left + 'px';
+      menu.classList.add('open');
+    }
+
+    function closeAllCtxMenus() {
+      document.getElementById('rs-ctx-menu').classList.remove('open');
+      document.getElementById('rs-ctx-share-pop').classList.remove('open');
+    }
+
+    function closeCtxSheet() {
+      document.getElementById('rs-ctx-sheet-overlay').classList.remove('open');
+    }
+
+    function openCtxShare(jobIdx) {
+      _rsJob = jobs[jobIdx];
+      if (window.innerWidth <= 768) {
+        closeAllCtxMenus();
+        shareRSNative();
+      } else {
+        // Desktop: show Email/SMS sub-popover anchored to the Share button
+        const shareBtn = document.getElementById('rs-ctx-share');
+        const pop = document.getElementById('rs-ctx-share-pop');
+        const alreadyOpen = pop.classList.contains('open');
+        if (alreadyOpen) { pop.classList.remove('open'); return; }
+        const rect = shareBtn.getBoundingClientRect();
+        pop.style.top = rect.top + 'px';
+        pop.style.left = (rect.right + 6) + 'px';
+        pop.classList.add('open');
+      }
+    }
+
+    function openCtxShareSheet() {
+      _rsJob = jobs[_ctxJobIdx];
+      shareRSNative();
+    }
+
+    function closeCtxSharePop() {
+      document.getElementById('rs-ctx-share-pop').classList.remove('open');
+    }
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.rs-ctx-wrap') && !e.target.closest('.rs-ctx-share-pop')) closeAllCtxMenus();
+      else if (!e.target.closest('.rs-ctx-share-pop') && !e.target.closest('#rs-ctx-share')) closeCtxSharePop();
+    });
+
+    function openRSModal(jobIdx) {
+      const job = jobs[jobIdx];
+      _rsJob = job;
+      function dealerName(city) {
+        return city.split(',')[0].toUpperCase() + ' AUTO';
+      }
+      function mockVIN(orderId) {
+        const chars = '0123456789ABCDEFGHJKLMNPRSTUVWXYZ';
+        const seed = orderId.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+        let vin = 'WP0';
+        for (let i = 0; i < 14; i++) vin += chars[(seed * (i + 7)) % chars.length];
+        return vin.slice(0, 17);
+      }
+      document.getElementById('rs-order-id').textContent = job.orderId;
+      document.getElementById('rs-auction-id').textContent = ('1' + job.orderId).slice(0, 8);
+      document.getElementById('rs-pickup-dealer').textContent = dealerName(job.pickupCity);
+      document.getElementById('rs-pickup-addr').textContent = job.pickupCity;
+      document.getElementById('rs-delivery-dealer').textContent = dealerName(job.deliveryCity);
+      document.getElementById('rs-delivery-addr').textContent = job.deliveryCity;
+      document.getElementById('rs-vehicle-name').textContent = job.name;
+      document.getElementById('rs-vehicle-img').src = job.img;
+      document.getElementById('rs-vehicle-img').alt = job.name;
+      document.getElementById('rs-vin').textContent = mockVIN(job.orderId);
+      document.getElementById('rs-drivetrain').textContent = job.drivetrain;
+      document.getElementById('rs-status').textContent = job.inop ? 'INOP' : 'Operable';
+      document.getElementById('rs-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=64x64&data=ORDER-${job.orderId}`;
+      const chip = document.getElementById('rs-enclosed-chip');
+      chip.style.display = job.enclosed ? '' : 'none';
+      const dlBtn = document.getElementById('rs-download-btn');
+      dlBtn.innerHTML = `<span class="material-symbols-outlined">file_save</span>Download`;
+      dlBtn.className = 'rs-download-btn';
+      document.getElementById('rs-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    }
+
+    function closeRSModal() {
+      document.getElementById('rs-overlay').classList.remove('open');
+      closeShareSheet();
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
+    function closeShareSheet() {
+      document.getElementById('rs-share-sheet-overlay').classList.remove('open');
+    }
+
+
+    function rsShareText() {
+      if (!_rsJob) return '';
+      return `Release Slip – Order #${_rsJob.orderId}\nVehicle: ${_rsJob.name}\nFrom: ${_rsJob.pickupCity}\nTo: ${_rsJob.deliveryCity}`;
+    }
+
+    function shareRSNative() {
+      if (!_rsJob) return;
+      // Update preview with current job data
+      const title = document.getElementById('ios-preview-title');
+      const sub = document.getElementById('ios-preview-sub');
+      if (title) title.textContent = `Release Slip – Order #${_rsJob.orderId}`;
+      if (sub) sub.textContent = `${_rsJob.name} · ${_rsJob.pickupCity} → ${_rsJob.deliveryCity}`;
+      document.getElementById('rs-share-sheet-overlay').classList.add('open');
+      closeAllCtxMenus();
+    }
+
+    function emailRS() {
+      if (!_rsJob) return;
+      const subject = encodeURIComponent(`Release Slip – Order #${_rsJob.orderId}`);
+      const body = encodeURIComponent(rsShareText());
+      window.open(`mailto:?subject=${subject}&body=${body}`);
+      closeShareSheet();
+    }
+
+    function shareSMS() {
+      if (!_rsJob) return;
+      const text = encodeURIComponent(rsShareText());
+      window.open(`sms:?body=${text}`);
+      closeShareSheet();
+    }
+
+    function handleRSDownload() {
+      const btn = document.getElementById('rs-download-btn');
+      btn.className = 'rs-download-btn loading';
+      btn.innerHTML = `<span class="material-symbols-outlined">hourglass_empty</span>Downloading…`;
+      setTimeout(() => {
+        btn.className = 'rs-download-btn done';
+        btn.innerHTML = `<span class="material-symbols-outlined">check_circle</span>Downloaded`;
+        setTimeout(() => {
+          btn.className = 'rs-download-btn';
+          btn.innerHTML = `<span class="material-symbols-outlined">file_save</span>Download`;
+        }, 2500);
+      }, 1000);
+    }
+  </script>
+  <!-- ── Release Slip Modal ── -->
+  <div id="rs-overlay" class="rs-overlay" onclick="if(event.target===this)closeRSModal()">
+    <div class="rs-modal">
+      <div class="rs-modal-header">
+        <span class="rs-modal-title">Release Slip</span>
+        <button class="rs-modal-close" onclick="closeRSModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="rs-modal-body">
+        <div class="rs-slip-bar">
+          <span class="rs-slip-bar-title">TRANSPORT SLIP | ACV AUCTIONS SALE</span>
+          <span class="rs-slip-bar-logo">ACV<br>TRANSPORT</span>
+        </div>
+        <div class="rs-info-band">
+          <div>
+            <div class="rs-carrier-name">ACV Transport LLC</div>
+            <div class="rs-carrier-dot">DOT #: 4037655</div>
+          </div>
+          <div class="rs-ids">
+            <div><strong>Auction ID:</strong> <span id="rs-auction-id"></span></div>
+            <div><strong>Order ID:</strong> <span id="rs-order-id"></span></div>
+          </div>
+          <div class="rs-enclosed-chip" id="rs-enclosed-chip">Enclosed Trailer Required</div>
+        </div>
+        <div class="rs-locations">
+          <div class="rs-loc-col">
+            <div class="rs-loc-heading"><strong>Pickup</strong><span class="rs-loc-badge">Holding Lot</span></div>
+            <div class="rs-dealer" id="rs-pickup-dealer"></div>
+            <div class="rs-loc-line"><span class="material-symbols-outlined">location_on</span><span id="rs-pickup-addr"></span></div>
+            <div class="rs-loc-line"><span class="material-symbols-outlined">call</span><span>Contact 555-000-0000</span></div>
+            <div class="rs-instruct-head">Pickup Instructions</div>
+            <div class="rs-instruct-flag ok"><span class="material-symbols-outlined">check_circle</span>After hours pickup allowed</div>
+            <div class="rs-instruct-text">Please bring a physical copy of the pick up slip. Pick up times are M-F 9–6 PM & Sat 9–4.</div>
+          </div>
+          <div class="rs-loc-col">
+            <div class="rs-loc-heading"><strong>Delivery</strong><span class="rs-loc-badge">Dealership</span></div>
+            <div class="rs-dealer" id="rs-delivery-dealer"></div>
+            <div class="rs-loc-line"><span class="material-symbols-outlined">location_on</span><span id="rs-delivery-addr"></span></div>
+            <div class="rs-loc-line"><span class="material-symbols-outlined">call</span><span>Contact 555-000-0001</span></div>
+            <div class="rs-instruct-head">Delivery Instructions</div>
+            <div class="rs-instruct-flag no"><span class="material-symbols-outlined">cancel</span>No after hours delivery</div>
+            <div class="rs-instruct-text">Please call prior to delivery. Leave keys in blue lockbox outside the office.</div>
+          </div>
+        </div>
+        <div class="rs-vehicle-row">
+          <img class="rs-vehicle-img" id="rs-vehicle-img" src="" alt="">
+          <div>
+            <div class="rs-vehicle-name" id="rs-vehicle-name"></div>
+            <div class="rs-specs">
+              <div><div class="rs-spec-label">VIN</div><div class="rs-spec-val" id="rs-vin"></div></div>
+              <div><div class="rs-spec-label">Drivetrain</div><div class="rs-spec-val" id="rs-drivetrain"></div></div>
+              <div><div class="rs-spec-label">Status</div><div class="rs-spec-val" id="rs-status"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="rs-qr-band">
+          <div class="rs-qr-text">
+            <p><strong>TRANSPORTER</strong>: Show this slip at pickup. <strong>Do not scan.</strong></p>
+            <p><strong>PICKUP CONTACT</strong>: Scan with your phone camera when transporter arrives. <strong>Verify SMS from +1 (888) 864-5986.</strong></p>
+          </div>
+          <img class="rs-qr-img" id="rs-qr-img" src="" alt="QR Code">
+        </div>
+        <div class="rs-support">For support call ACV Transport at 716-200-1362.</div>
+      </div>
+      <div class="rs-modal-footer">
+        <!-- Desktop: separate Email + SMS buttons -->
+        <button class="rs-share-btn rs-footer-desktop" onclick="emailRS()">
+          <span class="material-symbols-outlined">mail</span>Email
+        </button>
+        <!-- Mobile: single Share button → native OS sheet (no link, content only) -->
+        <button class="rs-share-btn rs-footer-mobile" onclick="shareRSNative()">
+          <span class="material-symbols-outlined">share</span>Share
+        </button>
+        <button class="rs-download-btn" id="rs-download-btn" onclick="handleRSDownload()">
+          <span class="material-symbols-outlined">file_save</span>Download
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- ── iOS Share Sheet simulation (mobile) ── -->
+  <div id="rs-share-sheet-overlay" class="rs-share-sheet-overlay" onclick="closeShareSheet()">
+    <div class="rs-share-sheet" onclick="event.stopPropagation()">
+      <div class="rs-share-sheet-handle"></div>
+
+      <!-- Preview -->
+      <div class="ios-share-preview">
+        <div class="ios-share-preview-icon">
+          <span class="material-symbols-outlined">description</span>
+        </div>
+        <div class="ios-share-preview-text">
+          <div class="ios-share-preview-title" id="ios-preview-title">Release Slip</div>
+          <div class="ios-share-preview-sub" id="ios-preview-sub">ACV Transport</div>
+        </div>
+        <span class="ios-share-preview-options">Options ›</span>
+      </div>
+
+      <!-- People / AirDrop row + App row in same card -->
+      <div class="ios-share-apps-wrap">
+        <!-- People row -->
+        <div class="ios-share-people">
+          <button class="ios-people-app" onclick="closeShareSheet()">
+            <div class="ios-people-avatar" style="background:#e5e5ea">
+              <span style="font-size:28px">📡</span>
+            </div>
+            <span class="ios-people-label">AirDrop</span>
+          </button>
+          <button class="ios-people-app" onclick="closeShareSheet()">
+            <div class="ios-people-avatar" style="background:linear-gradient(135deg,#5ac8fa,#0a84ff)">
+              <span style="font-size:26px">👤</span>
+              <div class="ios-people-avatar-badge">
+                <svg viewBox="0 0 12 12"><path d="M1 7l3 3 7-7" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <span class="ios-people-label">James</span>
+          </button>
+          <button class="ios-people-app" onclick="closeShareSheet()">
+            <div class="ios-people-avatar" style="background:linear-gradient(135deg,#ff9f0a,#ff6b00)">
+              <span style="font-size:26px">👤</span>
+              <div class="ios-people-avatar-badge">
+                <svg viewBox="0 0 12 12"><path d="M1 7l3 3 7-7" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <span class="ios-people-label">Sarah K.</span>
+          </button>
+          <button class="ios-people-app" onclick="closeShareSheet()">
+            <div class="ios-people-avatar" style="background:linear-gradient(135deg,#30d158,#25a244)">
+              <span style="font-size:26px">👤</span>
+              <div class="ios-people-avatar-badge">
+                <svg viewBox="0 0 12 12"><path d="M1 7l3 3 7-7" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <span class="ios-people-label">Mike T.</span>
+          </button>
+        </div>
+        <!-- App row -->
+        <div class="ios-share-apps-inner">
+          <button class="ios-share-app" onclick="shareSMS(); closeShareSheet()">
+            <div class="ios-share-app-icon" style="background:linear-gradient(180deg,#43d45b 0%,#30b04b 100%)">
+              <!-- Messages bubble icon -->
+              <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+                <rect width="60" height="60" rx="14" fill="none"/>
+                <path d="M30 10C18.95 10 10 18.06 10 28c0 5.4 2.62 10.24 6.76 13.56L15 50l9.32-4.08A21.7 21.7 0 0030 46.5c11.05 0 20-8.06 20-18S41.05 10 30 10z" fill="white"/>
+              </svg>
+            </div>
+            <span class="ios-share-app-label">Messages</span>
+          </button>
+          <button class="ios-share-app" onclick="emailRS(); closeShareSheet()">
+            <div class="ios-share-app-icon" style="background:linear-gradient(180deg,#5ac8fa 0%,#1a8cff 100%)">
+              <!-- Mail envelope icon -->
+              <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+                <path d="M8 18l22 14 22-14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="8" y="14" width="44" height="32" rx="4" stroke="white" stroke-width="3"/>
+              </svg>
+            </div>
+            <span class="ios-share-app-label">Mail</span>
+          </button>
+          <button class="ios-share-app" onclick="closeShareSheet()">
+            <div class="ios-share-app-icon" style="background:linear-gradient(180deg,#ffe066 0%,#ffd000 100%)">
+              <!-- Notes lines icon -->
+              <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+                <rect x="10" y="12" width="34" height="4" rx="2" fill="#c8960a"/>
+                <rect x="10" y="22" width="28" height="4" rx="2" fill="#c8960a"/>
+                <rect x="10" y="32" width="24" height="4" rx="2" fill="#c8960a"/>
+              </svg>
+            </div>
+            <span class="ios-share-app-label">Notes</span>
+          </button>
+          <button class="ios-share-app" onclick="closeShareSheet()">
+            <div class="ios-share-app-icon" style="background:linear-gradient(180deg,#6ee2ff 0%,#1db4e0 100%)">
+              <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+                <path d="M30 14v20M22 26l8 8 8-8" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 38v4a4 4 0 004 4h24a4 4 0 004-4v-4" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="ios-share-app-label">Files</span>
+          </button>
+          <button class="ios-share-app" onclick="closeShareSheet()">
+            <div class="ios-share-app-icon" style="background:linear-gradient(180deg,#a8a8b3 0%,#6c6c70 100%)">
+              <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+                <circle cx="20" cy="30" r="4" fill="white"/>
+                <circle cx="30" cy="30" r="4" fill="white"/>
+                <circle cx="40" cy="30" r="4" fill="white"/>
+              </svg>
+            </div>
+            <span class="ios-share-app-label">More</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Actions group 1 -->
+      <div class="ios-share-actions">
+        <button class="ios-share-action" onclick="closeShareSheet()">
+          Copy
+          <span class="ios-share-action-right">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </span>
+        </button>
+        <button class="ios-share-action" onclick="closeShareSheet()">
+          Markup
+          <span class="ios-share-action-right">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <!-- Actions group 2 -->
+      <div class="ios-share-actions">
+        <button class="ios-share-action" onclick="closeShareSheet()">
+          Print
+          <span class="ios-share-action-right">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          </span>
+        </button>
+        <button class="ios-share-action" onclick="closeShareSheet()">
+          Save to Files
+          <span class="ios-share-action-right">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <!-- Cancel -->
+      <button class="ios-share-cancel" onclick="closeShareSheet()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ── RS Context Menu (shared, fixed position) ── -->
+  <div class="rs-ctx-menu" id="rs-ctx-menu">
+    <button class="rs-ctx-item" id="rs-ctx-download" onclick="handleRSDownload(); closeAllCtxMenus(); event.stopPropagation()">
+      <span class="material-symbols-outlined">file_save</span>Download
+    </button>
+    <button class="rs-ctx-item" id="rs-ctx-view" onclick="closeAllCtxMenus(); openRSModal(_ctxJobIdx); event.stopPropagation()">
+      <span class="material-symbols-outlined">visibility</span>View
+    </button>
+    <button class="rs-ctx-item" id="rs-ctx-share" onclick="openCtxShare(_ctxJobIdx); event.stopPropagation()">
+      <span class="material-symbols-outlined">share</span>Share
+    </button>
+  </div>
+
+  <!-- ── RS Share Sub-Popover (desktop context menu) ── -->
+  <div class="rs-ctx-share-pop" id="rs-ctx-share-pop">
+    <button class="rs-ctx-item" onclick="emailRS(); closeCtxSharePop(); closeAllCtxMenus();">
+      <span class="material-symbols-outlined">mail</span>Email
+    </button>
+  </div>
+
+  <!-- ── RS Context Menu Bottom Sheet (mobile) ── -->
+  <div id="rs-ctx-sheet-overlay" onclick="closeCtxSheet()">
+    <div class="rs-ctx-sheet" onclick="event.stopPropagation()">
+      <div class="rs-ctx-sheet-handle"></div>
+      <div class="rs-ctx-sheet-title">Release Slip</div>
+      <button class="rs-ctx-sheet-item" id="rs-ctx-sheet-download" onclick="handleRSDownload(); closeCtxSheet()">
+        <span class="material-symbols-outlined">file_save</span>Download
+      </button>
+      <button class="rs-ctx-sheet-item" id="rs-ctx-sheet-view" onclick="closeCtxSheet(); setTimeout(() => openRSModal(_ctxJobIdx), 50)">
+        <span class="material-symbols-outlined">visibility</span>View
+      </button>
+      <button class="rs-ctx-sheet-item" id="rs-ctx-sheet-share" onclick="closeCtxSheet(); setTimeout(openCtxShareSheet, 50)">
+        <span class="material-symbols-outlined">share</span>Share
+      </button>
+    </div>
+  </div>
+
+  <script src="inspect.js"></script>
+
+  <!-- ── Feature Announcements HTML ── -->
+  <div class="fa-overlay" id="fa-overlay" role="dialog" aria-modal="true">
+    <div class="fa-modal" id="fa-modal">
+      <div class="fa-modal-header">
+        <span class="fa-modal-date" id="fa-modal-date"></span>
+        <button class="fa-modal-close" id="fa-modal-close">✕</button>
+      </div>
+      <div class="fa-modal-img" id="fa-modal-img"></div>
+      <div class="fa-modal-body">
+        <div class="fa-modal-title" id="fa-modal-title"></div>
+        <div class="fa-modal-desc"  id="fa-modal-desc"></div>
+      </div>
+      <div class="fa-modal-footer">
+        <div class="fa-step-dots" id="fa-step-dots"></div>
+        <div class="fa-modal-actions">
+          <button class="fa-btn-prev" id="fa-btn-prev" style="display:none">← Previous</button>
+          <button class="fa-btn-next" id="fa-btn-next">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fa-tooltip" id="fa-tooltip" role="tooltip">
+    <div class="fa-tooltip-title" id="fa-tooltip-title"></div>
+    <div class="fa-tooltip-desc"  id="fa-tooltip-desc"></div>
+    <div class="fa-tooltip-controls">
+      <button class="fa-dismiss-btn" id="fa-dismiss-btn">Dismiss</button>
+      <button class="fa-btn-next" id="fa-tooltip-next" style="display:none;font-size:12px;padding:6px 14px;">Next →</button>
+    </div>
+  </div>
+
+  <!-- ── Feature Announcements JS ── -->
+  <script>
+  (() => {
+    const HISTORY = [
+      {
+        id: 'filters-update',
+        date: 'May 28, 2026',
+        title: 'Status filters are now part of the main filter bar',
+        desc: 'You can now filter by status directly from the filter bar — no more separate menu. We also added two new quick filters: Action Required and Schedule View.',
+        tags: ['improvement'],
+        read: false,
+        imgHtml: null,
+        imgColor: '#e3f1fc',
+        channel: 'modal',
+        chainedTooltip: [
+          {
+            title: 'New filters',
+            desc: 'Use Action Required to filter jobs that need your attention.',
+            anchor: '#chip-action-required',
+          },
+          {
+            title: 'Schedule View',
+            desc: 'Use Schedule View to group your jobs by priority.',
+            anchor: '#chip-schedule',
+          },
+        ],
+      },
+      {
+        id: 'manage-placeholder-2',
+        date: 'May 26, 2026',
+        title: 'Placeholder announcement 2',
+        desc: 'Description for the second announcement on the Manage page. Replace this with the real content.',
+        tags: ['improvement'],
+        read: false,
+        imgHtml: null,
+        imgColor: null,
+        channel: 'modal',
+        tooltip: null,
+      },
+    ];
+
+    const MODAL_DATA  = HISTORY.filter(a => a.channel === 'modal');
+    const MODAL_STEPS = [...MODAL_DATA];
+
+    const panelItems = [];
+    [...HISTORY].reverse().forEach(a => {
+      panelItems.push({ type: 'announcement', ann: a });
+      if (a.chainedTooltip) {
+        a.chainedTooltip.forEach((t, ti) => {
+          panelItems.push({ type: 'tooltip', ann: a, tipIndex: ti, title: t.title, desc: t.desc });
+        });
+      }
+    });
+    let modalStep = 0;
+    let detailMode = false;
+
+    function updateBadge() {
+      const count = HISTORY.filter(a => !a.read).length;
+      const badge = document.getElementById('fa-count-badge');
+      badge.textContent = count;
+      badge.dataset.count = count;
+    }
+
+    function renderPanel() {
+      const container = document.getElementById('fa-panel-items');
+      container.innerHTML = '';
+      panelItems.forEach((item, i) => {
+        const isUnread = !item.ann.read;
+        const icon = item.type === 'tooltip'
+          ? '<span class="material-symbols-outlined" style="font-size:14px;color:#71747a;flex-shrink:0;">tips_and_updates</span>'
+          : '';
+        const el = document.createElement('div');
+        el.className = 'fa-panel-item';
+        el.innerHTML = `
+          <div class="fa-panel-item-row">
+            ${icon}
+            <span class="fa-panel-item-title">${item.title || item.ann.title}</span>
+            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+              ${isUnread ? '<span class="fa-unread-dot"></span>' : ''}
+            </div>
+          </div>
+          <div class="fa-panel-item-desc">${item.desc || item.ann.desc}</div>`;
+        el.addEventListener('click', () => {
+          closePanel();
+          if (item.type === 'tooltip') {
+            item.ann.read = true; updateBadge(); renderPanel();
+            tooltipFired = true;
+            setTimeout(() => startChainedTooltip([item.ann.chainedTooltip[item.tipIndex]]), 100);
+          } else {
+            openDetailModal(item.ann);
+          }
+        });
+        container.appendChild(el);
+        if (i < panelItems.length - 1) {
+          const div = document.createElement('div');
+          div.className = 'fa-panel-divider';
+          container.appendChild(div);
+        }
+      });
+    }
+
+    function openPanel()  { document.getElementById('fa-panel-wrap').classList.add('open'); }
+    function closePanel() { document.getElementById('fa-panel-wrap').classList.remove('open'); }
+    function togglePanel(){ document.getElementById('fa-panel-wrap').classList.toggle('open'); }
+
+    function renderModalStep() {
+      const ann = MODAL_STEPS[modalStep];
+      document.getElementById('fa-modal-date').textContent  = ann.date || '';
+      document.getElementById('fa-modal-title').textContent = ann.title;
+      document.getElementById('fa-modal-desc').textContent  = ann.desc;
+      const imgEl = document.getElementById('fa-modal-img');
+      if (ann.imgHtml) {
+        imgEl.style.display = 'flex'; imgEl.style.background = ann.imgColor || '#e3f1fc';
+        imgEl.style.alignItems = 'center'; imgEl.style.justifyContent = 'center';
+        imgEl.innerHTML = ann.imgHtml;
+      } else if (ann.imgColor) {
+        imgEl.style.display = 'block'; imgEl.style.background = ann.imgColor; imgEl.innerHTML = '';
+      } else {
+        imgEl.style.display = 'none'; imgEl.innerHTML = '';
+      }
+      const dots = document.getElementById('fa-step-dots');
+      dots.innerHTML = MODAL_STEPS.map((_, i) =>
+        `<div class="fa-dot ${i === modalStep ? 'active' : ''}"></div>`
+      ).join('');
+      document.getElementById('fa-btn-prev').style.display = modalStep > 0 ? 'inline-flex' : 'none';
+      document.getElementById('fa-btn-next').textContent   = modalStep < MODAL_STEPS.length - 1 ? 'Next →' : 'Done';
+    }
+
+    function openModal() {
+      modalStep = 0; detailMode = false;
+      renderModalStep();
+      document.getElementById('fa-overlay').classList.add('open');
+    }
+
+    function openDetailModal(ann) {
+      detailMode = true;
+      _pendingChain = (ann.chainedTooltip && ann.chainedTooltip.length) ? ann.chainedTooltip : null;
+      ann.read = true; updateBadge(); renderPanel();
+      document.getElementById('fa-modal-date').textContent  = ann.date;
+      document.getElementById('fa-modal-title').textContent = ann.title;
+      document.getElementById('fa-modal-desc').textContent  = ann.desc;
+      const imgEl = document.getElementById('fa-modal-img');
+      if (ann.imgHtml) {
+        imgEl.style.display = 'flex'; imgEl.style.background = ann.imgColor || '#e3f1fc';
+        imgEl.style.alignItems = 'center'; imgEl.style.justifyContent = 'center';
+        imgEl.innerHTML = ann.imgHtml;
+      } else if (ann.imgColor) {
+        imgEl.style.display = 'block'; imgEl.style.background = ann.imgColor; imgEl.innerHTML = '';
+      } else {
+        imgEl.style.display = 'none'; imgEl.innerHTML = '';
+      }
+      document.getElementById('fa-overlay').style.background = 'rgba(0,0,0,.32)';
+      document.getElementById('fa-overlay').classList.add('open');
+      document.getElementById('fa-step-dots').innerHTML = '';
+      document.getElementById('fa-btn-prev').style.display = 'none';
+      document.getElementById('fa-btn-next').textContent   = 'Close';
+    }
+
+    // ── Chained tooltip state ──
+    let tooltipChain    = [];
+    let tooltipStep     = 0;
+    let tooltipFired    = false;
+    let _pendingChain   = null;
+
+    function showTooltipStep(step) {
+      const tip    = document.getElementById('fa-tooltip');
+      const tEl    = tooltipChain[step];
+      const anchor = document.querySelector(tEl.anchor);
+      document.getElementById('fa-tooltip-title').textContent = tEl.title;
+      document.getElementById('fa-tooltip-desc').textContent  = tEl.desc;
+      const isLast = step === tooltipChain.length - 1;
+      const nextBtn = document.getElementById('fa-tooltip-next');
+      nextBtn.style.display = isLast ? 'none' : 'inline-flex';
+      document.getElementById('fa-dismiss-btn').textContent = isLast ? 'Got it' : 'Dismiss';
+      tip.style.display = 'block';
+      if (anchor) {
+        const r = anchor.getBoundingClientRect();
+        tip.style.left = Math.max(8, r.left) + 'px';
+        tip.style.top  = (r.bottom + 8) + 'px';
+      } else {
+        tip.style.left = '50%';
+        tip.style.top  = '120px';
+        tip.style.transform = 'translateX(-50%)';
+      }
+      requestAnimationFrame(() => tip.classList.add('show'));
+    }
+
+    function startChainedTooltip(chain) {
+      tooltipChain = chain;
+      tooltipStep  = 0;
+      showTooltipStep(0);
+    }
+
+    function dismissTooltip() {
+      const tip = document.getElementById('fa-tooltip');
+      tip.classList.remove('show');
+      setTimeout(() => { tip.style.display = 'none'; }, 200);
+      tooltipChain = []; tooltipStep = 0;
+    }
+
+    function tooltipNext() {
+      tooltipStep++;
+      if (tooltipStep < tooltipChain.length) {
+        showTooltipStep(tooltipStep);
+      } else {
+        dismissTooltip();
+      }
+    }
+
+    function closeModal() {
+      const wasDetail = detailMode;
+      const pending   = _pendingChain;
+      if (!detailMode) {
+        for (let i = 0; i <= modalStep; i++) MODAL_STEPS[i].read = true;
+      }
+      document.getElementById('fa-overlay').style.background = '';
+      document.getElementById('fa-overlay').classList.remove('open');
+      detailMode = false;
+      _pendingChain = null;
+      updateBadge(); renderPanel();
+      if (!tooltipFired) {
+        const chain = wasDetail
+          ? (pending || [])
+          : MODAL_STEPS.flatMap(a => a.chainedTooltip || []);
+        if (chain.length) {
+          tooltipFired = true;
+          setTimeout(() => startChainedTooltip(chain), 400);
+        }
+      }
+    }
+
+    function nextStep() {
+      if (detailMode) { closeModal(); return; }
+      if (!MODAL_STEPS[modalStep].isIntro) MODAL_STEPS[modalStep].read = true;
+      if (modalStep < MODAL_STEPS.length - 1) { modalStep++; renderModalStep(); }
+      else { closeModal(); }
+    }
+
+    function prevStep() {
+      if (modalStep > 0) { modalStep--; renderModalStep(); }
+    }
+
+    function init() {
+      MODAL_STEPS.forEach(s => s.read = true);
+      tooltipFired = true;
+      renderPanel(); updateBadge();
+
+      document.getElementById('fa-whats-new-btn').addEventListener('click', e => { e.stopPropagation(); togglePanel(); });
+      document.addEventListener('click', e => {
+        const wrap = document.getElementById('fa-panel-wrap');
+        const btn  = document.getElementById('fa-whats-new-btn');
+        if (!wrap.contains(e.target) && !btn.contains(e.target)) closePanel();
+        const tip = document.getElementById('fa-tooltip');
+        if (tooltipChain.length && !tip.contains(e.target)) dismissTooltip();
+      });
+      document.getElementById('fa-modal-close').addEventListener('click', closeModal);
+      document.getElementById('fa-btn-next').addEventListener('click', nextStep);
+      document.getElementById('fa-btn-prev').addEventListener('click', prevStep);
+      document.getElementById('fa-overlay').addEventListener('click', e => {
+        if (e.target === document.getElementById('fa-overlay')) closeModal();
+      });
+      document.getElementById('fa-dismiss-btn').addEventListener('click', dismissTooltip);
+      document.getElementById('fa-tooltip-next').addEventListener('click', e => { e.stopPropagation(); tooltipNext(); });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closeModal(); closePanel(); dismissTooltip(); }
+      });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })();
+  </script>
+</body>
+</html>
