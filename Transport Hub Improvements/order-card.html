@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Card — Transport Hub 2.0</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f0f1f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 32px;
+        }
+
+        .demo-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .variant-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 12px;
+        }
+
+        .variant-label:first-child {
+            margin-top: 0;
+        }
+
+        /* ===== ORDER CARD ===== */
+        .order-card {
+            display: flex;
+            align-items: stretch;
+            background: #ffffff;
+            border: 1px solid #dcdfe8;
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        /* — Left: Status + ETA — */
+        .card-status-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-width: 140px;
+            max-width: 180px;
+            padding: 20px 24px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* Accent bar on left edge */
+        .card-status-col::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .card-status-col--finding    { background: #f7f7f8; }
+        .card-status-col--finding::before  { background: #9e9e9e; }
+        .card-status-col--dispatched { background: #f3e8fd; }
+        .card-status-col--dispatched::before { background: #7b1fa2; }
+        .card-status-col--in-transit { background: #e3f1fc; }
+        .card-status-col--in-transit::before { background: #0061a5; }
+        .card-status-col--delivered  { background: #e8f5e9; }
+        .card-status-col--delivered::before  { background: #00a576; }
+        .card-status-col--eta-alert  { background: #fff8e1; }
+        .card-status-col--eta-alert::before  { background: #e65100; }
+
+        .status-text {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            line-height: 18px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .status-text .material-symbols-outlined {
+            font-size: 16px !important;
+        }
+
+        .status-text--finding    { color: #424242; }
+        .status-text--dispatched { color: #6a1b9a; }
+        .status-text--in-transit { color: #0061a5; }
+        .status-text--delivered  { color: #2e7d32; }
+        .status-text--eta-alert  { color: #bf360c; }
+
+        /* ETA alert styling */
+        .eta-alert-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #e65100;
+            letter-spacing: 0.2px;
+            margin-top: -4px;
+        }
+
+        .eta-alert-indicator .material-symbols-outlined {
+            font-size: 14px !important;
+        }
+
+        .eta-value--changed {
+            color: #bf360c;
+        }
+
+        .eta-value--old {
+            font-size: 13px;
+            color: #9e9e9e;
+            text-decoration: line-through;
+            font-weight: 400;
+            letter-spacing: 0.15px;
+        }
+
+        .eta-block { text-align: center; }
+
+        .eta-label {
+            font-size: 12px;
+            font-weight: 400;
+            color: #55575c;
+            letter-spacing: 0.4px;
+            line-height: 16px;
+            margin-bottom: 4px;
+        }
+
+        .eta-value {
+            font-size: 20px;
+            font-weight: 500;
+            color: #1c1d1f;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+        }
+
+        /* — Middle: Details — */
+        .card-details-col {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            padding: 8px 16px;
+            min-width: 0;
+        }
+
+        .details-inner {
+            display: flex;
+            flex: 1;
+            gap: 16px;
+            align-items: center;
+            min-width: 0;
+        }
+
+        /* Vehicle + info block */
+        .vehicle-block {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .vehicle-thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: 4px;
+            background: #ffffff;
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vehicle-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .vehicle-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 180px;
+        }
+
+        .vehicle-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #0e0e0f;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+            white-space: nowrap;
+        }
+
+        .vin-row {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .vin-link {
+            font-size: 14px;
+            font-weight: 400;
+            color: #00558c;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .copy-icon {
+            width: 16px;
+            height: 16px;
+            color: #00558c;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .copy-icon .material-symbols-outlined {
+            font-size: 16px !important;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .meta-pair {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+            white-space: nowrap;
+        }
+
+        .meta-label { color: #55575c; }
+        .meta-value { color: #1c1d1f; }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        .chip--info    { background: #f0f8ff; color: #0061a5; }
+        .chip--caution { background: #ffefbf; color: #402d00; }
+        .chip--neutral { background: #f1f2f4; color: #55575c; }
+
+        /* Progress + addresses block */
+        .progress-block {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 4px;
+            justify-content: center;
+            min-width: 300px;
+            padding-bottom: 8px;
+        }
+
+        /* Stepper */
+        .stepper {
+            display: flex;
+            align-items: center;
+            height: 36px;
+            padding: 8px 8px 8px 8px;
+        }
+
+        .stepper-step {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stepper-line {
+            flex: 1;
+            height: 4px;
+            background: #e8e9eb;
+            margin: 0 -10px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .stepper-line.done {
+            background: #2196f5;
+        }
+
+        .stepper-line.done-green {
+            background: #00a576;
+        }
+
+        .stepper-line.done-purple {
+            background: #7b1fa2;
+        }
+
+        /* Addresses */
+        .addr-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 32px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #55575c;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .addr {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .addr--end {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        /* — Right: Action — */
+        .card-action-col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 140px;
+            max-width: 180px;
+            padding: 8px;
+            border-left: 1px solid #e8e9eb;
+            flex-shrink: 0;
+            background: #ffffff;
+        }
+
+        .order-details-btn {
+            background: none;
+            border: none;
+            color: #004e7d;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.1px;
+            line-height: 14px;
+            cursor: pointer;
+            padding: 16px;
+            border-radius: 100px;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+
+        .order-details-btn:hover {
+            background: rgba(0, 78, 125, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-wrapper">
+
+        <!-- ===== FINDING CARRIER ===== -->
+        <div class="variant-label">Finding Carrier</div>
+        <div class="order-card">
+            <div class="card-status-col card-status-col--finding">
+                <span class="status-text status-text--finding"><span class="material-symbols-outlined">search</span>Finding Carrier</span>
+                <div class="eta-block">
+                    <div class="eta-label">Delivery ETA</div>
+                    <div class="eta-value">Aug 30</div>
+                </div>
+            </div>
+            <div class="card-details-col">
+                <div class="details-inner">
+                    <div class="vehicle-block">
+                        <div class="vehicle-thumb">
+                            <img src="https://cdn.imagin.studio/getimage?customer=img&make=chevrolet&modelFamily=malibu&modelYear=2017&angle=23&width=144" alt="2017 Chevrolet Malibu" />
+                        </div>
+                        <div class="vehicle-info">
+                            <div class="vehicle-name">2017 Chevrolet Malibu</div>
+                            <div class="vin-row">
+                                <span class="vin-link">1G1ZD5ST8HF210987</span>
+                                <span class="copy-icon"><span class="material-symbols-outlined">content_copy</span></span>
+                            </div>
+                            <div class="meta-row">
+                                <div class="meta-pair">
+                                    <span class="meta-label">Order ID</span>
+                                    <span class="meta-value">3142451</span>
+                                </div>
+                                <span class="chip chip--neutral">3rd Party</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-block">
+                        <div class="stepper">
+                            <img class="stepper-step" src="assets/step-inprogress.svg" alt="In progress" />
+                            <div class="stepper-line"></div>
+                            <img class="stepper-step" src="assets/step-default.svg" alt="Pending" />
+                            <div class="stepper-line"></div>
+                            <img class="stepper-step" src="assets/step-default.svg" alt="Pending" />
+                            <div class="stepper-line"></div>
+                            <img class="stepper-step" src="assets/step-default.svg" alt="Pending" />
+                        </div>
+                        <div class="addr-row">
+                            <div class="addr"><span>Phoenix,</span> <span>AZ 85004</span></div>
+                            <div class="addr addr--end"><span>Albuquerque,</span> <span>NM 87102</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action-col">
+                <button class="order-details-btn">Order details</button>
+            </div>
+        </div>
+
+        <!-- ===== DISPATCHED ===== -->
+        <div class="variant-label">Dispatched</div>
+        <div class="order-card">
+            <div class="card-status-col card-status-col--dispatched">
+                <span class="status-text status-text--dispatched"><span class="material-symbols-outlined">assignment_turned_in</span>Dispatched</span>
+                <div class="eta-block">
+                    <div class="eta-label">Delivery ETA</div>
+                    <div class="eta-value">Aug 28</div>
+                </div>
+            </div>
+            <div class="card-details-col">
+                <div class="details-inner">
+                    <div class="vehicle-block">
+                        <div class="vehicle-thumb">
+                            <img src="https://cdn.imagin.studio/getimage?customer=img&make=toyota&modelFamily=tacoma&modelYear=2017&angle=23&width=144" alt="2017 Toyota Tacoma" />
+                        </div>
+                        <div class="vehicle-info">
+                            <div class="vehicle-name">2017 Toyota Tacoma</div>
+                            <div class="vin-row">
+                                <span class="vin-link">3TMCZ5AN4HM100341</span>
+                                <span class="copy-icon"><span class="material-symbols-outlined">content_copy</span></span>
+                            </div>
+                            <div class="meta-row">
+                                <div class="meta-pair">
+                                    <span class="meta-label">Order ID</span>
+                                    <span class="meta-value">3218834</span>
+                                </div>
+                                <span class="chip chip--info">ACV Auction</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-block">
+                        <div class="stepper">
+                            <img class="stepper-step" src="assets/step-done-purple.svg" alt="Done" />
+                            <div class="stepper-line done-purple"></div>
+                            <img class="stepper-step" src="assets/step-inprogress-purple.svg" alt="In progress" />
+                            <div class="stepper-line"></div>
+                            <img class="stepper-step" src="assets/step-default.svg" alt="Pending" />
+                            <div class="stepper-line"></div>
+                            <img class="stepper-step" src="assets/step-default.svg" alt="Pending" />
+                        </div>
+                        <div class="addr-row">
+                            <div class="addr"><span>Boise,</span> <span>ID 83702</span></div>
+                            <div class="addr addr--end"><span>Portland,</span> <span>OR 97204</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action-col">
+                <button class="order-details-btn">Order details</button>
+            </div>
+        </div>
+
+        <!-- ===== IN TRANSIT ===== -->
+        <div class="variant-label">In Transit</div>
+        <div class="order-card">
+            <div class="card-status-col card-status-col--in-transit">
+                <span class="status-text status-text--in-transit"><span class="material-symbols-outlined">local_shipping</span>On Its Way</span>
+                <div class="eta-block">
+                    <div class="eta-label">Delivery ETA</div>
+                    <div class="eta-value">Aug 26</div>
+                </div>
+            </div>
+            <div class="card-details-col">
+                <div class="details-inner">
+                    <div class="vehicle-block">
+                        <div class="vehicle-thumb">
+                            <img src="https://cdn.imagin.studio/getimage?customer=img&make=jeep&modelFamily=grand-cherokee&modelYear=2018&angle=23&width=144" alt="2018 Jeep Grand Cherokee" />
+                        </div>
+                        <div class="vehicle-info">
+                            <div class="vehicle-name">2018 Jeep Grand Cherokee</div>
+                            <div class="vin-row">
+                                <span class="vin-link">1C4RJFBG5JC412345</span>
+                                <span class="copy-icon"><span class="material-symbols-outlined">content_copy</span></span>
+                            </div>
+                            <div class="meta-row">
+                                <div class="meta-pair">
+                                    <span class="meta-label">Order ID</span>
+                                    <span class="meta-value">3297156</span>
+                                </div>
+                                <span class="chip chip--info">ACV Auction</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-block">
+                        <div class="stepper">
+                            <img class="stepper-step" src="assets/step-done.svg" alt="Done" />
+                            <div class="stepper-line done"></div>
+                            <img class="stepper-step" src="assets/step-done.svg" alt="Done" />
+                            <div class="stepper-line done"></div>
+                            <img class="stepper-step" src="assets/step-inprogress.svg" alt="In progress" />
+                            <div class="stepper-line"></div>
+                            <img class="stepper-step" src="assets/step-default.svg" alt="Pending" />
+                        </div>
+                        <div class="addr-row">
+                            <div class="addr"><span>Chicago,</span> <span>IL 60616</span></div>
+                            <div class="addr addr--end"><span>Nashville,</span> <span>TN 37203</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action-col">
+                <button class="order-details-btn">Order details</button>
+            </div>
+        </div>
+
+        <!-- ===== DELIVERED ===== -->
+        <div class="variant-label">Delivered</div>
+        <div class="order-card">
+            <div class="card-status-col card-status-col--delivered">
+                <span class="status-text status-text--delivered"><span class="material-symbols-outlined">check_circle</span>Delivered</span>
+                <div class="eta-block">
+                    <div class="eta-label">Delivered</div>
+                    <div class="eta-value">Aug 24</div>
+                </div>
+            </div>
+            <div class="card-details-col">
+                <div class="details-inner">
+                    <div class="vehicle-block">
+                        <div class="vehicle-thumb">
+                            <img src="https://cdn.imagin.studio/getimage?customer=img&make=subaru&modelFamily=crosstrek&modelYear=2018&angle=23&width=144" alt="2018 Subaru Crosstrek" />
+                        </div>
+                        <div class="vehicle-info">
+                            <div class="vehicle-name">2018 Subaru Crosstrek</div>
+                            <div class="vin-row">
+                                <span class="vin-link">JF2GTACC1JH205678</span>
+                                <span class="copy-icon"><span class="material-symbols-outlined">content_copy</span></span>
+                            </div>
+                            <div class="meta-row">
+                                <div class="meta-pair">
+                                    <span class="meta-label">Order ID</span>
+                                    <span class="meta-value">3201773</span>
+                                </div>
+                                <span class="chip chip--neutral">3rd Party</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-block">
+                        <div class="stepper">
+                            <img class="stepper-step" src="assets/step-completed.svg" alt="Done" />
+                            <div class="stepper-line done-green"></div>
+                            <img class="stepper-step" src="assets/step-completed.svg" alt="Done" />
+                            <div class="stepper-line done-green"></div>
+                            <img class="stepper-step" src="assets/step-completed.svg" alt="Done" />
+                            <div class="stepper-line done-green"></div>
+                            <img class="stepper-step" src="assets/step-completed.svg" alt="Done" />
+                        </div>
+                        <div class="addr-row">
+                            <div class="addr"><span>Portland,</span> <span>OR 97204</span></div>
+                            <div class="addr addr--end"><span>Spokane,</span> <span>WA 99201</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action-col">
+                <button class="order-details-btn">Order details</button>
+            </div>
+        </div>
+
+        <!-- ===== ETA CHANGE ALERT ===== -->
+        <div class="variant-label">ETA Change Alert</div>
+        <div class="order-card">
+            <div class="card-status-col card-status-col--eta-alert">
+                <span class="status-text status-text--eta-alert"><span class="material-symbols-outlined">warning</span>On Its Way</span>
+                <div class="eta-block">
+                    <div class="eta-label">Delivery ETA</div>
+                    <div class="eta-value eta-value--old">Aug 26</div>
+                    <div class="eta-value eta-value--changed">Sep 2</div>
+                </div>
+                <div class="eta-alert-indicator">
+                    <span class="material-symbols-outlined">warning</span>
+                    ETA updated
+                </div>
+            </div>
+            <div class="card-details-col">
+                <div class="details-inner">
+                    <div class="vehicle-block">
+                        <div class="vehicle-thumb">
+                            <img src="https://cdn.imagin.studio/getimage?customer=img&make=tesla&modelFamily=model-s&modelYear=2022&angle=23&width=144" alt="2022 Tesla Model S Plaid" />
+                        </div>
+                        <div class="vehicle-info">
+                            <div class="vehicle-name">2022 Tesla Model S Plaid</div>
+                            <div class="vin-row">
+                                <span class="vin-link">5YJSA1E23NF10022</span>
+                                <span class="copy-icon"><span class="material-symbols-outlined">content_copy</span></span>
+                            </div>
+                            <div class="meta-row">
+                                <div class="meta-pair">
+                                    <span class="meta-label">Order ID</span>
+                                    <span class="meta-value">3389901</span>
+                                </div>
+                                <span class="chip chip--neutral">3rd Party</span>
+                                <span class="chip chip--caution">High Value</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-block">
+                        <div class="stepper">
+                            <img class="stepper-step" src="assets/step-done.svg" alt="Done" />
+                            <div class="stepper-line done"></div>
+                            <img class="stepper-step" src="assets/step-done.svg" alt="Done" />
+                            <div class="stepper-line done"></div>
+                            <img class="stepper-step" src="assets/step-inprogress.svg" alt="In progress" />
+                            <div class="stepper-line"></div>
+                            <img class="stepper-step" src="assets/step-default.svg" alt="Pending" />
+                        </div>
+                        <div class="addr-row">
+                            <div class="addr"><span>San Jose,</span> <span>CA 95112</span></div>
+                            <div class="addr addr--end"><span>Portland,</span> <span>OR 97204</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action-col">
+                <button class="order-details-btn">Order details</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

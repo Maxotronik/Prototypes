@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACV Transport Hub</title>
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/cards.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/map.css">
+    <style>
+        /* Hide panel styles for v1 */
+        .notification-panel,
+        .panel-overlay,
+        .side-panel,
+        .stats-compact {
+            display: none !important;
+        }
+
+        /* Show legacy modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-surface);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-title">ACV Transport Hub</div>
+            <div class="header-actions">
+                <div class="notification-icon" onclick="NotificationManager.toggle()">
+                    🔔
+                    <span class="notification-badge" id="notificationCount">3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Stats Overview -->
+        <div class="stats-grid" id="statsGrid">
+            <!-- Populated by table.js -->
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search by VIN, Order ID, or Auction ID">
+            </div>
+            <div class="filter-group" id="filterGroup">
+                <!-- Populated by table.js -->
+            </div>
+        </div>
+
+        <!-- Vehicles Table -->
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th style="text-align: center;">Progress</th>
+                        <th>Delivery ETA</th>
+                        <th>Status</th>
+                        <th style="text-align: center;">Details</th>
+                    </tr>
+                </thead>
+                <tbody id="vehicleTable">
+                    <!-- Populated by table.js -->
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span id="paginationInfo">Viewing 100 out of 506 results</span>
+                <div class="pagination-controls">
+                    <button class="pagination-btn">←</button>
+                    <button class="pagination-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="modalVehicleName"></div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;" id="modalVehicleVIN"></div>
+                </div>
+                <button class="modal-close" onclick="ModalManager.close()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Populated by modal.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/mock.js"></script>
+    <script src="components/table-v1.js"></script>
+    <script src="components/modal-v1.js"></script>
+    <script src="components/map.js"></script>
+    <script src="components/notifications-v1.js"></script>
+    <script>
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            TableManager.init();
+        });
+    </script>
+</body>
+</html>

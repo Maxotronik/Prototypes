@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>acv-segmented-control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    /* ── Container ── */
+    .acv-segmented-control {
+      display: inline-flex;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid #dcdfe8;
+      border-radius: 6px;
+      overflow: hidden;
+      height: 48px;
+    }
+
+    /* ── Each option slot ── */
+    .acv-segment {
+      display: flex;
+      align-items: stretch;
+    }
+
+    /* ── Divider ── */
+    .acv-divider--vertical {
+      width: 1px;
+      background: #dcdfe8;
+      align-self: stretch;
+      transition: opacity 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .acv-divider--vertical.hidden {
+      opacity: 0;
+    }
+
+    /* ── Button ── */
+    .acv-checkbox-button {
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-family: "Roboto", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1.25px;
+      padding: 0 16px;
+      height: 48px;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+      outline: none;
+    }
+
+    .acv-checkbox-button:hover:not(:disabled) {
+      background: #f3f4f6;
+    }
+
+    .acv-checkbox-button--checked {
+      background: #EBF6FF;
+      color: rgba(0, 0, 0, 0.5);
+      border-radius: 0;
+    }
+
+    .acv-segment:first-child .acv-checkbox-button--checked {
+      border-radius: 5px 0 0 5px;
+    }
+
+    .acv-segment:last-child .acv-checkbox-button--checked {
+      border-radius: 0 5px 5px 0;
+    }
+
+    .acv-checkbox-button--checked:hover {
+      background: #d6edfb;
+    }
+
+    .acv-checkbox-button:disabled {
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    /* ── Badge ── */
+    .acv-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #000000;
+      border-radius: 60px;
+      padding: 2px 5px;
+      font-family: "Roboto", sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.4px;
+      line-height: 11px;
+      color: #f7f7f8;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    /* ── Ripple ── */
+    .ripple-wave {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(0);
+      animation: ripple-anim 0.45s linear;
+      pointer-events: none;
+    }
+
+    .acv-checkbox-button:not(.acv-checkbox-button--checked) .ripple-wave {
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    @keyframes ripple-anim {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* ── Selection readout ── */
+    .selection-label {
+      font-size: 13px;
+      color: #6b7280;
+      font-family: "SF Mono", "Fira Code", monospace;
+    }
+
+    .selection-label span {
+      color: #1a56db;
+      font-weight: 600;
+    }
+
+    /* ── Story controls ── */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .control-label {
+      font-size: 12px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .toggle-btn {
+      font-size: 12px;
+      padding: 4px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      color: #374151;
+    }
+
+    .toggle-btn:hover { background: #f3f4f6; }
+    .toggle-btn.active { background: #1a56db; color: white; border-color: #1a56db; }
+  </style>
+</head>
+<body>
+
+  <!-- Variant A: badge -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+    <span class="control-label">Badge</span>
+    <div class="acv-segmented-control" id="segmented-control-badge"></div>
+  </div>
+
+  <!-- Variant B: inline label -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+    <span class="control-label">Inline</span>
+    <div class="acv-segmented-control" id="segmented-control-inline"></div>
+  </div>
+
+  <!-- Selection output -->
+  <div class="selection-label">
+    Selection: [<span id="selection-output">"3M"</span>]
+  </div>
+
+  <!-- Story controls -->
+  <div class="controls">
+    <div class="controls-row">
+      <span class="control-label">Multi-select</span>
+      <button class="toggle-btn" id="toggle-multi">Off</button>
+    </div>
+  </div>
+
+  <script>
+    const options = [
+      { label: "MTD", disabled: false, count: 4  },
+      { label: "1M",  disabled: false, count: 12 },
+      { label: "3M",  disabled: false, count: 27 },
+      { label: "6M",  disabled: true,  count: 38 },
+      { label: "1Y",  disabled: true,  count: 51 },
+    ];
+
+    let selected = new Set(["3M"]);
+    let multiSelect = false;
+
+    function renderControl(containerId, variant) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      options.forEach((opt, i) => {
+        const isLast = i === options.length - 1;
+        const isChecked = selected.has(opt.label);
+        const nextIsChecked = !isLast && selected.has(options[i + 1]?.label);
+        const dividerHidden = isLast;
+
+        const segment = document.createElement("span");
+        segment.className = "acv-segment";
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "acv-checkbox-button ripple" + (isChecked ? " acv-checkbox-button--checked" : "");
+        btn.disabled = opt.disabled;
+
+        const labelSpan = document.createElement("span");
+
+        if (variant === "inline" && opt.count != null) {
+          labelSpan.textContent = `${opt.label} (${opt.count})`;
+        } else {
+          labelSpan.textContent = opt.label;
+        }
+        btn.appendChild(labelSpan);
+
+        if (variant === "badge" && opt.count != null) {
+          const badge = document.createElement("span");
+          badge.className = "acv-badge";
+          badge.textContent = opt.count;
+          btn.appendChild(badge);
+        }
+
+        btn.addEventListener("click", (e) => handleSelect(e, opt.label));
+
+        const divider = document.createElement("div");
+        divider.className = "acv-divider--vertical" + (dividerHidden ? " hidden" : "");
+        divider.setAttribute("role", "separator");
+        divider.setAttribute("aria-orientation", "vertical");
+
+        segment.appendChild(btn);
+        segment.appendChild(divider);
+        container.appendChild(segment);
+      });
+    }
+
+    function render() {
+      renderControl("segmented-control-badge", "badge");
+      renderControl("segmented-control-inline", "inline");
+
+      const out = document.getElementById("selection-output");
+      out.textContent = selected.size === 0 ? "" : [...selected].map(s => `"${s}"`).join(", ");
+    }
+
+    function handleSelect(e, label) {
+      ripple(e);
+
+      if (multiSelect) {
+        if (selected.has(label)) selected.delete(label);
+        else selected.add(label);
+      } else {
+        selected = new Set([label]);
+      }
+
+      render();
+    }
+
+    function ripple(e) {
+      const btn = e.currentTarget;
+      const wave = document.createElement("span");
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      wave.className = "ripple-wave";
+      wave.style.width = wave.style.height = size + "px";
+      wave.style.left = (e.clientX - rect.left - size / 2) + "px";
+      wave.style.top  = (e.clientY - rect.top  - size / 2) + "px";
+      btn.appendChild(wave);
+      wave.addEventListener("animationend", () => wave.remove());
+    }
+
+    // Multi-select toggle
+    document.getElementById("toggle-multi").addEventListener("click", function () {
+      multiSelect = !multiSelect;
+      this.textContent = multiSelect ? "On" : "Off";
+      this.classList.toggle("active", multiSelect);
+    });
+
+    render();
+  </script>
+</body>
+</html>

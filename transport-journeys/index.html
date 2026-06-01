@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transport Journeys</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #1a1a1a;
+      background: #f9f9f8;
+      display: flex;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 232px;
+      height: 100vh;
+      background: #fff;
+      border-right: 1px solid #e5e5e5;
+      overflow-y: auto;
+      padding: 28px 0 48px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .sidebar-doc-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bbb;
+      padding: 0 20px 14px;
+      border-bottom: 1px solid #efefef;
+      margin-bottom: 8px;
+    }
+
+    /* top-level overview link */
+    .sidebar-overview {
+      display: block;
+      padding: 7px 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.1s, background 0.1s;
+      margin-bottom: 4px;
+    }
+    .sidebar-overview:hover { color: #111; background: #f5f5f3; }
+    .sidebar-overview.active { color: #111; }
+
+    /* journey group label */
+    .sidebar-journey {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px 4px;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    .sidebar-journey-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* EXP track label */
+    .sidebar-track {
+      display: block;
+      padding: 6px 20px 3px 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #444;
+      text-decoration: none;
+      margin-top: 6px;
+    }
+
+    /* Stage link */
+    .sidebar-link {
+      display: block;
+      padding: 3px 20px 3px 32px;
+      font-size: 12px;
+      color: #777;
+      text-decoration: none;
+      line-height: 1.5;
+      transition: color 0.1s, background 0.1s;
+    }
+    .sidebar-link:hover { color: #111; background: #f5f5f3; }
+    .sidebar-link.active { color: #111; font-weight: 600; }
+
+    /* ── Main ── */
+    .main-content {
+      margin-left: 232px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ── Overview hero ── */
+    .overview-section {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 52px 52px 60px;
+    }
+
+    .page-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 10px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: #111;
+      margin-bottom: 8px;
+    }
+
+    .page-meta {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 36px;
+    }
+
+    /* journey summary pills */
+    .journey-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .journey-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f5f5f3;
+      border: 1px solid #e5e5e3;
+      border-radius: 8px;
+      padding: 10px 16px;
+    }
+
+    .journey-pill-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .journey-pill-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #333;
+      text-transform: uppercase;
+    }
+
+    .journey-pill-sub {
+      font-size: 12px;
+      color: #888;
+    }
+
+    /* ── Detail wrapper ── */
+    .detail-sections {
+      padding: 0 52px 100px;
+    }
+
+    /* ── Journey group header ── */
+    .journey-group-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 48px 0 16px;
+      border-bottom: 2px solid #1a1a1a;
+      margin-bottom: 8px;
+      scroll-margin-top: 24px;
+    }
+
+    .journey-group-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .journey-group-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+
+    /* ── EXP track header ── */
+    .track-header {
+      padding: 32px 0 14px;
+      scroll-margin-top: 24px;
+    }
+
+    .track-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 4px;
+    }
+
+    .track-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: #111;
+      margin-bottom: 6px;
+    }
+
+    .track-need {
+      font-size: 13px;
+      color: #666;
+      font-style: italic;
+    }
+
+    /* ── Stage section ── */
+    .stage-section {
+      margin-top: 24px;
+      margin-bottom: 8px;
+      border: 1px solid #e5e5e3;
+      border-radius: 12px;
+      overflow: hidden;
+      scroll-margin-top: 24px;
+    }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      background: #f5f5f3;
+      border-bottom: 1px solid #e5e5e3;
+    }
+
+    .stage-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: #f26522;
+      color: #fff;
+    }
+
+    .stage-badge.carrier { background: #1a1a1a; }
+
+    .stage-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .stage-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stage-col {
+      padding: 20px 24px;
+    }
+
+    .stage-col + .stage-col {
+      border-left: 1px solid #e5e5e3;
+      background: #fafaf9;
+    }
+
+    .stage-col-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 12px;
+    }
+
+    /* empty placeholder */
+    .stage-empty {
+      font-size: 13px;
+      color: #ccc;
+      font-style: italic;
+    }
+
+    /* Step list */
+    .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step-list li {
+      font-size: 13px;
+      color: #333;
+      padding: 7px 0;
+      border-bottom: 1px solid #f0f0ee;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      line-height: 1.5;
+    }
+
+    .step-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .step-list li::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #d0d0cc;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .step-note {
+      font-size: 11.5px;
+      color: #888;
+      background: #f7f7f5;
+      border-left: 2px solid #e0e0dc;
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .step-note strong {
+      color: #555;
+      font-weight: 600;
+    }
+
+    /* Persona tags in stage header */
+    .stage-personas {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-left: auto;
+    }
+
+    .ptag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .ptag-dealer   { background: #e8f0fe; color: #1a56b0; }
+    .ptag-carrier  { background: #fff0e8; color: #c94e00; }
+    .ptag-ops      { background: #f0f0ee; color: #555; }
+    .ptag-consumer { background: #f0ebff; color: #6b2fa0; }
+    .ptag-dispatch { background: #e6f9f0; color: #1a6e2e; }
+
+    /* New journey chips */
+    .tree-stage.new {
+      background: #fff;
+      border: 1.5px dashed #f26522;
+      color: #f26522;
+      position: relative;
+    }
+
+    .tree-stage.new::after {
+      content: 'NEW';
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #fff;
+      background: #f26522;
+      border-radius: 3px;
+      padding: 1px 4px;
+      margin-left: 5px;
+      vertical-align: middle;
+      display: inline-block;
+      line-height: 1.4;
+    }
+
+    .tree-stage-col-divider {
+      width: 1px;
+      background: #e5e5e3;
+      align-self: stretch;
+      margin: 0 4px;
+      flex-shrink: 0;
+    }
+
+    /* Cross-cutting band */
+    .cross-band {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 7px 14px;
+      background: #fff8f5;
+      border: 1.5px dashed #f26522;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f26522;
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+
+    .cross-band:hover { background: #ffeedd; }
+
+    .cross-band-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f26522;
+      background: #ffddbf;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .cross-band-new {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: #f26522;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .tree-stage-col-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #bbb;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+
+    /* ── Tree map ── */
+    .tree-wrap {
+      margin-top: 40px;
+      position: relative;
+      min-width: 860px;
+    }
+
+    #tree-svg {
+      position: absolute;
+      top: 0; left: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .tree-lv { display: flex; position: relative; }
+    .tree-lv-root { justify-content: center; }
+    .tree-gap { height: 44px; }
+
+    .tree-half {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .tree-tracks-inner {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .tree-lv-stages .tree-tracks-inner { align-items: flex-start; }
+
+    /* Nodes */
+    .tn-root {
+      border: 2px solid #1a1a1a;
+      background: #fff;
+      color: #1a1a1a;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 10px 32px;
+      border-radius: 4px;
+    }
+
+    .tn-journey {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .tn-shipper { background: #f26522; color: #fff; }
+    .tn-carrier { background: #1a1a1a; color: #fff; }
+
+    .tn-sub {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.2px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 3px;
+      text-transform: none;
+    }
+
+    .tn-track {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .tn-track-s { background: #f26522; color: #fff; }
+    .tn-track-c { background: #1a1a1a; color: #fff; }
+    .tn-track-new {
+      background: #fff;
+      color: #f26522;
+      border: 1.5px dashed #f26522;
+      position: relative;
+    }
+    .tn-track-new::after {
+      content: 'NEW';
+      position: absolute;
+      top: -8px; right: -6px;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: #f26522;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* Stage chips */
+    .tree-stage-col {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: stretch;
+    }
+
+    .tree-stage {
+      display: block;
+      font-size: 11px;
+      color: #555;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: #f0f0ee;
+      border: 1px solid #e0e0dc;
+      white-space: nowrap;
+      text-align: center;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .tree-stage:hover { background: #e4e3de; color: #111; }
+
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<nav class="sidebar">
+  <div class="sidebar-doc-title">Transport Journeys</div>
+  <a class="sidebar-overview active" href="#overview">Overview</a>
+
+  <!-- Shippers -->
+  <div class="sidebar-journey">
+    <span class="sidebar-journey-dot" style="background:#f26522;"></span>
+    ACV Transport Services
+  </div>
+
+  <span class="sidebar-track">Off-Platform Hub EXP</span>
+  <a class="sidebar-link" href="#off-awareness">Awareness</a>
+  <a class="sidebar-link" href="#off-quote">Quote &amp; Order</a>
+  <a class="sidebar-link" href="#off-tracking">Tracking</a>
+  <a class="sidebar-link" href="#off-support">Support</a>
+
+  <span class="sidebar-track">Auctions / In-App Exp</span>
+  <a class="sidebar-link" href="#auc-vdp">VDP</a>
+  <a class="sidebar-link" href="#auc-checkout">Checkout</a>
+  <a class="sidebar-link" href="#auc-confirmation">Confirmation</a>
+  <a class="sidebar-link" href="#auc-tracking">Tracking</a>
+  <a class="sidebar-link" href="#auc-resolution">Support</a>
+
+  <span class="sidebar-track">RMC EXP</span>
+  <a class="sidebar-link" href="#rmc-awareness">Awareness</a>
+  <a class="sidebar-link" href="#rmc-purchase">Purchase Order</a>
+  <a class="sidebar-link" href="#rmc-tracking">Tracking</a>
+  <a class="sidebar-link" href="#rmc-payment">Payment</a>
+  <a class="sidebar-link" href="#rmc-support">Support</a>
+
+  <span class="sidebar-track" style="color:#f26522;">Dealer Journeys ✦ New</span>
+  <a class="sidebar-link" href="#new-onboarding">Transport Onboarding</a>
+
+  <!-- Carriers -->
+  <div class="sidebar-journey">
+    <span class="sidebar-journey-dot" style="background:#1a1a1a;"></span>
+    Carrier Platform
+  </div>
+
+  <span class="sidebar-track">Loadboard EXP</span>
+  <a class="sidebar-link" href="#lb-awareness">Awareness</a>
+  <a class="sidebar-link" href="#lb-onboarding">Account &amp; Onboarding</a>
+  <a class="sidebar-link" href="#lb-setup">LB Setup</a>
+  <a class="sidebar-link" href="#lb-joblist">Job List</a>
+  <a class="sidebar-link" href="#lb-staged">Staged Jobs</a>
+  <a class="sidebar-link" href="#lb-managed">Managed Jobs</a>
+  <a class="sidebar-link" href="#lb-performance">Performance</a>
+  <a class="sidebar-link" href="#lb-profile">Profile &amp; Settings</a>
+  <a class="sidebar-link" href="#lb-rmc">RMC</a>
+
+  <span class="sidebar-track">Carrier App EXP</span>
+  <a class="sidebar-link" href="#app-awareness">Awareness</a>
+  <a class="sidebar-link" href="#app-signup">Sign Up</a>
+  <a class="sidebar-link" href="#app-onboarding">Onboarding</a>
+  <a class="sidebar-link" href="#app-pickup">Pick Up</a>
+  <a class="sidebar-link" href="#app-dropoff">Drop Off</a>
+  <a class="sidebar-link" href="#app-profile">Profile &amp; Settings</a>
+</nav>
+
+<!-- ── Main ── -->
+<div class="main-content">
+
+  <!-- Overview -->
+  <div class="overview-section" id="overview">
+    <div class="page-eyebrow">ACV Auctions · Transport Platform · May 2026</div>
+    <div class="page-title">ACV Transportation — Holistic Journey Map</div>
+    <div class="page-meta">An overview of the full transport experience across all user types. Use this as an onboarding reference or a shared language for the team.</div>
+
+    <div class="journey-pills">
+      <div class="journey-pill">
+        <span class="journey-pill-dot" style="background:#f26522;"></span>
+        <span class="journey-pill-label">ACV Transport Services</span>
+        <span class="journey-pill-sub">3 EXP tracks · Dealers (Buyers &amp; Sellers)</span>
+      </div>
+      <div class="journey-pill">
+        <span class="journey-pill-dot" style="background:#1a1a1a;"></span>
+        <span class="journey-pill-label">Carrier Platform</span>
+        <span class="journey-pill-sub">2 EXP tracks · Carriers &amp; Drivers</span>
+      </div>
+    </div>
+
+    <!-- Tree map -->
+    <div class="tree-wrap" id="tree-wrap">
+      <svg id="tree-svg"></svg>
+
+      <!-- L0: Root -->
+      <div class="tree-lv tree-lv-root">
+        <div class="tn-root" id="tn-root">Transportation</div>
+      </div>
+
+      <div class="tree-gap"></div>
+
+      <!-- L1: Two journeys -->
+      <div class="tree-lv">
+        <div class="tree-half">
+          <div class="tn-journey tn-shipper" id="tn-shippers">
+            ACV Transport Services
+            <span class="tn-sub">Dealers (Buyers &amp; Sellers)</span>
+          </div>
+        </div>
+        <div class="tree-half">
+          <div class="tn-journey tn-carrier" id="tn-carriers">
+            Carrier Platform
+            <span class="tn-sub">Carriers &amp; Drivers</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tree-gap"></div>
+
+      <!-- L2: EXP Tracks -->
+      <div class="tree-lv">
+        <div class="tree-half">
+          <div class="tree-tracks-inner">
+            <div class="tn-track tn-track-new" id="tn-t-onboarding">Transport<br>Onboarding</div>
+            <div class="tn-track tn-track-s" id="tn-t-offhub">Off-Platform<br>Hub EXP</div>
+            <div class="tn-track tn-track-s" id="tn-t-auctions">Auctions /<br>In-App EXP</div>
+            <div class="tn-track tn-track-s" id="tn-t-rmc">RMC<br>EXP</div>
+          </div>
+        </div>
+        <div class="tree-half">
+          <div class="tree-tracks-inner">
+            <div class="tn-track tn-track-c" id="tn-t-lb">Loadboard<br>EXP</div>
+            <div class="tn-track tn-track-c" id="tn-t-app">Carrier<br>App EXP</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tree-gap"></div>
+
+      <!-- L3: Stages -->
+      <div class="tree-lv tree-lv-stages">
+
+        <!-- Shipper half -->
+        <div class="tree-half">
+          <div class="tree-tracks-inner">
+
+            <!-- Transport Onboarding (new, cross-cutting) -->
+            <div class="tree-stage-col">
+              <div class="tree-stage-col-label" style="color:#f26522;">Cross-cutting</div>
+              <div id="sc-onboarding" style="display:flex;flex-direction:column;gap:5px;">
+                <a class="tree-stage new" href="#new-onboarding">Transport Onboarding</a>
+              </div>
+            </div>
+
+            <!-- Off-Platform Hub -->
+            <div class="tree-stage-col">
+              <div class="tree-stage-col-label">Off-Platform Hub</div>
+              <div id="sc-offhub" style="display:flex;flex-direction:column;gap:5px;">
+                <a class="tree-stage" href="#off-awareness">Awareness</a>
+                <a class="tree-stage" href="#off-quote">Quote &amp; Order</a>
+                <a class="tree-stage" href="#off-tracking">Tracking</a>
+                <a class="tree-stage" href="#off-support">Support</a>
+              </div>
+            </div>
+
+            <!-- Auctions -->
+            <div class="tree-stage-col">
+              <div class="tree-stage-col-label">Auctions / In-App Exp</div>
+              <div id="sc-auctions" style="display:flex;flex-direction:column;gap:5px;">
+                <a class="tree-stage" href="#auc-vdp">VDP</a>
+                <a class="tree-stage" href="#auc-checkout">Checkout</a>
+                <a class="tree-stage" href="#auc-confirmation">Confirmation</a>
+                <a class="tree-stage" href="#auc-tracking">Tracking</a>
+                <a class="tree-stage" href="#auc-resolution">Support</a>
+              </div>
+            </div>
+
+            <!-- RMC -->
+            <div class="tree-stage-col">
+              <div class="tree-stage-col-label">RMC EXP</div>
+              <div id="sc-rmc" style="display:flex;flex-direction:column;gap:5px;">
+                <a class="tree-stage" href="#rmc-awareness">Awareness</a>
+                <a class="tree-stage" href="#rmc-purchase">Purchase Order</a>
+                <a class="tree-stage" href="#rmc-tracking">Tracking</a>
+                <a class="tree-stage" href="#rmc-payment">Payment</a>
+                <a class="tree-stage" href="#rmc-support">Support</a>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!-- Carrier half -->
+        <div class="tree-half">
+          <div class="tree-tracks-inner">
+
+            <!-- Loadboard -->
+            <div class="tree-stage-col" id="sc-lb">
+              <a class="tree-stage" href="#lb-awareness">Awareness</a>
+              <a class="tree-stage" href="#lb-onboarding">Onboarding</a>
+              <a class="tree-stage" href="#lb-setup">LB Setup</a>
+              <a class="tree-stage" href="#lb-joblist">Job List</a>
+              <a class="tree-stage" href="#lb-staged">Staged Jobs</a>
+              <a class="tree-stage" href="#lb-managed">Managed Jobs</a>
+              <a class="tree-stage" href="#lb-performance">Performance</a>
+              <a class="tree-stage" href="#lb-profile">Profile</a>
+              <a class="tree-stage" href="#lb-rmc">RMC</a>
+            </div>
+
+            <!-- App -->
+            <div class="tree-stage-col" id="sc-app">
+              <a class="tree-stage" href="#app-awareness">Awareness</a>
+              <a class="tree-stage" href="#app-signup">Sign Up</a>
+              <a class="tree-stage" href="#app-onboarding">Onboarding</a>
+              <a class="tree-stage" href="#app-pickup">Pick Up</a>
+              <a class="tree-stage" href="#app-dropoff">Drop Off</a>
+              <a class="tree-stage" href="#app-profile">Profile</a>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /L3 -->
+    </div><!-- /tree-wrap -->
+
+  </div>
+
+  <!-- ── Detail sections ── -->
+  <div class="detail-sections">
+
+    <!-- ════════════════════════════════
+         SHIPPERS JOURNEY
+    ════════════════════════════════ -->
+    <div class="journey-group-header" id="shippers">
+      <span class="journey-group-dot" style="background:#f26522;"></span>
+      <span class="journey-group-title">ACV Transportation Holistic ACV Transport Services</span>
+    </div>
+
+    <!-- Cross-cutting -->
+    <div class="stage-section" id="new-onboarding" style="border-color:#f9d9c8; margin-bottom: 32px;">
+      <div class="stage-header" style="background:#fff8f5; border-bottom-color:#f9d9c8;">
+        <span class="stage-badge">Transport Onboarding</span>
+        <span class="stage-title">Dealer Transport Onboarding <span style="font-weight:400; color:#aaa; font-size:13px;">— Cross-cutting</span></span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+        <span style="margin-left:8px; font-size:10px; font-weight:700; color:#f26522; letter-spacing:0.06em; text-transform:uppercase;">New</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <div class="stage-empty">Pendiente de detallar — cómo un dealer se incorpora al servicio de transporte por primera vez, independientemente del canal</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <div class="stage-empty">Pendiente de detallar</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Off-Platform Hub EXP ── -->
+    <div class="track-header" id="off-platform">
+      <div class="track-eyebrow">EXP Track 1</div>
+      <div class="track-title">Transport Off-Platform Hub EXP</div>
+      <div class="track-need">Shippers – Buyers Only</div>
+    </div>
+
+    <!-- OFF-PLATFORM HUB EXP -->
+
+    <div class="stage-section" id="off-awareness">
+      <div class="stage-header">
+        <span class="stage-badge">Awareness</span>
+        <span class="stage-title">Off-Platform Awareness</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Discovers ACV Transport via the marketing website (acvauctions.com/acv-transportation)</li>
+            <li>Learns about transport services through word of mouth or dealer network</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers are looking for a reliable transport provider</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>No direct ops involvement at awareness stage</li>
+            <li>Marketing drives inbound traffic to the ACV Transport landing page</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="off-quote">
+      <div class="stage-header">
+        <span class="stage-badge">Quote &amp; Order</span>
+        <span class="stage-title">Off-Platform Quote Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Logs in to the ACV Platform as a Dealer</li>
+            <li>Enters vehicle details — single vehicle or bundled quote</li>
+            <li>Chooses zip code locations and service type (transport type)</li>
+            <li>Reviews quote summary — pricing, pickup, and delivery details</li>
+            <li>Confirms and places order</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers are looking to obtain transportation quotes and place transport orders</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Order posts to Carrier Loadboard automatically upon placement</li>
+            <li>If not dispatched, paused, or canceled — ops team investigates with dealers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="off-tracking">
+      <div class="stage-header">
+        <span class="stage-badge">Tracking</span>
+        <span class="stage-title">Vehicle Tracking Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Tracks transport orders on the ACV Off-Platform Transport Page</li>
+            <li>Searches by VIN or Auction ID</li>
+            <li>Views delivery ETA and status</li>
+            <li>Manages transport jobs</li>
+            <li>Uploads gate pass</li>
+            <li>Sorts by order date</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers want to view and track transport order statuses</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Monitors order status on behalf of dealers when needed</li>
+            <li>Investigates stalled or paused orders</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="off-support">
+      <div class="stage-header">
+        <span class="stage-badge">Support</span>
+        <span class="stage-title">Customer Support Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Reports vehicle damage to the Operations team via call or email</li>
+            <li>Requests status updates or escalations on stalled orders</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers need customer support with their transport orders</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Handles transport complaints and status updates through dealer calls</li>
+            <li>Resolves damage claims, disputes, and escalations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Auctions / In-App Exp ── -->
+    <div class="track-header" id="auctions">
+      <div class="track-eyebrow">EXP Track 2</div>
+      <div class="track-title">Transport Auctions / In-App Exp</div>
+      <div class="track-need">Shippers – Buyers Only</div>
+    </div>
+
+    <div class="stage-section" id="auc-vdp">
+      <div class="stage-header">
+        <span class="stage-badge">VDP</span>
+        <span class="stage-title">VDP Journey <span style="font-weight:400; color:#888;">(Service Awareness)</span></span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Selects dealership on the Vehicle Detail Page</li>
+            <li>Views transportation quote with costs inline</li>
+            <li>Sees available transport promotions</li>
+            <li>If seller has mandated ACV transport — buyer must use it unless vehicle is oversized</li>
+            <li>Transport cost displayed on Proxy, Bidding, Make Offer, and Buy Now flows</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers want quick transport quotes and promotions while reviewing vehicle listings</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>No direct ops action at VDP stage</li>
+            <li>System automatically surfaces transport quote and promotions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="auc-checkout">
+      <div class="stage-header">
+        <span class="stage-badge">Checkout</span>
+        <span class="stage-title">Finalized Auctions Checkout Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Selects default ACV transportation service at checkout</li>
+            <li>Selects delivery address and service type</li>
+            <li>Views and compares transportation costs</li>
+            <li>Completes auction checkout</li>
+            <li>If seller-mandated transport — buyer cannot choose their own carrier</li>
+            <li>If quote cannot be auto-calculated (e.g. oversized vehicle) — buyer must call for a quote or arrange transport independently</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers must select a transport method for their won vehicles</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Manually generates post-auction quotes when system cannot auto-calculate</li>
+            <li>Buyers must request these quotes or contact ops directly</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="auc-confirmation">
+      <div class="stage-header">
+        <span class="stage-badge">Confirmation</span>
+        <span class="stage-title">Won Auctions Vehicle Confirmation</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-carrier">Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Receives confirmation email for won vehicle — includes the Pickup Slip</li>
+            <li>Views order and vehicle details</li>
+            <li>Accesses title status tracking</li>
+            <li>If ACV Transport chosen — receives a real pickup slip with QR code (for pickup security)</li>
+            <li>If own transport — receives a "dummy" pickup slip to manage independently</li>
+            <li>Preferred buyers receive confirmation immediately; non-preferred receive it after payment</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers want to receive a confirmation of their order</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Handles transport complaints and status updates through dealer calls</li>
+            <li>Creates transport order manually if needed (e.g. RMC-originated orders)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="auc-tracking">
+      <div class="stage-header">
+        <span class="stage-badge">Tracking</span>
+        <span class="stage-title">Won Auctions Vehicle Tracking</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Explores ACV Transport value propositions on the Hub</li>
+            <li>Searches vehicles by VIN or Auction ID</li>
+            <li>Tracks delivery ETA and status</li>
+            <li>Views order details</li>
+            <li>Accesses offline customer support and feedback</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers want to view and track transport order statuses</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Handles transport complaints and status updates through dealer calls</li>
+            <li>Monitors flagged or stalled jobs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="auc-resolution">
+      <div class="stage-header">
+        <span class="stage-badge">Support</span>
+        <span class="stage-title">Support (Cancellation &amp; Delivered)</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li><strong>Cancellation:</strong> Buyer receives cancellation confirmation by email and views cancelled order details</li>
+            <li>If an Auction ID is present — buyer receives a release slip within the hour</li>
+            <li><strong>Delivered:</strong> Buyer receives delivery confirmation by email and views delivered order details</li>
+          </ul>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Handles transport complaints and support for both cancellations and deliveries</li>
+            <li>Addresses issues and provides updates through dealer calls</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RMC EXP ── -->
+    <div class="track-header" id="rmc">
+      <div class="track-eyebrow">EXP Track 3</div>
+      <div class="track-title">Transportation RMC EXP</div>
+      <div class="track-need">Shippers – Buyers Only · Regional Market Centers</div>
+    </div>
+
+    <div class="stage-section" id="rmc-awareness">
+      <div class="stage-header">
+        <span class="stage-badge">Awareness</span>
+        <span class="stage-title">RMC Awareness Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Learns about ACV Transport through print and digital ads at RMCs</li>
+            <li>Receives targeted email campaigns about offerings and updates</li>
+            <li>Engages with RMC front office and operations team</li>
+            <li>Word of mouth from satisfied dealers</li>
+            <li>Existing ACV Transport dealers share their experience</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers want to learn about transport options</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>RMC front office and ops team actively promote transport services</li>
+            <li>Leverage existing dealer relationships to expand reach</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="rmc-purchase">
+      <div class="stage-header">
+        <span class="stage-badge">Purchase Order</span>
+        <span class="stage-title">RMC Purchase Order Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Receives a quote from Operations Manager and Transport Dispatcher — includes a 20% additional charge for ACV Transport services</li>
+            <li>Places the Off-Platform Transport order directly through Transport Hub, or</li>
+            <li>RC teammate arranges transport using their own carrier network (tracked via spreadsheet), or</li>
+            <li>RC sends an email to the transport team requesting admin to create the order manually</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers want to get a transport quote and place a transport order</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Operations Manager and Transport Dispatcher handle transport orders for the dealer using the RMC's ACV account</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="rmc-tracking">
+      <div class="stage-header">
+        <span class="stage-badge">Tracking</span>
+        <span class="stage-title">RMC Vehicle Tracking Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Dealers contact Operations Manager and Dispatcher to track orders</li>
+            <li>ACV account holders can place orders via Off-Platform Transport Quote directly</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers want to view and track transport order statuses</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Operations Manager uses RMC's ACV account to track transport orders on behalf of dealers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="rmc-payment">
+      <div class="stage-header">
+        <span class="stage-badge">Payment</span>
+        <span class="stage-title">RMC Payment Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Dealers receive monthly accounts receivable bills</li>
+            <li>Use accounts receivable to pay transport and other fees</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers receive invoices and make payments</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Operations Manager sends order invoice to RMC Front Office</li>
+            <li>RMC Front Office adds transport billing to Accounts Receivable</li>
+            <li>RMC pays ACV Transport after receiving payments from dealers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="rmc-support">
+      <div class="stage-header">
+        <span class="stage-badge">Support</span>
+        <span class="stage-title">RMC Customer Support Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Dealers contact Operations Manager and Dispatcher for transport questions or concerns</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Shippers need customer support with their transport orders</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Operations Manager and Transport Dispatcher consult with the ACV Transport Operations Team on any transport issues</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Cross-cutting Dealer Journeys (NEW) ── -->
+    <div class="track-header" id="dealer-journeys">
+      <div class="track-eyebrow" style="color:#f26522;">New · Cross-cutting</div>
+      <div class="track-title">Dealer Journeys</div>
+      <div class="track-need">Journeys que aplican a todos los EXP tracks del dealer — pendiente de detallar</div>
+    </div>
+
+
+    <!-- ════════════════════════════════
+         CARRIERS JOURNEY
+    ════════════════════════════════ -->
+    <div class="journey-group-header" id="carriers" style="margin-top: 24px;">
+      <span class="journey-group-dot" style="background:#1a1a1a;"></span>
+      <span class="journey-group-title">ACV Transportation Holistic Carrier Platform</span>
+    </div>
+
+    <!-- ── Loadboard EXP ── -->
+    <div class="track-header" id="loadboard">
+      <div class="track-eyebrow">EXP Track 4</div>
+      <div class="track-title">Transportation Carriers Loadboard EXP</div>
+    </div>
+
+    <div class="stage-section" id="lb-awareness">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Awareness</span>
+        <span class="stage-title">Carriers Awareness Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Discovers ACV Transport via the carrier sign-up website (acvauctions.com/auto-transport-load-board)</li>
+            <li>Receives introduction, welcome, and re-engagement emails</li>
+            <li>Learns through word of mouth within the carrier community</li>
+            <li>Sees activity in the Carrier Vibrancy Slack channel</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to be aware of and encouraged to join the ACV Transport Carrier Network</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Carrier Operations Team conducts outreach to recruit new carriers</li>
+            <li>Monitors the Carrier Vibrancy Slack channel for engagement signals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-onboarding">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Account &amp; Onboarding</span>
+        <span class="stage-title">Account Management &amp; Onboarding (MCP)</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-dispatch">Dispatch Manager</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>After lead form submission, carrier is automatically redirected to acvhaul.com to complete registration</li>
+            <li>Receives an email to finish onboarding</li>
+            <li>Completes the MCP (My Carrier Portal) onboarding process to finalize eligibility</li>
+            <li>Reads and accepts Terms &amp; Conditions</li>
+            <li>Views carrier status — Preferred or First Carriers</li>
+            <li>Receives welcome and onboarding emails, plus a welcome packet</li>
+            <li>Direct dispatch carriers follow a separate offline onboarding process</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to register to the ACV Transport Load Board</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Onboarding Specialist monitors new carriers until they book their first few jobs</li>
+            <li>After booking, OS transfers carriers to Account Managers for follow-up</li>
+            <li>Ops team reviews RSIM information to approve or deny applications</li>
+            <li>Onboarding email sent from Salesforce includes personalized welcome and welcome packet</li>
+            <li>Lead created in Salesforce upon MCP form submission</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-setup">
+      <div class="stage-header">
+        <span class="stage-badge carrier">LB Setup</span>
+        <span class="stage-title">Loadboard Account Setup</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Completes three online sign-up forms: Carrier Lead Form, Carrier Packet Compliance Form, and Load Board Setup Form</li>
+            <li>Receives success confirmation or denial via email and phone call</li>
+            <li>Sets up username and password</li>
+            <li>Creates carrier profile</li>
+            <li>Completes payment setup offline via ACH form</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to create credentials to access the ACV Transport Load Board</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Credential verification — Carrier Operations reviews compliance packets and other info to determine approval</li>
+            <li>Approves or denies carrier sign-up request</li>
+            <li>Carrier Ops Team uses Account Setup in Salesforce for payment and the Transport Admin Tool to log into the Carrier Loadboard</li>
+            <li>CRS (Customer Relationship Specialist) conducts a welcome call with the carrier</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-joblist">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Job List</span>
+        <span class="stage-title">Carriers Job List Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-dispatch">Dispatch Manager</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Searches vehicle jobs using saved searches, filters by pickup and delivery location, and sorts results</li>
+            <li>Views vehicle job details — instructions, pickup &amp; delivery locations, bundling options</li>
+            <li>Evaluates pending offers (Instant Book) and views map link</li>
+            <li>Selects jobs to stage — views job category (e.g. INOP), selects multiple jobs</li>
+            <li>Preferred carriers get early access to certain jobs</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to search and book transport jobs</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Monitors the job board to ensure listings look correct</li>
+            <li>Manages hold jobs behind the scenes — hold jobs are not yet ready for release</li>
+            <li>Dispatch team sends jobs offline to preferred carriers via direct dispatch</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-staged">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Staged Jobs</span>
+        <span class="stage-title">Carriers Staged Job Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-dispatch">Dispatch Manager</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Views staged job details before committing</li>
+            <li>Edits pickup and delivery dates</li>
+            <li>Instant books or negotiates rates</li>
+            <li>Removes staged jobs if no longer interested</li>
+            <li>Accepts job or continues searching for more</li>
+            <li>Views map link for route planning</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to stage jobs before booking to evaluate and compare options</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Assists with price negotiation when carriers counter-offer</li>
+            <li>Approves or denies payout adjustments in the system</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-managed">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Managed Jobs</span>
+        <span class="stage-title">Carriers Managed Job Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-dispatch">Dispatch Manager</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Views managed job statuses — Active, Pending, Dispatch, Picked Up, Delivered</li>
+            <li>Adds job notes and dealer instructions</li>
+            <li>Updates job status, uploads eBOL, downloads dispatch sheet &amp; release slip</li>
+            <li>Marks jobs as picked up, translates language if needed</li>
+            <li>Switches between table &amp; card view, sees past due statuses, views map link</li>
+            <li>Cancels jobs with reasons and exports CSV</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to manage the jobs they've booked</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Helps carriers download release slips and dispatch sheets, and sends documents to them</li>
+            <li>Manages hold and canceled jobs — hold jobs not ready for release</li>
+            <li>Manages carriers and payouts for dry runs — a dry run is a failed or incomplete pickup/delivery attempt where no transport occurs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-performance">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Performance</span>
+        <span class="stage-title">Carriers Performance Tracking</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Receives a monthly scorecard sent via email</li>
+            <li>Receives carrier status updates via call or email — First Carriers, Preferred Carriers, or Blocked Carriers</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to review and track their job performance</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>High-performing carriers are contacted by Transport for direct dispatch consideration</li>
+            <li>Coaching conversations are held with carriers who have performance issues</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-profile">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Profile &amp; Settings</span>
+        <span class="stage-title">Accounts Settings &amp; Profile</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-dispatch">Dispatch Manager</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Views carrier profile — tier display, carrier &amp; company information, company indicators</li>
+            <li>Manages users — active or pending status, edits user info &amp; role, adds a user</li>
+            <li>Manages fleets — vehicle information and specialty equipment</li>
+            <li>Views account rep information, legal terms, and customer support &amp; feedback</li>
+            <li>Logs out</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to set up their profile and adjust account settings</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>CRS (Customer Relationship Specialist) and Account Managers handle any carrier issues or concerns offline</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="lb-rmc">
+      <div class="stage-header">
+        <span class="stage-badge carrier">RMC</span>
+        <span class="stage-title">Carriers Transport RMC Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span><span class="ptag ptag-dealer">Dealer</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>RC operations team assists carriers with sign-up form completion</li>
+            <li>Lead generation form available for Front Office or carriers via the RC Sign-Up Form</li>
+            <li>Carriers onboard to the ACV Transport carrier network through the RMC channel</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to sign up for transport at RMCs</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Onboarding team reviews forms and ensures compliance</li>
+            <li>After onboarding, RC operations team manages carrier relationships</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── App EXP ── -->
+    <div class="track-header" id="app">
+      <div class="track-eyebrow">EXP Track 5</div>
+      <div class="track-title">Transportation Carriers App EXP (Carrier App EXP)</div>
+    </div>
+
+    <div class="stage-section" id="app-awareness">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Awareness</span>
+        <span class="stage-title">Carriers App Awareness Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>ACV and Owners introduce the app to carriers directly</li>
+            <li>A banner on the ACV Loadboard alerts carriers about the app — they get access as soon as they have LB access</li>
+            <li>Offline communication encourages carriers and drivers to download the app</li>
+            <li>Word of mouth spreads awareness within the carrier community</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to learn about the Carrier App</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Operations team conducts introductory call to walk carriers through the app</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="app-signup">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Sign Up</span>
+        <span class="stage-title">Carriers App Sign Up Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Signs up with email/password or Google account</li>
+            <li>Grants location permissions</li>
+            <li>Receives welcome messages after sign-up</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to sign up for the Carrier App</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Operations team grants access to carriers and drivers after verification</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="app-onboarding">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Onboarding</span>
+        <span class="stage-title">Carriers App Onboarding Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Logs in using email and password or Google account</li>
+            <li>Contacts ACV support if login method doesn't match the active account associated with the email</li>
+            <li>Grants location permission to enable job proximity features</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to manage accounts and onboard to the Carrier App</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Ops team sends the Carrier App user manual to help carriers learn how to use the app</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="app-pickup">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Pick Up</span>
+        <span class="stage-title">Carriers Pick Up Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-dealer">Dealer</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Uses scanner or manual input to enter VIN</li>
+            <li>Scans VIN on the vehicle to display vehicle information</li>
+            <li>Captures required vehicle photos — can add extra photos for additional detail, option to skip required photos</li>
+            <li>Processes the pickup job and marks pickup as complete</li>
+            <li>Dealer tracking status updates automatically to "Picked Up"</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers need to efficiently pick up vehicles and document condition at origin</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>No direct ops involvement at pickup — process is carrier-managed via the app</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="app-dropoff">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Drop Off</span>
+        <span class="stage-title">Carriers Drop Off Journey</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-dealer">Dealer</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Views active jobs and inputs or scans VIN at destination</li>
+            <li>Captures required vehicle photos — can add extras, adds photo of key location, option to skip required photos</li>
+            <li>Completes drop off and generates eBOL (electronic Bill of Lading — proof of delivery)</li>
+            <li>Views and shares eBOL (PDF) with customer upon request</li>
+            <li>If not using the carrier app — emails eBOL to ACV manually</li>
+            <li>Carriers must submit eBOL within 30 days to receive payment from ACV</li>
+          </ul>
+          <div class="step-note"><strong>What is a BOL?</strong> A Bill of Lading is a legal document that serves as a receipt (vehicle was picked up), a contract (transport terms), and a document of title (ownership/responsibility during transport)</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>Ops team receives the eBOL automatically after drop-off is completed</li>
+            <li>If vehicle is off-platform — carriers must manually upload the eBOL</li>
+            <li>Ops team follows up with carriers who haven't uploaded the eBOL</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-section" id="app-profile">
+      <div class="stage-header">
+        <span class="stage-badge carrier">Profile &amp; Settings</span>
+        <span class="stage-title">Carriers App Profile &amp; Settings</span>
+        <div class="stage-personas"><span class="ptag ptag-carrier">S,M,L Carrier</span><span class="ptag ptag-ops">Ops Staff</span></div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-col">
+          <div class="stage-col-label">Customer</div>
+          <ul class="step-list">
+            <li>Views My Jobs list and job history</li>
+            <li>Views eBOL documents for completed jobs</li>
+            <li>Provides feedback via email or phone</li>
+            <li>Deletes account if needed</li>
+            <li>Logs out</li>
+          </ul>
+          <div class="step-note"><strong>Customer need:</strong> Carriers want to manage their app profile and access job records</div>
+        </div>
+        <div class="stage-col">
+          <div class="stage-col-label">Operations</div>
+          <ul class="step-list">
+            <li>CRS (Customer Relationship Specialist) and Account Managers handle any carrier issues or concerns offline</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /detail-sections -->
+</div><!-- /main-content -->
+
+<script>
+  /* ── Tree SVG connectors ── */
+  function drawTree() {
+    const wrap = document.getElementById('tree-wrap');
+    const svg  = document.getElementById('tree-svg');
+    if (!wrap || !svg) return;
+    const cr = wrap.getBoundingClientRect();
+    svg.setAttribute('width',  wrap.offsetWidth);
+    svg.setAttribute('height', wrap.offsetHeight);
+    svg.innerHTML = '';
+
+    function cx(id) {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return {
+        cx:     r.left - cr.left + r.width / 2,
+        top:    r.top  - cr.top,
+        bottom: r.bottom - cr.top,
+      };
+    }
+
+    function elbow(fromId, toId, color) {
+      const f = cx(fromId), t = cx(toId);
+      if (!f || !t) return;
+      const midY = f.bottom + (t.top - f.bottom) / 2;
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', `M${f.cx},${f.bottom} L${f.cx},${midY} L${t.cx},${midY} L${t.cx},${t.top}`);
+      p.setAttribute('fill', 'none');
+      p.setAttribute('stroke', color || '#c8c8c4');
+      p.setAttribute('stroke-width', '1.5');
+      svg.appendChild(p);
+    }
+
+    /* Root → journeys */
+    elbow('tn-root', 'tn-shippers', '#f26522');
+    elbow('tn-root', 'tn-carriers', '#555');
+
+    /* Shipper journey → tracks */
+    elbow('tn-shippers', 'tn-t-onboarding', '#f26522');
+    elbow('tn-shippers', 'tn-t-offhub',    '#f26522');
+    elbow('tn-shippers', 'tn-t-auctions',  '#f26522');
+    elbow('tn-shippers', 'tn-t-rmc',       '#f26522');
+
+    /* Carrier journey → tracks */
+    elbow('tn-carriers', 'tn-t-lb',  '#555');
+    elbow('tn-carriers', 'tn-t-app', '#555');
+
+    /* Tracks → stage column (first chip as proxy) */
+    function firstChip(colId) {
+      const col = document.getElementById(colId);
+      if (!col) return null;
+      const first = col.querySelector('.tree-stage');
+      if (!first) return null;
+      const r = first.getBoundingClientRect();
+      return {
+        cx:     r.left - cr.left + r.width / 2,
+        top:    r.top  - cr.top,
+        bottom: r.bottom - cr.top,
+      };
+    }
+
+    function elbowToCol(fromId, colId, color) {
+      const f = cx(fromId);
+      const t = firstChip(colId);
+      if (!f || !t) return;
+      const midY = f.bottom + (t.top - f.bottom) / 2;
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', `M${f.cx},${f.bottom} L${f.cx},${midY} L${t.cx},${midY} L${t.cx},${t.top}`);
+      p.setAttribute('fill', 'none');
+      p.setAttribute('stroke', color || '#c8c8c4');
+      p.setAttribute('stroke-width', '1.5');
+      svg.appendChild(p);
+    }
+
+    elbowToCol('tn-t-onboarding', 'sc-onboarding', '#f26522');
+    elbowToCol('tn-t-offhub',   'sc-offhub',   '#f26522');
+    elbowToCol('tn-t-auctions',  'sc-auctions',  '#f26522');
+    elbowToCol('tn-t-rmc',       'sc-rmc',       '#f26522');
+    elbowToCol('tn-t-lb',        'sc-lb',        '#555');
+    elbowToCol('tn-t-app',       'sc-app',       '#555');
+  }
+
+  window.addEventListener('load', drawTree);
+  window.addEventListener('resize', drawTree);
+
+  /* Sidebar active state on scroll */
+  const targets = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('.sidebar-link, .sidebar-overview');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const match = document.querySelector(`[href="#${e.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+
+  targets.forEach(t => io.observe(t));
+</script>
+
+</body>
+</html>

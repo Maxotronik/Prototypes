@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACV Load Board - Job List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        header {
+            background-color: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 20px;
+            color: #d32f2f;
+            letter-spacing: -0.3px;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            position: relative;
+        }
+
+        nav a.active {
+            color: #d32f2f;
+            border-bottom-color: #d32f2f;
+        }
+
+        .nav-badge {
+            display: none;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .search-section {
+            background-color: white;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+
+        .search-primary {
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .search-primary .filter-group {
+            flex: 1;
+        }
+
+        .search-divider {
+            height: 1px;
+            background-color: #e0e0e0;
+        }
+
+        .search-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: #d32f2f;
+            font-size: 13px;
+            font-weight: 600;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+
+        .search-toggle:hover {
+            background-color: #fafafa;
+        }
+
+        .search-toggle-icon {
+            transition: transform 0.2s;
+        }
+
+        .search-toggle-icon.open {
+            transform: rotate(180deg);
+        }
+
+        /* Visible secondary filter row */
+        .search-secondary {
+            padding: 0 20px 16px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .search-secondary .filter-group {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .btn-more-filters {
+            background-color: white;
+            color: #555;
+            border: 1px solid #d0d0d0;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            height: 38px;
+            transition: all 0.2s;
+        }
+
+        .btn-more-filters:hover {
+            border-color: #d32f2f;
+            color: #d32f2f;
+        }
+
+        .btn-more-filters.active {
+            background-color: #fde9e9;
+            border-color: #d32f2f;
+            color: #d32f2f;
+        }
+
+        .filter-badge {
+            background-color: #d32f2f;
+            color: white;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            min-width: 16px;
+            text-align: center;
+        }
+
+        /* Side panel (advanced filters) */
+        .filter-panel-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+
+        .filter-panel-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .filter-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 360px;
+            background: white;
+            z-index: 201;
+            box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .filter-panel.open {
+            transform: translateX(0);
+        }
+
+        .filter-panel-header {
+            padding: 20px 20px 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-panel-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.2px;
+        }
+
+        .filter-panel-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            line-height: 1;
+            font-weight: 300;
+        }
+
+        .filter-panel-close:hover {
+            color: #333;
+        }
+
+        .filter-panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .filter-panel-section {
+            margin-bottom: 24px;
+        }
+
+        .filter-panel-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #aaa;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #f0f0f0;
+            letter-spacing: 0.8px;
+        }
+
+        .filter-panel-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .filter-panel-row.single {
+            grid-template-columns: 1fr;
+        }
+
+        .filter-panel-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-panel-footer .btn-primary {
+            flex: 1;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .filter-row-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .search-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 8px 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #d32f2f;
+            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.1);
+        }
+
+        .search-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            padding: 9px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #b71c1c;
+            box-shadow: 0 2px 6px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #333;
+            border: 1px solid #d0d0d0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #fafafa;
+            border-color: #d32f2f;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .results-count {
+            font-size: 15px;
+            font-weight: 700;
+            color: #222;
+            letter-spacing: -0.2px;
+        }
+
+        .active-filters {
+            background-color: #fde9e9;
+            border: 1px solid #f5c2c2;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .active-filters.show {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+        }
+
+        .filters-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .filters-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #d32f2f;
+            text-transform: uppercase;
+        }
+
+        .filter-tag {
+            background-color: white;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 12px;
+            color: #333;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-tag-close {
+            cursor: pointer;
+            color: #999;
+            font-weight: bold;
+        }
+
+        .filter-tag-close:hover {
+            color: #d32f2f;
+        }
+
+        .btn-clear-filters {
+            background-color: white;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-clear-filters:hover {
+            background-color: #fde9e9;
+        }
+
+        /* Saved Searches */
+        .saved-searches-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .saved-searches-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .saved-searches-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .saved-search-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: white;
+            border: 1px solid #d0d0d0;
+            border-radius: 20px;
+            padding: 4px 12px 4px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .saved-search-chip:hover {
+            border-color: #d32f2f;
+            color: #d32f2f;
+            background: #fde9e9;
+        }
+
+        .saved-search-chip.active {
+            background: #d32f2f;
+            border-color: #d32f2f;
+            color: white;
+        }
+
+        .saved-search-remove {
+            font-size: 13px;
+            color: #bbb;
+            line-height: 1;
+            margin-left: 2px;
+        }
+
+        .saved-search-chip:hover .saved-search-remove { color: #d32f2f; }
+        .saved-search-chip.active .saved-search-remove { color: rgba(255,255,255,0.7); }
+
+
+        /* --- Results layout: list + map sidebar (from Super Dispatch) --- */
+        .results-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+        }
+
+        .results-layout.map-hidden {
+            grid-template-columns: 1fr;
+        }
+
+        .map-sidebar {
+            background-color: #e8e8e8;
+            border-radius: 6px;
+            position: sticky;
+            top: 24px;
+            height: calc(100vh - 48px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            overflow: hidden;
+        }
+
+        .map-sidebar-toggle { display: none; }
+
+        .map-pin {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background-color: #d32f2f;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .map-pin-1 { top: 30%; left: 25%; }
+        .map-pin-2 { top: 45%; left: 55%; }
+        .map-pin-3 { top: 20%; left: 70%; }
+
+        .load-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        /* --- Card: inspired by Central Dispatch's price-dominant horizontal layout --- */
+        .load-card {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #d32f2f;
+            border-radius: 2px 6px 6px 2px;
+            padding: 16px 16px 16px 20px;
+            display: grid;
+            grid-template-columns: 110px 1fr 1fr auto;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.15s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .load-card:hover {
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .load-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #d32f2f;
+            margin-top: 4px;
+            align-self: flex-end;
+        }
+
+        /* Price column — dominant (from CD) */
+        .load-price-col {
+            text-align: center;
+        }
+
+        .load-price {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a1a1a;
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+
+        .load-price-detail {
+            font-size: 12px;
+            font-weight: 500;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .load-card-badges {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            justify-content: center;
+        }
+
+        .status-badge {
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-badge.new {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.time {
+            background-color: #f5f5f5;
+            color: #999;
+        }
+
+        /* Vehicle + route column */
+        .load-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .load-vehicle-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+            letter-spacing: -0.2px;
+        }
+
+        .load-vehicle-meta {
+            font-size: 12px;
+            font-weight: 400;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .load-route-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #444;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .route-arrow {
+            color: #d32f2f;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .load-route-distance {
+            font-size: 11px;
+            color: #888;
+            margin-top: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .route-distance-badge {
+            background-color: #f5f5f5;
+            border-radius: 3px;
+            padding: 2px 7px;
+            font-weight: 600;
+            color: #555;
+            font-size: 11px;
+        }
+
+        .load-vehicle-specs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+
+        .spec-item {
+            font-size: 11px;
+            font-weight: 400;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .spec-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* Dates + transport column */
+        .load-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .detail-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .detail-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #aaa;
+            min-width: 55px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            line-height: 1.6;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Action column */
+        .load-action {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 100px;
+        }
+
+        .btn-book {
+            background-color: #d32f2f;
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-book:hover {
+            background-color: #b71c1c;
+            box-shadow: 0 2px 6px rgba(211,47,47,0.3);
+        }
+
+        .btn-negotiate {
+            background-color: white;
+            color: #d32f2f;
+            padding: 8px 14px;
+            border: 1px solid #d32f2f;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-negotiate:hover {
+            background-color: #fde9e9;
+        }
+
+        /* Compare Modal */
+        .compare-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 300;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .compare-modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .compare-modal {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 94vh;
+            background: white;
+            z-index: 301;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .compare-modal.open {
+            transform: translateY(0);
+        }
+
+        .compare-modal-header {
+            padding: 20px 24px 18px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .compare-modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .compare-modal-subtitle {
+            font-size: 13px;
+            font-weight: 400;
+            color: #999;
+            letter-spacing: 0;
+        }
+
+        .compare-modal-close {
+            background: #f5f5f5;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background 0.15s;
+        }
+
+        .compare-modal-close:hover {
+            background: #e0e0e0;
+        }
+
+        .compare-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+            padding: 0;
+        }
+
+        /* Compare table (inside modal) */
+        .compare-table-wrap { overflow-x: auto; }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .compare-table thead tr {
+            background: #fafafa;
+            border-bottom: 2px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .compare-table th {
+            padding: 20px 24px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            vertical-align: top;
+        }
+
+        .compare-table th.label-col {
+            min-width: 140px;
+            width: 140px;
+            background: white;
+        }
+
+        .compare-table th.load-col {
+            min-width: 210px;
+            border-left: 1px solid #e0e0e0;
+        }
+
+        .cmp-vehicle-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.2px;
+            line-height: 1.3;
+            text-transform: none;
+        }
+
+        .cmp-vehicle-meta {
+            font-size: 12px;
+            font-weight: 400;
+            color: #888;
+            text-transform: none;
+            letter-spacing: 0;
+            margin-top: 2px;
+        }
+
+        .cmp-price {
+            font-size: 28px;
+            font-weight: 800;
+            color: #d32f2f;
+            line-height: 1;
+            margin-top: 10px;
+            letter-spacing: -0.5px;
+            text-transform: none;
+        }
+
+        .cmp-pmi {
+            font-size: 12px;
+            font-weight: 500;
+            color: #888;
+            margin-top: 3px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .compare-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.1s;
+        }
+
+        .compare-table tbody tr:hover { background: #fafafa; }
+
+        .compare-table .cmp-section-header td {
+            background: #f7f7f7;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #aaa;
+            padding: 8px 24px;
+        }
+
+        .compare-table td {
+            padding: 14px 24px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+
+        .compare-table td.label-col {
+            font-size: 10px;
+            font-weight: 700;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            background: #fafafa;
+            white-space: nowrap;
+            border-right: 1px solid #f0f0f0;
+        }
+
+        .compare-table td.load-col {
+            border-left: 1px solid #f0f0f0;
+        }
+
+        .compare-table .cmp-action-row td {
+            padding: 16px 24px;
+            background: white;
+        }
+
+        .cmp-best { color: #2e7d32; font-weight: 700; }
+
+        .cmp-best-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 4px;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
+        }
+
+        .cmp-vin {
+            font-family: monospace;
+            font-size: 11px;
+            color: #888;
+            letter-spacing: 0.5px;
+        }
+
+        .cmp-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .cmp-badge.operable { background: #e8f5e9; color: #2e7d32; }
+        .cmp-badge.inop { background: #fff3e0; color: #e65100; }
+        .cmp-badge.open { background: #e3f2fd; color: #1565c0; }
+        .cmp-badge.enclosed { background: #f3e5f5; color: #6a1b9a; }
+
+        .cmp-btn-book {
+            background-color: #d32f2f;
+            color: white;
+            padding: 9px 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        .cmp-btn-book:hover { background-color: #b71c1c; }
+
+        .cmp-btn-negotiate {
+            background-color: white;
+            color: #d32f2f;
+            padding: 9px 18px;
+            border: 1px solid #d32f2f;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+
+        .cmp-btn-negotiate:hover { background-color: #fde9e9; }
+
+        /* Compare bar */
+        .compare-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 14px 24px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .compare-bar.show {
+            display: flex;
+        }
+
+        .compare-info {
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .btn-compare {
+            background-color: #d32f2f;
+            color: white;
+            padding: 9px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-compare:hover {
+            background-color: #b71c1c;
+        }
+
+        .btn-compare-close {
+            background-color: transparent;
+            color: #999;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            margin-left: 12px;
+        }
+
+        /* ─── Job Details Panel ─── */
+        .job-details-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 200;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.28s;
+        }
+        .job-details-overlay.open { opacity: 1; pointer-events: all; }
+        .job-details-panel {
+            position: fixed;
+            top: 0; right: 0; bottom: 0;
+            width: 800px; max-width: 95vw;
+            background: white;
+            z-index: 201;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+            box-shadow: -6px 0 32px rgba(0,0,0,0.14);
+        }
+        .job-details-panel.open { transform: translateX(0); }
+        .jd-header {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white; flex-shrink: 0;
+        }
+        .jd-close {
+            background: #f5f5f5; border: none;
+            width: 30px; height: 30px; border-radius: 50%;
+            font-size: 15px; cursor: pointer; color: #555;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: background 0.15s;
+        }
+        .jd-close:hover { background: #e0e0e0; }
+        .jd-header-info { flex: 1; min-width: 0; }
+        .jd-vehicle-name { font-size: 17px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .jd-order-id { font-size: 11px; color: #999; margin-top: 2px; }
+        .jd-header-actions { display: flex; gap: 8px; flex-shrink: 0; }
+        .jd-btn-secondary {
+            background: white; color: #555; border: 1px solid #d0d0d0;
+            padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
+            transition: all 0.15s;
+        }
+        .jd-btn-secondary:hover { border-color: #d32f2f; color: #d32f2f; }
+        .jd-btn-primary {
+            background: #d32f2f; color: white; border: none;
+            padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;
+            transition: background 0.15s;
+        }
+        .jd-btn-primary:hover { background: #b71c1c; }
+        .jd-body { flex: 1; overflow-y: auto; }
+        .jd-alert {
+            background: #fff8e1; border-bottom: 1px solid #ffe082;
+            padding: 10px 20px; font-size: 12px;
+            display: flex; gap: 10px; align-items: center; color: #5d4037;
+        }
+        .jd-alert-link { color: #d32f2f; font-weight: 600; cursor: pointer; text-decoration: underline; }
+        .jd-eta-bar { display: flex; border-bottom: 1px solid #e0e0e0; background: #fafafa; }
+        .jd-eta-item { flex: 1; padding: 10px 16px; border-right: 1px solid #e0e0e0; }
+        .jd-eta-item:last-child { border-right: none; }
+        .jd-eta-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #bbb; margin-bottom: 3px; }
+        .jd-eta-value { font-size: 13px; font-weight: 600; color: #333; }
+        .jd-main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid #e0e0e0; }
+        .jd-section { padding: 16px 20px; border-right: 1px solid #e0e0e0; }
+        .jd-section:last-child { border-right: none; }
+        .jd-section-title {
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.7px; color: #bbb;
+            margin-bottom: 10px; padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .jd-field { margin-bottom: 10px; }
+        .jd-field:last-child { margin-bottom: 0; }
+        .jd-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #ccc; margin-bottom: 2px; }
+        .jd-value { font-size: 13px; font-weight: 500; color: #333; line-height: 1.4; }
+        .jd-value.mono { font-family: monospace; font-size: 11px; color: #666; letter-spacing: 0.5px; }
+        .jd-value.price { font-size: 22px; font-weight: 800; color: #d32f2f; letter-spacing: -0.5px; line-height: 1; }
+        .jd-value.sub { font-size: 11px; color: #999; margin-top: 1px; }
+        .jd-badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 11px; font-weight: 700; }
+        .jd-badge.operable { background: #e8f5e9; color: #2e7d32; }
+        .jd-badge.inop { background: #fff3e0; color: #e65100; }
+        .jd-badge.open { background: #e3f2fd; color: #1565c0; }
+        .jd-badge.enclosed { background: #f3e5f5; color: #6a1b9a; }
+        .jd-badge.payment { background: #e8f5e9; color: #2e7d32; }
+        .jd-rating { color: #f59e0b; font-size: 11px; font-weight: 600; margin-top: 2px; }
+        .jd-bottom-grid { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #e0e0e0; }
+        .jd-bottom-section { padding: 16px 20px; border-right: 1px solid #e0e0e0; }
+        .jd-bottom-section:last-child { border-right: none; }
+        .jd-doc-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 10px; margin-bottom: 6px;
+            border: 1px solid #e8e8e8; border-radius: 4px; background: #fafafa;
+        }
+        .jd-doc-name { font-size: 12px; font-weight: 500; color: #333; }
+        .jd-doc-date { font-size: 11px; color: #999; margin-top: 1px; }
+        .jd-doc-links { display: flex; gap: 8px; }
+        .jd-doc-links a { color: #d32f2f; font-size: 11px; font-weight: 600; text-decoration: none; }
+        .jd-doc-links a:hover { text-decoration: underline; }
+        .jd-notes-textarea {
+            width: 100%; padding: 8px 10px;
+            border: 1px solid #d0d0d0; border-radius: 4px;
+            font-family: inherit; font-size: 12px; resize: vertical; min-height: 72px;
+        }
+        .jd-notes-textarea:focus { outline: none; border-color: #d32f2f; box-shadow: 0 0 0 2px rgba(211,47,47,0.1); }
+        .jd-bol-section { padding: 16px 20px; border-bottom: 1px solid #e0e0e0; }
+        .jd-checklist { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+        .jd-checklist-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 7px 12px; border: 1px solid #e8e8e8;
+            border-radius: 4px; background: #fafafa; font-size: 12px; color: #555;
+        }
+        .jd-checklist-item input[type="checkbox"] { accent-color: #d32f2f; width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
+        .jd-checklist-item label { cursor: pointer; flex: 1; margin: 0; }
+        .jd-messages { padding: 16px 20px; }
+        .jd-msg-thread { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+        .jd-msg { padding: 10px 12px; border-radius: 6px; font-size: 12px; line-height: 1.5; }
+        .jd-msg.from-shipper { background: #f5f5f5; }
+        .jd-msg.from-carrier { background: #e3f2fd; text-align: right; }
+        .jd-msg-meta { font-size: 10px; color: #aaa; margin-top: 3px; }
+        .jd-msg-input { display: flex; gap: 8px; }
+        .jd-msg-input input {
+            flex: 1; padding: 8px 12px; border: 1px solid #d0d0d0; border-radius: 4px;
+            font-size: 12px; font-family: inherit;
+        }
+        .jd-msg-input input:focus { outline: none; border-color: #d32f2f; box-shadow: 0 0 0 2px rgba(211,47,47,0.1); }
+        .jd-msg-send { padding: 8px 16px; background: #d32f2f; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .jd-msg-send:hover { background: #b71c1c; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            nav { gap: 16px; font-size: 12px; }
+
+            .container { padding: 16px; }
+
+            .search-primary {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .results-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .map-sidebar {
+                display: none;
+            }
+
+            .load-card {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 12px 12px 12px 16px;
+            }
+
+            .load-price-col {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-align: left;
+            }
+
+            .load-price { font-size: 20px; }
+
+            .load-card-badges { margin-top: 0; }
+
+            .load-action {
+                flex-direction: row;
+                gap: 8px;
+            }
+
+            .btn-book, .btn-negotiate {
+                flex: 1;
+            }
+
+            .results-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ACV Load Board</div>
+        <nav>
+            <a href="index.html" class="active">Job List</a>
+            <a href="job-board.html">Manage</a>
+        </nav>
+        <div class="user-section">
+            <span>Max Test Gddd</span>
+            <span style="color: #d32f2f; font-weight: 600;">New</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- SEARCH / FILTER SECTION -->
+        <div class="search-section">
+            <!-- Primary: Route (always visible) -->
+            <div class="search-primary">
+                <div class="filter-group">
+                    <label>Pickup Location</label>
+                    <input type="text" placeholder="City, State, or Zip" id="filterPickup" onchange="applyFilter('pickup', this.value)">
+                </div>
+                <div class="filter-group">
+                    <label>Delivery Location</label>
+                    <input type="text" placeholder="City, State, or Zip" id="filterDelivery" onchange="applyFilter('delivery', this.value)">
+                </div>
+                <button class="btn-primary" style="height: 38px; white-space: nowrap;">Search</button>
+            </div>
+
+            <div class="search-divider"></div>
+
+            <!-- Secondary: always-visible quick filters -->
+            <div class="search-secondary">
+                <div class="filter-group">
+                    <label>Condition</label>
+                    <select id="filterCondition" onchange="applyFilter('condition', this.value)">
+                        <option value="">Any</option>
+                        <option>Operable</option>
+                        <option>Inoperable</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Vehicle Type</label>
+                    <select id="filterVehicleType" onchange="applyFilter('vehicleType', this.value)">
+                        <option value="">Any</option>
+                        <option>Car/SUV</option>
+                        <option>Truck</option>
+                        <option>Van</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Posted Within</label>
+                    <select id="filterPostedWithin" onchange="applyFilter('posted', this.value)">
+                        <option value="">Any Time</option>
+                        <option>Last 1h</option>
+                        <option>Last 6h</option>
+                        <option>Last 24h</option>
+                        <option>Last 3 days</option>
+                    </select>
+                </div>
+                <button class="btn-more-filters" id="moreFiltersBtn" onclick="openFilterPanel()">
+                    &#9881; More Filters <span class="filter-badge" id="advancedBadge" style="display:none;">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ADVANCED FILTER SIDE PANEL -->
+        <div class="filter-panel-overlay" id="filterPanelOverlay" onclick="closeFilterPanel()"></div>
+        <div class="filter-panel" id="filterPanel">
+            <div class="filter-panel-header">
+                <span class="filter-panel-title">Advanced Filters</span>
+                <button class="filter-panel-close" onclick="closeFilterPanel()">&#x2715;</button>
+            </div>
+            <div class="filter-panel-body">
+                <!-- Transport & Price -->
+                <div class="filter-panel-section">
+                    <div class="filter-panel-section-label">Transport & Price</div>
+                    <div class="filter-panel-row">
+                        <div class="filter-group">
+                            <label>Transport Type</label>
+                            <select id="filterTransportType" onchange="applyAdvancedFilter('transport', this.value)">
+                                <option value="">Any</option>
+                                <option>Open</option>
+                                <option>Enclosed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-panel-row">
+                        <div class="filter-group">
+                            <label>Min $/mi</label>
+                            <input type="number" placeholder="0.00" step="0.01" min="0" id="filterMinPpm" onchange="applyAdvancedFilter('minPpm', this.value)">
+                        </div>
+                        <div class="filter-group">
+                            <label>Max $/mi</label>
+                            <input type="number" placeholder="No max" step="0.01" min="0" id="filterMaxPpm" onchange="applyAdvancedFilter('maxPpm', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Radius -->
+                <div class="filter-panel-section">
+                    <div class="filter-panel-section-label">Location Radius</div>
+                    <div class="filter-panel-row">
+                        <div class="filter-group">
+                            <label>Pickup Radius (mi)</label>
+                            <input type="number" placeholder="50" value="50" id="filterPickupRadius" onchange="applyAdvancedFilter('pickupRadius', this.value)">
+                        </div>
+                        <div class="filter-group">
+                            <label>Delivery Radius (mi)</label>
+                            <input type="number" placeholder="50" value="50" id="filterDeliveryRadius" onchange="applyAdvancedFilter('deliveryRadius', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scheduling -->
+                <div class="filter-panel-section">
+                    <div class="filter-panel-section-label">Pickup Date Range</div>
+                    <div class="filter-panel-row">
+                        <div class="filter-group">
+                            <label>From</label>
+                            <input type="date" id="filterPickupFrom" onchange="applyAdvancedFilter('pickupFrom', this.value)">
+                        </div>
+                        <div class="filter-group">
+                            <label>To</label>
+                            <input type="date" id="filterPickupTo" onchange="applyAdvancedFilter('pickupTo', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Date -->
+                <div class="filter-panel-section">
+                    <div class="filter-panel-section-label">Delivery Date Range</div>
+                    <div class="filter-panel-row">
+                        <div class="filter-group">
+                            <label>From</label>
+                            <input type="date" id="filterDeliveryFrom" onchange="applyAdvancedFilter('deliveryFrom', this.value)">
+                        </div>
+                        <div class="filter-group">
+                            <label>To</label>
+                            <input type="date" id="filterDeliveryTo" onchange="applyAdvancedFilter('deliveryTo', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distance -->
+                <div class="filter-panel-section">
+                    <div class="filter-panel-section-label">Route Distance</div>
+                    <div class="filter-panel-row">
+                        <div class="filter-group">
+                            <label>Min Miles</label>
+                            <input type="number" placeholder="0" min="0" id="filterMinMiles" onchange="applyAdvancedFilter('minMiles', this.value)">
+                        </div>
+                        <div class="filter-group">
+                            <label>Max Miles</label>
+                            <input type="number" placeholder="No max" min="0" id="filterMaxMiles" onchange="applyAdvancedFilter('maxMiles', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipper -->
+                <div class="filter-panel-section">
+                    <div class="filter-panel-section-label">Shipper</div>
+                    <div class="filter-panel-row single">
+                        <div class="filter-group">
+                            <label>Shipper Name</label>
+                            <input type="text" placeholder="Any shipper" id="filterShipper" onchange="applyAdvancedFilter('shipper', this.value)">
+                        </div>
+                    </div>
+                    <div class="filter-panel-row">
+                        <div class="filter-group">
+                            <label>Min Rating</label>
+                            <select id="filterMinRating" onchange="applyAdvancedFilter('minRating', this.value)">
+                                <option value="">Any</option>
+                                <option>4+ stars</option>
+                                <option>3+ stars</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Booking Type</label>
+                            <select id="filterBookingType" onchange="applyAdvancedFilter('bookingType', this.value)">
+                                <option value="">Any</option>
+                                <option>Instant Book</option>
+                                <option>Negotiable</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-panel-footer">
+                <button class="btn-secondary" onclick="resetAdvancedFilters()">Reset</button>
+                <button class="btn-primary" onclick="closeFilterPanel()">Apply Filters</button>
+                <button class="btn-secondary" onclick="saveCurrentSearch()">&#9733; Save</button>
+            </div>
+        </div>
+
+        <!-- SAVED SEARCHES -->
+        <div class="saved-searches-bar" id="savedSearchesBar" style="display:none;">
+            <span class="saved-searches-label">Saved:</span>
+            <div class="saved-searches-list" id="savedSearchesList"></div>
+        </div>
+
+        <!-- ACTIVE FILTERS -->
+        <div class="active-filters" id="activeFilters">
+            <div class="filters-left">
+                <span class="filters-label">Active Filters:</span>
+                <div id="filterTagsContainer"></div>
+            </div>
+            <button class="btn-clear-filters" onclick="clearAllFilters()">Clear All</button>
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <div class="results-header">
+            <div class="results-count">247 available loads</div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <button class="btn-secondary" id="mapToggleBtn" style="padding: 6px 12px; font-size: 12px;" onclick="toggleMapSidebar()">Hide Map</button>
+                <span style="font-size:13px;color:#666;font-weight:500;">Sort:</span>
+                <select style="width: 160px;">
+                    <option>Newest Posted</option>
+                    <option>Price (High to Low)</option>
+                    <option>Price (Low to High)</option>
+                    <option>Distance</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- List + Map Sidebar layout (from Super Dispatch) -->
+        <div class="results-layout" id="resultsLayout">
+            <!-- LOAD LIST -->
+            <div class="load-list" id="loadList">
+                <!-- Load Card 1 -->
+                <div class="load-card" onclick="openJobDetails('2019 Dodge Charger')">
+                    <div class="load-price-col">
+                        <div class="load-price">$850</div>
+                        <div class="load-price-detail">$0.40/mi</div>
+                        <div class="load-card-badges">
+                            <span class="status-badge new">NEW</span>
+                            <span class="status-badge time">2h ago</span>
+                        </div>
+                    </div>
+
+                    <div class="load-info">
+                        <div class="load-vehicle-name">2019 Dodge Charger</div>
+                        <div class="load-vehicle-meta">Black Pearl &middot; Operable</div>
+                        <div class="load-vehicle-specs">
+                            <span class="spec-item"><span class="spec-label">VIN</span> 2C3CDXBG3KH541283</span>
+                            <span class="spec-item"><span class="spec-label">Wt</span> 4,046 lbs</span>
+                            <span class="spec-item"><span class="spec-label">Dim</span> 197"×74"×57"</span>
+                        </div>
+                        <div class="load-route-line">
+                            <span>West Palm Beach, FL 33401</span>
+                            <span class="route-arrow">&raquo;</span>
+                            <span>Seattle, WA 98101</span>
+                        </div>
+                        <div class="load-route-distance">
+                            <span class="route-distance-badge">3,279 mi</span>
+                        </div>
+                    </div>
+
+                    <div class="load-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Pickup</span>
+                            <span class="detail-value">Mar 16, 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Delivery</span>
+                            <span class="detail-value">Mar 18, 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Transport</span>
+                            <span class="detail-value">Open</span>
+                        </div>
+                    </div>
+
+                    <div class="load-action">
+                        <button class="btn-book" onclick="event.stopPropagation();">Book</button>
+                        <button class="btn-negotiate" onclick="event.stopPropagation();">Negotiate</button>
+                        <input type="checkbox" class="load-checkbox" data-vehicle="2019 Dodge Charger" onclick="event.stopPropagation(); toggleCompareBar()" title="Compare">
+                    </div>
+                </div>
+
+                <!-- Load Card 2 -->
+                <div class="load-card" onclick="openJobDetails('2020 Tesla Model X')">
+                    <div class="load-price-col">
+                        <div class="load-price">$1,200</div>
+                        <div class="load-price-detail">$0.86/mi</div>
+                        <div class="load-card-badges">
+                            <span class="status-badge time">4h ago</span>
+                        </div>
+                    </div>
+
+                    <div class="load-info">
+                        <div class="load-vehicle-name">2020 Tesla Model X</div>
+                        <div class="load-vehicle-meta">Pearl White &middot; Operable</div>
+                        <div class="load-vehicle-specs">
+                            <span class="spec-item"><span class="spec-label">VIN</span> 5YJXCDE21LF294817</span>
+                            <span class="spec-item"><span class="spec-label">Wt</span> 5,421 lbs</span>
+                            <span class="spec-item"><span class="spec-label">Dim</span> 198"×79"×66"</span>
+                        </div>
+                        <div class="load-route-line">
+                            <span>Chicago, IL 60601</span>
+                            <span class="route-arrow">&raquo;</span>
+                            <span>Miami, FL 33101</span>
+                        </div>
+                        <div class="load-route-distance">
+                            <span class="route-distance-badge">1,377 mi</span>
+                        </div>
+                    </div>
+
+                    <div class="load-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Pickup</span>
+                            <span class="detail-value">Mar 15, 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Delivery</span>
+                            <span class="detail-value">Mar 17, 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Transport</span>
+                            <span class="detail-value">Enclosed</span>
+                        </div>
+                    </div>
+
+                    <div class="load-action">
+                        <button class="btn-book" onclick="event.stopPropagation();">Book</button>
+                        <button class="btn-negotiate" onclick="event.stopPropagation();">Negotiate</button>
+                        <input type="checkbox" class="load-checkbox" data-vehicle="2020 Tesla Model X" onclick="event.stopPropagation(); toggleCompareBar()" title="Compare">
+                    </div>
+                </div>
+
+                <!-- Load Card 3 -->
+                <div class="load-card" onclick="openJobDetails('2018 Jeep Compass')">
+                    <div class="load-price-col">
+                        <div class="load-price">$650</div>
+                        <div class="load-price-detail">$0.83/mi</div>
+                        <div class="load-card-badges">
+                            <span class="status-badge time">6h ago</span>
+                        </div>
+                    </div>
+
+                    <div class="load-info">
+                        <div class="load-vehicle-name">2018 Jeep Compass</div>
+                        <div class="load-vehicle-meta">Silver &middot; Inoperable</div>
+                        <div class="load-vehicle-specs">
+                            <span class="spec-item"><span class="spec-label">VIN</span> 3C4NJCBB5JT382049</span>
+                            <span class="spec-item"><span class="spec-label">Wt</span> 3,374 lbs</span>
+                            <span class="spec-item"><span class="spec-label">Dim</span> 173"×72"×65"</span>
+                        </div>
+                        <div class="load-route-line">
+                            <span>Dallas, TX 75201</span>
+                            <span class="route-arrow">&raquo;</span>
+                            <span>Denver, CO 80201</span>
+                        </div>
+                        <div class="load-route-distance">
+                            <span class="route-distance-badge">784 mi</span>
+                        </div>
+                    </div>
+
+                    <div class="load-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Pickup</span>
+                            <span class="detail-value">Mar 14, 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Delivery</span>
+                            <span class="detail-value">Mar 16, 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Transport</span>
+                            <span class="detail-value">Open</span>
+                        </div>
+                    </div>
+
+                    <div class="load-action">
+                        <button class="btn-book" onclick="event.stopPropagation();">Book</button>
+                        <button class="btn-negotiate" onclick="event.stopPropagation();">Negotiate</button>
+                        <input type="checkbox" class="load-checkbox" data-vehicle="2018 Jeep Compass" onclick="event.stopPropagation(); toggleCompareBar()" title="Compare">
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAP SIDEBAR (from Super Dispatch — persistent, not a separate view) -->
+            <div class="map-sidebar" id="mapSidebar">
+                <button class="map-sidebar-toggle" onclick="toggleMapSidebar()">Hide Map</button>
+                <div style="text-align: center;">
+                    Interactive Map<br>
+                    <span style="font-size: 12px; color: #bbb;">3 loads shown</span>
+                </div>
+                <div class="map-pin map-pin-1" title="Dodge Charger - $850">1</div>
+                <div class="map-pin map-pin-2" title="Tesla Model X - $1,200">2</div>
+                <div class="map-pin map-pin-3" title="Jeep Compass - $650">3</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JOB DETAILS PANEL -->
+    <div class="job-details-overlay" id="jobDetailsOverlay" onclick="closeJobDetails()"></div>
+    <div class="job-details-panel" id="jobDetailsPanel">
+        <div class="jd-header">
+            <button class="jd-close" onclick="closeJobDetails()">&#x2715;</button>
+            <div class="jd-header-info">
+                <div class="jd-vehicle-name" id="jdVehicleName">2019 Dodge Charger</div>
+                <div class="jd-order-id">Order #96983557 &middot; VIN 2C3CDXBG3KH541283</div>
+            </div>
+            <div class="jd-header-actions">
+                <button class="jd-btn-secondary">Contact Shipper</button>
+                <button class="jd-btn-primary">Book Now</button>
+            </div>
+        </div>
+        <div class="jd-body">
+            <div class="jd-alert">
+                <span>⚠️</span>
+                <span>Delivery window is approaching. <span class="jd-alert-link" onclick="alert('Calling 716-235-1774')">Call 716-235-1774</span> to coordinate pickup.</span>
+            </div>
+            <div class="jd-eta-bar">
+                <div class="jd-eta-item">
+                    <div class="jd-eta-label">Pickup ETA</div>
+                    <div class="jd-eta-value">Mar 16, 2026</div>
+                </div>
+                <div class="jd-eta-item">
+                    <div class="jd-eta-label">Delivery ETA</div>
+                    <div class="jd-eta-value">Mar 18, 2026</div>
+                </div>
+                <div class="jd-eta-item">
+                    <div class="jd-eta-label">Distance</div>
+                    <div class="jd-eta-value">3,279 mi</div>
+                </div>
+                <div class="jd-eta-item">
+                    <div class="jd-eta-label">Pay / Mile</div>
+                    <div class="jd-eta-value">$0.40/mi</div>
+                </div>
+            </div>
+            <div class="jd-main-grid">
+                <div class="jd-section">
+                    <div class="jd-section-title">Vehicle</div>
+                    <div class="jd-field">
+                        <div class="jd-label">Model</div>
+                        <div class="jd-value">2019 Dodge Charger</div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Color &middot; Condition</div>
+                        <div class="jd-value">Black Pearl &middot; <span class="jd-badge operable">Operable</span></div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">VIN</div>
+                        <div class="jd-value mono">2C3CDXBG3KH541283</div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Weight &middot; Dims</div>
+                        <div class="jd-value sub">4,046 lbs &middot; 197&Prime;&times;74&Prime;&times;57&Prime;</div>
+                    </div>
+                </div>
+                <div class="jd-section">
+                    <div class="jd-section-title">Route &amp; Payment</div>
+                    <div class="jd-field">
+                        <div class="jd-label">Pickup</div>
+                        <div class="jd-value">West Palm Beach, FL 33401</div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Delivery</div>
+                        <div class="jd-value">Seattle, WA 98101</div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Total Pay</div>
+                        <div class="jd-value price">$850</div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Payment Terms</div>
+                        <div class="jd-value">Net 15 Days <span class="jd-badge payment">Standard</span></div>
+                    </div>
+                </div>
+                <div class="jd-section">
+                    <div class="jd-section-title">Shipper &amp; Schedule</div>
+                    <div class="jd-field">
+                        <div class="jd-label">Shipper</div>
+                        <div class="jd-value">Tesla Motors</div>
+                        <div class="jd-rating">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 (247 reviews)</div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Transport</div>
+                        <div class="jd-value"><span class="jd-badge open">Open</span></div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Pickup Date</div>
+                        <div class="jd-value">Mar 16, 2026</div>
+                    </div>
+                    <div class="jd-field">
+                        <div class="jd-label">Delivery Date</div>
+                        <div class="jd-value">Mar 18, 2026</div>
+                    </div>
+                </div>
+            </div>
+            <div class="jd-bottom-grid">
+                <div class="jd-bottom-section">
+                    <div class="jd-section-title">Documents</div>
+                    <div class="jd-doc-item">
+                        <div>
+                            <div class="jd-doc-name">ACV Release Slip</div>
+                            <div class="jd-doc-date">Uploaded Mar 13</div>
+                        </div>
+                        <div class="jd-doc-links"><a href="#">View</a><a href="#">Download</a></div>
+                    </div>
+                    <div class="jd-doc-item">
+                        <div>
+                            <div class="jd-doc-name">Dispatch Sheet</div>
+                            <div class="jd-doc-date">Uploaded Mar 13</div>
+                        </div>
+                        <div class="jd-doc-links"><a href="#">View</a><a href="#">Download</a></div>
+                    </div>
+                </div>
+                <div class="jd-bottom-section">
+                    <div class="jd-section-title">Internal Notes</div>
+                    <textarea class="jd-notes-textarea" placeholder="Add notes about this job..."></textarea>
+                    <button class="jd-btn-primary" style="margin-top:8px;display:block;width:100%;">Save Notes</button>
+                </div>
+            </div>
+            <div class="jd-bol-section">
+                <div class="jd-section-title">Bill of Lading</div>
+                <div style="font-size:12px;color:#7c6d2f;padding:8px 12px;background:#fff8e1;border-radius:4px;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+                    <span>&#128203;</span><span>Ready to complete eBOL upon delivery</span>
+                    <button class="jd-btn-secondary" style="margin-left:auto;font-size:11px;padding:4px 10px;">Add eBOL</button>
+                </div>
+                <div class="jd-checklist">
+                    <div class="jd-checklist-item"><input type="checkbox" id="jdC1"><label for="jdC1">Take photo of vehicle at pickup location</label></div>
+                    <div class="jd-checklist-item"><input type="checkbox" id="jdC2"><label for="jdC2">Take photo of vehicle at delivery location</label></div>
+                    <div class="jd-checklist-item"><input type="checkbox" id="jdC3"><label for="jdC3">Get e-signature from vehicle owner at delivery</label></div>
+                    <div class="jd-checklist-item"><input type="checkbox" id="jdC4"><label for="jdC4">Confirm no damage to vehicle</label></div>
+                </div>
+            </div>
+            <div class="jd-messages">
+                <div class="jd-section-title">Messages with Shipper</div>
+                <div class="jd-msg-thread">
+                    <div class="jd-msg from-shipper">
+                        <strong>Tesla Motors:</strong> "Can you pick up by 3 PM? Driver available for last-minute coordination."
+                        <div class="jd-msg-meta">Today at 9:42 AM</div>
+                    </div>
+                    <div class="jd-msg from-carrier">
+                        <strong>You:</strong> "Yes, can make 3 PM pickup. Will confirm when I'm 30 mins out."
+                        <div class="jd-msg-meta">Today at 10:15 AM</div>
+                    </div>
+                    <div class="jd-msg from-shipper">
+                        <strong>Tesla Motors:</strong> "Perfect! Thanks."
+                        <div class="jd-msg-meta">Today at 10:18 AM</div>
+                    </div>
+                </div>
+                <div class="jd-msg-input">
+                    <input type="text" placeholder="Type a message...">
+                    <button class="jd-msg-send">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPARE MODAL -->
+    <div class="compare-modal-overlay" id="compareModalOverlay" onclick="closeCompareModal()"></div>
+    <div class="compare-modal" id="compareModal">
+        <div class="compare-modal-header">
+            <div class="compare-modal-title">
+                Compare Loads
+                <span class="compare-modal-subtitle" id="compareModalSubtitle"></span>
+            </div>
+            <button class="compare-modal-close" onclick="closeCompareModal()">&#x2715;</button>
+        </div>
+        <div class="compare-modal-body">
+            <div class="compare-table-wrap">
+                <table class="compare-table" id="compareTable">
+                    <thead id="compareTableHead"></thead>
+                    <tbody id="compareTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPARE BAR -->
+    <div class="compare-bar" id="compareBar">
+        <div class="compare-info">
+            <span id="compareCount">0</span> vehicle(s) selected
+        </div>
+        <div>
+            <button class="btn-compare" onclick="compareVehicles()">Compare Selected</button>
+            <button class="btn-compare-close" onclick="clearComparison()">✕</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Filter state ---
+        let activeFilterMap = {};
+
+        const filterNames = {
+            pickup: 'Pickup',
+            delivery: 'Delivery',
+            vehicleType: 'Type',
+            condition: 'Condition',
+            posted: 'Posted',
+            transport: 'Transport',
+            pickupRadius: 'Pickup Radius',
+            deliveryRadius: 'Delivery Radius',
+            pickupFrom: 'Pickup From',
+            pickupTo: 'Pickup To',
+            deliveryFrom: 'Delivery From',
+            deliveryTo: 'Delivery To',
+            minMiles: 'Min Miles',
+            maxMiles: 'Max Miles',
+            minPpm: 'Min $/mi',
+            maxPpm: 'Max $/mi',
+            shipper: 'Shipper',
+            minRating: 'Min Rating',
+            bookingType: 'Booking'
+        };
+
+        const advancedFilterKeys = new Set(['transport','minPpm','maxPpm','pickupRadius','deliveryRadius','pickupFrom','pickupTo','deliveryFrom','deliveryTo','minMiles','maxMiles','shipper','minRating','bookingType']);
+
+        // --- Side panel ---
+        function openFilterPanel() {
+            document.getElementById('filterPanel').classList.add('open');
+            document.getElementById('filterPanelOverlay').classList.add('open');
+            document.getElementById('moreFiltersBtn').classList.add('active');
+        }
+
+        function closeFilterPanel() {
+            document.getElementById('filterPanel').classList.remove('open');
+            document.getElementById('filterPanelOverlay').classList.remove('open');
+            document.getElementById('moreFiltersBtn').classList.remove('active');
+        }
+
+        function applyAdvancedFilter(key, value) {
+            applyFilter(key, value);
+            updateAdvancedBadge();
+        }
+
+        function updateAdvancedBadge() {
+            const count = Object.keys(activeFilterMap).filter(k => advancedFilterKeys.has(k)).length;
+            const badge = document.getElementById('advancedBadge');
+            badge.style.display = count > 0 ? 'inline-block' : 'none';
+            badge.textContent = count;
+        }
+
+        function resetAdvancedFilters() {
+            advancedFilterKeys.forEach(k => {
+                delete activeFilterMap[k];
+                const el = document.getElementById('filter' + k.charAt(0).toUpperCase() + k.slice(1));
+                if (el) el.value = el.type === 'number' && el.placeholder === '50' ? '50' : '';
+            });
+            updateAdvancedBadge();
+            renderActiveFilters();
+        }
+
+        // --- Saved Searches ---
+        let savedSearches = JSON.parse(localStorage.getItem('acv_saved_searches') || '[]');
+        let activeSavedSearchId = null;
+
+        function renderSavedSearches() {
+            const bar = document.getElementById('savedSearchesBar');
+            const list = document.getElementById('savedSearchesList');
+            list.innerHTML = '';
+            if (savedSearches.length === 0) { bar.style.display = 'none'; return; }
+            bar.style.display = 'flex';
+            savedSearches.forEach((s, i) => {
+                const chip = document.createElement('div');
+                chip.className = 'saved-search-chip' + (activeSavedSearchId === s.id ? ' active' : '');
+                chip.innerHTML = `<span onclick="applySavedSearch('${s.id}')">${s.name}</span><span class="saved-search-remove" onclick="removeSavedSearch('${s.id}')">&#x2715;</span>`;
+                list.appendChild(chip);
+            });
+        }
+
+        function saveCurrentSearch() {
+            const entries = Object.entries(activeFilterMap);
+            if (entries.length === 0) { alert('Set at least one filter before saving.'); return; }
+            const name = prompt('Name this search:', buildSearchName());
+            if (!name) return;
+            const id = Date.now().toString();
+            savedSearches.push({ id, name, filters: { ...activeFilterMap } });
+            localStorage.setItem('acv_saved_searches', JSON.stringify(savedSearches));
+            activeSavedSearchId = id;
+            renderSavedSearches();
+            closeFilterPanel();
+        }
+
+        function buildSearchName() {
+            const parts = [];
+            if (activeFilterMap.pickup) parts.push(activeFilterMap.pickup);
+            if (activeFilterMap.delivery) parts.push('→ ' + activeFilterMap.delivery);
+            if (activeFilterMap.vehicleType) parts.push(activeFilterMap.vehicleType);
+            if (activeFilterMap.condition) parts.push(activeFilterMap.condition);
+            return parts.join(' ') || 'My Search';
+        }
+
+        function applySavedSearch(id) {
+            const s = savedSearches.find(x => x.id === id);
+            if (!s) return;
+            clearAllFilters();
+            activeSavedSearchId = id;
+            Object.entries(s.filters).forEach(([k, v]) => {
+                activeFilterMap[k] = v;
+                const el = document.getElementById('filter' + k.charAt(0).toUpperCase() + k.slice(1));
+                if (el) el.value = v;
+            });
+            updateAdvancedBadge();
+            renderActiveFilters();
+            renderSavedSearches();
+        }
+
+        function removeSavedSearch(id) {
+            savedSearches = savedSearches.filter(s => s.id !== id);
+            localStorage.setItem('acv_saved_searches', JSON.stringify(savedSearches));
+            if (activeSavedSearchId === id) activeSavedSearchId = null;
+            renderSavedSearches();
+        }
+
+        renderSavedSearches();
+
+        // --- Apply a filter and update the active-filters bar ---
+        function applyFilter(key, value) {
+            if (!value || value === '' || value === 'Any') {
+                delete activeFilterMap[key];
+            } else {
+                activeFilterMap[key] = value;
+            }
+            renderActiveFilters();
+        }
+
+        function renderActiveFilters() {
+            const container = document.getElementById('filterTagsContainer');
+            const bar = document.getElementById('activeFilters');
+            container.innerHTML = '';
+
+            const entries = Object.entries(activeFilterMap);
+            if (entries.length === 0) {
+                bar.classList.remove('show');
+                return;
+            }
+
+            entries.forEach(([key, value]) => {
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                const label = filterNames[key] || key;
+                tag.innerHTML = `${label}: ${value} <span class="filter-tag-close" onclick="removeFilter('${key}')">✕</span>`;
+                container.appendChild(tag);
+            });
+            bar.classList.add('show');
+        }
+
+        function removeFilter(key) {
+            delete activeFilterMap[key];
+            // Reset corresponding input/select
+            const el = document.getElementById('filter' + key.charAt(0).toUpperCase() + key.slice(1));
+            if (el) el.value = '';
+            renderActiveFilters();
+        }
+
+        function clearAllFilters() {
+            activeFilterMap = {};
+            document.querySelectorAll('.search-section input, .search-section select, .filter-panel input, .filter-panel select').forEach(el => {
+                if (el.type === 'number' && el.placeholder === '50') { el.value = '50'; return; }
+                el.value = '';
+            });
+            updateAdvancedBadge();
+            renderActiveFilters();
+        }
+
+        function resetAllFilters() {
+            clearAllFilters();
+        }
+
+        // --- Compare ---
+        function toggleCompareBar() {
+            const checkboxes = document.querySelectorAll('.load-checkbox:checked');
+            const compareBar = document.getElementById('compareBar');
+            const compareCount = document.getElementById('compareCount');
+            compareCount.textContent = checkboxes.length;
+            compareBar.classList.toggle('show', checkboxes.length > 0);
+        }
+
+        function clearComparison() {
+            document.querySelectorAll('.load-checkbox').forEach(cb => cb.checked = false);
+            toggleCompareBar();
+        }
+
+        // --- Map sidebar toggle ---
+        function toggleMapSidebar() {
+            const layout = document.getElementById('resultsLayout');
+            const btn = document.getElementById('mapToggleBtn');
+            const hidden = layout.classList.toggle('map-hidden');
+            btn.textContent = hidden ? 'Show Map' : 'Hide Map';
+        }
+
+        // --- Compare Modal ---
+        const loadData = [
+            {
+                id: '2019 Dodge Charger',
+                name: '2019 Dodge Charger',
+                meta: 'Black Pearl · Operable',
+                price: '$850', pmi: '$0.40/mi',
+                pickup: 'West Palm Beach, FL 33401',
+                delivery: 'Seattle, WA 98101',
+                distance: '3,279 mi',
+                pickupDate: 'Mar 16, 2026', deliveryDate: 'Mar 18, 2026',
+                transport: 'Open', condition: 'Operable',
+                vin: '2C3CDXBG3KH541283', weight: '4,046 lbs', dims: '197" × 74" × 57"'
+            },
+            {
+                id: '2020 Tesla Model X',
+                name: '2020 Tesla Model X',
+                meta: 'Pearl White · Operable',
+                price: '$1,200', pmi: '$0.86/mi',
+                pickup: 'Chicago, IL 60601',
+                delivery: 'Miami, FL 33101',
+                distance: '1,377 mi',
+                pickupDate: 'Mar 15, 2026', deliveryDate: 'Mar 17, 2026',
+                transport: 'Enclosed', condition: 'Operable',
+                vin: '5YJXCDE21LF294817', weight: '5,421 lbs', dims: '198" × 79" × 66"'
+            },
+            {
+                id: '2018 Jeep Compass',
+                name: '2018 Jeep Compass',
+                meta: 'Silver · Inoperable',
+                price: '$650', pmi: '$0.83/mi',
+                pickup: 'Dallas, TX 75201',
+                delivery: 'Denver, CO 80201',
+                distance: '784 mi',
+                pickupDate: 'Mar 14, 2026', deliveryDate: 'Mar 16, 2026',
+                transport: 'Open', condition: 'Inoperable',
+                vin: '3C4NJCBB5JT382049', weight: '3,374 lbs', dims: '173" × 72" × 65"'
+            }
+        ];
+
+        function compareVehicles() {
+            const checked = document.querySelectorAll('.load-checkbox:checked');
+            const ids = Array.from(checked).map(cb => cb.dataset.vehicle);
+            const loads = ids.length > 0
+                ? loadData.filter(l => ids.includes(l.id))
+                : loadData;
+
+            buildCompareTable(loads);
+            document.getElementById('compareModalSubtitle').textContent = loads.length + ' loads';
+            document.getElementById('compareModal').classList.add('open');
+            document.getElementById('compareModalOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCompareModal() {
+            document.getElementById('compareModal').classList.remove('open');
+            document.getElementById('compareModalOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCompareModal(); closeJobDetails(); } });
+
+        // --- Job Details Panel ---
+        function openJobDetails(vehicleName) {
+            document.getElementById('jdVehicleName').textContent = vehicleName;
+            document.getElementById('jobDetailsPanel').classList.add('open');
+            document.getElementById('jobDetailsOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeJobDetails() {
+            document.getElementById('jobDetailsPanel').classList.remove('open');
+            document.getElementById('jobDetailsOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function buildCompareTable(loads) {
+            const colSpan = loads.length + 1;
+
+            // Header
+            let thead = `<tr><th class="label-col">Category</th>`;
+            loads.forEach(l => {
+                thead += `<th class="load-col">
+                    <div class="cmp-vehicle-name">${l.name}</div>
+                    <div class="cmp-vehicle-meta">${l.meta}</div>
+                    <div class="cmp-price">${l.price}</div>
+                    <div class="cmp-pmi">${l.pmi}</div>
+                </th>`;
+            });
+            thead += `</tr>`;
+            document.getElementById('compareTableHead').innerHTML = thead;
+
+            // Rows helper
+            function section(label) {
+                return `<tr class="cmp-section-header"><td colspan="${colSpan}">${label}</td></tr>`;
+            }
+            function row(label, vals, bestFn, bestLabel) {
+                let tr = `<tr><td class="label-col">${label}</td>`;
+                const bestIdx = bestFn ? bestFn(vals) : -1;
+                vals.forEach((v, i) => {
+                    const isBest = i === bestIdx;
+                    tr += `<td class="load-col${isBest ? ' cmp-best' : ''}">${v}${isBest ? ` <span class="cmp-best-badge">${bestLabel}</span>` : ''}</td>`;
+                });
+                return tr + `</tr>`;
+            }
+
+            let tbody = '';
+
+            // Pricing
+            tbody += section('Pricing');
+            const priceNums = loads.map(l => parseInt(l.price.replace(/\D/g, '')));
+            tbody += row('Total Pay', loads.map(l => l.price), vals => priceNums.indexOf(Math.max(...priceNums)), 'Best');
+            const pmiNums = loads.map(l => parseFloat(l.pmi));
+            tbody += row('Pay per Mile', loads.map(l => l.pmi), vals => pmiNums.indexOf(Math.max(...pmiNums)), 'Best');
+
+            // Route
+            tbody += section('Route');
+            tbody += row('Pickup', loads.map(l => l.pickup), null, '');
+            tbody += row('Delivery', loads.map(l => l.delivery), null, '');
+            const distNums = loads.map(l => parseInt(l.distance.replace(/\D/g, '')));
+            tbody += row('Distance', loads.map(l => l.distance), vals => distNums.indexOf(Math.min(...distNums)), 'Shortest');
+
+            // Scheduling
+            tbody += section('Scheduling');
+            tbody += row('Pickup Date', loads.map(l => l.pickupDate), null, '');
+            tbody += row('Delivery Date', loads.map(l => l.deliveryDate), null, '');
+            tbody += `<tr><td class="label-col">Transport</td>` +
+                loads.map(l => `<td class="load-col"><span class="cmp-badge ${l.transport === 'Open' ? 'open' : 'enclosed'}">${l.transport}</span></td>`).join('') +
+                `</tr>`;
+
+            // Vehicle
+            tbody += section('Vehicle Details');
+            tbody += `<tr><td class="label-col">Condition</td>` +
+                loads.map(l => `<td class="load-col"><span class="cmp-badge ${l.condition === 'Operable' ? 'operable' : 'inop'}">${l.condition}</span></td>`).join('') +
+                `</tr>`;
+            tbody += row('VIN', loads.map(l => `<span class="cmp-vin">${l.vin}</span>`), null, '');
+            const weightNums = loads.map(l => parseInt(l.weight.replace(/\D/g, '')));
+            tbody += row('Weight', loads.map(l => l.weight), vals => weightNums.indexOf(Math.min(...weightNums)), 'Lightest');
+            tbody += row('Dimensions', loads.map(l => l.dims), null, '');
+
+            // Actions
+            tbody += `<tr class="cmp-action-row"><td class="label-col"></td>` +
+                loads.map(() => `<td class="load-col">
+                    <button class="cmp-btn-book">Book Now</button>
+                    <button class="cmp-btn-negotiate">Negotiate</button>
+                </td>`).join('') +
+                `</tr>`;
+
+            document.getElementById('compareTableBody').innerHTML = tbody;
+        }
+    </script>
+</body>
+</html>

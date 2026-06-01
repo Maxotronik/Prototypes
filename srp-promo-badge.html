@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SRP Promo Badge — Ideation</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    background: #EBEBEB;
+    padding: 40px 32px;
+    color: #1A1A1A;
+  }
+
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 48px; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 20px;
+  }
+
+  .variants {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .variant { display: flex; flex-direction: column; gap: 10px; }
+
+  .variant-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .letter {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: #1A1A1A;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .desc { font-size: 11px; color: #999; margin-top: 1px; }
+
+  /* === CARD === */
+  .card {
+    width: 240px;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.06);
+  }
+
+  .img-area {
+    background: #DDE1E8;
+    height: 148px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .img-area svg { width: 150px; opacity: 0.45; }
+
+  .top-right {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: #555;
+  }
+
+  .img-bottom {
+    position: absolute;
+    bottom: 8px; left: 8px; right: 8px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+
+  .eye-btn {
+    width: 26px; height: 26px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+
+  .listing-badge {
+    background: rgba(60,60,60,0.7);
+    color: white;
+    font-size: 9px;
+    font-weight: 500;
+    padding: 3px 7px;
+    border-radius: 5px;
+  }
+
+  /* === PROMO BADGE === */
+  .promo .material-icons-round,
+  .promo-strip .material-icons-round,
+  .card-footer-bar .material-icons-round {
+    font-size: 13px;
+  }
+
+  .promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #009E78;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .promo-strip {
+    background: #009E78;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+  }
+
+  /* === CARD BODY === */
+  .body { padding: 11px 12px 0; }
+
+  .v-title {
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 2px;
+  }
+  .wifi { font-size: 12px; color: #0061DF; }
+
+  .specs { font-size: 10px; color: #666; margin-bottom: 5px; }
+
+  .colors {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .inline-promo-row { padding: 0 12px 8px; }
+
+  .footer {
+    padding: 9px 12px;
+    border-top: 1px solid #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .time { font-size: 11px; color: #555; }
+  .bid-wrap { text-align: right; }
+  .bid-label { font-size: 9px; color: #999; }
+  .bid-amount { font-size: 13px; font-weight: 700; }
+
+  .loc-row {
+    padding: 6px 12px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #999;
+  }
+  .top-seller { color: #0061DF; font-weight: 600; font-size: 10px; }
+
+  .promo-footer-row {
+    padding: 0 12px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-footer-bar {
+    background: #009E78;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    letter-spacing: 0.01em;
+  }
+</style>
+</head>
+<body>
+
+<h1>SRP Promo Badge — Ideation</h1>
+<p class="subtitle">Paso 1 de 3 · SRP Card Desktop Vertical · 5 posiciones del badge</p>
+
+<div class="section-label">SRP Card — Desktop Vertical</div>
+
+<div class="variants">
+
+  <!-- A: Overlay imagen, abajo-izquierda (Listing Badge slot) -->
+  <div class="variant">
+    <div class="variant-title">
+      <div class="letter">A</div>
+      <div>
+        Image overlay — bottom left
+        <div class="desc">Usa el slot "Listing Badge"</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="img-area">
+        <svg viewBox="0 0 160 80" fill="none">
+          <ellipse cx="80" cy="68" rx="64" ry="9" fill="#B0BAC8" opacity="0.5"/>
+          <path d="M28 50 C28 50 38 28 56 25 L104 25 C122 28 132 50 132 50 L132 60 C132 62 130 64 128 64 L32 64 C30 64 28 62 28 60 Z" fill="#C5CEDC"/>
+          <path d="M42 40 L57 26 L103 26 L118 40 Z" fill="#D8E0EC"/>
+          <circle cx="44" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="44" cy="63" r="5" fill="#C5CEDC"/>
+          <circle cx="116" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="116" cy="63" r="5" fill="#C5CEDC"/>
+        </svg>
+        <div class="top-right">···</div>
+        <div class="img-bottom">
+          <div class="promo"><span class="material-icons-round">local_shipping</span> Transport promo</div>
+          <div class="eye-btn">👁</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="v-title">2024 Honda CRV <span class="wifi">📶</span></div>
+        <div class="specs">EX-L · AWD · 4cyl · 34,256 mi</div>
+        <div class="colors">
+          <span class="dot" style="background:#4CAF50"></span> Green
+          <span class="dot" style="background:#2196F3"></span> Blue
+        </div>
+      </div>
+      <div class="footer">
+        <div class="time">⏱ 8:34</div>
+        <div class="bid-wrap">
+          <div class="bid-label">Current Bid</div>
+          <div class="bid-amount">$15,000</div>
+        </div>
+      </div>
+      <div class="loc-row">
+        <span>📍 Buffalo, NY</span>
+        <span class="top-seller">⭐ Top Seller</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: Image top strip -->
+  <div class="variant">
+    <div class="variant-title">
+      <div class="letter">B</div>
+      <div>
+        Image overlay — top strip
+        <div class="desc">Banner verde al tope de la imagen</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="img-area">
+        <div class="promo-strip" style="position:absolute;top:0;left:0;right:0;">
+          <span class="material-icons-round">local_shipping</span> Transport promo available
+        </div>
+        <svg viewBox="0 0 160 80" fill="none">
+          <ellipse cx="80" cy="68" rx="64" ry="9" fill="#B0BAC8" opacity="0.5"/>
+          <path d="M28 50 C28 50 38 28 56 25 L104 25 C122 28 132 50 132 50 L132 60 C132 62 130 64 128 64 L32 64 C30 64 28 62 28 60 Z" fill="#C5CEDC"/>
+          <path d="M42 40 L57 26 L103 26 L118 40 Z" fill="#D8E0EC"/>
+          <circle cx="44" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="44" cy="63" r="5" fill="#C5CEDC"/>
+          <circle cx="116" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="116" cy="63" r="5" fill="#C5CEDC"/>
+        </svg>
+        <div class="top-right">···</div>
+        <div class="img-bottom">
+          <div class="listing-badge">Listing Badge</div>
+          <div class="eye-btn">👁</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="v-title">2024 Honda CRV <span class="wifi">📶</span></div>
+        <div class="specs">EX-L · AWD · 4cyl · 34,256 mi</div>
+        <div class="colors">
+          <span class="dot" style="background:#4CAF50"></span> Green
+          <span class="dot" style="background:#2196F3"></span> Blue
+        </div>
+      </div>
+      <div class="footer">
+        <div class="time">⏱ 8:34</div>
+        <div class="bid-wrap">
+          <div class="bid-label">Current Bid</div>
+          <div class="bid-amount">$15,000</div>
+        </div>
+      </div>
+      <div class="loc-row">
+        <span>📍 Buffalo, NY</span>
+        <span class="top-seller">⭐ Top Seller</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- C: Inline en el body -->
+  <div class="variant">
+    <div class="variant-title">
+      <div class="letter">C</div>
+      <div>
+        Info section — inline chip
+        <div class="desc">Chip entre specs y el footer</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="img-area">
+        <svg viewBox="0 0 160 80" fill="none">
+          <ellipse cx="80" cy="68" rx="64" ry="9" fill="#B0BAC8" opacity="0.5"/>
+          <path d="M28 50 C28 50 38 28 56 25 L104 25 C122 28 132 50 132 50 L132 60 C132 62 130 64 128 64 L32 64 C30 64 28 62 28 60 Z" fill="#C5CEDC"/>
+          <path d="M42 40 L57 26 L103 26 L118 40 Z" fill="#D8E0EC"/>
+          <circle cx="44" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="44" cy="63" r="5" fill="#C5CEDC"/>
+          <circle cx="116" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="116" cy="63" r="5" fill="#C5CEDC"/>
+        </svg>
+        <div class="top-right">···</div>
+        <div class="img-bottom">
+          <div class="listing-badge">Listing Badge</div>
+          <div class="eye-btn">👁</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="v-title">2024 Honda CRV <span class="wifi">📶</span></div>
+        <div class="specs">EX-L · AWD · 4cyl · 34,256 mi</div>
+        <div class="colors">
+          <span class="dot" style="background:#4CAF50"></span> Green
+          <span class="dot" style="background:#2196F3"></span> Blue
+        </div>
+      </div>
+      <div class="inline-promo-row">
+        <div class="promo"><span class="material-icons-round">local_shipping</span> Transport promo</div>
+      </div>
+      <div class="footer">
+        <div class="time">⏱ 8:34</div>
+        <div class="bid-wrap">
+          <div class="bid-label">Current Bid</div>
+          <div class="bid-amount">$15,000</div>
+        </div>
+      </div>
+      <div class="loc-row">
+        <span>📍 Buffalo, NY</span>
+        <span class="top-seller">⭐ Top Seller</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- D: Footer row -->
+  <div class="variant">
+    <div class="variant-title">
+      <div class="letter">D</div>
+      <div>
+        Footer — sobre el bid
+        <div class="desc">Chip encima de la fila de precio</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="img-area">
+        <svg viewBox="0 0 160 80" fill="none">
+          <ellipse cx="80" cy="68" rx="64" ry="9" fill="#B0BAC8" opacity="0.5"/>
+          <path d="M28 50 C28 50 38 28 56 25 L104 25 C122 28 132 50 132 50 L132 60 C132 62 130 64 128 64 L32 64 C30 64 28 62 28 60 Z" fill="#C5CEDC"/>
+          <path d="M42 40 L57 26 L103 26 L118 40 Z" fill="#D8E0EC"/>
+          <circle cx="44" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="44" cy="63" r="5" fill="#C5CEDC"/>
+          <circle cx="116" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="116" cy="63" r="5" fill="#C5CEDC"/>
+        </svg>
+        <div class="top-right">···</div>
+        <div class="img-bottom">
+          <div class="listing-badge">Listing Badge</div>
+          <div class="eye-btn">👁</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="v-title">2024 Honda CRV <span class="wifi">📶</span></div>
+        <div class="specs">EX-L · AWD · 4cyl · 34,256 mi</div>
+        <div class="colors">
+          <span class="dot" style="background:#4CAF50"></span> Green
+          <span class="dot" style="background:#2196F3"></span> Blue
+        </div>
+      </div>
+      <div class="promo-footer-row">
+        <div class="promo"><span class="material-icons-round">local_shipping</span> Transport promo</div>
+      </div>
+      <div class="footer">
+        <div class="time">⏱ 8:34</div>
+        <div class="bid-wrap">
+          <div class="bid-label">Current Bid</div>
+          <div class="bid-amount">$15,000</div>
+        </div>
+      </div>
+      <div class="loc-row">
+        <span>📍 Buffalo, NY</span>
+        <span class="top-seller">⭐ Top Seller</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- E: Full-width footer bar -->
+  <div class="variant">
+    <div class="variant-title">
+      <div class="letter">E</div>
+      <div>
+        Bottom bar — full width
+        <div class="desc">Strip verde al fondo de toda la tarjeta</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="img-area">
+        <svg viewBox="0 0 160 80" fill="none">
+          <ellipse cx="80" cy="68" rx="64" ry="9" fill="#B0BAC8" opacity="0.5"/>
+          <path d="M28 50 C28 50 38 28 56 25 L104 25 C122 28 132 50 132 50 L132 60 C132 62 130 64 128 64 L32 64 C30 64 28 62 28 60 Z" fill="#C5CEDC"/>
+          <path d="M42 40 L57 26 L103 26 L118 40 Z" fill="#D8E0EC"/>
+          <circle cx="44" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="44" cy="63" r="5" fill="#C5CEDC"/>
+          <circle cx="116" cy="63" r="9" fill="#8898AA"/>
+          <circle cx="116" cy="63" r="5" fill="#C5CEDC"/>
+        </svg>
+        <div class="top-right">···</div>
+        <div class="img-bottom">
+          <div class="listing-badge">Listing Badge</div>
+          <div class="eye-btn">👁</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="v-title">2024 Honda CRV <span class="wifi">📶</span></div>
+        <div class="specs">EX-L · AWD · 4cyl · 34,256 mi</div>
+        <div class="colors">
+          <span class="dot" style="background:#4CAF50"></span> Green
+          <span class="dot" style="background:#2196F3"></span> Blue
+        </div>
+      </div>
+      <div class="footer">
+        <div class="time">⏱ 8:34</div>
+        <div class="bid-wrap">
+          <div class="bid-label">Current Bid</div>
+          <div class="bid-amount">$15,000</div>
+        </div>
+      </div>
+      <div class="loc-row">
+        <span>📍 Buffalo, NY</span>
+        <span class="top-seller">⭐ Top Seller</span>
+      </div>
+      <div class="card-footer-bar"><span class="material-icons-round">local_shipping</span> Transport promo available</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

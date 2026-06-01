@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACV Load Board - Compare Loads</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        header {
+            background-color: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-weight: 800; font-size: 20px; color: #d32f2f; letter-spacing: -0.3px; }
+
+        nav { display: flex; gap: 24px; }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        nav a.active { color: #d32f2f; border-bottom-color: #d32f2f; }
+
+        .user-section { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .page-title { font-size: 22px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.3px; }
+
+        .back-link {
+            color: #d32f2f;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        /* Compare table */
+        .compare-table-wrap {
+            overflow-x: auto;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #e0e0e0;
+        }
+
+        .compare-table thead tr {
+            background: #fafafa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .compare-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .compare-table th.vehicle-col {
+            background: white;
+            min-width: 220px;
+        }
+
+        .compare-table th.load-col {
+            min-width: 200px;
+            border-left: 1px solid #e0e0e0;
+        }
+
+        .vehicle-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .vehicle-name { font-size: 15px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.2px; line-height: 1.3; }
+        .vehicle-meta { font-size: 12px; color: #888; font-weight: 400; margin-top: 2px; }
+
+        .price-big {
+            font-size: 28px;
+            font-weight: 800;
+            color: #d32f2f;
+            line-height: 1;
+            margin-top: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .price-pmi {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* Rows */
+        .compare-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.1s;
+        }
+
+        .compare-table tbody tr:hover { background: #fafafa; }
+
+        .compare-table tbody tr:last-child { border-bottom: none; }
+
+        .compare-table td {
+            padding: 13px 20px;
+            font-size: 13px;
+            font-weight: 400;
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+
+        .compare-table td.row-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            background: #fafafa;
+            white-space: nowrap;
+        }
+
+        .compare-table td.load-col {
+            border-left: 1px solid #f0f0f0;
+            color: #333;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .compare-table .section-header td {
+            background: #f5f5f5;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #aaa;
+            padding: 8px 20px;
+        }
+
+        /* Highlight best value */
+        .best { color: #2e7d32; font-weight: 700; }
+        .best-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        .route-line { display: flex; flex-direction: column; gap: 2px; }
+        .route-from, .route-to { font-size: 13px; }
+        .route-arrow-inline { color: #d32f2f; font-size: 11px; margin: 1px 0; }
+
+        /* Action row */
+        .compare-table .action-row td {
+            padding: 16px 20px;
+            background: white;
+        }
+
+        .btn-book {
+            background-color: #d32f2f;
+            color: white;
+            padding: 9px 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .btn-book:hover { background-color: #b71c1c; }
+
+        .btn-negotiate {
+            background-color: white;
+            color: #d32f2f;
+            padding: 9px 18px;
+            border: 1px solid #d32f2f;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-negotiate:hover { background-color: #fde9e9; }
+
+        .vin-text { font-family: monospace; font-size: 12px; color: #666; letter-spacing: 0.5px; }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .status-badge.operable { background: #e8f5e9; color: #2e7d32; }
+        .status-badge.inop { background: #fff3e0; color: #e65100; }
+        .status-badge.open { background: #e3f2fd; color: #1565c0; }
+        .status-badge.enclosed { background: #f3e5f5; color: #6a1b9a; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ACV Load Board</div>
+        <nav>
+            <a href="index.html">Job List</a>
+            <a href="job-board.html">Manage</a>
+        </nav>
+        <div class="user-section">
+            <span>Max Test Gddd</span>
+            <span style="color: #d32f2f; font-weight: 600;">New</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <a href="index.html" class="back-link">&#8592; Back to Board</a>
+            <h1 class="page-title">Compare Loads</h1>
+        </div>
+
+        <div class="compare-table-wrap">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th class="vehicle-col">Category</th>
+                        <th class="load-col">
+                            <div class="vehicle-header">
+                                <div class="vehicle-name">2019 Dodge Charger</div>
+                                <div class="vehicle-meta">Black Pearl &middot; Operable</div>
+                                <div class="price-big">$850</div>
+                                <div class="price-pmi">$0.40/mi</div>
+                            </div>
+                        </th>
+                        <th class="load-col">
+                            <div class="vehicle-header">
+                                <div class="vehicle-name">2020 Tesla Model X</div>
+                                <div class="vehicle-meta">Pearl White &middot; Operable</div>
+                                <div class="price-big">$1,200</div>
+                                <div class="price-pmi">$0.86/mi</div>
+                            </div>
+                        </th>
+                        <th class="load-col">
+                            <div class="vehicle-header">
+                                <div class="vehicle-name">2018 Jeep Compass</div>
+                                <div class="vehicle-meta">Silver &middot; Inoperable</div>
+                                <div class="price-big">$650</div>
+                                <div class="price-pmi">$0.83/mi</div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Section: Pricing -->
+                    <tr class="section-header">
+                        <td colspan="4">Pricing</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Total Pay</td>
+                        <td class="load-col best">$850 <span class="best-badge">Best</span></td>
+                        <td class="load-col">$1,200</td>
+                        <td class="load-col">$650</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Pay per Mile</td>
+                        <td class="load-col">$0.40/mi</td>
+                        <td class="load-col best">$0.86/mi <span class="best-badge">Best</span></td>
+                        <td class="load-col">$0.83/mi</td>
+                    </tr>
+
+                    <!-- Section: Route -->
+                    <tr class="section-header">
+                        <td colspan="4">Route</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Pickup</td>
+                        <td class="load-col">West Palm Beach, FL 33401</td>
+                        <td class="load-col">Chicago, IL 60601</td>
+                        <td class="load-col">Dallas, TX 75201</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Delivery</td>
+                        <td class="load-col">Seattle, WA 98101</td>
+                        <td class="load-col">Miami, FL 33101</td>
+                        <td class="load-col">Denver, CO 80201</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Distance</td>
+                        <td class="load-col">3,279 mi</td>
+                        <td class="load-col">1,377 mi</td>
+                        <td class="load-col best">784 mi <span class="best-badge">Shortest</span></td>
+                    </tr>
+
+                    <!-- Section: Scheduling -->
+                    <tr class="section-header">
+                        <td colspan="4">Scheduling</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Pickup Date</td>
+                        <td class="load-col">Mar 16, 2026</td>
+                        <td class="load-col best">Mar 15, 2026 <span class="best-badge">Soonest</span></td>
+                        <td class="load-col">Mar 14, 2026</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Delivery Date</td>
+                        <td class="load-col">Mar 18, 2026</td>
+                        <td class="load-col">Mar 17, 2026</td>
+                        <td class="load-col">Mar 16, 2026</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Transport</td>
+                        <td class="load-col"><span class="status-badge open">Open</span></td>
+                        <td class="load-col"><span class="status-badge enclosed">Enclosed</span></td>
+                        <td class="load-col"><span class="status-badge open">Open</span></td>
+                    </tr>
+
+                    <!-- Section: Vehicle -->
+                    <tr class="section-header">
+                        <td colspan="4">Vehicle Details</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Condition</td>
+                        <td class="load-col"><span class="status-badge operable">Operable</span></td>
+                        <td class="load-col"><span class="status-badge operable">Operable</span></td>
+                        <td class="load-col"><span class="status-badge inop">Inoperable</span></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">VIN</td>
+                        <td class="load-col"><span class="vin-text">2C3CDXBG3KH541283</span></td>
+                        <td class="load-col"><span class="vin-text">5YJXCDE21LF294817</span></td>
+                        <td class="load-col"><span class="vin-text">3C4NJCBB5JT382049</span></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Weight</td>
+                        <td class="load-col best">4,046 lbs <span class="best-badge">Lightest</span></td>
+                        <td class="load-col">5,421 lbs</td>
+                        <td class="load-col">3,374 lbs</td>
+                    </tr>
+                    <tr>
+                        <td class="row-label">Dimensions</td>
+                        <td class="load-col">197" × 74" × 57"</td>
+                        <td class="load-col">198" × 79" × 66"</td>
+                        <td class="load-col">173" × 72" × 65"</td>
+                    </tr>
+
+                    <!-- Action row -->
+                    <tr class="action-row">
+                        <td class="row-label"></td>
+                        <td class="load-col">
+                            <button class="btn-book">Book Now</button>
+                            <button class="btn-negotiate">Negotiate</button>
+                        </td>
+                        <td class="load-col">
+                            <button class="btn-book">Book Now</button>
+                            <button class="btn-negotiate">Negotiate</button>
+                        </td>
+                        <td class="load-col">
+                            <button class="btn-book">Book Now</button>
+                            <button class="btn-negotiate">Negotiate</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

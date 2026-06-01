@@ -1,0 +1,528 @@
+================================================================================
+LB COMPETITIVE ANALYSIS: CENTRAL DISPATCH vs SUPER DISPATCH
+For: ACV Transport Load Board
+Date: March 27, 2026
+================================================================================
+
+OVERVIEW
+--------
+Central Dispatch: Aging monopoly load board. Dominant market share in auto
+transport. Carriers use it by necessity despite poor UX. Phone-based
+negotiation model.
+
+Super Dispatch: Modern all-in-one platform for small carriers. Combines load
+board + TMS + BOL + payment. Better mobile and field workflows. Smaller load
+volume than CD but growing.
+
+
+================================================================================
+1. LOAD BOARD / JOB SEARCH FEATURES
+================================================================================
+
+CENTRAL DISPATCH:
+  - Search by origin/destination with radius adjustments
+  - Corridor/route-based search available
+  - Filters: vehicle type, transport type (open/enclosed), runs/drives status,
+    date range, payment type, broker rating
+  - Map view + List view toggle (confirmed in screenshots)
+  - Saved searches + email alerts (though alerts reported as unreliable)
+  - Load listing shows:
+    * Posted recency ("Posted X hours ago")
+    * Price + $/mile calculation (confirmed)
+    * Vehicle year/make/model (confirmed)
+    * Weight/dimensions (confirmed)
+    * Origin & destination city/state (confirmed)
+    * Broker name/rating (not visible on card, must expand)
+    * Inoperable/runs-drives status icon (confirmed)
+  - Pagination with numbered page controls (confirmed)
+  - "USE OLD SEARCH" fallback button available (confirmed)
+
+SUPER DISPATCH:
+  - Load board search by origin/destination
+  - Filter by shipper rating, verified shippers only
+  - Filter by vehicle type, transport type, price range, date
+  - Corridor/route-based search
+  - Map view showing load pins
+  - Central Dispatch integration: can browse CD loads within SD platform
+  - Real-time load notifications (push-based, faster than CD email alerts)
+  - Load details include shipper/broker name, vehicle type, price, date
+
+
+WINNER: Central Dispatch for load volume + discovery; Super Dispatch for
+         UX + real-time alerts
+
+
+================================================================================
+2. JOB BOOKING / CONTRACTING
+================================================================================
+
+CENTRAL DISPATCH:
+  - Contact-to-book model (NOT instant)
+  - Carrier identifies load, calls/messages broker directly
+  - Broker and carrier negotiate rate and terms (rate posted is often below
+    final bid)
+  - Broker sends formal dispatch order once agreed
+  - Carrier digitally signs contract in platform
+  - Load moves to carrier's active queue
+  - Pain point: desirable loads can be taken by another carrier while
+    negotiating
+
+SUPER DISPATCH:
+  - Instant book available on some loads (no negotiation required)
+  - Request/counter-offer for others
+  - Digital contract generation
+  - Super Carrier Score (carrier's reputation) determines which loads accessible
+  - Once accepted, load populates dispatcher immediately
+
+
+WINNER: Super Dispatch (faster, less friction)
+
+
+================================================================================
+3. JOB MANAGEMENT / TRACKING
+================================================================================
+
+CENTRAL DISPATCH:
+  - Active orders dashboard (pending, in-transit, delivered)
+  - Order shows full details: vehicle, addresses, shipper contact, rate
+  - BOL/condition reporting available but basic
+  - Photo documentation is third-party (not native to CD)
+  - Order history searchable, feeds into carrier rating
+  - NO real-time GPS tracking built-in
+  - Carriers must use separate telematics/ELD for live tracking
+
+SUPER DISPATCH:
+  - Route planning view showing multi-load trips (confirmed in screenshot)
+  - Route table with: Load, Origin, Destination, Vehicles, Pickup Date
+    (confirmed)
+  - Map view with all pickup/delivery pins (confirmed)
+  - Route editable + can assign drivers/vehicles (confirmed)
+  - Attachments per trip (drag & drop, up to 20MB) (confirmed)
+  - Internal notes per trip (confirmed)
+  - Digital Bill of Lading (BOL) with:
+    * Photo capture (pre/post vehicle condition)
+    * E-signature from customer
+    * Cloud storage, accessible anytime
+  - Vehicle inspection integration (timestamped photos)
+  - GPS tracking for live visibility
+  - Payment terms visible per load (confirmed in screenshot)
+
+
+WINNER: Super Dispatch (BOL + GPS + photo integration native; CD requires
+         third-party tools)
+
+
+================================================================================
+4. MOBILE APP
+================================================================================
+
+CENTRAL DISPATCH:
+  - Mobile app exists (iOS/Android) but widely considered weak
+  - Basic load search and filtering on mobile
+  - View active orders and dispatch details
+  - Contact brokers via phone
+  - Push notifications (unreliable)
+  - Dated UI/UX; rated 2-3 stars on app stores
+  - Heavy reliance on desktop for full workflow
+  - No in-app BOL or condition reporting (major gap)
+  - Many carriers prefer desktop even in field
+
+SUPER DISPATCH:
+  - Dedicated Carrier TMS mobile app
+  - Full load board browsing + job booking on mobile
+  - Digital BOL creation + e-signature capture
+  - Vehicle inspection with photo upload (timestamped)
+  - GPS check-in at pickup/delivery
+  - Push notifications (reliable)
+  - In-app messaging with shippers/brokers
+  - Payment status visibility
+  - Offline mode for BOL/inspection (syncs when connected)
+  - Widely praised as best-in-class for field workflows
+
+
+WINNER: Super Dispatch (modern, purpose-built for field work)
+
+
+================================================================================
+5. COMMUNICATION FEATURES
+================================================================================
+
+CENTRAL DISPATCH:
+  - In-platform messaging system (tied to order/dispatch)
+  - Phone-first culture: most negotiations happen by phone
+  - Broker phone number + company name visible on listings
+  - Email and unreliable push notifications
+  - No video calling, no automated status updates to end customers
+  - Real-time notification reliability is major complaint
+
+SUPER DISPATCH:
+  - In-app messaging per order
+  - Message threads tied to specific loads
+  - Push notifications (reliable)
+  - Phone number visibility once load booked
+  - Automated status updates to shipper (e.g., "picked up")
+  - No native video calling
+
+
+WINNER: Super Dispatch (more reliable notifications + status automation)
+
+
+================================================================================
+6. PAYMENT / FINANCIAL
+================================================================================
+
+CENTRAL DISPATCH:
+  - CD does NOT process payments (critical point)
+  - Payment is broker-to-carrier, outside platform
+  - Payment terms visible on listings (COD, check, Comchek, ACH, etc.)
+  - NO escrow or payment protection through platform
+  - If broker doesn't pay, carrier must pursue independently
+  - Broker ratings serve as indirect protection (avoid low-rated brokers)
+  - Industry culture accepts late/non-payment risk as normal
+
+SUPER DISPATCH:
+  - Super Pay: escrow-backed payment option
+  - Faster payment: 1-2 business days after delivery confirmation
+  - No factoring fees (vs. 3-5% from traditional factoring companies)
+  - Payments via ACH direct deposit
+  - Payment status visible in-app in real time
+  - Auto-generated invoices upon delivery
+  - Invoice history + export for accounting
+  - Works only with Super Pay-enrolled shippers/brokers
+  - For non-Super Pay loads, standard payment terms apply (net 30, etc.)
+  - Subscription: ~$99-149/month for full TMS access (includes Super Pay)
+
+
+WINNER: Super Dispatch (eliminates cash flow pain + payment protection)
+
+
+================================================================================
+7. REVIEWS / RATINGS SYSTEM
+================================================================================
+
+CENTRAL DISPATCH:
+  - Broker ratings visible on load listings (confirmed in research)
+  - Numerical scale (out of 5 stars) with written reviews
+  - Rated on: communication, payment speed, accuracy, professionalism
+  - Carrier ratings also visible (brokers rate carriers post-job)
+  - Ratings are primary trust mechanism (no payment guarantee)
+  - Retaliation reviews are a concern
+  - Manipulation possible by large brokers with volume leverage
+
+SUPER DISPATCH:
+  - Super Carrier Score: reputation score for carriers
+  - Based on: on-time performance, delivery accuracy, BOL completion rate,
+    customer reviews, dispute history
+  - Works like a credit score; higher scores unlock better load access
+  - USDOT/MC verification required (verified badge on profile)
+  - Insurance verification (carriers must upload current certificates)
+  - Carriers can also rate shippers/brokers post-job
+  - Creates vetted marketplace
+
+
+WINNER: Super Dispatch (more comprehensive, less susceptible to manipulation)
+
+
+================================================================================
+8. PRICING MODEL
+================================================================================
+
+CENTRAL DISPATCH:
+  - Carrier subscription: ~$95-100/month
+  - No per-load commission
+  - Annual discount available
+  - 30-day free trial for new carriers
+  - Perceived as necessary cost (monopoly pricing) despite dislike
+
+SUPER DISPATCH:
+  - Free tier: basic load board + limited BOL
+  - Paid tier (Super Carrier TMS): ~$99-149/month per carrier
+  - Includes: unlimited BOLs, Super Pay access, GPS tracking, reporting,
+    priority support
+  - Some plans are per-user/per-driver, others company-wide
+  - No per-load commission
+  - Subscription cheaper than factoring fees on net-30 payments
+
+
+WINNER: Roughly equivalent; Super Dispatch offers more value per dollar for
+         small carriers
+
+
+================================================================================
+9. UX STRENGTHS & WEAKNESSES
+================================================================================
+
+CENTRAL DISPATCH STRENGTHS:
+  + Dominant load volume (essential for carrier operations)
+  + Industry standard (everyone knows how to use it)
+  + Broker transparency (ratings, history, contact visible)
+  + Route/radius search practical for route planning
+  + Long-term order history builds verifiable reputation
+  + Pagination + search refinement UI works
+
+CENTRAL DISPATCH WEAKNESSES:
+  - Outdated, clunky interface (confirmed visually)
+  - Poor mobile experience (relegated to 2-3 stars on app stores)
+  - NO instant booking (phone-tag wastes time)
+  - No payment processing (zero protection from non-payment)
+  - No integrated GPS tracking
+  - No integrated BOL/photo tool
+  - Unreliable notifications
+  - Slow customer support
+  - Subscription auto-renewal complaints
+
+
+SUPER DISPATCH STRENGTHS:
+  + Modern, purpose-built interface
+  + Mobile app is clean and field-capable
+  + Digital BOL workflow (end-to-end, eliminates paper)
+  + Super Pay solves cash flow problem
+  + GPS tracking native
+  + Vehicle inspection integration (photos + timestamps)
+  + All-in-one for small carriers (load board + TMS + payment)
+  + Offline mode for field work
+  + Faster notifications + real-time alerts
+  + E-signature from customers (stronger legally than paper)
+  + Multi-load route planning (confirmed in screenshot)
+  + Attachments/document management (confirmed)
+
+SUPER DISPATCH WEAKNESSES:
+  - Central Dispatch still dominates load volume
+  - Subscription cost pain point for very small operators
+  - Customer support mixed reviews (response times slow)
+  - Messaging/communication tools basic compared to dedicated platforms
+  - Mobile app bugs reported (crashes on older devices, sync issues)
+  - Limited customization (rigid TMS)
+  - Steep learning curve for non-tech-savvy carriers
+  - Super Carrier Score system felt opaque by some users
+
+
+================================================================================
+10. STANDOUT / UNIQUE FEATURES
+================================================================================
+
+CENTRAL DISPATCH:
+  - Network dominance (largest load pool in US auto transport)
+  - Built-in broker vetting ecosystem (years of reviews = institutional knowledge)
+  - Route corridor intelligence (backhaul planning aided by load density)
+  - Industry-specific data (vehicle condition, enclosed vs. open classification)
+  - Integration ecosystem (Super Dispatch, Revinova, factoring companies)
+
+SUPER DISPATCH:
+  - Digital BOL (end-to-end: creation, inspection photos, e-signature, cloud storage)
+  - Super Pay (escrow-backed, 1-2 day payout, eliminates factoring)
+  - Super Carrier Score (trust system with reputation score)
+  - Vehicle inspection integration (photo-based pre/post condition)
+  - Central Dispatch integration (access CD loads from within SD)
+  - All-in-one TMS for small carriers (load board + dispatch + payment)
+  - Mobile-first design (purpose-built for field work)
+  - Offline mode for BOL/inspection
+
+
+================================================================================
+SUMMARY MATRIX
+================================================================================
+
+Feature Category        | Central Dispatch | Super Dispatch   | Winner
+---------------------------------------------------------------------------
+Load Volume             | Dominant         | Growing          | CD
+Search/Discovery UX     | Dated            | Modern           | SD
+Instant Booking         | No               | Yes (some loads) | SD
+Job Management          | Basic            | Advanced         | SD
+Mobile App              | Weak             | Strong           | SD
+BOL/Paperwork           | Third-party      | Native           | SD
+Payment Processing      | None             | Super Pay        | SD
+GPS Tracking            | No               | Yes              | SD
+Ratings System          | Basic 5-star     | Comprehensive    | SD
+Multi-load Routes       | No               | Yes              | SD
+Field Capabilities      | Poor             | Excellent        | SD
+Industry Knowledge      | Deep             | Growing          | CD
+Pricing                 | $95-100/mo       | $99-149/mo       | ~Even
+Customer Support        | Slow             | Mixed            | ~Even
+
+
+================================================================================
+KEY INSIGHTS FOR ACV TRANSPORT LOAD BOARD
+================================================================================
+
+1. MARKET GAP ADDRESSED BY SUPER DISPATCH:
+   Central Dispatch controls load volume but has poor UX, no payment processing,
+   and terrible mobile. Super Dispatch built the modern alternative but hasn't
+   achieved CD's load volume yet.
+
+2. SUPER DISPATCH'S MOAT:
+   Digital BOL + Super Pay solve the two biggest operational headaches in auto
+   transport (paperwork + cash flow). This is strong enough to keep carriers
+   even with smaller load volume.
+
+3. WHAT CENTRAL DISPATCH KEEPS:
+   Network effects. Until another platform matches CD's load volume, carriers
+   will maintain subscriptions despite hating the UX.
+
+4. OPPORTUNITIES FOR ACV:
+   - Seamless integration with existing load boards (don't force choice)
+   - Mobile-first design for field carriers
+   - Digital BOL/inspection workflow (SD has proven this works)
+   - Faster payment options (Super Pay model is validated)
+   - Better real-time notifications than CD
+   - Modern, clean interface (CD is visually outdated)
+   - Emphasis on carrier reputation/score (matches SD model)
+   - Multi-load route planning (confirmed useful in SD)
+
+5. RISK:
+   Without a partner/integration deal for load volume, ACV would need to
+   compete on product alone. SD has great product but still relies on CD
+   integration for load availability. CD's monopoly is very strong.
+
+
+================================================================================
+ACV TRANSPORT LOAD BOARD ANALYSIS
+================================================================================
+
+From job management screenshot (Order #96983557):
+
+WHAT ACV HAS (Strengths):
+  + eBOL capability (Add eBOL when Delivered)
+  + Vehicle photo included with listing
+  + VIN display
+  + Vehicle price displayed ($259)
+  + Downloadable documents (ACV Release Slip, Dispatch Sheet)
+  + Status update buttons (Mark As Picked Up)
+  + ETA management (Update ETA button, marked "New")
+  + Alert system for overdue deliveries (yellow banner with phone)
+  + Multi-language instructions support (English dropdown)
+  + Clean, readable layout for job details
+  + Instructions section with copy-to-clipboard capability
+
+
+WHAT ACV IS MISSING vs COMPETITORS:
+================================================================================
+
+1. EBOL WORKFLOW IS INCOMPLETE:
+   - Only "Add eBOL when Delivered" (post-delivery only)
+   - Super Dispatch: Photo capture + inspection at PICKUP & DELIVERY
+   - Super Dispatch: E-signature collection from customer in-app
+   - ACV: No pre-delivery inspection workflow visible
+   - Impact: Can't document vehicle condition at pickup (leaves ACV vulnerable to
+     damage claims post-delivery)
+
+2. NO GPS TRACKING / CHECK-IN:
+   - Super Dispatch: GPS check-in at pickup/delivery
+   - Super Dispatch: Real-time location tracking
+   - ACV: No visible tracking capability
+   - Impact: No visibility into carrier location/progress for shippers
+
+3. NO MULTI-LOAD ROUTE PLANNING:
+   - Super Dispatch: Route planning view with multiple loads per trip, map,
+     driver assignment
+   - Central Dispatch: Basic multi-load support through notes/system
+   - ACV: Shows individual job details only
+   - Impact: No optimization for carriers managing multiple loads in sequence
+
+4. NO PAYMENT INFORMATION/TRACKING:
+   - Super Dispatch: Payment terms + status visible per load, Super Pay option
+   - Central Dispatch: Payment terms visible on listings (though no processing)
+   - ACV: No payment info visible in job detail screen
+   - Impact: Carriers don't know payment terms until completing job
+
+5. NO REAL-TIME PUSH NOTIFICATIONS:
+   - Super Dispatch: Push notifications for loads, messages, payment updates
+   - Central Dispatch: Email alerts (unreliable)
+   - ACV: Only alert shown is overdue warning
+   - Impact: Carriers may miss new load opportunities, messages, status updates
+
+6. NO IN-APP MESSAGING WITH SHIPPERS:
+   - Super Dispatch: In-app messaging per order with shippers
+   - Central Dispatch: In-platform messaging system
+   - ACV: Not visible; likely relying on phone/external channels
+   - Impact: Communication fragmentation; shippers can't reach carrier in-app
+
+7. NO CARRIER REPUTATION SYSTEM:
+   - Super Dispatch: Super Carrier Score (on-time, accuracy, BOL completion, reviews)
+   - Central Dispatch: Star ratings from shippers
+   - ACV: No visible reputation/rating system
+   - Impact: No trust signal for new shippers; no incentive for quality
+
+8. NO EXTERNAL LOAD BOARD INTEGRATION:
+   - Super Dispatch: Integrates Central Dispatch loads directly
+   - ACV: Appears standalone
+   - Impact: Carriers must use separate platform for broader load discovery
+
+9. LIMITED DOCUMENT MANAGEMENT:
+   - Super Dispatch: Cloud-backed BOL with e-signatures, photo attachments,
+     timestamped records
+   - ACV: Downloadable files (Release Slip, Dispatch Sheet) — paper-adjacent workflow
+   - Impact: Documents not legally robust; harder to dispute damage claims
+
+10. NO ATTACHMENT CAPABILITY PER JOB:
+    - Super Dispatch: Drag & drop attachments up to 20MB per trip
+    - ACV: No visible attachment upload in job detail
+    - Impact: Carriers can't attach photos, receipts, or other supporting docs
+
+11. NO INTERNAL NOTES PER JOB:
+    - Super Dispatch: Internal notes field per trip (visible in screenshot)
+    - ACV: Not visible
+    - Impact: Can't record carrier-specific context/issues per job
+
+12. UNCLEAR JOB STATE WORKFLOW:
+    - "Staged (2)" tab is ambiguous
+    - Super Dispatch: Clear states (Assigned → Picked Up → In Transit → Delivered)
+    - Central Dispatch: Clear dispatch workflow
+    - ACV: "Staged" meaning unclear to new users
+
+13. NO MOBILE OPTIMIZATION VISIBLE:
+    - Super Dispatch: Mobile app specifically designed for field (BOL, GPS,
+      signatures, offline mode)
+    - ACV: Appears desktop-first
+    - Impact: Carriers can't complete job workflows efficiently in field
+
+14. NO LOAD SEARCH/FILTERING:
+    - Screenshot shows job detail, not load board discovery
+    - Can't tell if ACV has search filters like CD/SD
+    - Job List tab visible but no filtering shown
+
+15. NO LANGUAGE SUPPORT FOR INSTRUCTIONS IN MULTIPLE LANGUAGES:
+    - ACV has English dropdown (good start)
+    - But instructions are pre-written and translated
+    - Super Dispatch: Automated translation suggested
+
+
+================================================================================
+COMPETITIVE GAPS - WHAT ACV NEEDS TO MATCH SUPER DISPATCH
+================================================================================
+
+CRITICAL (High Impact):
+  1. Pre-delivery vehicle inspection (photo + timestamp at pickup)
+  2. E-signature capture from customer in mobile app
+  3. GPS check-in at pickup/delivery
+  4. Multi-load route planning with map view
+  5. Payment terms visibility + payment processing option
+  6. Push notifications for new loads, messages, job updates
+  7. Carrier reputation/scoring system
+  8. In-app messaging with shippers
+
+IMPORTANT (Medium Impact):
+  9. Cloud-backed digital BOL with legal teeth (e-signatures + photos)
+  10. Attachment uploads per job (photos, receipts, etc.)
+  11. Internal notes per job
+  12. Mobile-optimized app for field workflows
+  13. Offline mode for BOL/inspection
+  14. Real-time alert reliability
+
+NICE-TO-HAVE (Lower Priority):
+  15. External load board integration (Central Dispatch, etc.)
+  16. Automated multi-language translation
+  17. Driver assignment + fleet management
+
+
+================================================================================
+TO UPDATE THIS ANALYSIS
+================================================================================
+
+Waiting on:
+  - More ACV LB screenshots (Job List with search/filters, load discovery, mobile)
+  - More Central Dispatch screenshots (load details, mobile, messaging)
+  - More Super Dispatch screenshots (BOL creation, payment, mobile, messaging)
+  - Questions: Does ACV have payment processing? Messaging? Mobile app?
+
+When more screenshots arrive, this analysis will be refined.
