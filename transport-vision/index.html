@@ -528,12 +528,31 @@
           <div class="tv-lane-header">
             <span class="tv-lane-dot" style="background:#22c55e;"></span>
             <span class="tv-lane-label">Done</span>
-            <span class="tv-lane-count">6</span>
+            <span class="tv-lane-count">7</span>
           </div>
           <div class="tv-lane-cards">
 
+            <!-- Manage Page -->
+            <div class="tv-card" data-card-id="manage-page" onclick="window.open('manage-page.html','_blank')" style="cursor:pointer;">
+              <div class="tv-card-accent" style="background: linear-gradient(90deg, #f26522, #e65100);"></div>
+              <div class="tv-card-header">
+                <div class="tv-card-icon" style="background: #fff0e8; color: #f26522;">
+                  <span class="material-symbols-outlined">checklist</span>
+                </div>
+                <div class="tv-card-badges">
+                  <span class="tv-badge tv-badge-active">Current</span>
+                </div>
+              </div>
+              <div class="tv-card-title">Manage Page</div>
+              <div class="tv-card-desc">Carrier active job management surface — dispatched, in-transit, and delivered jobs with Action Required / Schedule View filters, Release Slip, and Feature Announcements.</div>
+              <div class="tv-card-footer">
+                <span class="tv-card-file">manage-page.html</span>
+                <a href="manage-page-doc.html" target="_blank" onclick="event.stopPropagation();" style="font-size:11px;font-weight:600;color:#f26522;text-decoration:none;letter-spacing:0.2px;">Documentation ↗</a>
+              </div>
+            </div>
+
             <!-- Feature Announcements -->
-            <a class="tv-card" data-card-id="feature-announcements" target="_blank" href="feature-announcements.html">
+            <div class="tv-card" data-card-id="feature-announcements" onclick="window.open('feature-announcements.html','_blank')" style="cursor:pointer;">
               <div class="tv-card-accent" style="background: linear-gradient(90deg, #f26522, #fc4243);"></div>
               <div class="tv-card-header">
                 <div class="tv-card-icon" style="background: #fff0e8; color: #f26522;">
@@ -547,12 +566,12 @@
               <div class="tv-card-desc">Journeys 1–4 implemented: login modal carousel, What's New panel, contextual tooltips, and single-item detail view. Includes 365-day history log with search, tag types (New Feature / Improvement / Release Note), and clickable tooltip items.</div>
               <div class="tv-card-footer">
                 <span class="tv-card-file">feature-announcements.html</span>
-                <span class="tv-card-arrow"><span class="material-symbols-outlined">arrow_forward</span></span>
+                <a href="feature-announcements-doc.html" target="_blank" onclick="event.stopPropagation();" style="font-size:11px;font-weight:600;color:#f26522;text-decoration:none;letter-spacing:0.2px;">Documentation ↗</a>
               </div>
-            </a>
+            </div>
 
             <!-- Release Slip -->
-            <a class="tv-card" data-card-id="release-slip" target="_blank" href="release-slip.html">
+            <div class="tv-card" data-card-id="release-slip" onclick="window.open('release-slip.html','_blank')" style="cursor:pointer;">
               <div class="tv-card-accent" style="background: linear-gradient(90deg, #0d9488, #0891b2);"></div>
               <div class="tv-card-header">
                 <div class="tv-card-icon" style="background: #f0fdf9; color: #0d9488;">
@@ -566,9 +585,9 @@
               <div class="tv-card-desc">Digital transport release slip generated from staged jobs — carrier handoff document with vehicle, route, and pickup details.</div>
               <div class="tv-card-footer">
                 <span class="tv-card-file">release-slip.html</span>
-                <span class="tv-card-arrow"><span class="material-symbols-outlined">arrow_forward</span></span>
+                <a href="release-slip-doc.html" target="_blank" onclick="event.stopPropagation();" style="font-size:11px;font-weight:600;color:#f26522;text-decoration:none;letter-spacing:0.2px;">Documentation ↗</a>
               </div>
-            </a>
+            </div>
 
             <!-- Transport Hub -->
             <div class="tv-card tv-card-versioned" data-card-id="transport-hub" onclick="window.open('../Transport%20Hub%20Improvements/index.html', '_blank')">
@@ -655,7 +674,7 @@
             </div>
 
             <!-- Job List -->
-            <a class="tv-card" data-card-id="job-list" target="_blank" href="job-list.html">
+            <div class="tv-card" data-card-id="job-list" onclick="window.open('job-list.html','_blank')" style="cursor:pointer;">
               <div class="tv-card-accent" style="background: #e0e3e8;"></div>
               <div class="tv-card-header">
                 <div class="tv-card-icon" style="background: #f0f2f5; color: #55575c;">
@@ -671,10 +690,10 @@
                 <span class="tv-card-file">job-list.html</span>
                 <span class="tv-card-arrow"><span class="material-symbols-outlined">arrow_forward</span></span>
               </div>
-            </a>
+            </div>
 
             <!-- Checkout -->
-            <a class="tv-card" data-card-id="checkout" target="_blank" href="checkout.html">
+            <div class="tv-card" data-card-id="checkout" onclick="window.open('checkout.html','_blank')" style="cursor:pointer;">
               <div class="tv-card-accent" style="background: #e0e3e8;"></div>
               <div class="tv-card-header">
                 <div class="tv-card-icon" style="background: #f0f2f5; color: #55575c;">
@@ -685,9 +704,9 @@
               <div class="tv-card-desc">Auction buyer checkout flow with transport option selection, dates, and booking confirmation.</div>
               <div class="tv-card-footer">
                 <span class="tv-card-file">checkout.html</span>
-                <span class="tv-card-arrow"><span class="material-symbols-outlined">arrow_forward</span></span>
+                <a href="checkout-doc.html" target="_blank" onclick="event.stopPropagation();" style="font-size:11px;font-weight:600;color:#f26522;text-decoration:none;letter-spacing:0.2px;">Documentation ↗</a>
               </div>
-            </a>
+            </div>
 
           </div>
         </div>
@@ -695,14 +714,32 @@
       </div>
     </div>
 
-    <!-- VISION -->
     <!-- DOCS -->
     <div class="tv-section">
       <div class="tv-section-header">
         <span class="tv-section-title">Docs</span>
-        <span class="tv-section-count">3 docs</span>
+        <span class="tv-section-count">4 docs</span>
       </div>
       <div class="tv-cards">
+
+        <!-- Transport Knowledge Base -->
+        <a class="tv-card" target="_blank" href="/Users/maxciaccio/Claude_work/ACV%20Transport%20Knowledge%20Base.html">
+          <div class="tv-card-accent" style="background: linear-gradient(90deg, #0d9488, #2196f5);"></div>
+          <div class="tv-card-header">
+            <div class="tv-card-icon" style="background: #f0fdf9; color: #0d9488;">
+              <span class="material-symbols-outlined">menu_book</span>
+            </div>
+            <div class="tv-card-badges">
+              <span class="tv-badge tv-badge-ref">Reference</span>
+            </div>
+          </div>
+          <div class="tv-card-title">Transport Knowledge Base</div>
+          <div class="tv-card-desc">Consolidated reference document covering the full ACV Transport product — flows, pricing, SLAs, carrier network, and platform mechanics.</div>
+          <div class="tv-card-footer">
+            <span class="tv-card-file">ACV Transport Knowledge Base.html</span>
+            <span class="tv-card-arrow"><span class="material-symbols-outlined">arrow_forward</span></span>
+          </div>
+        </a>
 
         <!-- Product Vision -->
         <a class="tv-card" target="_blank" href="product-vision.html">

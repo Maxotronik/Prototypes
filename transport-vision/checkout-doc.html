@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Feature Documentation · Transport Vision</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f7f8fa; color: #1c1d1f; min-height: 100vh; }
+
+    .doc-topbar { position: sticky; top: 0; z-index: 100; background: #1c1d1f; height: 52px; display: flex; align-items: center; padding: 0 32px; border-bottom: 1px solid #2e3035; }
+    .doc-breadcrumb { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .doc-logo-badge { background: #f26522; color: white; font-size: 12px; font-weight: 800; letter-spacing: 1px; padding: 3px 7px; border-radius: 3px; }
+    .doc-breadcrumb-sep { color: #55575c; font-size: 16px; font-weight: 300; margin: 0 2px; }
+    .doc-breadcrumb-label { font-size: 13px; font-weight: 500; color: #8c8e93; }
+    .doc-breadcrumb-label:hover { color: white; }
+    .doc-topbar-title { margin-left: auto; font-size: 12px; color: #55575c; }
+
+    .doc-layout { display: flex; min-height: calc(100vh - 52px); }
+
+    .doc-sidebar { width: 224px; flex-shrink: 0; background: white; border-right: 1px solid #e8eaed; position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; padding: 28px 0 40px; }
+    .doc-sidebar-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #a0a3a8; padding: 0 20px; margin-bottom: 8px; }
+    .doc-nav-link { display: flex; align-items: baseline; gap: 10px; padding: 7px 20px; font-size: 13px; font-weight: 500; color: #71747a; text-decoration: none; border-left: 2px solid transparent; transition: color .12s, border-color .12s, background .12s; line-height: 1.4; }
+    .doc-nav-link:hover { color: #1c1d1f; background: #f7f8fa; }
+    .doc-nav-link.active { color: #f26522; border-left-color: #f26522; background: #fff8f5; font-weight: 600; }
+    .doc-nav-num { font-size: 10px; font-weight: 700; color: #c0c2c7; flex-shrink: 0; font-variant-numeric: tabular-nums; min-width: 14px; }
+    .doc-nav-link.active .doc-nav-num { color: #f26522; }
+
+    .doc-main { flex: 1; min-width: 0; padding: 56px 64px 96px; max-width: 840px; }
+    .doc-page-title { font-size: 28px; font-weight: 800; color: #1c1d1f; line-height: 1.2; margin-bottom: 6px; }
+    .doc-page-meta { font-size: 13px; color: #a0a3a8; margin-bottom: 56px; }
+
+    .doc-section { margin-bottom: 72px; scroll-margin-top: 72px; }
+    .doc-section-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #f26522; margin-bottom: 8px; }
+    .doc-section-title { font-size: 20px; font-weight: 700; color: #1c1d1f; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #e8eaed; }
+
+    .doc-body { font-size: 14px; color: #3c3e42; line-height: 1.75; }
+    .doc-body p + p { margin-top: 14px; }
+
+    .doc-h3 { font-size: 15px; font-weight: 700; color: #1c1d1f; margin: 28px 0 10px; }
+
+    .doc-ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+    .doc-ul li { display: flex; gap: 10px; font-size: 14px; color: #3c3e42; line-height: 1.6; }
+    .doc-ul li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #c0c2c7; flex-shrink: 0; margin-top: 8px; }
+
+    .doc-req-block { background: white; border: 1px solid #e8eaed; border-radius: 10px; padding: 20px 24px; margin: 16px 0; }
+    .doc-req-block-title { font-size: 13px; font-weight: 700; color: #1c1d1f; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .doc-req-block-title .material-symbols-outlined { font-size: 18px; color: #71747a; }
+
+    .doc-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+    .doc-table th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #71747a; padding: 8px 14px; background: #f7f8fa; border-bottom: 1px solid #e8eaed; text-align: left; }
+    .doc-table td { padding: 10px 14px; border-bottom: 1px solid #f0f2f5; color: #3c3e42; line-height: 1.5; vertical-align: top; }
+    .doc-table tr:last-child td { border-bottom: none; }
+    .doc-table tr:nth-child(even) td { background: #fafbfc; }
+    .doc-table td:first-child { font-weight: 600; color: #1c1d1f; }
+
+    .doc-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.2px; vertical-align: middle; }
+    .doc-badge-gray { background: #f0f2f5; color: #55575c; }
+    .doc-badge-amber { background: #fff8e1; color: #7a5800; }
+
+    .doc-note { background: #f7f8fa; border-left: 3px solid #c0c2c7; border-radius: 0 6px 6px 0; padding: 12px 16px; font-size: 13px; color: #55575c; line-height: 1.6; margin: 16px 0; }
+
+    .doc-footer { border-top: 1px solid #e8eaed; padding: 24px 64px; display: flex; align-items: center; justify-content: space-between; background: white; }
+    .doc-footer-meta { font-size: 12px; color: #a0a3a8; }
+    .doc-footer-link { font-size: 12px; color: #f26522; text-decoration: none; font-weight: 500; }
+    .doc-footer-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header class="doc-topbar">
+    <a class="doc-breadcrumb" href="index.html">
+      <span class="doc-logo-badge">ACV</span>
+      <span class="doc-breadcrumb-sep">/</span>
+      <span class="doc-breadcrumb-label">Transport Vision</span>
+    </a>
+    <span class="doc-topbar-title">Feature Documentation</span>
+  </header>
+
+  <div class="doc-layout">
+
+    <nav class="doc-sidebar">
+      <div class="doc-sidebar-label">Contents</div>
+      <a class="doc-nav-link active" href="#s01"><span class="doc-nav-num">01</span>Overview</a>
+      <a class="doc-nav-link" href="#s02"><span class="doc-nav-num">02</span>Tab 01 — Current</a>
+      <a class="doc-nav-link" href="#s03"><span class="doc-nav-num">03</span>Tab 02 — Simplified</a>
+      <a class="doc-nav-link" href="#s04"><span class="doc-nav-num">04</span>Tab 03 — Flat Pickup</a>
+      <a class="doc-nav-link" href="#s05"><span class="doc-nav-num">05</span>Tab 04 — Fuel Surcharge</a>
+      <a class="doc-nav-link" href="#s06"><span class="doc-nav-num">06</span>Tab 05 — Details</a>
+      <a class="doc-nav-link" href="#s07"><span class="doc-nav-num">07</span>Decision Log</a>
+    </nav>
+
+    <div style="flex:1; display:flex; flex-direction:column;">
+      <main class="doc-main">
+
+        <div class="doc-page-title">Checkout</div>
+        <div class="doc-page-meta">Feature Documentation &nbsp;·&nbsp; Buyer Experience &nbsp;·&nbsp; Transport Ordering</div>
+
+        <!-- 01 Overview -->
+        <section class="doc-section" id="s01">
+          <div class="doc-section-eyebrow">01 · Overview</div>
+          <div class="doc-section-title">What This Prototype Is</div>
+          <div class="doc-body">
+            <p>The Checkout prototype is a multi-tab exploration of the transport checkout flow — the moment in the auction buying experience where a dealer selects and confirms transport service for a vehicle they've just won. It is the buyer's first interaction with the transport product.</p>
+            <p>Five tabs explore different design directions and specific sub-problems: a faithful recreation of the current experience (reference baseline), a simplified redesign, a flat route layout, a fuel surcharge disclosure exploration, and a cost breakdown transparency exploration. Each tab is independently styled and scoped to avoid cross-contamination.</p>
+          </div>
+
+          <div class="doc-h3">Navigation</div>
+          <div class="doc-body">
+            <p>A dark sidebar with an orange accent on the left provides tab navigation. Tab selection is persisted via <code>localStorage</code> so the active tab survives page refreshes — useful when testing or presenting a specific direction without having to re-navigate.</p>
+          </div>
+        </section>
+
+        <!-- 02 Tab 01 -->
+        <section class="doc-section" id="s02">
+          <div class="doc-section-eyebrow">02 · Tab 01</div>
+          <div class="doc-section-title">Current — Reference Baseline</div>
+          <div class="doc-body">
+            <p>A faithful recreation of the existing ACV transport checkout experience. This tab is the reference baseline — it captures what dealers see today before any redesign, and grounds the other explorations in the current reality.</p>
+          </div>
+          <ul class="doc-ul">
+            <li>ACV-branded card with radio-based service selector: Open / Enclosed / Drive My Car.</li>
+            <li>Pickup and delivery address fields below the service selector.</li>
+            <li>Price estimates per service type.</li>
+            <li>"I'll find my own carrier" option collapses the ACV transport section.</li>
+            <li><code>.prod-rec-badge</code> positioned inside <code>.acv-card</code> with <code>position: relative</code> on the card.</li>
+          </ul>
+        </section>
+
+        <!-- 03 Tab 02 -->
+        <section class="doc-section" id="s03">
+          <div class="doc-section-eyebrow">03 · Tab 02</div>
+          <div class="doc-section-title">Simplified — UX-Driven Redesign</div>
+          <div class="doc-body">
+            <p>A redesigned checkout that leads with the delivery address as the hero input — the most important piece of information for determining transport cost and availability. The service selector follows once the destination is established.</p>
+          </div>
+          <ul class="doc-ul">
+            <li>Delivery address as a prominent dropdown hero input at the top of the card.</li>
+            <li>Service selector below, with a benefits toggle per service type.</li>
+            <li>Estimates rendered below the service section.</li>
+            <li>"Own carrier" toggle collapses all ACV-managed sections, making it clear this is an opt-out of the default experience.</li>
+          </ul>
+        </section>
+
+        <!-- 04 Tab 03 -->
+        <section class="doc-section" id="s04">
+          <div class="doc-section-eyebrow">04 · Tab 03</div>
+          <div class="doc-section-title">Flat Pickup — Unified Route Block</div>
+          <div class="doc-body">
+            <p>Based on Tab 01, but replaces the separate pickup/delivery fields with a unified route block. Pickup location is shown as plain text (non-editable — it's the auction location). Delivery address is an underlined text input inline in the route block.</p>
+          </div>
+          <ul class="doc-ul">
+            <li>Route block as a single visual unit — origin (fixed) and destination (editable) side by side.</li>
+            <li>Estimates rendered at 20px using <code>v2-estimate-value</code> scoped class.</li>
+            <li>Reduces the form to its minimum — one field to fill, one decision to make (service type).</li>
+          </ul>
+        </section>
+
+        <!-- 05 Tab 04 -->
+        <section class="doc-section" id="s05">
+          <div class="doc-section-eyebrow">05 · Tab 04</div>
+          <div class="doc-section-title">Fuel Surcharge — Variable Cost Disclosure</div>
+          <div class="doc-body">
+            <p>Explores how a variable fuel surcharge (6.3%) is surfaced at checkout without obscuring the base price. The carrier market passes fuel cost volatility back to shippers — this tab tests a disclosure pattern that makes the surcharge transparent without making it feel punitive.</p>
+          </div>
+
+          <div class="doc-h3">Key behaviors</div>
+          <ul class="doc-ul">
+            <li>Service rows show base prices with a "was" strikethrough (Open: $84 / $109, Enclosed: $279 / $359, Drive My Car: $75 flat).</li>
+            <li>The header price shows the total with surcharge included (base × 1.063). No strikethrough in the header — the total is the truth.</li>
+            <li>An orange info banner below the service selector shows the dollar surcharge amount (e.g. "+$5.29"). Updates dynamically when the service type changes.</li>
+            <li>Drive My Car is excluded from the surcharge — the banner does not update and the header stays at $75.</li>
+          </ul>
+
+          <div class="doc-h3">Banner styling</div>
+          <ul class="doc-ul">
+            <li>Orange background: <code>#fef3ec</code></li>
+            <li>Info icon: <code>#f26522</code></li>
+            <li>Surcharge amount: black (same weight as body copy)</li>
+            <li>Layout reuses <code>.prod-info-box</code> styling for consistency with other info messages in the checkout.</li>
+          </ul>
+
+          <div class="doc-note">This exploration is documented in the ACV Transport Knowledge Base (Section 8.4). The surcharge amount and rate are illustrative — actual rates would come from a backend calculation at checkout time.</div>
+        </section>
+
+        <!-- 06 Tab 05 -->
+        <section class="doc-section" id="s06">
+          <div class="doc-section-eyebrow">06 · Tab 05</div>
+          <div class="doc-section-title">Details — Cost Breakdown Transparency</div>
+          <div class="doc-body">
+            <p>Based on the Simplified tab. Explores what happens when selecting a service type reveals a detailed cost breakdown inline — showing the carrier payout, service charge, and what the service charge covers. Designed for buyers who want to understand what they're paying for before committing.</p>
+          </div>
+
+          <div class="doc-h3">Inline expansion behavior</div>
+          <ul class="doc-ul">
+            <li>Selecting a service type expands that service card inline — the breakdown appears below a 2px <code>#dcdfe8</code> divider.</li>
+            <li>Breakdown shows: Quote (orange, prominent), Estimated carrier/driver payout, Service Charge.</li>
+            <li>"Your service charge covers:" bullet list: extra arbitration days, carrier sourcing and negotiations, damage and fraud protection.</li>
+            <li>Drive My Car: uses "driver payout" label. "See benefits" link is hidden (benefits are not applicable to owner-provided transport).</li>
+          </ul>
+
+          <div class="doc-h3">Visual design</div>
+          <ul class="doc-ul">
+            <li>Font stack: DM Sans (body) + DM Mono (all prices and estimate values).</li>
+            <li>Background: <code>#f4f4f2</code> warm off-white. Cards and service rows at 8px radius throughout.</li>
+            <li>Price header: 28px/500 DM Mono in orange — the dominant number on the card.</li>
+            <li>Service rows have a subtle <code>scale(0.99)</code> on <code>:active</code> for tactile feedback.</li>
+            <li>Delivery field focus state: <code>background: #fff3ec</code> on <code>:focus-within</code> — orange tint signals active input without a visible border.</li>
+          </ul>
+
+          <div class="doc-note">CSS for this tab is fully scoped to <code>#design-5</code> and <code>#design-4</code> to prevent any styles from bleeding into other tabs. JS data uses <code>d5ServiceData</code> keyed by <code>'open' | 'enclosed' | 'dmc'</code>.</div>
+        </section>
+
+        <!-- 07 Decision Log -->
+        <section class="doc-section" id="s07">
+          <div class="doc-section-eyebrow">07 · Decision Log</div>
+          <div class="doc-section-title">Key Design Decisions</div>
+
+          <table class="doc-table">
+            <thead><tr><th>Decision</th><th>Rationale</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Tab persistence via localStorage</td>
+                <td>Designers and stakeholders frequently share links or refresh during review. Losing the active tab on refresh creates unnecessary friction when presenting a specific direction.</td>
+              </tr>
+              <tr>
+                <td>Each tab independently styled (scoped CSS)</td>
+                <td>Tabs explore meaningfully different visual directions. Sharing a global stylesheet would force each tab to override the others, making the code fragile and changes risky. Scoped CSS keeps each tab self-contained.</td>
+              </tr>
+              <tr>
+                <td>Tab 01 as faithful reference, not idealized</td>
+                <td>A redesign needs a true baseline, not a polished version of the current. Tab 01 captures the current experience as-is so comparisons are honest.</td>
+              </tr>
+              <tr>
+                <td>Fuel surcharge in header = total (no strikethrough)</td>
+                <td>The header price is the price the dealer pays. Showing it with a strikethrough or "was" treatment would suggest the surcharge is a discount or error. The true total is the right thing to show prominently.</td>
+              </tr>
+              <tr>
+                <td>Drive My Car excluded from surcharge</td>
+                <td>DMC uses a fixed platform fee — there is no carrier network or fuel cost variable involved. Applying the surcharge to DMC would be factually incorrect.</td>
+              </tr>
+              <tr>
+                <td>Tab 05: DM Mono for prices</td>
+                <td>Monospace numerals align naturally in columnar layouts and feel more precise than proportional fonts for financial values. DM Mono pairs with DM Sans without feeling mismatched.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+
+      <footer class="doc-footer">
+        <span class="doc-footer-meta">Last updated: June 1, 2026 &nbsp;·&nbsp; Product &amp; Experience · ACV Auctions</span>
+        <a class="doc-footer-link" href="checkout.html" target="_blank">Open Prototype</a>
+      </footer>
+    </div>
+
+  </div>
+
+  <script>
+    const navLinks = document.querySelectorAll('.doc-nav-link[href^="#"]');
+    const sections = [...navLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+    function onScroll() {
+      let current = sections[0];
+      sections.forEach(s => { if (window.scrollY + 100 >= s.offsetTop) current = s; });
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current.id));
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>

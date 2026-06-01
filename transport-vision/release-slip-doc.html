@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Release Slip — Feature Documentation · Transport Vision</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f7f8fa; color: #1c1d1f; min-height: 100vh; }
+
+    .doc-topbar { position: sticky; top: 0; z-index: 100; background: #1c1d1f; height: 52px; display: flex; align-items: center; padding: 0 32px; border-bottom: 1px solid #2e3035; }
+    .doc-breadcrumb { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .doc-logo-badge { background: #f26522; color: white; font-size: 12px; font-weight: 800; letter-spacing: 1px; padding: 3px 7px; border-radius: 3px; }
+    .doc-breadcrumb-sep { color: #55575c; font-size: 16px; font-weight: 300; margin: 0 2px; }
+    .doc-breadcrumb-label { font-size: 13px; font-weight: 500; color: #8c8e93; }
+    .doc-breadcrumb-label:hover { color: white; }
+    .doc-topbar-title { margin-left: auto; font-size: 12px; color: #55575c; }
+
+    .doc-layout { display: flex; min-height: calc(100vh - 52px); }
+
+    .doc-sidebar { width: 224px; flex-shrink: 0; background: white; border-right: 1px solid #e8eaed; position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; padding: 28px 0 40px; }
+    .doc-sidebar-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #a0a3a8; padding: 0 20px; margin-bottom: 8px; }
+    .doc-nav-link { display: flex; align-items: baseline; gap: 10px; padding: 7px 20px; font-size: 13px; font-weight: 500; color: #71747a; text-decoration: none; border-left: 2px solid transparent; transition: color .12s, border-color .12s, background .12s; line-height: 1.4; }
+    .doc-nav-link:hover { color: #1c1d1f; background: #f7f8fa; }
+    .doc-nav-link.active { color: #f26522; border-left-color: #f26522; background: #fff8f5; font-weight: 600; }
+    .doc-nav-num { font-size: 10px; font-weight: 700; color: #c0c2c7; flex-shrink: 0; font-variant-numeric: tabular-nums; min-width: 14px; }
+    .doc-nav-link.active .doc-nav-num { color: #f26522; }
+
+    .doc-main { flex: 1; min-width: 0; padding: 56px 64px 96px; max-width: 840px; }
+    .doc-page-title { font-size: 28px; font-weight: 800; color: #1c1d1f; line-height: 1.2; margin-bottom: 6px; }
+    .doc-page-meta { font-size: 13px; color: #a0a3a8; margin-bottom: 56px; }
+
+    .doc-section { margin-bottom: 72px; scroll-margin-top: 72px; }
+    .doc-section-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #f26522; margin-bottom: 8px; }
+    .doc-section-title { font-size: 20px; font-weight: 700; color: #1c1d1f; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #e8eaed; }
+
+    .doc-body { font-size: 14px; color: #3c3e42; line-height: 1.75; }
+    .doc-body p + p { margin-top: 14px; }
+
+    .doc-h3 { font-size: 15px; font-weight: 700; color: #1c1d1f; margin: 28px 0 10px; }
+
+    .doc-ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+    .doc-ul li { display: flex; gap: 10px; font-size: 14px; color: #3c3e42; line-height: 1.6; }
+    .doc-ul li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #c0c2c7; flex-shrink: 0; margin-top: 8px; }
+
+    .doc-goals { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+    .doc-goal-card { display: flex; gap: 16px; align-items: flex-start; background: #fff8f5; border: 1px solid #fde8d0; border-radius: 10px; padding: 16px 20px; }
+    .doc-goal-num { font-size: 18px; font-weight: 800; color: #f26522; flex-shrink: 0; line-height: 1.4; }
+    .doc-goal-text { font-size: 14px; color: #3c3e42; line-height: 1.6; }
+
+    .doc-req-block { background: white; border: 1px solid #e8eaed; border-radius: 10px; padding: 20px 24px; margin: 16px 0; }
+    .doc-req-block-title { font-size: 13px; font-weight: 700; color: #1c1d1f; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .doc-req-block-title .material-symbols-outlined { font-size: 18px; color: #71747a; }
+
+    .doc-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+    .doc-table th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #71747a; padding: 8px 14px; background: #f7f8fa; border-bottom: 1px solid #e8eaed; text-align: left; }
+    .doc-table td { padding: 10px 14px; border-bottom: 1px solid #f0f2f5; color: #3c3e42; line-height: 1.5; vertical-align: top; }
+    .doc-table tr:last-child td { border-bottom: none; }
+    .doc-table tr:nth-child(even) td { background: #fafbfc; }
+    .doc-table td:first-child { font-weight: 600; color: #1c1d1f; white-space: nowrap; }
+
+    .doc-note { background: #f7f8fa; border-left: 3px solid #c0c2c7; border-radius: 0 6px 6px 0; padding: 12px 16px; font-size: 13px; color: #55575c; line-height: 1.6; margin: 16px 0; }
+
+    .doc-footer { border-top: 1px solid #e8eaed; padding: 24px 64px; display: flex; align-items: center; justify-content: space-between; background: white; }
+    .doc-footer-meta { font-size: 12px; color: #a0a3a8; }
+    .doc-footer-link { font-size: 12px; color: #f26522; text-decoration: none; font-weight: 500; }
+    .doc-footer-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header class="doc-topbar">
+    <a class="doc-breadcrumb" href="index.html">
+      <span class="doc-logo-badge">ACV</span>
+      <span class="doc-breadcrumb-sep">/</span>
+      <span class="doc-breadcrumb-label">Transport Vision</span>
+    </a>
+    <span class="doc-topbar-title">Feature Documentation</span>
+  </header>
+
+  <div class="doc-layout">
+
+    <nav class="doc-sidebar">
+      <div class="doc-sidebar-label">Contents</div>
+      <a class="doc-nav-link active" href="#s01"><span class="doc-nav-num">01</span>Background</a>
+      <a class="doc-nav-link" href="#s02"><span class="doc-nav-num">02</span>Goals</a>
+      <a class="doc-nav-link" href="#s03"><span class="doc-nav-num">03</span>Document Content</a>
+      <a class="doc-nav-link" href="#s04"><span class="doc-nav-num">04</span>Delivery Patterns</a>
+      <a class="doc-nav-link" href="#s05"><span class="doc-nav-num">05</span>Platform Behavior</a>
+      <a class="doc-nav-link" href="#s06"><span class="doc-nav-num">06</span>Decision Log</a>
+    </nav>
+
+    <div style="flex:1; display:flex; flex-direction:column;">
+      <main class="doc-main">
+
+        <div class="doc-page-title">Release Slip</div>
+        <div class="doc-page-meta">Feature Documentation &nbsp;·&nbsp; Manage Page &nbsp;·&nbsp; Carrier Experience</div>
+
+        <!-- 01 Background -->
+        <section class="doc-section" id="s01">
+          <div class="doc-section-eyebrow">01 · Background</div>
+          <div class="doc-section-title">The Problem</div>
+          <div class="doc-body">
+            <p>When a carrier arrives at a pickup location to collect a vehicle, the lot attendant needs to release it. Today this handoff is informal — carriers rely on phone calls, printed paperwork, or verbal confirmation to establish that they have the right job. There's no standardized digital document that a carrier can present at the gate.</p>
+            <p>The Release Slip is a generated document that formalizes this handoff: a scannable, shareable record that identifies the carrier, the vehicle, and the job — enough for the releasing party to confirm and sign off.</p>
+          </div>
+        </section>
+
+        <!-- 02 Goals -->
+        <section class="doc-section" id="s02">
+          <div class="doc-section-eyebrow">02 · Goals</div>
+          <div class="doc-section-title">What We're Trying to Achieve</div>
+          <div class="doc-goals">
+            <div class="doc-goal-card">
+              <div class="doc-goal-num">1</div>
+              <div class="doc-goal-text">Give carriers a single digital document to present at pickup — eliminating the need for printed paperwork or phone calls to confirm identity and authorization.</div>
+            </div>
+            <div class="doc-goal-card">
+              <div class="doc-goal-num">2</div>
+              <div class="doc-goal-text">Make the slip easy to share via the carrier's preferred channel — email or SMS — at the moment it's needed, with minimal steps.</div>
+            </div>
+            <div class="doc-goal-card">
+              <div class="doc-goal-num">3</div>
+              <div class="doc-goal-text">Explore the interaction patterns (modal vs. context menu) for surfacing the Release Slip action from within the Manage page job list.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 03 Document Content -->
+        <section class="doc-section" id="s03">
+          <div class="doc-section-eyebrow">03 · Document Content</div>
+          <div class="doc-section-title">What the Release Slip Contains</div>
+
+          <div class="doc-body">
+            <p>The Release Slip is generated from the job data already in the system — no additional carrier input is required. The document surfaces the information that the releasing party needs to verify the handoff.</p>
+          </div>
+
+          <table class="doc-table">
+            <thead><tr><th>Section</th><th>Fields</th></tr></thead>
+            <tbody>
+              <tr><td>Vehicle identity</td><td>Year / Make / Model, VIN, color, odometer reading (if available)</td></tr>
+              <tr><td>Job reference</td><td>Order ID, job type (open / enclosed / drive my car)</td></tr>
+              <tr><td>Carrier info</td><td>Carrier name, MC number, driver name</td></tr>
+              <tr><td>Pickup details</td><td>Pickup address, scheduled pickup date, lot contact</td></tr>
+              <tr><td>Delivery details</td><td>Delivery address, scheduled delivery date</td></tr>
+              <tr><td>Authorization</td><td>ACV authorization reference, QR code or confirmation code for verification</td></tr>
+            </tbody>
+          </table>
+
+          <div class="doc-note">In the prototype, document content is populated from the job data array. Fields that are not available for a given job are omitted rather than shown as empty.</div>
+        </section>
+
+        <!-- 04 Delivery Patterns -->
+        <section class="doc-section" id="s04">
+          <div class="doc-section-eyebrow">04 · Delivery Patterns</div>
+          <div class="doc-section-title">How Carriers Access &amp; Share the Slip</div>
+
+          <div class="doc-h3">Entry point — from the Manage page</div>
+          <div class="doc-body">
+            <p>The Release Slip action is available on dispatched and picked-up jobs in the Manage page. It is hidden when the Action Required filter is active, as that mode is focused on exception handling, not standard job actions.</p>
+            <p>Two interaction patterns are prototyped and can be toggled via the ProtoUI FAB:</p>
+          </div>
+
+          <div class="doc-req-block">
+            <div class="doc-req-block-title"><span class="material-symbols-outlined">open_in_new</span> Pattern A — Modal (default)</div>
+            <ul class="doc-ul">
+              <li>Tapping the Release Slip button on any eligible job opens the full slip in a modal overlay.</li>
+              <li>Desktop: 480px centered modal. Mobile: full-screen overlay with a sticky bottom action bar.</li>
+              <li>Desktop modal footer: Email and SMS buttons side by side (both <code>rs-footer-desktop</code> class).</li>
+              <li>Mobile: a single "Share" button opens the native OS share sheet with Email and SMS pre-populated as options.</li>
+            </ul>
+          </div>
+
+          <div class="doc-req-block">
+            <div class="doc-req-block-title"><span class="material-symbols-outlined">more_vert</span> Pattern B — Context Menu</div>
+            <ul class="doc-ul">
+              <li>Tapping the Release Slip button opens a <code>position:fixed</code> context menu with four items: Download / View / Email / SMS.</li>
+              <li>Desktop: a popover positioned above or below the button based on available viewport space.</li>
+              <li>Mobile: a bottom sheet with the same four items as a stacked list.</li>
+              <li>Email and SMS are direct actions — no intermediate Share sub-popover.</li>
+              <li>Email calls <code>emailRS()</code>; SMS calls <code>shareSMS()</code>.</li>
+            </ul>
+          </div>
+
+          <div class="doc-h3">Sharing channels</div>
+          <div class="doc-body">
+            <p>Both patterns support Email and SMS as the two sharing channels. No WhatsApp or Telegram — the design intentionally limits to the two channels most universally available in a professional context. The recipient (typically the lot or auction) receives a link or PDF attachment depending on the channel.</p>
+          </div>
+        </section>
+
+        <!-- 05 Platform Behavior -->
+        <section class="doc-section" id="s05">
+          <div class="doc-section-eyebrow">05 · Platform Behavior</div>
+          <div class="doc-section-title">Technical &amp; UX Behaviors</div>
+
+          <div class="doc-h3">Feature Announcements — disabled on load</div>
+          <div class="doc-body">
+            <p>The Release Slip prototype is based on <code>manage-page.html</code>, with the Feature Announcements system disabled at initialization. All <code>MODAL_STEPS</code> are marked as read and <code>tooltipFired</code> is set to <code>true</code> on page load — the What's New button remains functional, but no modal or tooltip fires automatically.</p>
+            <p>This keeps the Release Slip prototype focused on the slip interaction itself, without the announcement overlay interfering during testing or presentation.</p>
+          </div>
+
+          <div class="doc-h3">Body scroll lock</div>
+          <div class="doc-body">
+            <p>When the Release Slip modal opens, <code>body</code> receives <code>position: fixed</code>. This prevents iOS Safari's scroll-through behavior, where momentum scrolling on a fixed overlay still scrolls the underlying page.</p>
+          </div>
+
+          <div class="doc-h3">ProtoUI mode switching</div>
+          <div class="doc-body">
+            <p>The ProtoUI FAB switches all job cards simultaneously between Modal and Context Menu mode. It calls <code>setRSMode(mode)</code>, which sets <code>useContextMenu</code> on each job object and triggers <code>renderManageList()</code> to rebuild the card list. The FAB is hidden on GitHub Pages (via the ProtoUI env detection snippet) and shows as icon-only on mobile (≤ 900px).</p>
+          </div>
+        </section>
+
+        <!-- 06 Decision Log -->
+        <section class="doc-section" id="s06">
+          <div class="doc-section-eyebrow">06 · Decision Log</div>
+          <div class="doc-section-title">Key Design Decisions</div>
+
+          <table class="doc-table">
+            <thead><tr><th>Decision</th><th>Rationale</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Email + SMS only (no WhatsApp / Telegram)</td>
+                <td>Lot attendants and dispatchers operate in a professional context where email and SMS are universal. Messaging app availability varies and adds complexity without a clear benefit for this use case.</td>
+              </tr>
+              <tr>
+                <td>Mobile Share = OS native sheet</td>
+                <td>The native iOS/Android share sheet surfaces all apps the user has installed — email, SMS, and others — without requiring ACV to maintain a list of supported apps. It's also familiar and faster than a custom share UI.</td>
+              </tr>
+              <tr>
+                <td>Feature Announcements disabled in this prototype</td>
+                <td>The Release Slip prototype exists as a focused exploration of the slip interaction. Keeping it isolated from the announcement system makes it easier to test and present without side effects.</td>
+              </tr>
+              <tr>
+                <td>Prototype split from manage-page.html into its own file</td>
+                <td>The Release Slip has enough distinct behavior (both action patterns, different announcement state) to warrant its own file rather than a mode toggle inside the Manage page. Splitting also allows version control per prototype independently.</td>
+              </tr>
+              <tr>
+                <td>Context menu: no sub-popover for Share</td>
+                <td>Adding a Share sub-menu (which would then list Email and SMS) is one step too many. Email and SMS are already the final actions — the context menu should be the last step before acting, not an intermediate navigation point.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+
+      <footer class="doc-footer">
+        <span class="doc-footer-meta">Last updated: June 1, 2026 &nbsp;·&nbsp; Product &amp; Experience · ACV Auctions</span>
+        <a class="doc-footer-link" href="release-slip.html" target="_blank">Open Prototype</a>
+      </footer>
+    </div>
+
+  </div>
+
+  <script>
+    const navLinks = document.querySelectorAll('.doc-nav-link[href^="#"]');
+    const sections = [...navLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+    function onScroll() {
+      let current = sections[0];
+      sections.forEach(s => { if (window.scrollY + 100 >= s.offsetTop) current = s; });
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current.id));
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
