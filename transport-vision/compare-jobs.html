@@ -2444,10 +2444,10 @@
         <h2 id="compare-title">Comparing Jobs</h2>
         <div class="ib-mode-switcher" id="ib-mode-switcher">
           <span class="ib-mode-label">Instant Book</span>
-          <button class="ib-mode-btn active" data-mode="accordion">
+          <button class="ib-mode-btn" data-mode="accordion">
             <span class="material-symbols-outlined">table_rows</span>Accordion
           </button>
-          <button class="ib-mode-btn" data-mode="popover">
+          <button class="ib-mode-btn active" data-mode="popover">
             <span class="material-symbols-outlined">open_in_new</span>Popover
           </button>
         </div>
@@ -3312,7 +3312,7 @@
 
     // ── IB Pattern Engine ────────────────────────────────────────────────────
     let currentIBPattern = 'B';
-    let ibDesktopMode = 'accordion'; // 'accordion' | 'popover'
+    let ibDesktopMode = 'popover'; // 'accordion' | 'popover'
     let dualCalPickupYear = 2026, dualCalPickupMonth = 4;
     let dualCalDeliveryYear = 2026, dualCalDeliveryMonth = 4;
     let dualCalPickupDate = '2026-05-01', dualCalDeliveryDate = '2026-05-05';
