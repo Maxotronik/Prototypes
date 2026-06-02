@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transport Prototypes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    header p {
+      font-size: 13px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid #e8e8e8;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .card-icon .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card-file {
+      font-size: 11px;
+      color: #bbb;
+      font-family: monospace;
+    }
+
+    .status {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.3px;
+    }
+
+    .status-done { background: #dcfce7; color: #15803d; }
+    .status-wip  { background: #fef9c3; color: #a16207; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Transport Prototypes</h1>
+    <p>ACV Auctions · Transport Platform · Feature Prototypes</p>
+  </header>
+
+  <div class="grid">
+
+    <a class="card" href="manage-page.html" target="_blank">
+      <div class="card-icon" style="background:#fff0e8; color:#f26522;">
+        <span class="material-symbols-outlined">checklist</span>
+      </div>
+      <div>
+        <span class="status status-done">Done</span>
+      </div>
+      <div class="card-title">Manage Page</div>
+      <div class="card-desc">Carrier active job management — dispatched, in-transit, and delivered jobs with Action Required / Schedule View filters.</div>
+      <div class="card-file">manage-page.html</div>
+    </a>
+
+    <a class="card" href="compare-jobs.html" target="_blank">
+      <div class="card-icon" style="background:#e8f4fd; color:#1565c0;">
+        <span class="material-symbols-outlined">compare_arrows</span>
+      </div>
+      <div>
+        <span class="status status-wip">WIP</span>
+      </div>
+      <div class="card-title">Compare Jobs</div>
+      <div class="card-desc">Side-by-side job comparison — evaluate route, price, and conditions before staging.</div>
+      <div class="card-file">compare-jobs.html</div>
+    </a>
+
+    <a class="card" href="feature-announcements.html" target="_blank">
+      <div class="card-icon" style="background:#fff0e8; color:#f26522;">
+        <span class="material-symbols-outlined">campaign</span>
+      </div>
+      <div>
+        <span class="status status-done">Done</span>
+      </div>
+      <div class="card-title">Feature Announcements</div>
+      <div class="card-desc">Modal + tooltip + What's New system for surfacing new features to transport platform users.</div>
+      <div class="card-file">feature-announcements.html</div>
+    </a>
+
+    <a class="card" href="checkout.html" target="_blank">
+      <div class="card-icon" style="background:#f0fdf4; color:#15803d;">
+        <span class="material-symbols-outlined">shopping_cart_checkout</span>
+      </div>
+      <div>
+        <span class="status status-done">Done</span>
+      </div>
+      <div class="card-title">Checkout</div>
+      <div class="card-desc">Job booking and checkout flow for transport buyers.</div>
+      <div class="card-file">checkout.html</div>
+    </a>
+
+    <a class="card" href="job-list.html" target="_blank">
+      <div class="card-icon" style="background:#f5f3ff; color:#6d28d9;">
+        <span class="material-symbols-outlined">list_alt</span>
+      </div>
+      <div>
+        <span class="status status-done">Done</span>
+      </div>
+      <div class="card-title">Job List</div>
+      <div class="card-desc">Loadboard job listing view for carriers — filters, sorting, and quick-action access.</div>
+      <div class="card-file">job-list.html</div>
+    </a>
+
+    <a class="card" href="release-slip.html" target="_blank">
+      <div class="card-icon" style="background:#fef2f2; color:#dc2626;">
+        <span class="material-symbols-outlined">receipt_long</span>
+      </div>
+      <div>
+        <span class="status status-done">Done</span>
+      </div>
+      <div class="card-title">Release Slip</div>
+      <div class="card-desc">Vehicle release document flow — confirmation and handoff at pickup.</div>
+      <div class="card-file">release-slip.html</div>
+    </a>
+
+    <a class="card" href="details-modal.html" target="_blank">
+      <div class="card-icon" style="background:#fff7ed; color:#c2410c;">
+        <span class="material-symbols-outlined">info</span>
+      </div>
+      <div>
+        <span class="status status-done">Done</span>
+      </div>
+      <div class="card-title">Details Modal</div>
+      <div class="card-desc">Job detail overlay — vehicle info, route, pricing, and carrier actions in a side sheet.</div>
+      <div class="card-file">details-modal.html</div>
+    </a>
+
+    <a class="card" href="product-vision.html" target="_blank">
+      <div class="card-icon" style="background:#eff6ff; color:#1d4ed8;">
+        <span class="material-symbols-outlined">auto_awesome</span>
+      </div>
+      <div>
+        <span class="status status-done">Done</span>
+      </div>
+      <div class="card-title">Product Vision</div>
+      <div class="card-desc">Speculative design explorations for the future of the transport platform.</div>
+      <div class="card-file">product-vision.html</div>
+    </a>
+
+    <a class="card" href="notifications.html" target="_blank">
+      <div class="card-icon" style="background:#fffbeb; color:#b45309;">
+        <span class="material-symbols-outlined">notifications</span>
+      </div>
+      <div>
+        <span class="status status-wip">WIP</span>
+      </div>
+      <div class="card-title">Notification Settings</div>
+      <div class="card-desc">Notification preferences for the Transport Hub — alert types, channels, and frequency controls.</div>
+      <div class="card-file">notifications.html</div>
+    </a>
+
+  </div>
+
+</body>
+</html>

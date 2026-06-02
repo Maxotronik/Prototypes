@@ -1,0 +1,4266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACV Transport — Compare Vehicles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f7f8;
+      color: #1c1d1f;
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: white;
+      border-bottom: 1px solid #e8e9eb;
+      display: flex;
+      align-items: stretch;
+      padding: 0 20px;
+      height: 56px;
+      gap: 8px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-logo span {
+      background: #f26522;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 4px 8px;
+      border-radius: 3px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .tab {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #71747a;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab:hover { color: #1c1d1f; }
+
+    .tab.active {
+      color: #f26522;
+      border-bottom-color: #f26522;
+      font-weight: 600;
+    }
+
+    .nav-user {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #004e7d;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1c1d1f;
+    }
+
+    .user-company {
+      font-size: 11px;
+      color: #71747a;
+    }
+
+    .badge-new {
+      background: #00a576;
+      color: white;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      color: #55575c;
+      padding: 4px;
+      line-height: 1;
+    }
+
+    /* ── Filter Bar ── */
+    .filter-bar {
+      background: white;
+      border-bottom: 1px solid #e8e9eb;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 8px 12px;
+      gap: 8px;
+      min-width: 280px;
+    }
+
+    .search-icon { color: #71747a; font-size: 14px; }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1c1d1f;
+      background: none;
+      width: 100%;
+    }
+
+    .search-box input::placeholder { color: #a1a1a1; }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .filter-btn {
+      background: none;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 8px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #55575c;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover { border-color: #b0b4bd; }
+
+    .sort-btn {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      color: #55575c;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 8px 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .or-divider {
+      font-size: 13px;
+      color: #a1a1a1;
+      padding: 0 2px;
+    }
+
+    .saved-searches-btn {
+      background: none;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 8px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #f26522;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .saved-searches-btn:hover { border-color: #f26522; }
+
+    /* ── Banner ── */
+    .banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff5f0;
+      border-bottom: 1px solid #ffd5b2;
+      padding: 10px 20px;
+    }
+
+    .banner-icon {
+      color: #f26522;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .banner p {
+      flex: 1;
+      font-size: 13px;
+      color: #1c1d1f;
+      line-height: 1.4;
+    }
+
+    .dismiss-btn {
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #f26522;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ── Results Bar ── */
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px;
+      background: white;
+      border-bottom: 1px solid #e8e9eb;
+    }
+
+    .results-count {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #55575c;
+    }
+
+    .refresh-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #71747a;
+      line-height: 1;
+    }
+
+    .results-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #55575c;
+    }
+
+    .results-controls select {
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #55575c;
+      background: white;
+    }
+
+    .pagination-info { padding: 0 4px; }
+
+    .page-btn {
+      background: none;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 15px;
+      color: #55575c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-btn:hover { border-color: #b0b4bd; }
+
+    /* ── Job List ── */
+    .job-list {
+      list-style: none;
+      background: #f7f7f8;
+      padding: 8px 80px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .job-row {
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      cursor: pointer;
+    }
+
+    .job-row:hover { background: #fafafa; }
+    .job-row:has(.checkbox-wrap:hover) { background: white; }
+    .checkbox-wrap:hover { background: rgba(0,0,0,0.04); border-radius: 50%; }
+
+    .job-row-main {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .job-row-2 { display: contents; }
+
+    /* ── Handling disclosure row ── */
+    .handling-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 8px 0 0 110px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .handling-row.h-inop       { background: #fffbeb; color: #7a5800; }
+    .handling-row.h-oversized  { background: #fff4ec; color: #5c2600; }
+    .handling-row.h-disclosure { background: #eff8ff; color: #013057; }
+
+    .handling-row-icon {
+      font-size: 14px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .handling-row-label {
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .handling-row-sep { color: #c0c2c7; }
+
+    .handling-row-type { color: inherit; }
+
+    .checkbox-wrap {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      order: 99;
+    }
+
+    .row-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2196f5;
+      pointer-events: none;
+    }
+
+    .vehicle-thumb {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #e6e9ef;
+      flex-shrink: 0;
+    }
+
+
+    /* ── VIN ── */
+    .vin-text {
+      font-size: 12px;
+      color: #71747a;
+      letter-spacing: 0.3px;
+    }
+    .vin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #55575c;
+    }
+
+    /* ── Card Right (map + price + actions) ── */
+    .card-right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+
+    .card-price-map {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 12px;
+      flex-shrink: 0;
+    }
+
+    /* ── Card Actions ── */
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .card-stage-btn {
+      background: none;
+      border: 2px solid #f26522;
+      border-radius: 100px;
+      padding: 7px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #f26522;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .card-stage-btn:hover { background: #fff5f0; }
+    .card-stage-btn:disabled { border-color: #e8e9eb; color: #a1a1a1; cursor: default; }
+
+    .card-ib-btn {
+      background: linear-gradient(147deg, #f26522 14%, #fc4243 86%);
+      border: none;
+      border-radius: 100px;
+      padding: 7px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .card-ib-btn:hover { opacity: 0.9; }
+    .card-ib-btn:disabled { background: #e8e9eb; color: #a1a1a1; cursor: default; opacity: 1; }
+
+    .addr-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .addr-type-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #a1a1a1;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 3px;
+    }
+
+    .addr-city-main {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1c1d1f;
+      line-height: 1.3;
+    }
+
+    .addr-street {
+      font-size: 14px;
+      color: #71747a;
+      margin-bottom: 5px;
+    }
+
+    /* ── Address instruction blocks ── */
+    .addr-instr {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 4px;
+    }
+
+    .day-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .day-pill {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      overflow: hidden;
+      letter-spacing: 0;
+    }
+
+    .day-pill.active {
+      background: #f0f1f2;
+      color: #71747a;
+      border: 1px solid #b0b4bd;
+    }
+
+    .day-pill.inactive {
+      background: white;
+      border: 1px solid #c0c2c7;
+      color: #c0c2c7;
+    }
+
+    .day-pill.inactive::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(
+        to bottom right,
+        transparent calc(50% - 0.5px),
+        #d0d2d6 calc(50% - 0.5px),
+        #d0d2d6 calc(50% + 0.5px),
+        transparent calc(50% + 0.5px)
+      );
+    }
+
+    .day-pills-time {
+      font-size: 12px;
+      color: #55575c;
+      margin-left: 5px;
+      white-space: nowrap;
+    }
+
+    .addr-instr-ah {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .addr-instr-ah .material-symbols-outlined {
+      font-size: 14px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .addr-instr-ah.yes { color: #7c3aed; }
+    .addr-instr-ah.no  { color: #c0392b; }
+
+    .addr-instr-note-text {
+      font-size: 12px;
+      color: #a1a1a1;
+      line-height: 1.4;
+    }
+
+    .addr-instr-note-text a {
+      color: #f26522;
+      text-decoration: none;
+    }
+
+    .addr-instr-note-text a:hover { text-decoration: underline; }
+
+    .addr-dealership {
+      font-size: 12px;
+      color: #55575c;
+      margin-top: 1px;
+    }
+
+    /* ── Route Block (pickup + arrow + delivery) ── */
+    .route-block-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 2 1 0;
+      min-width: 0;
+    }
+
+    .route-block-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #a1a1a1;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .route-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      min-width: 0;
+      background: #f7f7f8;
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+
+    .pickup-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .route-arrow-divider {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .route-arrow-divider .material-symbols-outlined {
+      font-size: 28px;
+      color: #71747a;
+    }
+
+    .route-dist-inline {
+      font-size: 12px;
+      color: #a1a1a1;
+      white-space: nowrap;
+    }
+
+    /* ── New Badges ── */
+    .drive-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #003057;
+      background: #d0e8f7;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+    .high-value-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #4a3000;
+      background: #ffd966;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+    .oversize-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #4a1a00;
+      background: #ffd5b2;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+
+    /* ── Job Info ── */
+    .job-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 120px;
+      padding: 0 8px;
+    }
+
+    .order-id-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .order-id-val {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1c1d1f;
+      letter-spacing: 0.3px;
+    }
+
+    .order-id-sep {
+      font-size: 12px;
+      color: #c0c2c7;
+    }
+
+    .vehicle-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1c1d1f;
+      line-height: 22px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Vehicle badges ── */
+    .badge-row { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+
+    .handling-icon-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .handling-icon-badge .material-symbols-outlined { font-size: 14px; line-height: 1; }
+
+    .handling-icon-badge.h-disclosure { background: #eff8ff; color: #1565c0; }
+    .handling-icon-badge.h-oversized  { background: #fff4ec; color: #b84c00; }
+
+    .drivetrain-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #55575c;
+      background: #e8e9eb;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+
+    .inop-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #664d00;
+      background: #fff2cc;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+
+    .oversized-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #4a1a00;
+      background: #ffd5b2;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+
+    .disclosure-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #003057;
+      background: #d0e8f7;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+
+    .enclosed-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #00422f;
+      background: #d2efe7;
+      border-radius: 4px;
+      padding: 3px 7px;
+      line-height: 16px;
+    }
+
+    /* ── Vehicle Handling tooltip ── */
+    .handling-info {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .handling-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #f59e0b;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .handling-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1c1d1f;
+      color: white;
+      font-size: 12px;
+      font-weight: 400;
+      padding: 6px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.12s;
+      z-index: 50;
+    }
+
+    .handling-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #1c1d1f;
+    }
+
+    .handling-info:hover .handling-tooltip { opacity: 1; }
+
+    /* ── Job Route ── */
+    .job-route {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 120px;
+      max-width: 210px;
+    }
+
+    .route-cities-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .route-dots-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 9px;
+      gap: 3px;
+    }
+
+    .route-dot-pickup {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 2px solid #f26522;
+      background: white;
+      flex-shrink: 0;
+    }
+
+    .route-connector {
+      width: 1px;
+      height: 16px;
+      background: repeating-linear-gradient(to bottom, #c0c2c7 0, #c0c2c7 3px, transparent 3px, transparent 6px);
+      flex-shrink: 0;
+    }
+
+    .route-dot-delivery {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #c0c2c7;
+      flex-shrink: 0;
+    }
+
+    .route-city-names {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .city-name {
+      font-size: 12px;
+      color: #55575c;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 16px;
+      letter-spacing: 0.4px;
+    }
+
+    .route-distance {
+      padding-left: 17px;
+      font-size: 12px;
+      color: #a1a1a1;
+      line-height: 16px;
+      letter-spacing: 0.4px;
+    }
+
+    /* ── Map Button ── */
+    .map-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      background: none;
+      border: none;
+      padding: 4px 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #004e7d;
+      cursor: pointer;
+      flex-shrink: 0;
+      letter-spacing: 0.4px;
+    }
+
+    .map-btn .material-symbols-outlined {
+      font-size: 24px;
+      color: #004e7d;
+    }
+
+    .map-btn:hover { opacity: 0.75; }
+
+    /* ── Selected row ── */
+    .job-row.selected { background: #e8f4fd; }
+
+    /* ── NEW badge + posted age ── */
+    .new-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #55575c;
+      background: white;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 1px 6px;
+      letter-spacing: 0.3px;
+      line-height: 16px;
+    }
+
+    .posted-ago {
+      font-size: 12px;
+      color: #a1a1a1;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .job-meta-row {
+      display: flex;
+      align-items: center;
+      min-height: 16px;
+    }
+
+    /* ── Job Price ── */
+    .job-price {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      min-width: 72px;
+      gap: 1px;
+    }
+
+    .job-price-pin { display: none; }
+
+    .price-rate {
+      font-size: 14px;
+      font-weight: 500;
+      color: #55575c;
+      letter-spacing: 0.2px;
+    }
+
+    .price {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1c1d1f;
+      line-height: 1.15;
+    }
+
+    .price-per-mi {
+      font-size: 12px;
+      color: #545454;
+      letter-spacing: 0.4px;
+    }
+
+    /* ── Counter Offer button ── */
+    .card-counter-btn {
+      background: none;
+      border: none;
+      border-radius: 100px;
+      padding: 7px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #55575c;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .card-counter-btn:hover { background: rgba(0,0,0,0.05); color: #1c1d1f; }
+    .card-counter-btn:disabled { color: #a1a1a1; cursor: default; }
+
+    /* ── Counter Offer popover ── */
+    #counter-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 209;
+      background: transparent;
+    }
+    #counter-backdrop.open { display: block; }
+
+    #counter-modal {
+      position: fixed;
+      z-index: 210;
+      background: white;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+
+    .counter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid #e8e9eb;
+    }
+    .counter-header h3 { font-size: 15px; font-weight: 700; color: #1c1d1f; }
+    .counter-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 16px; color: #71747a; padding: 4px; line-height: 1;
+    }
+    .counter-close:hover { color: #1c1d1f; }
+
+    .counter-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+
+    .counter-posted-rate {
+      font-size: 12px;
+      color: #71747a;
+    }
+    .counter-posted-rate strong { color: #1c1d1f; font-weight: 600; }
+
+    .counter-input-wrap {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #dcdfe8;
+      border-radius: 6px;
+      padding: 10px 14px;
+      gap: 6px;
+      transition: border-color 0.15s;
+    }
+    .counter-input-wrap:focus-within { border-color: #f26522; }
+    .counter-dollar { font-size: 16px; font-weight: 500; color: #1c1d1f; }
+    .counter-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1c1d1f;
+      background: none;
+      min-width: 0;
+    }
+    .counter-input::placeholder { color: #c0c2c7; }
+
+    .counter-send-btn {
+      background: linear-gradient(147deg, #f26522 14%, #fc4243 86%);
+      border: none;
+      border-radius: 100px;
+      padding: 11px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+    }
+    .counter-send-btn:hover { opacity: 0.9; }
+
+    /* ── Multiselect Footer ── */
+    .multiselect-footer {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e8e9eb;
+      padding: 12px 24px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      z-index: 50;
+    }
+
+    .multiselect-footer.visible { display: flex; }
+
+    .selected-count {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1c1d1f;
+    }
+
+    .footer-actions { display: flex; gap: 12px; }
+
+    .clear-btn {
+      background: none;
+      border: 1px solid #dcdfe8;
+      border-radius: 100px;
+      padding: 10px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #55575c;
+      cursor: pointer;
+    }
+
+    .stage-jobs-btn {
+      background: linear-gradient(147deg, #f26522 14%, #fc4243 86%);
+      border: none;
+      border-radius: 100px;
+      padding: 10px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+    }
+
+    .compare-btn {
+      display: none;
+      background: none;
+      border: 2px solid #f26522;
+      border-radius: 100px;
+      padding: 10px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #f26522;
+      cursor: pointer;
+    }
+
+    .compare-btn:hover:not(:disabled) { background: #fff5f0; }
+    .compare-btn.visible { display: block; }
+    .compare-btn:disabled { border-color: #dcdfe8; color: #a1a1a1; cursor: default; }
+
+    /* ── Modal Backdrop ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+    }
+    .modal-backdrop.open { display: block; }
+
+    /* ── Modal ── */
+    .job-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 201;
+      background: white;
+      border-radius: 8px;
+      width: 780px;
+      max-width: calc(100vw - 40px);
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+    .job-modal.open { display: block; }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 16px;
+    }
+    .modal-header h2 { font-size: 20px; font-weight: 700; color: #1c1d1f; }
+    .modal-close-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: #71747a; padding: 4px; line-height: 1;
+    }
+    .modal-close-btn:hover { color: #1c1d1f; }
+
+    .modal-top {
+      display: flex;
+      gap: 24px;
+      padding: 0 24px 24px;
+      align-items: flex-start;
+    }
+
+    .modal-vehicle-block { display: flex; gap: 16px; flex: 1; min-width: 0; }
+
+    .modal-vehicle-img {
+      width: 140px; height: 100px; object-fit: cover;
+      border-radius: 4px; background: #e8e9eb; flex-shrink: 0;
+    }
+
+    .modal-vehicle-details { display: flex; flex-direction: column; gap: 4px; }
+
+    .modal-order-line { display: flex; align-items: baseline; gap: 6px; }
+    .modal-order-label { font-size: 12px; font-weight: 700; color: #1c1d1f; }
+    .modal-order-val { font-size: 12px; color: #71747a; }
+
+    .modal-vehicle-name { font-size: 15px; font-weight: 500; color: #1c1d1f; line-height: 1.3; }
+
+    .modal-badge {
+      display: inline-block; font-size: 11px; font-weight: 500; color: #55575c;
+      border: 1px solid #dcdfe8; border-radius: 3px;
+      padding: 1px 7px; width: fit-content; margin: 2px 0;
+    }
+
+    .modal-route { display: grid; grid-template-columns: 12px 1fr; align-items: center; gap: 2px 8px; margin-top: 4px; }
+    .modal-dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid #71747a; justify-self: center; }
+    .modal-city { font-size: 13px; color: #1c1d1f; }
+    .modal-dist { font-size: 12px; color: #a1a1a1; grid-column: 2; }
+
+    .modal-map-link {
+      display: flex; align-items: center; gap: 4px;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      font-weight: 500; color: #f26522; padding: 4px 0; margin-top: 4px;
+    }
+
+    .modal-booking { display: flex; flex-direction: column; gap: 16px; flex-shrink: 0; width: 280px; }
+
+    .modal-dates { display: flex; gap: 10px; }
+    .modal-date-field { flex: 1; border: 1px solid #dcdfe8; border-radius: 4px; padding: 10px 12px; }
+    .modal-date-label { display: block; font-size: 11px; font-weight: 500; color: #71747a; margin-bottom: 4px; }
+    .modal-date-row { display: flex; align-items: center; justify-content: space-between; }
+    .modal-date-val { font-size: 14px; font-weight: 500; color: #1c1d1f; }
+    .modal-cal-btn { background: none; border: none; cursor: pointer; color: #71747a; padding: 0; }
+
+    .modal-price-cta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .modal-price-block { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+    .modal-price-main { font-size: 28px; font-weight: 700; color: #1c1d1f; }
+    .modal-price-permi { font-size: 13px; color: #71747a; }
+    .modal-dispatch { width: 100%; font-size: 12px; color: #71747a; }
+
+    .modal-instant-btn {
+      background: linear-gradient(147deg, #f26522 14%, #fc4243 86%);
+      border: none; border-radius: 100px;
+      padding: 12px 22px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+      color: white; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    }
+    .modal-instant-btn:hover { opacity: 0.9; }
+
+    .modal-divider { border: none; border-top: 1px solid #e8e9eb; margin: 0; }
+
+    .modal-vin-row {
+      display: flex; align-items: center; gap: 10px; padding: 14px 24px;
+    }
+    .modal-vin-label { font-size: 13px; font-weight: 700; color: #1c1d1f; }
+    .modal-vin-val { font-size: 13px; color: #55575c; letter-spacing: 0.3px; }
+    .modal-copy-btn { background: none; border: none; cursor: pointer; color: #71747a; padding: 2px; }
+    .modal-copy-btn:hover { color: #1c1d1f; }
+
+    .modal-info-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 24px 32px; padding: 20px 24px;
+    }
+    .modal-info-cell { display: flex; flex-direction: column; gap: 4px; }
+    .modal-info-label { font-size: 13px; font-weight: 700; color: #1c1d1f; }
+    .modal-info-warning {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: #c0392b;
+    }
+    .modal-info-warning::before {
+      content: ''; display: inline-block; width: 14px; height: 14px;
+      border-radius: 50%; background: #e74c3c; flex-shrink: 0;
+    }
+    .modal-info-val { font-size: 13px; color: #55575c; line-height: 1.5; }
+
+    .modal-footer {
+      display: flex; align-items: center; justify-content: flex-end;
+      gap: 16px; padding: 16px 24px; border-top: 1px solid #e8e9eb;
+    }
+    .modal-add-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 14px;
+      font-weight: 500; color: #f26522;
+    }
+    .modal-add-btn:hover { text-decoration: underline; }
+    .modal-stage-btn {
+      background: none; border: 2px solid #f26522; border-radius: 100px;
+      padding: 10px 28px; font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500; color: #f26522; cursor: pointer;
+    }
+    .modal-stage-btn:hover { background: #fff5f0; }
+
+    /* ── Inspect Mode ── */
+
+    /* ── Card route column (new compact layout) ── */
+    .route-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 180px;
+      max-width: 260px;
+    }
+
+    .route-stop-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .route-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .pickup-dot {
+      border: 2px solid #1565c0;
+      background: white;
+    }
+
+    .delivery-dot {
+      border: 2px solid #b0b4bd;
+      background: white;
+    }
+
+    .route-mid-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .route-vert-line {
+      width: 1px;
+      height: 14px;
+      background: #dcdfe8;
+      margin-left: 4px;
+      flex-shrink: 0;
+    }
+
+    .route-distance {
+      font-size: 13px;
+      color: #71747a;
+    }
+
+    .route-city {
+      font-size: 14px;
+      color: #1c1d1f;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-id-label {
+      font-size: 13px;
+      color: #71747a;
+      font-weight: 400;
+    }
+
+    /* ── Compare Modal ── */
+    #compare-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.45);
+      align-items: center;
+      justify-content: center;
+    }
+    #compare-backdrop.open { display: flex; }
+
+    #compare-modal {
+      background: white;
+      border-radius: 8px;
+      width: 80vw;
+      height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+
+    #compare-modal .compare-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #e8e9eb;
+      flex-shrink: 0;
+    }
+
+    #compare-modal .compare-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1c1d1f;
+    }
+
+    #compare-modal .compare-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #71747a;
+      padding: 4px;
+      line-height: 1;
+    }
+
+    #compare-modal .compare-close:hover { color: #1c1d1f; }
+
+    #compare-modal .compare-body {
+      flex: 1;
+      overflow: auto;
+      padding: 0 24px 24px;
+    }
+    .compare-table-wrap {
+      min-width: 0;
+    }
+
+    .compare-table {
+      border-collapse: collapse;
+    }
+
+    .compare-table .label-col {
+      width: 148px;
+      min-width: 148px;
+      padding: 14px 16px 14px 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1c1d1f;
+      vertical-align: top;
+      border-bottom: 1px solid #e8e9eb;
+      white-space: nowrap;
+      position: sticky;
+      left: 0;
+      background: white;
+      z-index: 1;
+    }
+
+    .compare-table .vehicle-col {
+      min-width: 200px;
+      padding: 14px 20px;
+      font-size: 13px;
+      color: #55575c;
+      vertical-align: top;
+      border-bottom: 1px solid #e8e9eb;
+      border-left: 1px solid #e8e9eb;
+      line-height: 1.5;
+    }
+
+    .compare-table .image-row .label-col { border-bottom: none; padding-bottom: 0; }
+    .compare-table .image-row .vehicle-col { padding-top: 8px; padding-bottom: 8px; border-bottom: none; }
+
+    /* Desktop tfoot hidden — buttons live in #compare-footer instead */
+    .compare-table tfoot { display: none; }
+
+    /* Sticky vehicle name row — pinned by JS */
+    .compare-sticky-row td {
+      background: white !important;
+      z-index: 10;
+    }
+    .compare-sticky-row .label-col { z-index: 11; }
+    .compare-sticky-row-pinned td {
+      box-shadow: 0 1px 0 #e8e9eb;
+    }
+
+    /* Zebra stripes — full row including sticky label-col */
+    .compare-table tbody tr:nth-child(even) .vehicle-col,
+    .compare-table tbody tr:nth-child(even) .label-col { background: #f8f9fb; }
+
+    /* Desktop footer bar */
+    .compare-footer {
+      flex-shrink: 0;
+      display: flex;
+      align-items: stretch;
+      border-top: 2px solid #e8e9eb;
+      background: white;
+      padding: 14px 24px;
+      gap: 0;
+    }
+    .compare-footer:empty { display: none; }
+    .compare-footer-spacer {
+      width: 148px;
+      min-width: 148px;
+      flex-shrink: 0;
+    }
+    .compare-footer-col {
+      flex: 1;
+      min-width: 200px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-left: 1px solid #e8e9eb;
+    }
+
+    .compare-stage-btn {
+      width: 100%;
+      background: none;
+      border: 2px solid #f26522;
+      border-radius: 100px;
+      padding: 10px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #f26522;
+      cursor: pointer;
+    }
+
+    .compare-stage-btn:hover { background: #fff5f0; }
+    .compare-stage-btn:disabled { border-color: #e8e9eb; color: #a1a1a1; cursor: default; background: none; }
+
+    .compare-best-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: #e3f0fc;
+      color: #1565c0;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px 2px 5px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+      letter-spacing: 0.2px;
+    }
+    .compare-best-badge .material-symbols-outlined {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    /* ── Floating carousel arrows (mobile only) ── */
+    .compare-float-btn { display: none; }
+
+    /* ── Compare scroll position dots (mobile) ── */
+    .compare-nav {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px 12px;
+      border-top: 1px solid #e8e9eb;
+      flex-shrink: 0;
+    }
+
+    .compare-nav-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid #d0d2d6;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      flex-shrink: 0;
+      color: #1c1d1f;
+    }
+
+    .compare-nav-arrow:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .compare-nav-arrow .material-symbols-outlined { font-size: 20px; }
+
+    .compare-nav-counter {
+      flex: 1;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1c1d1f;
+    }
+
+    .compare-instant-btn {
+      width: 100%;
+      background: linear-gradient(147deg, #f26522 14%, #fc4243 86%);
+      border: none;
+      border-radius: 100px;
+      padding: 10px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+    }
+    .compare-instant-btn:hover { opacity: 0.9; }
+    .compare-acted-label {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+      min-height: 88px; font-size: 13px; font-weight: 600; color: #71747a;
+    }
+    .compare-acted-label .material-symbols-outlined { font-size: 22px; color: #00a576; }
+
+.compare-remove-btn {
+      background: none;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      line-height: 1;
+      color: #a0a3a8;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .compare-remove-btn:hover { background: #f0f2f5; color: #1c1d1f; }
+
+    .compare-shared-badge {
+      display: inline-block;
+      background: #f3e8ff;
+      color: #6b21a8;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      vertical-align: middle;
+      letter-spacing: 0.2px;
+    }
+
+    /* ── Instant Book popover ── */
+    #ib-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 209;
+      background: transparent;
+    }
+    #ib-backdrop.open { display: block; }
+
+    #ib-modal {
+      position: fixed;
+      z-index: 210;
+      background: white;
+      border-radius: 8px;
+      width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+
+    .ib-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid #e8e9eb;
+    }
+
+    .ib-header h3 { font-size: 16px; font-weight: 700; color: #1c1d1f; }
+
+    .ib-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 16px; color: #71747a; padding: 4px; line-height: 1;
+    }
+    .ib-close:hover { color: #1c1d1f; }
+
+    .ib-body { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+    .ib-dates { display: flex; gap: 10px; }
+
+    .ib-date-field {
+      flex: 1;
+      border: 1px solid #dcdfe8;
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+
+    .ib-date-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: #71747a;
+      margin-bottom: 4px;
+    }
+
+    .ib-date-field { cursor: pointer; }
+    .ib-date-row { position: relative; display: flex; align-items: center; justify-content: space-between; }
+    .ib-date-val { font-size: 14px; font-weight: 500; color: #1c1d1f; }
+    .ib-cal-btn { background: none; border: none; cursor: pointer; color: #71747a; padding: 0; }
+    .ib-date-input { position: absolute; width: 1px; height: 1px; opacity: 0; top: 0; left: 0; pointer-events: none; }
+
+    .ib-confirm-btn {
+      background: linear-gradient(147deg, #f26522 14%, #fc4243 86%);
+      border: none;
+      border-radius: 100px;
+      padding: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+    }
+    .ib-confirm-btn:hover { opacity: 0.9; }
+
+    .staged-col { background: #f5f5f6 !important; color: #b0b2b7 !important; }
+
+    @media (max-width: 900px) {
+      #ib-backdrop { background: rgba(0,0,0,0.4); }
+      #ib-modal {
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        top: auto;
+        width: 100%;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+        max-height: 84vh;
+        overflow-y: auto;
+      }
+      .ib-dates { flex-direction: column; gap: 12px; }
+
+      /* Calendar widget — hidden by default, shown via JS */
+      .ib-cal-widget {
+        display: none;
+        border: 1px solid #e8e9eb;
+        border-radius: 8px;
+        overflow: hidden;
+        background: white;
+      }
+      .ib-cal-widget.open { display: block; }
+      .ib-cal-nav {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 12px;
+        border-bottom: 1px solid #e8e9eb;
+        background: #f8f9fb;
+      }
+      .ib-cal-nav-btn {
+        background: none; border: none; cursor: pointer;
+        font-size: 22px; line-height: 1; color: #55575c;
+        padding: 2px 8px; border-radius: 4px;
+      }
+      .ib-cal-nav-btn:hover { background: #e8e9eb; }
+      .ib-cal-month-label { font-size: 14px; font-weight: 600; color: #1c1d1f; }
+      .ib-cal-grid {
+        display: grid; grid-template-columns: repeat(7, 1fr);
+        padding: 8px;
+        gap: 2px;
+      }
+      .ib-cal-dow {
+        text-align: center; font-size: 11px; font-weight: 600;
+        color: #a0a3a8; padding: 4px 0;
+      }
+      .ib-cal-day {
+        text-align: center; font-size: 13px;
+        padding: 7px 2px; border-radius: 50%;
+        cursor: pointer; color: #1c1d1f;
+        aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      }
+      .ib-cal-day:hover { background: #f0f2f5; }
+      .ib-cal-day.selected { background: #f26522; color: white; font-weight: 600; }
+      .ib-cal-day.empty { cursor: default; }
+      .ib-cal-day.past { color: #c0c2c7; cursor: default; pointer-events: none; }
+    }
+
+    #compare-modal { position: relative; }
+
+    #compare-toast {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      background: #1c1d1f;
+      color: white;
+      border-radius: 6px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.24);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      z-index: 10;
+      max-width: 480px;
+    }
+
+    #compare-toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .compare-toast-go {
+      background: none;
+      border: none;
+      color: #f26522;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    /* ── Details iframe overlay ── */
+    #details-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.25);
+      align-items: center;
+      justify-content: center;
+    }
+    #details-backdrop.open { display: flex; }
+
+    #details-frame {
+      border: none;
+      border-radius: 8px;
+      width: 780px;
+      max-width: calc(100vw - 40px);
+      height: 580px;
+      max-height: calc(100vh - 80px);
+      background: white;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .job-list { padding: 8px 16px 24px; }
+
+      .job-row-main { flex-wrap: wrap; gap: 10px 12px; }
+
+      /* Row 1: thumb | info | checkbox */
+      .vehicle-thumb { display: block; width: 76px; height: 76px; order: 1; }
+      .job-info { flex: 1; min-width: 0; order: 2; }
+      .checkbox-wrap { order: 3; align-self: flex-start; }
+
+      /* Row 2: route (left) + price+pin (right) inside job-row-2 */
+      .job-row-2 {
+        display: flex;
+        flex: 0 0 100%;
+        min-width: 0;
+        order: 4;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .route-col { flex: 0 1 auto; min-width: 0; padding-left: 0; }
+
+      /* Hide map on mobile */
+      .map-btn { display: none; }
+
+      .job-price {
+        flex: 1;
+        align-self: center;
+        display: grid;
+        grid-template-columns: auto auto;
+        column-gap: 16px;
+        align-items: center;
+        justify-content: end;
+      }
+
+      .job-price-pin {
+        display: block;
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        font-size: 22px;
+        color: #004e7d;
+        align-self: center;
+      }
+
+      .job-price .price { grid-column: 2; grid-row: 1; font-size: 20px; }
+
+      .job-price .price-per-mi { grid-column: 2; grid-row: 2; }
+
+      .handling-row { margin-left: 88px; flex-wrap: wrap; gap: 4px 6px; }
+    }
+
+    @media (max-width: 480px) {
+      .job-list { padding: 6px 8px 20px; }
+
+      .vehicle-thumb { width: 64px; height: 64px; }
+
+      .vehicle-name { font-size: 14px; }
+
+      .addr-city-main { font-size: 14px; }
+
+      .handling-row { margin-left: 76px; }
+    }
+
+    /* ── Hide thumbnail on tight desktop only (not mobile) ── */
+    @media (min-width: 901px) and (max-width: 1100px) {
+      .vehicle-thumb { display: none; }
+    }
+
+
+    /* ── Compare modal — mobile ── */
+    @media (max-width: 900px) {
+      #compare-backdrop {
+        align-items: stretch;
+        justify-content: stretch;
+        background: none;
+      }
+
+      #compare-modal {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+      }
+
+      #compare-modal .compare-header {
+        padding: 14px 16px 12px;
+      }
+
+      #compare-modal .compare-header h2 { font-size: 16px; }
+
+      /* Bottom nav visible on mobile */
+      .compare-nav { display: flex; }
+
+      /* Horizontal scroll table */
+      #compare-modal .compare-body {
+        padding: 0;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+      }
+
+      .compare-table { width: auto; table-layout: auto; border-collapse: collapse; }
+      .compare-table .label-col { display: none; }
+
+      .compare-label-row td { padding: 0; border: none; }
+      .compare-label-band {
+        position: sticky;
+        left: 0;
+        width: 100vw;
+        box-sizing: border-box;
+        z-index: 2;
+        background: #f2f3f4;
+        color: #888;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        padding: 6px 14px 4px;
+        border-top: 1px solid #e8e9eb;
+        white-space: nowrap;
+      }
+
+      .compare-table .vehicle-col {
+        width: 48vw;
+        min-width: 155px;
+        padding: 10px 14px;
+        font-size: 13px;
+        border-left: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: top;
+        scroll-snap-align: start;
+      }
+
+      .compare-table .image-row .vehicle-col { padding: 10px 14px 0; border-bottom: none; }
+
+      /* YMM sticky on mobile — handled by JS */
+
+      /* Restore tfoot on mobile, hide desktop footer bar */
+      .compare-table tfoot { display: table-footer-group; }
+      .compare-table tfoot td { position: sticky; bottom: 0; background: white; z-index: 6; padding: 12px 14px; }
+      .compare-table tfoot tr { border-top: 1px solid #e8e9eb; }
+      .compare-footer { display: none !important; }
+
+      .compare-stage-btn,
+      .compare-instant-btn { font-size: 13px; padding: 9px 0; }
+    }
+
+    /* ── IB Inline row (desktop) ── */
+    .ib-inline-row .label-col {
+      vertical-align: top;
+      padding: 16px 16px 16px 0;
+      font-size: 12px; font-weight: 700; color: #1c1d1f;
+      white-space: nowrap;
+    }
+    .ib-inline-row .vehicle-col {
+      padding: 0;
+      vertical-align: top;
+      background: white !important;
+    }
+    .ib-inline-row .vehicle-col.ib-inline-active {
+      padding: 16px 20px 20px;
+      max-width: 1px;
+      overflow: hidden;
+    }
+    .ib-inline-header {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: 6px;
+      margin-bottom: 12px;
+    }
+    .ib-inline-pattern-btns {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .ib-inline-strip-scroll {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    .ib-inline-row .vehicle-col.ib-inline-empty {
+      border-bottom: none;
+    }
+    .ib-inline-name-bar {
+      font-size: 12px; font-weight: 700; color: #1c1d1f;
+      margin-bottom: 12px;
+    }
+    .ib-inline-confirm-btn {
+      width: 100%; margin-top: 14px;
+      background: #f26522; color: white;
+      border: none; border-radius: 100px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 700;
+      padding: 10px 0; cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .ib-inline-confirm-btn:hover { opacity: 0.88; }
+    .ib-inline-close {
+      float: right; background: none; border: none;
+      cursor: pointer; color: #a0a3a8; font-size: 16px; padding: 0;
+    }
+    .ib-inline-close:hover { color: #1c1d1f; }
+
+    /* ── IB Desktop Mode Switcher ── */
+    .ib-mode-switcher {
+      display: none;
+    }
+    .ib-mode-label {
+      font-size: 11px; font-weight: 600; color: #a1a1a1;
+      text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; margin-right: 2px;
+    }
+    .ib-mode-btn {
+      display: flex; align-items: center; gap: 4px;
+      padding: 4px 10px 4px 8px;
+      border: 1.5px solid #dcdfe8; border-radius: 100px;
+      background: white; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #55575c;
+      transition: border-color 0.15s;
+    }
+    .ib-mode-btn .material-symbols-outlined { font-size: 14px; }
+    .ib-mode-btn:hover:not(.active) { border-color: #b0b4bd; }
+    .ib-mode-btn.active { background: #1c1d1f; color: white; border-color: #1c1d1f; }
+    @media (max-width: 900px) { .ib-mode-switcher { display: none; } .proto-label { display: none; } }
+
+    /* ── IB Pattern Switcher ── */
+    .ib-pattern-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+      margin-right: 12px;
+    }
+    .ib-pattern-btn {
+      padding: 4px 12px;
+      border: 1px solid #dcdfe8;
+      border-radius: 100px;
+      background: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #55575c;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .ib-pattern-btn.active { background: #1c1d1f; color: white; border-color: #1c1d1f; }
+    .ib-pattern-btn:hover:not(.active) { border-color: #b0b4bd; }
+
+    /* ── IB Vehicle Summary (Patterns A + B) ── */
+    .ib-vehicle-summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f7f7f8;
+      border-radius: 6px;
+    }
+    .ib-vehicle-thumb {
+      width: 60px;
+      height: 44px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #e8e9eb;
+      flex-shrink: 0;
+    }
+    .ib-vehicle-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+    .ib-vehicle-name { font-size: 13px; font-weight: 600; color: #1c1d1f; line-height: 1.3; }
+    .ib-vehicle-meta { font-size: 12px; color: #55575c; }
+    .ib-vehicle-route { font-size: 11px; color: #71747a; }
+
+    /* ── IB Step Indicator (Pattern B) ── */
+    .ib-step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-bottom: 1px solid #e8e9eb;
+      flex-shrink: 0;
+    }
+    .ib-step-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #e8e9eb;
+      color: #a1a1a1;
+      font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .ib-step-dot.active { background: #1c1d1f; color: white; }
+    .ib-step-dot.done { background: #00a576; color: white; }
+    .ib-step-line { flex: 1; height: 1px; background: #e8e9eb; }
+    .ib-step-content { display: none; flex-direction: column; gap: 16px; }
+    .ib-step-content.active { display: flex; }
+    .ib-continue-btn {
+      background: #1c1d1f; border: none; border-radius: 100px;
+      padding: 12px; font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500; color: white; cursor: pointer;
+    }
+    .ib-continue-btn:hover { opacity: 0.85; }
+    .ib-back-link {
+      background: none; border: none;
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      color: #71747a; cursor: pointer; padding: 0;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .ib-back-link:hover { color: #1c1d1f; }
+    .ib-route-detail {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 10px 12px; background: #f7f7f8; border-radius: 6px;
+    }
+    .ib-route-stop { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #1c1d1f; }
+    .ib-route-dot-pu { width: 8px; height: 8px; border-radius: 50%; border: 2px solid #f26522; background: white; flex-shrink: 0; }
+    .ib-route-dot-del { width: 8px; height: 8px; border-radius: 50%; background: #c0c2c7; flex-shrink: 0; }
+    .ib-route-mid { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #a1a1a1; }
+    .ib-route-vert { width: 1px; height: 12px; background: #d0d2d6; margin-left: 3px; flex-shrink: 0; }
+
+    /* ── Pattern C — Two-column expanded sheet ── */
+    #ib-modal.ib-pattern-c { width: 560px; }
+    .ib-two-col { display: flex; }
+    .ib-col-info {
+      flex: 1; padding: 20px;
+      border-right: 1px solid #e8e9eb;
+      display: flex; flex-direction: column; gap: 12px; min-width: 0;
+    }
+    .ib-col-action {
+      width: 220px; padding: 20px;
+      display: flex; flex-direction: column; gap: 16px; flex-shrink: 0;
+    }
+    .ib-vehicle-thumb-lg {
+      width: 100%; height: 100px;
+      object-fit: cover; border-radius: 6px; background: #e8e9eb;
+    }
+    .ib-c-name { font-size: 14px; font-weight: 700; color: #1c1d1f; }
+    .ib-c-price { font-size: 22px; font-weight: 700; color: #1c1d1f; line-height: 1.2; }
+    .ib-c-ppm { font-size: 12px; color: #71747a; }
+    .ib-c-route { display: flex; flex-direction: column; gap: 4px; }
+    .ib-c-route-stop { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #1c1d1f; }
+    .ib-c-route-mid { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #a1a1a1; }
+    .ib-c-order { font-size: 12px; color: #a1a1a1; padding-top: 12px; border-top: 1px solid #e8e9eb; }
+
+    @media (max-width: 900px) {
+      #ib-modal.ib-pattern-c { width: 100%; }
+      .ib-two-col { flex-direction: column; }
+      .ib-col-info { border-right: none; border-bottom: 1px solid #e8e9eb; padding: 16px; }
+      .ib-col-action { width: 100%; padding: 16px; }
+      .ib-vehicle-thumb-lg { height: 80px; }
+    }
+
+    /* ── Horizontal date strip (Pattern B) ── */
+    .ib-datestrip-section { display: flex; flex-direction: column; gap: 8px; }
+    .ib-datestrip-row { position: relative; }
+    .ib-strip-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 26px; height: 26px;
+      border: 1.5px solid #e8e9eb; border-radius: 50%;
+      background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 2; transition: border-color 0.15s;
+    }
+    .ib-strip-arrow:hover { border-color: #f26522; }
+    .ib-strip-arrow .material-symbols-outlined { font-size: 15px; color: #55575c; }
+    .ib-strip-arrow.ib-strip-arrow-left { left: 2px; }
+    .ib-strip-arrow.ib-strip-arrow-right { right: 2px; }
+    .ib-strip-arrow[hidden] { display: none; }
+    .ib-datestrip-label { font-size: 13px; font-weight: 600; color: #1c1d1f; }
+    .ib-datestrip {
+      display: flex; gap: 6px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 2px 6px; scrollbar-width: none;
+    }
+    .ib-datestrip::-webkit-scrollbar { display: none; }
+    .ib-strip-day {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-width: 54px; padding: 10px 6px; gap: 3px;
+      border: 1.5px solid #e8e9eb; border-radius: 10px; background: white;
+      cursor: pointer; scroll-snap-align: start; flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.15s;
+    }
+    .ib-strip-day:hover:not(.ib-strip-disabled) { border-color: #f26522; }
+    .ib-strip-day.ib-strip-selected { background: #f26522; border-color: #f26522; }
+    .ib-strip-day.ib-strip-disabled { border-color: #f0f0f0; cursor: default; }
+    .ds-dow {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase; color: #a0a3a8;
+    }
+    .ib-strip-day.ib-strip-selected .ds-dow { color: rgba(255,255,255,0.8); }
+    .ds-num { font-size: 18px; font-weight: 700; color: #1c1d1f; }
+    .ib-strip-day.ib-strip-selected .ds-num { color: white; }
+    .ib-strip-day.ib-strip-disabled .ds-dow,
+    .ib-strip-day.ib-strip-disabled .ds-num { color: #d0d2d6; }
+    .ib-strip-month-group {
+      display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;
+    }
+    .ib-strip-month-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.6px;
+      text-transform: uppercase; color: #a0a3a8; padding-left: 2px;
+    }
+    .ib-strip-month-days { display: flex; gap: 6px; }
+
+    /* ── Desktop Pattern A — centered large modal ── */
+    #ib-backdrop.ib-dimmed { background: rgba(0,0,0,0.4); }
+    @media (min-width: 901px) {
+      #ib-modal.ib-pattern-b {
+        box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
+      }
+    }
+
+    #ib-modal.ib-centered {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 520px;
+      max-width: calc(100vw - 32px);
+    }
+
+    /* ── Dual inline calendar (Pattern A — desktop + mobile) ── */
+    .ib-dual-cal {
+      display: flex;
+      flex-direction: row; /* side by side on desktop */
+      gap: 24px;
+      background: white;
+    }
+    .ib-cal-pane {
+      flex: 1; display: flex; flex-direction: column; min-width: 0;
+      border: 1px solid #e8e9eb; border-radius: 8px; overflow: hidden;
+    }
+    .ib-cal-pane-header {
+      padding: 10px 8px 6px;
+      background: #f8f9fb;
+      border-bottom: 1px solid #e8e9eb;
+    }
+    .ib-cal-pane-label {
+      display: block;
+      font-size: 13px; font-weight: 600; color: #1c1d1f;
+      margin-bottom: 6px;
+    }
+    .ib-cal-pane-nav {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ib-dcal-pane-month { font-size: 12px; font-weight: 600; color: #1c1d1f; }
+    .ib-inline-nav-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; line-height: 1; color: #55575c;
+      padding: 1px 5px; border-radius: 3px;
+    }
+    .ib-inline-nav-btn:hover { background: #e8e9eb; }
+    .ib-cal-divider { display: none; }
+    .ib-inline-active .ib-dual-cal {
+      flex-wrap: wrap;
+    }
+    .ib-inline-active .ib-cal-pane {
+      min-width: 220px; flex: 1 1 220px;
+    }
+    .ib-inline-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      padding: 6px 4px 8px; gap: 2px;
+    }
+    .ib-inline-dow {
+      text-align: center; font-size: 9px; font-weight: 600;
+      color: #a0a3a8; padding: 3px 0;
+    }
+    .ib-inline-day {
+      text-align: center; font-size: 12px; padding: 5px 2px;
+      border-radius: 50%; cursor: pointer; color: #1c1d1f;
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    }
+    .ib-inline-day:hover:not(.ib-inline-past):not(.ib-inline-empty) { background: #f0f2f5; }
+    .ib-inline-day.selected-pickup { background: #f26522; color: white; font-weight: 600; }
+    .ib-inline-day.selected-delivery { background: #004e7d; color: white; font-weight: 600; }
+    .ib-inline-empty { cursor: default; }
+    .ib-inline-past { color: #c0c2c7; cursor: default; pointer-events: none; }
+
+    /* Mobile: stacked vertically — headers act as section separators */
+    @media (max-width: 900px) {
+      .ib-dual-cal {
+        flex-direction: column; gap: 0;
+        border: 1px solid #e8e9eb; border-radius: 8px; overflow: hidden;
+        background: white;
+      }
+      .ib-cal-pane { border: none; border-radius: 0; overflow: visible; }
+      .ib-cal-divider { display: none; }
+      .ib-cal-pane-header { padding: 14px 14px 8px; background: #f2f3f4; }
+      .ib-cal-pane + .ib-cal-pane .ib-cal-pane-header {
+        border-top: 1px solid #dcdfe8;
+      }
+      .ib-inline-grid { padding: 6px 6px 12px; gap: 2px; }
+      .ib-inline-day { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top Nav ── -->
+  <header>
+    <a class="nav-logo" href="index.html">
+      <!-- ACV logo -->
+      <span>ACV</span>
+    </a>
+    <nav class="nav-tabs">
+      <a href="job-list.html" class="tab active">Job List</a>
+      <a href="#" class="tab">Staged</a>
+      <a href="manage-page.html" class="tab">Manage</a>
+    </nav>
+  </header>
+
+  <!-- ── Filter Bar ── -->
+  <div class="filter-bar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search VIN, Order ID, or Bundle ID" />
+    </div>
+    <div class="filters">
+      <button class="filter-btn">Pickup Location</button>
+      <button class="filter-btn">Delivery Location</button>
+      <button class="filter-btn">Job Type</button>
+      <span class="sort-btn">⇅ Sort By: Recently Updated</span>
+      <span class="or-divider">OR</span>
+      <button class="saved-searches-btn">Saved Searches</button>
+    </div>
+  </div>
+
+  <!-- ── Scam Warning Banner ── -->
+  <div class="banner">
+    <span class="banner-icon">ℹ</span>
+    <p>Avoid scams: Don't click unknown links, verify senders, and remember ACV Transport will never ask for your password.</p>
+    <button class="dismiss-btn">Dismiss</button>
+  </div>
+
+  <!-- ── Results Bar ── -->
+  <div class="results-bar">
+    <div class="results-count">
+      <span>Viewing 50 out of 2066 results</span>
+      <button class="refresh-btn">↺</button>
+    </div>
+    <div class="results-controls">
+      <span>Rows per page</span>
+      <select>
+        <option>50</option>
+        <option>25</option>
+        <option>100</option>
+      </select>
+      <span class="pagination-info">1-50 of 2066</span>
+      <button class="page-btn">‹</button>
+      <button class="page-btn">›</button>
+    </div>
+  </div>
+
+  <!-- ── Job List ── -->
+  <ul class="job-list" id="job-list"></ul>
+
+  <!-- ── Multiselect Footer ── -->
+  <div class="multiselect-footer" id="multiselect-footer">
+    <span class="selected-count" id="selected-count">Selected: 0</span>
+    <div class="footer-actions">
+      <button class="clear-btn" id="clear-btn">Clear</button>
+      <button class="compare-btn" id="compare-btn">Compare</button>
+      <button class="stage-jobs-btn">Stage Jobs</button>
+    </div>
+  </div>
+
+  <!-- ── Instant Book overlay ── -->
+  <div id="ib-backdrop">
+    <div id="ib-modal" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <!-- ── Counter Offer popover ── -->
+  <div id="counter-backdrop">
+    <div id="counter-modal" role="dialog" aria-modal="true">
+      <div class="counter-header">
+        <h3 id="counter-title">Negotiate Price</h3>
+        <button class="counter-close" id="counter-close">✕</button>
+      </div>
+      <div class="counter-body">
+        <p class="counter-posted-rate">Posted rate: <strong id="counter-posted-val">—</strong></p>
+        <div class="counter-input-wrap">
+          <span class="counter-dollar">$</span>
+          <input type="number" class="counter-input" id="counter-input" placeholder="0" min="0" />
+        </div>
+        <button class="counter-send-btn">Send Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Compare Modal ── -->
+  <div id="compare-backdrop">
+    <div id="compare-modal" role="dialog" aria-modal="true" aria-labelledby="compare-title">
+      <div id="compare-toast">
+        <span class="compare-toast-msg"></span>
+        <button class="compare-toast-go">Go to Stage</button>
+      </div>
+      <div class="compare-header">
+        <h2 id="compare-title">Comparing Jobs</h2>
+        <div class="ib-mode-switcher" id="ib-mode-switcher">
+          <span class="ib-mode-label">Instant Book</span>
+          <button class="ib-mode-btn" data-mode="accordion">
+            <span class="material-symbols-outlined">table_rows</span>Accordion
+          </button>
+          <button class="ib-mode-btn active" data-mode="popover">
+            <span class="material-symbols-outlined">open_in_new</span>Popover
+          </button>
+        </div>
+        <button class="compare-close" id="compare-close" aria-label="Close">✕</button>
+      </div>
+      <div class="compare-body"></div>
+      <div class="compare-footer" id="compare-footer"></div>
+      <div class="compare-nav" id="compare-nav">
+        <button class="compare-nav-arrow" id="compare-nav-prev" onclick="scrollCompare(-1)" aria-label="Previous">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <span class="compare-nav-counter" id="compare-nav-counter"></span>
+        <button class="compare-nav-arrow" id="compare-nav-next" onclick="scrollCompare(1)" aria-label="Next">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="details-backdrop">
+    <iframe id="details-frame" src="" title="Job Details"></iframe>
+  </div>
+
+  <!-- ── Image zoom modal ── -->
+  <div id="img-zoom-backdrop" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;">
+    <button id="img-zoom-close" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;">✕</button>
+    <img id="img-zoom-img" src="" alt="" style="max-width:90vw;height:85vh;object-fit:contain;border-radius:6px;" />
+  </div>
+
+  <script>
+    const jobs = [
+      {
+        orderId: '47293015', name: '2017 Chevrolet Malibu', vin: '1G1ZD5ST8HF210987',
+        drivetrain: 'FWD', inop: false, enclosed: false, dimensions: { weight: 3150, l: 193, w: 73, h: 57 },
+        pickupCity: 'Phoenix, AZ 85004', pickupAddr: '350 N Central Ave',
+        deliveryCity: 'Albuquerque, NM 87102', deliveryAddr: '99 Central Ave SE',
+        distance: 410, price: 574, perMi: '1.40',
+        img: 'LB/job list_files/7270194466fc4b909a0f66106406df6a.jpg',
+        pickupInstructions: 'Allow after hours: No; Hours: M–F 9–6 & Sat 9–4. Please bring a physical copy of the pick up slip. Must pick up keys at the dealership. Pick up location is 5 miles away at 3375 Millersport Hwy, Getzville, NY 14068. USE MIDDLE ENTRANCE ONLY! ALL CARRIERS ENTRANCE.',
+        deliveryInstructions: '',
+        postedAgo: '3h ago', isNew: false
+      },
+      {
+        orderId: '81205634', name: '2017 Toyota Tacoma', vin: '3TMCZ5AN4HM100341',
+        drivetrain: '4WD', inop: false, enclosed: false, dimensions: { weight: 4480, l: 212, w: 74, h: 71 },
+        pickupCity: 'Boise, ID 83702', pickupAddr: '800 W Main St',
+        deliveryCity: 'Portland, OR 97204', deliveryAddr: '720 SW Broadway',
+        distance: 430, price: 645, perMi: '1.50',
+        img: 'LB/job list_files/b88a66d7c28c4bf8b80f8ca45e07d89c.jpg',
+        pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–6; Notes: Rear gate entry',
+        deliveryInstructions: 'Allow after hours: No; Hours: M–F 9–5; Notes: Call 24h before',
+        postedAgo: '18m ago', isNew: true
+      },
+      {
+        orderId: '93847162', name: '2018 Jeep Grand Cherokee', vin: '1C4RJFBG5JC412345',
+        drivetrain: 'AWD', inop: false, enclosed: false, dimensions: { weight: 4850, l: 189, w: 77, h: 80 },
+        vehicleHandling: [{ category: 'Oversized', types: ['Lifted 3"+'] }],
+        pickupCity: 'Chicago, IL 60616', pickupAddr: '1001 S Michigan Ave',
+        deliveryCity: 'Nashville, TN 37203', deliveryAddr: '210 Broadway',
+        distance: 480, price: 720, perMi: '1.50',
+        img: 'LB/job list_files/57fba21acb324cb2be0f178d14afcf10.jpg',
+        pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Tight lot access',
+        deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5. Dealer requires BOL signed before release. Do NOT leave vehicle unattended in lot — check in with service manager at front desk. Oversized vehicles must use the rear ramp entrance off Cumberland Ave. Call 30 min before arrival: (615) 555-0198.',
+        postedAgo: '5h ago', isNew: false
+      },
+      {
+        orderId: '62801457', name: '2018 Subaru Crosstrek', vin: 'JF2GTACC1JH205678',
+        drivetrain: 'AWD', inop: false, enclosed: false, dimensions: { weight: 3197, l: 175, w: 71, h: 63 },
+        pickupCity: 'Portland, OR 97204', pickupAddr: '720 SW Broadway',
+        deliveryCity: 'Spokane, WA 99201', deliveryAddr: '601 W Spokane Falls Blvd',
+        distance: 350, price: 525, perMi: '1.50',
+        img: 'LB/job list_files/3f113691-75c4-4376-a48d-23072ea89cc7.640x480.jpg',
+        pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Tight alley access',
+        deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 9–5; Notes: Gate closes 6pm',
+        postedAgo: '1d ago', isNew: false
+      },
+      {
+        orderId: '35901823', name: '2019 Honda Accord', vin: '1HGCV1F37KA088776',
+        drivetrain: 'FWD', inop: false, enclosed: false, dimensions: { weight: 3131, l: 192, w: 73, h: 57 },
+        vehicleHandling: [{ category: 'Disclosure', types: ['Jump Start Required', 'Low Clearance', 'Severe Fluid Leak'] }],
+        pickupCity: 'Atlanta, GA 30303', pickupAddr: '145 Peachtree St NE',
+        deliveryCity: 'Nashville, TN 37203', deliveryAddr: '210 Broadway',
+        distance: 250, price: 350, perMi: '1.40',
+        img: 'LB/job list_files/01ac8f37-6b38-4a48-a5c0-1b9d3c529238.640x480.jpg',
+        pickupInstructions: 'Allow after hours: No; Hours: M–F 8:30–5:30; Notes: Call 48 hrs ahead',
+        deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5; Notes: Dock behind building',
+        postedAgo: '2h ago', isNew: false
+      },
+      {
+        orderId: '74620819', name: '2019 Kia Sorento', vin: 'KNDPB3A29K765432',
+        drivetrain: 'AWD', inop: false, enclosed: false, dimensions: { weight: 3902, l: 185, w: 74, h: 66 },
+        pickupCity: 'Indianapolis, IN 46204', pickupAddr: '200 S Meridian St',
+        deliveryCity: 'Milwaukee, WI 53202', deliveryAddr: '500 W Kilbourn Ave',
+        distance: 290, price: 435, perMi: '1.50',
+        img: 'LB/job list_files/bcaffd650eab4411843a7d450e5237e3.jpg',
+        pickupInstructions: 'Allow after hours: No; Hours: M–F 9–6; Notes: Front gate narrow',
+        deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5; Notes: Call before 5',
+        postedAgo: '7h ago', isNew: false
+      },
+      {
+        orderId: '29183046', name: '2019 Nissan Altima', vin: '1N4BL4CV9KC230198',
+        drivetrain: 'FWD', inop: true, enclosed: false, dimensions: { weight: 3212, l: 192, w: 73, h: 57 },
+        vehicleHandling: [
+          { category: 'Inop', types: ['Does not start'] },
+          { category: 'Disclosure', types: ['Severe Fluid Leak', 'Engine Overheats'] }
+        ],
+        pickupCity: 'Detroit, MI 48226', pickupAddr: '2000 Woodward Ave',
+        deliveryCity: 'Columbus, OH 43215', deliveryAddr: '45 N High St',
+        distance: 200, price: 300, perMi: '1.50',
+        img: 'LB/job list_files/94d8ea891ac741d3ac8347f2434415b8.jpg',
+        pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–8. Vehicle is INOP — does not start. Flatbed or wheel-lift required. Keys are at the security booth, NOT at the main office. Gate code: #4471. After hours contact: Mike (313) 555-0174. Do not attempt to push or roll — engine locked.',
+        deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5; Notes: Front gate locked 6pm',
+        postedAgo: '9m ago', isNew: true
+      },
+      {
+        orderId: '58301924', name: '2020 Audi Q7', vin: 'WA1LAAF72LD005678',
+        drivetrain: 'AWD', inop: false, enclosed: true, dimensions: { weight: 4740, l: 200, w: 78, h: 67 },
+        vehicleHandling: [{ category: 'Disclosure', types: ['Low Clearance', 'EV Battery Below 20%'] }],
+        pickupCity: 'Boulder, CO 80302', pickupAddr: '1325 Pearl St',
+        deliveryCity: 'Salt Lake City, UT 84111', deliveryAddr: '400 State St',
+        distance: 520, price: 832, perMi: '1.60',
+        img: 'LB/job list_files/78e96765-2885-4bfc-aa3e-5c9279e491b2.640x480.jpg',
+        pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Enclosed only',
+        deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5; Notes: Confirm VIN',
+        postedAgo: '4h ago', isNew: false
+      },
+      {
+        orderId: '41092738', name: '2020 Chevrolet Silverado 1500', vin: '3GCUYBEF0LG212345',
+        drivetrain: '4WD', inop: false, enclosed: false, drive: true, dimensions: { weight: 5200, l: 231, w: 80, h: 75 },
+        vehicleHandling: [{ category: 'Oversized', types: ['Object in bed'] }],
+        pickupCity: 'Austin, TX 78701', pickupAddr: '300 W 6th St',
+        deliveryCity: 'Round Rock, TX 78664', deliveryAddr: '1301 Gattis School Rd',
+        distance: 23, price: 25, perMi: null,
+        img: 'LB/job list_files/ccc6bcfb-be57-44b3-9c2d-a55653bd3e15.640x480.jpg',
+        pickupInstructions: 'Allow after hours: Yes; Hours: M–F 7–6; Notes: Load from side gate',
+        deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5; Notes: Check VIN at arrival',
+        postedAgo: '2d ago', isNew: false
+      },
+      {
+        orderId: '67485019', name: '2020 Honda Civic', vin: '2HGFC2F68LH012345',
+        drivetrain: 'FWD', inop: false, enclosed: false, dimensions: { weight: 2877, l: 183, w: 71, h: 56 },
+        pickupCity: 'Wichita, KS 67202', pickupAddr: '455 N Main St',
+        deliveryCity: 'Omaha, NE 68102', deliveryAddr: '123 S 13th St',
+        distance: 190, price: 285, perMi: '1.50',
+        img: 'LB/job list_files/5be517d4-d93b-459d-b0dd-3c8b932779fe.640x480.jpg',
+        pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Back entry',
+        deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5; Notes: Limited space',
+        postedAgo: '6h ago', isNew: false
+      },
+      {
+        orderId: '84012739', name: '2021 Toyota RAV4', vin: 'JTMW1RFV6MD134789',
+        drivetrain: 'AWD', inop: true, enclosed: false, dimensions: { weight: 3970, l: 181, w: 74, h: 68 },
+        vehicleHandling: [{ category: 'Inop', types: ['Missing Wheel'] }],
+        pickupCity: 'Minneapolis, MN 55401', pickupAddr: '325 Nicollet Mall',
+        deliveryCity: 'Des Moines, IA 50309', deliveryAddr: '1 Court Ave',
+        distance: 245, price: 367, perMi: '1.50',
+        img: 'LB/job list_files/94d8ea891ac741d3ac8347f2434415b8.jpg',
+        pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–8; Notes: After hours Monday to Friday only',
+        deliveryInstructions: 'Allow after hours: No; Hours: M–F 9–5; Notes: Dock Level 2',
+        postedAgo: '45m ago', isNew: true
+      },
+      {
+        orderId: '57203948', name: '2020 Toyota Highlander', vin: '5TDHZRBH4LS123789',
+        drivetrain: 'AWD', inop: false, enclosed: false, dimensions: { weight: 4685, l: 194, w: 76, h: 68 },
+        pickupCity: 'Charlotte, NC 28202', pickupAddr: '100 Tryon St',
+        deliveryCity: 'Savannah, GA 31401', deliveryAddr: '1 MLK Jr Blvd',
+        distance: 250, price: 375, perMi: '1.50',
+        img: 'LB/job list_files/b88a66d7c28c4bf8b80f8ca45e07d89c.jpg',
+        pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–7 (Mon–Fri only). Gate code: #2209. Vehicle is located in overflow lot B — follow yellow signs from main entrance. Check in with dispatcher before loading. Do NOT block the service lane. Bring your own straps — dealer does not supply.',
+        deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5. Delivery must be confirmed 24h in advance — call (912) 555-0133. Customer will be on-site to inspect. Do not drop without customer signature on BOL. No weekend deliveries accepted.',
+        postedAgo: '3h ago', isNew: false
+      }
+    ];
+
+    let pendingJob = null;
+    let compareJobs = [];
+    let compareOffset = 0;
+    let compareCarousel = false;
+    const COMPARE_COLS_MOBILE = 2;
+    let pendingIBJob = null;
+    let pendingIBColIndex = null;
+    let pendingIBCardBtn = null;
+    const actedJobIds = new Set();
+    let savedScrollY = 0;
+
+    const DAY_LABELS = ['M','T','W','T','F','S','S'];
+    const DAY_INDEX = {
+      m:0, mon:0, monday:0,
+      t:1, tu:1, tue:1, tues:1, tuesday:1,
+      w:2, wed:2, wednesday:2,
+      th:3, r:3, thu:3, thur:3, thurs:3, thursday:3,
+      f:4, fri:4, friday:4,
+      sa:5, s:5, sat:5, saturday:5,
+      su:6, u:6, sun:6, sunday:6
+    };
+
+    renderJobList();
+
+    function updateSelection() {
+      const checked = document.querySelectorAll('.row-checkbox:checked');
+      const count = checked.length;
+      const footer = document.getElementById('multiselect-footer');
+      document.getElementById('selected-count').textContent = 'Selected: ' + count;
+      footer.classList.toggle('visible', count > 0);
+      const compareBtn = document.getElementById('compare-btn');
+      compareBtn.classList.toggle('visible', count > 1);
+      compareBtn.disabled = count > 5;
+      compareBtn.title = count > 5 ? 'Maximum 5 vehicles' : '';
+      document.querySelectorAll('.job-row').forEach(row => {
+        row.classList.toggle('selected', row.querySelector('.row-checkbox').checked);
+      });
+    }
+
+    document.getElementById('job-list').addEventListener('change', e => {
+      if (e.target.classList.contains('row-checkbox')) updateSelection();
+    });
+
+    document.getElementById('job-list').addEventListener('click', e => {
+      if (e.target.closest('button, input, label')) return;
+      const row = e.target.closest('.job-row');
+      if (!row) return;
+      openDetails(jobs[parseInt(row.dataset.index)]);
+    });
+
+    function parseInstr(str) {
+      if (!str) return { noAfterHours: false, hours: '', notes: '' };
+      const segs = str.split(';');
+      const hoursSeg = segs.find(s => /^\s*Hours:/i.test(s));
+      const notesSeg = segs.find(s => /^\s*Notes:/i.test(s));
+      return {
+        noAfterHours: /Allow after hours:\s*No/i.test(str),
+        hours: hoursSeg ? hoursSeg.replace(/^\s*Hours:\s*/i, '').trim() : '',
+        notes: notesSeg ? notesSeg.replace(/^\s*Notes:\s*/i, '').trim() : ''
+      };
+    }
+
+    function parseDayRange(hoursStr) {
+      let activeDays = Array(7).fill(false);
+      let time = hoursStr;
+
+      if (/daily|every day|7 days/i.test(hoursStr)) {
+        activeDays.fill(true);
+        time = hoursStr.replace(/daily|every day|7 days/gi, '').trim();
+      } else if (/weekday/i.test(hoursStr)) {
+        for (let i = 0; i < 5; i++) activeDays[i] = true;
+        time = hoursStr.replace(/weekdays?/gi, '').trim();
+      } else {
+        const m = hoursStr.match(/^([A-Za-z]+)[–\-]([A-Za-z]+)\s*(.*)/);
+        if (m) {
+          const fromKey = m[1].toLowerCase();
+          const toKey   = m[2].toLowerCase();
+          let from = DAY_INDEX[fromKey];
+          let to   = DAY_INDEX[toKey];
+          // single 'S' at end → Saturday; single 'T' at end after Mon → Thursday
+          if (toKey === 's') to = 5;
+          if (toKey === 't' && from !== undefined && from <= 1) to = 3;
+          if (from !== undefined && to !== undefined) {
+            for (let i = from; i <= to; i++) activeDays[i] = true;
+          }
+          time = m[3].trim();
+        }
+      }
+      time = time.replace(/^[,;\s]+/, '').trim();
+      return { activeDays, time };
+    }
+
+    function formatHours(timeStr) {
+      return timeStr.replace(/(\d+(?::\d+)?)\s*[–\-]\s*(\d+(?::\d+)?)/g, (_, open, close) => {
+        return `${open}am–${close}pm`;
+      });
+    }
+
+    function linkifyPhone(text) {
+      return text.replace(/(\(?\d{3}\)?[\s.\-]\d{3}[\s.\-]\d{4})/g,
+        '<a href="tel:$1" onclick="event.stopPropagation()">$1</a>');
+    }
+
+    function buildInstrHTML(str) {
+      if (!str) return '';
+      const p = parseInstr(str);
+      let html = '<div class="addr-instr">';
+
+      if (p.hours) {
+        const { activeDays, time } = parseDayRange(p.hours);
+        html += '<div class="day-pills-row">';
+        DAY_LABELS.forEach((d, i) => {
+          html += `<span class="day-pill ${activeDays[i] ? 'active' : 'inactive'}">${d}</span>`;
+        });
+        if (time) html += `<span class="day-pills-time">${formatHours(time)}</span>`;
+        html += '</div>';
+      }
+
+      if (p.noAfterHours) {
+        html += `<div class="addr-instr-ah no"><span class="material-symbols-outlined">close</span><span>No after hours</span></div>`;
+      } else {
+        html += `<div class="addr-instr-ah yes"><span class="material-symbols-outlined">nights_stay</span><span>After hours</span></div>`;
+      }
+
+      if (p.notes) {
+        html += `<span class="addr-instr-note-text">${linkifyPhone(p.notes)}</span>`;
+      }
+
+      html += '</div>';
+      return html;
+    }
+
+    function renderJobList() {
+      const list = document.getElementById('job-list');
+      list.innerHTML = '';
+      jobs.forEach((job, i) => {
+        let badges = `<span class="drivetrain-badge">${job.drivetrain}</span>`;
+        let handlingRows = '';
+        if (job.vehicleHandling) {
+          const inopH = job.vehicleHandling.find(h => h.category === 'Inop');
+          const discTypes = job.vehicleHandling.filter(h => h.category !== 'Inop').flatMap(h => h.types);
+          if (inopH) badges += ` <span class="inop-badge">INOP</span>`;
+          if (discTypes.length) badges += ` <span class="material-symbols-outlined" style="font-size:20px;color:#1565c0;line-height:1;flex-shrink:0;">report</span>`;
+        }
+        if (job.enclosed) badges += ` <span class="enclosed-badge">Enclosed</span>`;
+        if (job.drive) badges += ` <span class="drive-badge">Drive My Car</span>`;
+        const li = document.createElement('li');
+        li.className = 'job-row';
+        li.dataset.index = i;
+
+        li.innerHTML = `
+          <div class="job-row-main">
+            <img class="vehicle-thumb" src="${job.img}" alt="${job.name}" />
+            <div class="job-info">
+              <div class="order-id-row">
+                <span class="order-id-label">Order ID</span>
+                <span class="order-id-val">${job.orderId}</span>
+              </div>
+              <span class="vehicle-name">${job.name}</span>
+              <div class="badge-row">${badges}</div>
+            </div>
+            <label class="checkbox-wrap" onclick="event.stopPropagation()">
+              <input type="checkbox" class="row-checkbox" />
+            </label>
+            <div class="job-row-2">
+              <div class="route-col">
+                <div class="route-stop-row">
+                  <span class="route-dot pickup-dot"></span>
+                  <span class="route-city">${job.pickupCity}</span>
+                </div>
+                <div class="route-mid-row">
+                  <span class="route-vert-line"></span>
+                  <span class="route-distance">${job.distance} miles</span>
+                </div>
+                <div class="route-stop-row">
+                  <span class="route-dot delivery-dot"></span>
+                  <span class="route-city">${job.deliveryCity}</span>
+                </div>
+              </div>
+              <button class="map-btn" onclick="event.stopPropagation()">
+                <span class="material-symbols-outlined">place</span>Map
+              </button>
+              <div class="job-price">
+                <span class="material-symbols-outlined job-price-pin">place</span>
+                <span class="price">$${job.price.toLocaleString()}</span>
+                ${job.perMi ? `<span class="price-per-mi">$${job.perMi}/mi.</span>` : ''}
+              </div>
+            </div>
+          </div>`;
+        list.appendChild(li);
+      });
+    }
+
+    function buildInstrCell(str) {
+      const p = parseInstr(str);
+      if (!str) return '<span style="color:#a1a1a1">—</span>';
+      let html = '';
+      if (p.noAfterHours) {
+        html += `<span style="display:flex;align-items:center;gap:5px;color:#c0392b;font-size:12px;margin-bottom:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#e74c3c;display:inline-block;flex-shrink:0;"></span>No after hours</span>`;
+      }
+      let note = p.hours ? 'Hours: ' + p.hours : '';
+      if (p.notes) note += (note ? ' · ' : '') + p.notes;
+      if (note) html += `<span style="display:block;">${note}</span>`;
+      if (!p.noAfterHours) html += `<span class="compare-best-badge" style="display:inline-flex;margin-top:4px;"><span class="material-symbols-outlined">auto_awesome</span>After Hours</span>`;
+      return html || '<span style="color:#a1a1a1">—</span>';
+    }
+
+    function cellValue(job, key, isBest = false) {
+      switch (key) {
+        case 'image':
+          return `<img src="${job.img}" alt="${job.name}" class="compare-img-thumb" data-src="${job.img}" data-name="${job.name}" style="width:100%;max-width:100px;height:70px;object-fit:cover;border-radius:4px;background:#e8e9eb;cursor:pointer;">`;
+        case 'imageWithId':
+          return `<div style="display:flex;flex-direction:column;align-items:flex-start;gap:5px;">
+            <span style="font-size:11px;color:#a0a3a8;font-weight:600;font-family:monospace;letter-spacing:0.3px;">#${job.orderId}</span>
+            <img src="${job.img}" alt="${job.name}" class="compare-img-thumb" data-src="${job.img}" data-name="${job.name}" style="width:100%;max-width:100px;height:70px;object-fit:cover;border-radius:4px;background:#e8e9eb;cursor:pointer;">
+          </div>`;
+        case 'orderId':
+          return `<span style="color:#55575c;">${job.orderId}</span>`;
+        case 'nameVin':
+          return `<div style="display:flex;flex-direction:column;gap:4px;">
+            <span style="font-weight:600;color:#1c1d1f;font-size:13px;">${job.name}</span>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="font-size:11px;color:#a0a3a8;font-family:monospace;letter-spacing:0.3px;">${job.vin}</span>
+              <button class="compare-vin-copy" data-vin="${job.vin}" title="Copy VIN" style="background:none;border:none;cursor:pointer;padding:0;color:#a0a3a8;display:flex;align-items:center;">
+                <span class="material-symbols-outlined" style="font-size:13px;">content_copy</span>
+              </button>
+            </div>
+          </div>`;
+        case 'name':
+          return `<span style="font-weight:600;color:#1c1d1f;font-size:13px;">${job.name}</span>`;
+        case 'name_vin':
+          return `<div style="display:flex;flex-direction:column;gap:4px;">
+            <span style="font-weight:600;color:#1c1d1f;">${job.name}</span>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="font-size:11px;color:#71747a;font-family:monospace;letter-spacing:0.3px;">${job.vin}</span>
+              <button class="compare-vin-copy" data-vin="${job.vin}" title="Copy VIN" style="background:none;border:none;cursor:pointer;padding:0;color:#a0a3a8;display:flex;align-items:center;">
+                <span class="material-symbols-outlined" style="font-size:14px;">content_copy</span>
+              </button>
+            </div>
+          </div>`;
+        case 'drivetrain':
+          return `<span class="drivetrain-badge">${job.drivetrain}</span>`;
+        case 'inop': {
+          const isInop = job.inop || (job.vehicleHandling && job.vehicleHandling.some(vh => vh.category === 'Inop'));
+          return isInop ? `<span class="inop-badge">INOP</span>` : `<span style="color:#b0b3b8;">—</span>`;
+        }
+        case 'transport': {
+          let t = '';
+          if (job.enclosed) t += `<span class="enclosed-badge">Enclosed</span> `;
+          if (job.drive) t += `<span class="drive-badge">Drive My Car</span>`;
+          return t || `<span style="color:#b0b3b8;">—</span>`;
+        }
+        case 'distance':
+          return `${job.distance} mi.`;
+        case 'pricePpm':
+          return `<div style="display:flex;flex-direction:column;gap:3px;">
+            <span style="font-size:15px;font-weight:700;color:#1c1d1f;">$${job.price.toLocaleString()}</span>
+            ${job.perMi ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#55575c;font-size:12px;">$${job.perMi}/mi.</span>${isBest ? '<span class="compare-best-badge"><span class="material-symbols-outlined">auto_awesome</span>Best Pay</span>' : ''}</div>` : ''}
+          </div>`;
+        case 'vin':
+          return `<span style="letter-spacing:0.3px;font-family:monospace;">${job.vin}</span>`;
+        case 'pickupFull': {
+          const instr = buildInstrCell(job.pickupInstructions);
+          const hasInstr = job.pickupInstructions;
+          return `<div style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-weight:500;color:#1c1d1f;">${job.pickupCity}</span>
+            <span style="color:#71747a;font-size:12px;">${job.pickupAddr}</span>
+          </div>${hasInstr ? `<div style="border-top:1px solid #e8e9eb;margin:8px 0 4px;"></div>${instr}` : ''}`;
+        }
+        case 'deliveryFull': {
+          const instr = buildInstrCell(job.deliveryInstructions);
+          const hasInstr = job.deliveryInstructions;
+          return `<div style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-weight:500;color:#1c1d1f;">${job.deliveryCity}</span>
+            <span style="color:#71747a;font-size:12px;">${job.deliveryAddr}</span>
+          </div>${hasInstr ? `<div style="border-top:1px solid #e8e9eb;margin:8px 0 4px;"></div>${instr}` : ''}`;
+        }
+        case 'dimensions': {
+          const d = job.dimensions;
+          if (!d) return `<span style="color:#b0b3b8;">—</span>`;
+          const chip = (label, val) => `<span style="display:inline-flex;align-items:center;gap:3px;background:#f3f4f6;border-radius:4px;padding:2px 7px;font-size:11px;white-space:nowrap;"><span style="color:#71747a;font-weight:600;">${label}</span><span style="color:#1c1d1f;font-weight:600;">${val}"</span></span>`;
+          return `<div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:13px;font-weight:600;color:#1c1d1f;">${d.weight.toLocaleString()} lbs</span>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">${chip('L', d.l)}${chip('W', d.w)}${chip('H', d.h)}</div>
+          </div>`;
+        }
+        case 'handling': {
+          if (!job.vehicleHandling || !job.vehicleHandling.length) return `<span style="color:#b0b3b8;">—</span>`;
+          const isInop = job.vehicleHandling.some(h => h.category === 'Inop');
+          const allTypes = job.vehicleHandling.flatMap(h => h.types);
+          if (!allTypes.length) return `<span style="color:#b0b3b8;">—</span>`;
+          let html = '';
+          if (isInop) html += `<span class="inop-badge" style="display:inline-block;margin-bottom:6px;">INOP</span>`;
+          html += `<ul style="margin:0;padding-left:14px;display:flex;flex-direction:column;gap:3px;">${allTypes.map(t => `<li style="font-size:12px;color:#55575c;">${t}</li>`).join('')}</ul>`;
+          return html;
+        }
+        default: return '—';
+      }
+    }
+
+    const fieldDefs = [
+      { label: 'Vehicle',               key: 'nameVin' },
+      { label: 'Order ID',             key: 'orderId' },
+      { label: '',                     key: 'image' },
+      { label: 'Price',                 key: 'pricePpm', bestFn: j => j.perMi ? parseFloat(j.perMi) : null, bestLabel: 'Best Pay', bestMax: true },
+      { label: 'Drivetrain',            key: 'drivetrain' },
+      { label: 'Transport Type',        key: 'transport', showIf: j => j.enclosed || j.drive },
+      { label: 'Disclosures',           key: 'handling',    showIf: j => j.vehicleHandling && j.vehicleHandling.length > 0 },
+      { label: 'Weight & Size',         key: 'dimensions',  showIf: j => !!j.dimensions },
+      { label: 'Distance',              key: 'distance', bestFn: j => j.distance, bestLabel: 'Shortest', bestMax: false },
+      { label: 'Pickup',                key: 'pickupFull' },
+      { label: 'Delivery',              key: 'deliveryFull' },
+    ];
+
+    function extractZip(str) {
+      const m = str && str.match(/\b(\d{5})\b/);
+      return m ? m[1] : null;
+    }
+    function sharedZipSet(zips) {
+      const c = {};
+      zips.forEach(z => z && (c[z] = (c[z] || 0) + 1));
+      return new Set(Object.keys(c).filter(z => c[z] >= 2));
+    }
+
+    function renderCompareTable() {
+      const existingInline = document.querySelector('.ib-inline-row');
+      if (existingInline) { existingInline.remove(); pendingIBJob = null; pendingIBColIndex = null; }
+      const isMobile = window.innerWidth <= 768;
+      const n = compareJobs.length;
+      const tableStyle = n > 4 ? `table-layout:auto;` : `width:auto;`;
+      const pickupZips = compareJobs.map(j => extractZip(j.pickupCity));
+      const deliveryZips = compareJobs.map(j => extractZip(j.deliveryCity));
+      const sharedPickup = sharedZipSet(pickupZips);
+      const sharedDelivery = sharedZipSet(deliveryZips);
+      let html = `<div class="compare-table-wrap"><table class="compare-table" style="${tableStyle}"><tbody>`;
+      fieldDefs.forEach(field => {
+        if (field.showIf && !compareJobs.some(field.showIf)) return;
+        let bestJobs = new Set();
+        if (field.bestFn && n > 1) {
+          const vals = compareJobs.map(field.bestFn);
+          const eligible = vals.filter(v => v !== null);
+          if (eligible.length > 1) {
+            const target = field.bestMax ? Math.max(...eligible) : Math.min(...eligible);
+            if (vals.filter(v => v === target).length < n) {
+              vals.forEach((v, i) => { if (v === target) bestJobs.add(compareJobs[i]); });
+            }
+          }
+        }
+        const isImgKey = field.key === 'image' || field.key === 'imageWithId';
+        if (isMobile) {
+          if (!isImgKey) {
+            html += `<tr class="compare-label-row"><td colspan="${n}"><div class="compare-label-band">${field.label}</div></td></tr>`;
+          }
+          const isNameRowM = field.key === 'nameVin' || field.key === 'name';
+          html += `<tr class="compare-row${isImgKey ? ' image-row' : ''}${isNameRowM ? ' compare-sticky-row' : ''}">`;
+          compareJobs.forEach((job, vi) => {
+            const isBest = bestJobs.has(job);
+            let cell = cellValue(job, field.key, isBest);
+            if (isBest && field.key !== 'pricePpm') cell += ` <span class="compare-best-badge"><span class="material-symbols-outlined">auto_awesome</span>${field.bestLabel}</span>`;
+            if (isNameRowM) cell = `<div style="position:relative;padding-right:30px;">${cell}<button class="compare-remove-btn" data-vi="${vi}" title="Remove" style="position:absolute;top:0;right:-8px;">✕</button></div>`;
+            if (field.key === 'pickupFull' && sharedPickup.has(pickupZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
+            if (field.key === 'deliveryFull' && sharedDelivery.has(deliveryZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
+            html += `<td class="vehicle-col" data-col="${vi}">${cell}</td>`;
+          });
+          html += '</tr>';
+        } else {
+          const isNameRow = field.key === 'nameVin' || field.key === 'name';
+          html += `<tr class="compare-row${isImgKey ? ' image-row' : ''}${isNameRow ? ' compare-sticky-row' : ''}">`;
+          html += `<td class="label-col">${field.label}</td>`;
+          compareJobs.forEach((job, vi) => {
+            const isBest = bestJobs.has(job);
+            let cell = cellValue(job, field.key, isBest);
+            if (isBest && field.key !== 'pricePpm') cell += ` <span class="compare-best-badge"><span class="material-symbols-outlined">auto_awesome</span>${field.bestLabel}</span>`;
+            if (isNameRow) cell = `<div style="position:relative;padding-right:30px;">${cell}<button class="compare-remove-btn" data-vi="${vi}" title="Remove" style="position:absolute;top:0;right:-8px;">✕</button></div>`;
+            if (field.key === 'pickupFull' && sharedPickup.has(pickupZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
+            if (field.key === 'deliveryFull' && sharedDelivery.has(deliveryZips[vi])) cell += `<div style="margin-top:5px;"><span class="compare-shared-badge">Same location</span></div>`;
+            html += `<td class="vehicle-col" data-col="${vi}">${cell}</td>`;
+          });
+          html += '</tr>';
+        }
+      });
+      if (isMobile) {
+        html += '</tbody><tfoot><tr>';
+        compareJobs.forEach((job, vi) => {
+          html += `<td class="vehicle-col" data-col="${vi}"><div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="compare-stage-btn" data-vi="${vi}">Stage</button>
+            <button class="compare-instant-btn" data-vi="${vi}">Instant Book</button>
+          </div></td>`;
+        });
+        html += '</tr></tfoot></table></div>';
+        document.getElementById('compare-footer').innerHTML = '';
+      } else {
+        html += '</tbody></table></div>';
+        let footerHtml = '<div class="compare-footer-spacer"></div>';
+        compareJobs.forEach((job, vi) => {
+          footerHtml += `<div class="compare-footer-col"><div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="compare-stage-btn" data-vi="${vi}">Stage</button>
+            <button class="compare-instant-btn" data-vi="${vi}">Instant Book</button>
+          </div></div>`;
+        });
+        document.getElementById('compare-footer').innerHTML = footerHtml;
+      }
+      document.querySelector('#compare-modal .compare-body').innerHTML = html;
+      setTimeout(updateCompareScroll, 0);
+    }
+
+    function getCompareScrollEl() {
+      return document.querySelector('#compare-modal .compare-table-wrap') ||
+             document.querySelector('#compare-modal .compare-body');
+    }
+
+    function scrollCompare(dir) {
+      const el = getCompareScrollEl();
+      const firstCol = el && el.querySelector('.vehicle-col');
+      const colW = (firstCol && firstCol.offsetWidth > 0)
+        ? firstCol.offsetWidth
+        : Math.round(window.innerWidth * 0.48);
+      if (el) el.scrollBy({ left: dir * colW, behavior: 'smooth' });
+      setTimeout(updateCompareScroll, 350);
+    }
+
+    function updateCompareScroll() {
+      if (!compareCarousel) return;
+      const body = getCompareScrollEl();
+      if (!body) return;
+      const counter = document.getElementById('compare-nav-counter');
+      const prevBtn = document.getElementById('compare-nav-prev');
+      const nextBtn = document.getElementById('compare-nav-next');
+      const firstCol = body.querySelector('.vehicle-col');
+      const colW = (firstCol && firstCol.offsetWidth > 0)
+        ? firstCol.offsetWidth
+        : Math.round(window.innerWidth * 0.48);
+      if (colW > 0) {
+        const n = compareJobs.length;
+        const firstVisible = Math.round(body.scrollLeft / colW);
+        const atEnd = firstVisible >= n - 1;
+        if (counter) counter.textContent = `${n} jobs selected`;
+        if (prevBtn) prevBtn.disabled = firstVisible === 0;
+        if (nextBtn) nextBtn.disabled = atEnd;
+      }
+    }
+
+    function pinYMMRow() {
+      const body = document.querySelector('#compare-modal .compare-body');
+      const row = document.querySelector('#compare-modal .compare-sticky-row');
+      if (!body || !row) return;
+      const rowTop = row.getBoundingClientRect().top - body.getBoundingClientRect().top;
+      const isPinned = rowTop < 0;
+      row.classList.toggle('compare-sticky-row-pinned', isPinned);
+      row.querySelectorAll('td').forEach(td => {
+        td.style.transform = isPinned ? `translateY(${-rowTop}px)` : '';
+        td.style.position = 'relative';
+        td.style.zIndex = isPinned ? '20' : '10';
+      });
+    }
+
+    function openCompare() {
+      savedScrollY = window.scrollY;
+      compareJobs = [];
+      document.querySelectorAll('.job-row').forEach(row => {
+        if (row.querySelector('.row-checkbox').checked) compareJobs.push(jobs[parseInt(row.dataset.index)]);
+      });
+      renderCompareTable();
+      const w = window.innerWidth;
+      const n = compareJobs.length;
+      const nav = document.getElementById('compare-nav');
+      if (w <= 900) {
+        compareCarousel = n > 2;
+        const colW = compareCarousel ? '48vw' : Math.floor(100 / n) + 'vw';
+        document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => {
+          td.style.width = colW; td.style.minWidth = colW;
+        });
+        if (nav) {
+          nav.style.display = compareCarousel ? 'flex' : 'none';
+        }
+      } else {
+        // Tablet + Desktop: auto-size modal width, no nav bar
+        if (nav) nav.style.display = 'none';
+        const idealW = 148 + n * 240 + 48;
+        const maxW = Math.floor(w * 0.92);
+        const modalW = Math.min(idealW, maxW);
+        document.getElementById('compare-modal').style.width = modalW + 'px';
+        if (w <= 1100) {
+          const visibleN = Math.min(n, 4);
+          const colW = Math.floor((modalW - 148) / visibleN) + 'px';
+          document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => {
+            td.style.width = colW; td.style.minWidth = colW;
+          });
+        }
+      }
+      document.getElementById('compare-backdrop').classList.add('open');
+      const ibFabEl = document.getElementById('ib-fab');
+      if (ibFabEl && location.hostname !== 'maxotronik.github.io') { ibFabEl.style.display = 'flex'; setIBMode(ibDesktopMode); }
+      const scrollEl = getCompareScrollEl();
+      if (scrollEl) {
+        scrollEl.scrollLeft = 0;
+        scrollEl.addEventListener('scroll', updateCompareScroll, { passive: true });
+      }
+      const compareBody = document.querySelector('#compare-modal .compare-body');
+      if (compareBody) compareBody.addEventListener('scroll', pinYMMRow, { passive: true });
+      setTimeout(updateCompareScroll, 150);
+    }
+
+    function closeCompare() {
+      if (actedJobIds.size > 0) {
+        const selectedIds = new Set(
+          [...document.querySelectorAll('.row-checkbox:checked')]
+            .map(cb => jobs[parseInt(cb.closest('.job-row').dataset.index)].orderId)
+        );
+        for (let i = jobs.length - 1; i >= 0; i--) {
+          if (actedJobIds.has(jobs[i].orderId)) jobs.splice(i, 1);
+        }
+        actedJobIds.clear();
+        renderJobList();
+        document.querySelectorAll('.job-row').forEach(row => {
+          const job = jobs[parseInt(row.dataset.index)];
+          if (job && selectedIds.has(job.orderId)) {
+            row.querySelector('.row-checkbox').checked = true;
+          }
+        });
+        updateSelection();
+      }
+      document.getElementById('compare-modal').style.width = '';
+      document.getElementById('compare-backdrop').classList.remove('open');
+      const ibFabEl2 = document.getElementById('ib-fab');
+      if (ibFabEl2) ibFabEl2.style.display = 'none';
+      window.scrollTo(0, savedScrollY);
+    }
+
+    function markColumnActed(vi, action) {
+      const actedHTML = `<div class="compare-acted-label"><span class="material-symbols-outlined">check_circle</span>${action}</div>`;
+      const tfootTd = document.querySelector(`tfoot td[data-col="${vi}"]`);
+      if (tfootTd) tfootTd.innerHTML = actedHTML;
+      const footerBtn = document.querySelector(`#compare-footer button[data-vi="${vi}"]`);
+      if (footerBtn) { const col = footerBtn.closest('.compare-footer-col'); if (col) col.innerHTML = actedHTML; }
+      const table = document.querySelector('#compare-modal table');
+      if (table) table.querySelectorAll(`tbody td[data-col="${vi}"]`).forEach(td => td.classList.add('staged-col'));
+    }
+
+    function showCompareToast(message, actionLabel) {
+      const toast = document.getElementById('compare-toast');
+      toast.querySelector('.compare-toast-msg').textContent = message;
+      toast.querySelector('.compare-toast-go').textContent = actionLabel || 'Go to Stage';
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+
+    document.getElementById('compare-modal').addEventListener('click', e => {
+      const modeBtn = e.target.closest('.ib-mode-btn');
+      if (modeBtn) {
+        ibDesktopMode = modeBtn.dataset.mode;
+        document.querySelectorAll('.ib-mode-btn').forEach(b => b.classList.toggle('active', b === modeBtn));
+        // Close any open IB ui
+        const inlineRow = document.querySelector('.ib-inline-row');
+        if (inlineRow) { inlineRow.remove(); pendingIBJob = null; pendingIBColIndex = null; }
+        const backdrop = document.getElementById('ib-backdrop');
+        if (backdrop.classList.contains('open')) {
+          backdrop.classList.remove('open', 'ib-dimmed');
+          document.getElementById('ib-modal').innerHTML = '';
+          pendingIBJob = null; pendingIBColIndex = null;
+        }
+        return;
+      }
+      const removeBtn = e.target.closest('.compare-remove-btn');
+      if (removeBtn) {
+        const vi = parseInt(removeBtn.dataset.vi, 10);
+        const removedJob = compareJobs[vi];
+        compareJobs.splice(vi, 1);
+        document.querySelectorAll('.job-row').forEach(row => {
+          const job = jobs[parseInt(row.dataset.index)];
+          if (job && job.orderId === removedJob.orderId) row.querySelector('.row-checkbox').checked = false;
+        });
+        updateSelection();
+        if (compareJobs.length === 0) {
+          closeCompare();
+        } else {
+          renderCompareTable();
+          const w = window.innerWidth;
+          const n = compareJobs.length;
+          if (w <= 900) {
+            compareCarousel = n > 2;
+            const colW = compareCarousel ? '48vw' : Math.floor(100 / n) + 'vw';
+            document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => { td.style.width = colW; td.style.minWidth = colW; });
+            const nav = document.getElementById('compare-nav');
+            if (nav) nav.style.display = compareCarousel ? 'flex' : 'none';
+          } else {
+            const idealW = 148 + n * 240 + 48;
+            const maxW = Math.floor(w * 0.92);
+            document.getElementById('compare-modal').style.width = Math.min(idealW, maxW) + 'px';
+          }
+        }
+        return;
+      }
+
+      const stageBtn = e.target.closest('.compare-stage-btn');
+      if (stageBtn && !stageBtn.dataset.acted) {
+        const vi = parseInt(stageBtn.dataset.vi, 10);
+        const job = compareJobs[vi];
+        actedJobIds.add(job.orderId);
+        markColumnActed(vi, 'Staged');
+        showCompareToast(`Order #${job.orderId} ${job.name} was successfully staged.`);
+        return;
+      }
+
+      const ibBtn = e.target.closest('.compare-instant-btn');
+      if (ibBtn && !ibBtn.disabled) {
+        const vi = parseInt(ibBtn.dataset.vi, 10);
+        if (window.innerWidth > 900) {
+          if (ibDesktopMode === 'accordion') openIBInline(compareJobs[vi], vi);
+          else openIBFromCompare(compareJobs[vi], vi, ibBtn);
+          return;
+        }
+        openIBFromCompare(compareJobs[vi], vi, ibBtn);
+      }
+
+      // Inline strip nav arrows
+      const inlineStripNav = e.target.closest('[data-strip-nav]');
+      if (inlineStripNav && document.querySelector('.ib-inline-row')) {
+        const [type, dir] = inlineStripNav.dataset.stripNav.split('-');
+        const strip = document.getElementById(`ib-strip-${type}`);
+        if (strip) strip.scrollBy({ left: dir === 'left' ? -180 : 180, behavior: 'smooth' });
+        return;
+      }
+      // Inline strip day click
+      const inlineStripDay = e.target.closest('.ib-strip-day');
+      if (inlineStripDay && document.querySelector('.ib-inline-row') && inlineStripDay.dataset.strip && inlineStripDay.dataset.date) {
+        const type = inlineStripDay.dataset.strip;
+        const date = inlineStripDay.dataset.date;
+        if (type === 'pickup') {
+          dualCalPickupDate = date;
+          if (dualCalDeliveryDate < dualCalPickupDate) dualCalDeliveryDate = dualCalPickupDate;
+          renderDateStrip('pickup'); renderDateStrip('delivery');
+        } else {
+          dualCalDeliveryDate = date;
+          renderDateStrip('delivery');
+        }
+        return;
+      }
+      // Inline calendar day click
+      const inlineCalDay = e.target.closest('.ib-inline-day');
+      if (inlineCalDay && document.querySelector('.ib-inline-row') && inlineCalDay.dataset.cal && inlineCalDay.dataset.date) {
+        const pickedDate = inlineCalDay.dataset.date;
+        if (inlineCalDay.dataset.cal === 'pickup') {
+          dualCalPickupDate = pickedDate;
+          const pd = new Date(pickedDate + 'T00:00:00');
+          dualCalPickupYear = pd.getFullYear(); dualCalPickupMonth = pd.getMonth();
+          if (dualCalDeliveryDate < dualCalPickupDate) {
+            dualCalDeliveryDate = dualCalPickupDate;
+            const dd = new Date(dualCalDeliveryDate + 'T00:00:00');
+            dualCalDeliveryYear = dd.getFullYear(); dualCalDeliveryMonth = dd.getMonth();
+          }
+          renderDualCal();
+        } else {
+          dualCalDeliveryDate = pickedDate;
+          renderDualCal('delivery');
+        }
+        return;
+      }
+      // Inline calendar nav
+      if (e.target.closest('#ib-dcal-pickup-prev') && document.querySelector('.ib-inline-row')) {
+        dualCalPickupMonth--; if (dualCalPickupMonth < 0) { dualCalPickupMonth = 11; dualCalPickupYear--; } renderDualCal('pickup'); return;
+      }
+      if (e.target.closest('#ib-dcal-pickup-next') && document.querySelector('.ib-inline-row')) {
+        dualCalPickupMonth++; if (dualCalPickupMonth > 11) { dualCalPickupMonth = 0; dualCalPickupYear++; } renderDualCal('pickup'); return;
+      }
+      if (e.target.closest('#ib-dcal-delivery-prev') && document.querySelector('.ib-inline-row')) {
+        dualCalDeliveryMonth--; if (dualCalDeliveryMonth < 0) { dualCalDeliveryMonth = 11; dualCalDeliveryYear--; } renderDualCal('delivery'); return;
+      }
+      if (e.target.closest('#ib-dcal-delivery-next') && document.querySelector('.ib-inline-row')) {
+        dualCalDeliveryMonth++; if (dualCalDeliveryMonth > 11) { dualCalDeliveryMonth = 0; dualCalDeliveryYear++; } renderDualCal('delivery'); return;
+      }
+
+      // Inline IB close
+      if (e.target.closest('.ib-inline-close')) {
+        closeIBInline(); return;
+      }
+      // Inline IB confirm
+      if (e.target.closest('.ib-inline-confirm-btn')) {
+        const vi = pendingIBColIndex;
+        if (vi !== null) {
+          markColumnActed(vi, 'Booked');
+          showCompareToast(`Order #${compareJobs[vi].orderId} ${compareJobs[vi].name} was instantly booked.`);
+        }
+        closeIBInline(); return;
+      }
+      // Inline IB pattern switcher
+      const patternBtnInline = e.target.closest('.ib-inline-pattern-btn');
+      if (patternBtnInline && pendingIBJob) {
+        currentIBPattern = patternBtnInline.dataset.pattern;
+        document.querySelectorAll('.ib-inline-pattern-btn').forEach(b => b.classList.toggle('active', b === patternBtnInline));
+        const activeCell = document.querySelector('.ib-inline-row .ib-inline-active');
+        if (activeCell) renderIBInlineContent(activeCell);
+        return;
+      }
+    });
+
+    // ── IB Pattern Engine ────────────────────────────────────────────────────
+    let currentIBPattern = 'B';
+    let ibDesktopMode = 'popover'; // 'accordion' | 'popover'
+    let dualCalPickupYear = 2026, dualCalPickupMonth = 4;
+    let dualCalDeliveryYear = 2026, dualCalDeliveryMonth = 4;
+    let dualCalPickupDate = '2026-05-01', dualCalDeliveryDate = '2026-05-05';
+
+    function getSLA(distance) {
+      if (distance <= 250)  return { suggested: 3, max: 5 };
+      if (distance <= 550)  return { suggested: 4, max: 6 };
+      if (distance <= 850)  return { suggested: 5, max: 7 };
+      if (distance <= 1150) return { suggested: 6, max: 8 };
+      if (distance <= 1450) return { suggested: 7, max: 9 };
+      if (distance <= 1750) return { suggested: 8, max: 10 };
+      if (distance <= 2050) return { suggested: 9, max: 11 };
+      return { suggested: 10, max: 12 };
+    }
+
+    function addDays(dateStr, days) {
+      const d = new Date(dateStr + 'T00:00:00');
+      d.setDate(d.getDate() + days);
+      return d.toISOString().slice(0, 10);
+    }
+
+    function renderIBDatesHTML() {
+      const calSVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71747a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+      return `<div class="ib-dates">
+          <div class="ib-date-field" id="ib-pickup-field">
+            <label class="ib-date-label">Pickup Date*</label>
+            <div class="ib-date-row">
+              <span class="ib-date-val" id="ib-pickup-val">May 01, 2026</span>
+              <button class="ib-cal-btn" aria-label="Pick date">${calSVG}</button>
+              <input type="date" class="ib-date-input" id="ib-pickup-input" value="2026-05-01" />
+            </div>
+          </div>
+          <div class="ib-date-field" id="ib-delivery-field">
+            <label class="ib-date-label">Delivery Date*</label>
+            <div class="ib-date-row">
+              <span class="ib-date-val" id="ib-delivery-val">May 05, 2026</span>
+              <button class="ib-cal-btn" aria-label="Pick date">${calSVG}</button>
+              <input type="date" class="ib-date-input" id="ib-delivery-input" value="2026-05-05" />
+            </div>
+          </div>
+          <div class="ib-cal-widget" id="ib-cal-widget">
+            <div class="ib-cal-nav">
+              <button class="ib-cal-nav-btn" id="ib-cal-prev">&#8249;</button>
+              <span class="ib-cal-month-label" id="ib-cal-month-label"></span>
+              <button class="ib-cal-nav-btn" id="ib-cal-next">&#8250;</button>
+            </div>
+            <div class="ib-cal-grid" id="ib-cal-grid"></div>
+          </div>
+        </div>`;
+    }
+
+    function renderDualCalHTML() {
+      return `<div class="ib-dual-cal">
+        <div class="ib-cal-pane">
+          <div class="ib-cal-pane-header">
+            <span class="ib-cal-pane-label">Pickup Date</span>
+            <div class="ib-cal-pane-nav">
+              <button class="ib-inline-nav-btn" id="ib-dcal-pickup-prev">&#8249;</button>
+              <span class="ib-dcal-pane-month" id="ib-dcal-pickup-month-label"></span>
+              <button class="ib-inline-nav-btn" id="ib-dcal-pickup-next">&#8250;</button>
+            </div>
+          </div>
+          <div class="ib-inline-grid" id="ib-dcal-pickup-grid"></div>
+        </div>
+        <div class="ib-cal-divider"></div>
+        <div class="ib-cal-pane">
+          <div class="ib-cal-pane-header">
+            <span class="ib-cal-pane-label">Delivery Date</span>
+            <div class="ib-cal-pane-nav">
+              <button class="ib-inline-nav-btn" id="ib-dcal-delivery-prev">&#8249;</button>
+              <span class="ib-dcal-pane-month" id="ib-dcal-delivery-month-label"></span>
+              <button class="ib-inline-nav-btn" id="ib-dcal-delivery-next">&#8250;</button>
+            </div>
+          </div>
+          <div class="ib-inline-grid" id="ib-dcal-delivery-grid"></div>
+        </div>
+      </div>`;
+    }
+
+    function renderDualCal(cal) {
+      const cals = cal ? [cal] : ['pickup', 'delivery'];
+      const today = new Date(); today.setHours(0,0,0,0);
+      const sla = pendingIBJob ? getSLA(pendingIBJob.distance) : { suggested: 5, max: 7 };
+      const todayForCal = new Date(); todayForCal.setHours(0,0,0,0);
+      const todayStrCal = todayForCal.toISOString().slice(0,10);
+      const maxDelivery = addDays(todayStrCal, sla.max);
+      cals.forEach(c => {
+        const year  = c === 'pickup' ? dualCalPickupYear  : dualCalDeliveryYear;
+        const month = c === 'pickup' ? dualCalPickupMonth : dualCalDeliveryMonth;
+        const selectedDate = c === 'pickup' ? dualCalPickupDate : dualCalDeliveryDate;
+        const label = document.getElementById(`ib-dcal-${c}-month-label`);
+        if (label) label.textContent = `${MONTHS[month]} ${year}`;
+        const grid = document.getElementById(`ib-dcal-${c}-grid`);
+        if (!grid) return;
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let html = DAYS.map(d => `<div class="ib-inline-dow">${d}</div>`).join('');
+        for (let i = 0; i < firstDay; i++) html += `<div class="ib-inline-day ib-inline-empty"></div>`;
+        for (let d = 1; d <= daysInMonth; d++) {
+          const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          const isSelected = dateStr === selectedDate;
+          let isIneligible;
+          if (c === 'pickup') {
+            isIneligible = new Date(year, month, d) < today;
+          } else {
+            isIneligible = dateStr < dualCalPickupDate || dateStr > maxDelivery;
+          }
+          const cls = [isSelected ? `selected-${c}` : '', isIneligible ? 'ib-inline-past' : ''].filter(Boolean).join(' ');
+          html += `<div class="ib-inline-day${cls ? ' '+cls : ''}" data-cal="${c}" data-date="${dateStr}">${d}</div>`;
+        }
+        grid.innerHTML = html;
+      });
+    }
+
+    function renderIBPatternA(job) {
+      const perMiStr = job.perMi ? ` · $${job.perMi}/mi.` : '';
+      const puCity = job.pickupCity.replace(/,.*/, '');
+      const delCity = job.deliveryCity.replace(/,.*/, '');
+      const datesBlock = renderDualCalHTML();
+      return `<div class="ib-header"><h3>Instant Book</h3><button class="ib-close" id="ib-close">✕</button></div>
+        <div class="ib-body">
+          <div class="ib-vehicle-summary">
+            <img class="ib-vehicle-thumb" src="${job.img}" alt="${job.name}">
+            <div class="ib-vehicle-info">
+              <span class="ib-vehicle-name">${job.name}</span>
+              <span class="ib-vehicle-meta">$${job.price.toLocaleString()}${perMiStr}</span>
+              <span class="ib-vehicle-route">${puCity} → ${delCity} · ${job.distance} mi.</span>
+            </div>
+          </div>
+          ${datesBlock}
+          <button class="ib-confirm-btn" id="ib-confirm">Instant Book</button>
+        </div>`;
+    }
+
+    function renderDateStrip(type) {
+      const strip = document.getElementById(`ib-strip-${type}`);
+      if (!strip) return;
+      const sla = pendingIBJob ? getSLA(pendingIBJob.distance) : { suggested: 5, max: 7 };
+      const today = new Date(); today.setHours(0,0,0,0);
+      const selectedDate = type === 'pickup' ? dualCalPickupDate : dualCalDeliveryDate;
+      const windowEnd = new Date(today); windowEnd.setDate(windowEnd.getDate() + sla.max);
+      const startDate = new Date(today);
+      const endDate = new Date(windowEnd);
+      // Group days by month
+      const groups = [];
+      const cur = new Date(startDate);
+      while (cur <= endDate) {
+        const month = cur.getMonth();
+        const year = cur.getFullYear();
+        if (!groups.length || groups[groups.length-1].month !== month) {
+          groups.push({ month, year, days: [] });
+        }
+        groups[groups.length-1].days.push(new Date(cur));
+        cur.setDate(cur.getDate() + 1);
+      }
+      let html = '';
+      for (const group of groups) {
+        let daysHtml = '';
+        for (const d of group.days) {
+          const dateStr = d.toISOString().slice(0, 10);
+          const dow = DAY_ABBRS3[d.getDay()];
+          const day = d.getDate();
+          const isSelected = dateStr === selectedDate;
+          const isDisabled = type === 'delivery' && dateStr < dualCalPickupDate;
+          daysHtml += `<button class="ib-strip-day${isSelected ? ' ib-strip-selected' : ''}${isDisabled ? ' ib-strip-disabled' : ''}" ${isDisabled ? 'disabled' : `data-strip="${type}" data-date="${dateStr}"`}>
+            <span class="ds-dow">${dow}</span><span class="ds-num">${day}</span>
+          </button>`;
+        }
+        html += `<div class="ib-strip-month-group">
+          <span class="ib-strip-month-label">${MONTHS[group.month]}</span>
+          <div class="ib-strip-month-days">${daysHtml}</div>
+        </div>`;
+      }
+      strip.innerHTML = html;
+      setTimeout(() => {
+        const sel = strip.querySelector('.ib-strip-selected');
+        if (sel) sel.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
+        updateStripArrows(type, strip);
+      }, 0);
+      strip.addEventListener('scroll', () => updateStripArrows(type, strip), { passive: true });
+    }
+
+    function updateStripArrows(type, strip) {
+      const row = strip.closest('.ib-datestrip-row');
+      if (!row) return;
+      const leftBtn = row.querySelector(`[data-strip-nav="${type}-left"]`);
+      const rightBtn = row.querySelector(`[data-strip-nav="${type}-right"]`);
+      if (!leftBtn || !rightBtn) return;
+      const canLeft = strip.scrollLeft > 4;
+      const canRight = strip.scrollLeft < strip.scrollWidth - strip.clientWidth - 4;
+      leftBtn.hidden = !canLeft;
+      rightBtn.hidden = !canRight;
+    }
+
+    function renderIBPatternB(job) {
+      const perMiStr = job.perMi ? ` · $${job.perMi}/mi.` : '';
+      const puCity = job.pickupCity.replace(/,.*/, '');
+      const delCity = job.deliveryCity.replace(/,.*/, '');
+      return `<div class="ib-header"><h3>Instant Book</h3><button class="ib-close" id="ib-close">✕</button></div>
+        <div class="ib-body">
+          <div class="ib-vehicle-summary">
+            <img class="ib-vehicle-thumb" src="${job.img}" alt="${job.name}">
+            <div class="ib-vehicle-info">
+              <span class="ib-vehicle-name">${job.name}</span>
+              <span class="ib-vehicle-meta">$${job.price.toLocaleString()}${perMiStr}</span>
+              <span class="ib-vehicle-route">${puCity} → ${delCity} · ${job.distance} mi.</span>
+            </div>
+          </div>
+          <div class="ib-datestrip-section">
+            <span class="ib-datestrip-label">Pickup Date</span>
+            <div class="ib-datestrip-row">
+              <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="pickup-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
+              <div class="ib-datestrip" id="ib-strip-pickup"></div>
+              <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="pickup-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+          </div>
+          <div class="ib-datestrip-section">
+            <span class="ib-datestrip-label">Delivery Date</span>
+            <div class="ib-datestrip-row">
+              <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="delivery-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
+              <div class="ib-datestrip" id="ib-strip-delivery"></div>
+              <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="delivery-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+          </div>
+          <button class="ib-confirm-btn" id="ib-confirm">Instant Book</button>
+        </div>`;
+    }
+
+    function renderIBPatternC(job) {
+      const perMiStr = job.perMi ? `$${job.perMi}/mi.` : '';
+      return `<div class="ib-header"><h3>Instant Book</h3><button class="ib-close" id="ib-close">✕</button></div>
+        <div class="ib-two-col">
+          <div class="ib-col-info">
+            <img class="ib-vehicle-thumb-lg" src="${job.img}" alt="${job.name}">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <span class="ib-c-name">${job.name}</span>
+              <span class="ib-c-price">$${job.price.toLocaleString()}</span>
+              ${perMiStr ? `<span class="ib-c-ppm">${perMiStr}</span>` : ''}
+            </div>
+            <div class="ib-c-route">
+              <div class="ib-c-route-stop"><span class="ib-route-dot-pu"></span><span>${job.pickupCity}</span></div>
+              <div class="ib-c-route-mid"><span class="ib-route-vert"></span><span>${job.distance} mi.</span></div>
+              <div class="ib-c-route-stop"><span class="ib-route-dot-del"></span><span>${job.deliveryCity}</span></div>
+            </div>
+            <span class="ib-c-order">Order #${job.orderId}</span>
+          </div>
+          <div class="ib-col-action">
+            ${renderIBDatesHTML()}
+            <button class="ib-confirm-btn" id="ib-confirm">Instant Book</button>
+          </div>
+        </div>`;
+    }
+
+    function openIBInline(job, vi) {
+      // If same column already open, close it
+      if (pendingIBColIndex === vi && document.querySelector('.ib-inline-row')) {
+        closeIBInline(); return;
+      }
+      closeIBInline();
+      pendingIBJob = job;
+      pendingIBColIndex = vi;
+      // Initialize dates
+      const todayDate = new Date(); todayDate.setHours(0,0,0,0);
+      const todayStr = todayDate.toISOString().slice(0,10);
+      const sla = getSLA(job.distance);
+      dualCalPickupDate = todayStr;
+      dualCalPickupYear = todayDate.getFullYear(); dualCalPickupMonth = todayDate.getMonth();
+      dualCalDeliveryDate = addDays(todayStr, sla.suggested);
+      const delD = new Date(dualCalDeliveryDate + 'T00:00:00');
+      dualCalDeliveryYear = delD.getFullYear(); dualCalDeliveryMonth = delD.getMonth();
+
+      const table = document.querySelector('.compare-table');
+      const tbody = table.querySelector('tbody');
+      const n = compareJobs.length;
+
+      const tr = document.createElement('tr');
+      tr.className = 'ib-inline-row';
+      // label col
+      tr.innerHTML = `<td class="label-col"></td>`;
+      compareJobs.forEach((j, i) => {
+        const td = document.createElement('td');
+        td.className = `vehicle-col ${i === vi ? 'ib-inline-active' : 'ib-inline-empty'}`;
+        td.dataset.ibCol = i;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+
+      const activeCell = tr.querySelector('.ib-inline-active');
+      renderIBInlineContent(activeCell);
+
+      // Scroll the active cell into view
+      setTimeout(() => activeCell.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+
+    function renderIBInlineContent(cell) {
+      const job = pendingIBJob;
+      cell.innerHTML = `
+        <div class="ib-inline-header">
+          <button class="ib-inline-close">✕</button>
+        </div>
+        <div id="ib-inline-dates"></div>
+        <button class="ib-inline-confirm-btn">Instant Book</button>`;
+
+      // Style active pattern btn
+      cell.querySelectorAll('.ib-inline-pattern-btn').forEach(b => {
+        if (b.classList.contains('active')) { b.style.background='#1c1d1f'; b.style.color='white'; b.style.borderColor='#1c1d1f'; }
+        else { b.style.background='white'; b.style.color='#55575c'; b.style.borderColor='#dcdfe8'; }
+      });
+
+      const datesContainer = cell.querySelector('#ib-inline-dates');
+      if (currentIBPattern === 'A') {
+        datesContainer.innerHTML = renderDualCalHTML();
+        renderDualCal();
+      } else {
+        datesContainer.innerHTML = `
+          <div class="ib-datestrip-section" style="margin-bottom:12px;">
+            <span class="ib-datestrip-label">Pickup Date</span>
+            <div class="ib-inline-strip-scroll">
+              <div class="ib-datestrip-row">
+                <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="pickup-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
+                <div class="ib-datestrip" id="ib-strip-pickup"></div>
+                <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="pickup-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="ib-datestrip-section">
+            <span class="ib-datestrip-label">Delivery Date</span>
+            <div class="ib-inline-strip-scroll">
+              <div class="ib-datestrip-row">
+                <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="delivery-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
+                <div class="ib-datestrip" id="ib-strip-delivery"></div>
+                <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="delivery-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
+              </div>
+            </div>
+          </div>`;
+        renderDateStrip('pickup'); renderDateStrip('delivery');
+      }
+    }
+
+    function closeIBInline() {
+      const row = document.querySelector('.ib-inline-row');
+      if (row) row.remove();
+      pendingIBJob = null; pendingIBColIndex = null;
+    }
+
+    function positionIBPopover(modal, anchorEl) {
+      modal.classList.remove('ib-centered');
+      modal.style.width = '360px';
+      modal.style.top = '';
+      modal.style.left = '';
+      modal.style.transform = '';
+      // Position below anchor, flip up if not enough space
+      const rect = anchorEl.getBoundingClientRect();
+      const modalW = 360;
+      const modalH = 420;
+      let top = rect.bottom + 8;
+      let left = rect.left + rect.width / 2 - modalW / 2;
+      if (left + modalW > window.innerWidth - 8) left = window.innerWidth - modalW - 8;
+      if (left < 8) left = 8;
+      if (top + modalH > window.innerHeight - 8) top = rect.top - modalH - 8;
+      modal.style.top = top + 'px';
+      modal.style.left = left + 'px';
+    }
+
+    function openIBFromCompare(job, vi, anchorEl) {
+      pendingIBJob = job;
+      pendingIBColIndex = vi;
+      pendingIBCardBtn = null;
+      // Initialize dates from today using job SLA
+      const todayDate = new Date();
+      const todayStr = todayDate.toISOString().slice(0, 10);
+      dualCalPickupDate = todayStr;
+      dualCalPickupYear = todayDate.getFullYear();
+      dualCalPickupMonth = todayDate.getMonth();
+      const sla = getSLA(job.distance);
+      dualCalDeliveryDate = addDays(todayStr, sla.suggested);
+      const delDate = new Date(dualCalDeliveryDate + 'T00:00:00');
+      dualCalDeliveryYear = delDate.getFullYear();
+      dualCalDeliveryMonth = delDate.getMonth();
+      const modal = document.getElementById('ib-modal');
+      const backdrop = document.getElementById('ib-backdrop');
+      modal.className = `ib-pattern-${currentIBPattern.toLowerCase()}`;
+      if (currentIBPattern === 'A') modal.innerHTML = renderIBPatternA(job);
+      else if (currentIBPattern === 'B') modal.innerHTML = renderIBPatternB(job);
+      else modal.innerHTML = renderIBPatternC(job);
+      modal.style.transform = '';
+      if (window.innerWidth <= 900) {
+        modal.style.top = ''; modal.style.left = ''; modal.style.width = '';
+        backdrop.classList.remove('ib-dimmed');
+        if (currentIBPattern === 'A') renderDualCal();
+        else if (currentIBPattern === 'B') { renderDateStrip('pickup'); renderDateStrip('delivery'); }
+      } else if (currentIBPattern === 'A') {
+        renderDualCal();
+        modal.classList.add('ib-centered');
+        modal.style.top = ''; modal.style.left = ''; modal.style.width = '';
+        backdrop.classList.add('ib-dimmed');
+      } else if (currentIBPattern === 'B') {
+        renderDateStrip('pickup'); renderDateStrip('delivery');
+        positionIBPopover(modal, anchorEl);
+        backdrop.classList.remove('ib-dimmed');
+      } else {
+        const rect = anchorEl.getBoundingClientRect();
+        const modalW = 560;
+        const approxH = 360;
+        let top = rect.bottom + 8;
+        let left = rect.left;
+        if (left + modalW > window.innerWidth - 8) left = window.innerWidth - modalW - 8;
+        if (top + approxH > window.innerHeight - 8) top = rect.top - approxH - 8;
+        modal.style.top = top + 'px';
+        modal.style.left = left + 'px';
+        modal.style.width = modalW + 'px';
+        backdrop.classList.remove('ib-dimmed');
+      }
+      backdrop.classList.add('open');
+    }
+
+    function ibGoToStep2() {
+      const s1 = document.getElementById('ib-step-1');
+      const s2 = document.getElementById('ib-step-2');
+      const d1 = document.getElementById('ib-dot-1');
+      const d2 = document.getElementById('ib-dot-2');
+      const title = document.getElementById('ib-step-title');
+      if (s1) s1.classList.remove('active');
+      if (s2) s2.classList.add('active');
+      if (d1) { d1.classList.remove('active'); d1.classList.add('done'); d1.textContent = '✓'; }
+      if (d2) d2.classList.add('active');
+      if (title) title.textContent = 'Select Dates';
+    }
+
+    function ibGoToStep1() {
+      const s1 = document.getElementById('ib-step-1');
+      const s2 = document.getElementById('ib-step-2');
+      const d1 = document.getElementById('ib-dot-1');
+      const d2 = document.getElementById('ib-dot-2');
+      const title = document.getElementById('ib-step-title');
+      if (s2) s2.classList.remove('active');
+      if (s1) s1.classList.add('active');
+      if (d1) { d1.classList.add('active'); d1.classList.remove('done'); d1.textContent = '1'; }
+      if (d2) d2.classList.remove('active');
+      if (title) title.textContent = 'Review Job';
+    }
+
+    function ibConfirm() {
+      if (!pendingIBJob) return;
+      if (pendingIBCardBtn) {
+        pendingIBCardBtn.disabled = true;
+        pendingIBCardBtn.textContent = 'Booked';
+        const ca = pendingIBCardBtn.closest('.card-actions');
+        const counterBtn = ca && ca.querySelector('.card-counter-btn');
+        if (counterBtn) counterBtn.disabled = true;
+        closeIB(); pendingIBCardBtn = null; pendingIBJob = null;
+        return;
+      }
+      const vi = pendingIBColIndex;
+      actedJobIds.add(pendingIBJob.orderId);
+      markColumnActed(vi, 'Booked');
+      const msg = pendingIBJob;
+      closeIB();
+      showCompareToast(`Order #${msg.orderId} ${msg.name} successfully booked.`, 'Manage Job');
+      pendingIBJob = null; pendingIBColIndex = null;
+    }
+
+    function closeIB() {
+      const backdrop = document.getElementById('ib-backdrop');
+      backdrop.classList.remove('open');
+      backdrop.classList.remove('ib-dimmed');
+      const modal = document.getElementById('ib-modal');
+      modal.style.width = '';
+      modal.style.transform = '';
+      modal.classList.remove('ib-centered');
+      const calWidget = document.getElementById('ib-cal-widget');
+      if (calWidget) calWidget.classList.remove('open');
+      const puField = document.getElementById('ib-pickup-field');
+      if (puField) puField.style.display = '';
+      const delField = document.getElementById('ib-delivery-field');
+      if (delField) delField.style.display = '';
+      calActiveKey = null;
+    }
+
+    function formatDate(val) {
+      const d = new Date(val + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+    }
+
+    // ── Date pickers ──────────────────────────────────────────────────────
+    let calActiveKey = null;
+    let calYear = 2026, calMonth = 4;
+
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const DAYS   = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+    const DAY_ABBRS3 = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+    function renderCalGrid() {
+      const label = document.getElementById('ib-cal-month-label');
+      const grid  = document.getElementById('ib-cal-grid');
+      if (!label || !grid) return;
+      label.textContent = `${MONTHS[calMonth]} ${calYear}`;
+      const selectedVal = document.getElementById(`ib-${calActiveKey}-input`).value;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const firstDay = new Date(calYear, calMonth, 1).getDay();
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+      let html = DAYS.map(d => `<div class="ib-cal-dow">${d}</div>`).join('');
+      for (let i = 0; i < firstDay; i++) html += `<div class="ib-cal-day empty"></div>`;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const isSelected = dateStr === selectedVal;
+        const isPast = new Date(calYear, calMonth, d) < today;
+        html += `<div class="ib-cal-day${isSelected?' selected':''}${isPast?' past':''}" data-date="${dateStr}">${d}</div>`;
+      }
+      grid.innerHTML = html;
+      grid.querySelectorAll('.ib-cal-day[data-date]').forEach(el => {
+        el.addEventListener('click', () => {
+          const dateStr = el.dataset.date;
+          const input = document.getElementById(`ib-${calActiveKey}-input`);
+          const valEl = document.getElementById(`ib-${calActiveKey}-val`);
+          if (input) input.value = dateStr;
+          if (valEl) valEl.textContent = formatDate(dateStr);
+          closeCal();
+        });
+      });
+    }
+
+    function openCal(key) {
+      calActiveKey = key;
+      const other = key === 'pickup' ? 'delivery' : 'pickup';
+      const otherField = document.getElementById(`ib-${other}-field`);
+      if (otherField) otherField.style.display = 'none';
+      const inputVal = document.getElementById(`ib-${key}-input`).value;
+      if (inputVal) { const d = new Date(inputVal+'T00:00:00'); calYear = d.getFullYear(); calMonth = d.getMonth(); }
+      const calWidget = document.getElementById('ib-cal-widget');
+      if (calWidget) calWidget.classList.add('open');
+      renderCalGrid();
+    }
+
+    function closeCal() {
+      const calWidget = document.getElementById('ib-cal-widget');
+      if (calWidget) calWidget.classList.remove('open');
+      const puField = document.getElementById('ib-pickup-field');
+      if (puField) puField.style.display = '';
+      const delField = document.getElementById('ib-delivery-field');
+      if (delField) delField.style.display = '';
+      calActiveKey = null;
+    }
+
+    document.getElementById('ib-backdrop').addEventListener('click', closeIB);
+
+    document.getElementById('ib-modal').addEventListener('click', e => {
+      e.stopPropagation();
+      if (e.target.closest('#ib-close')) { closeIB(); return; }
+      const stripNav = e.target.closest('[data-strip-nav]');
+      if (stripNav) {
+        const [type, dir] = stripNav.dataset.stripNav.split('-');
+        const strip = document.getElementById(`ib-strip-${type}`);
+        if (strip) strip.scrollBy({ left: dir === 'left' ? -180 : 180, behavior: 'smooth' });
+        return;
+      }
+      const patternBtn = e.target.closest('.ib-pattern-btn');
+      if (patternBtn && pendingIBJob) {
+        currentIBPattern = patternBtn.dataset.pattern;
+        const modal = document.getElementById('ib-modal');
+        const backdrop = document.getElementById('ib-backdrop');
+        modal.className = `ib-pattern-${currentIBPattern.toLowerCase()}`;
+        modal.innerHTML = currentIBPattern === 'A' ? renderIBPatternA(pendingIBJob) : renderIBPatternB(pendingIBJob);
+        if (window.innerWidth <= 900) {
+          if (currentIBPattern === 'A') renderDualCal();
+          else { renderDateStrip('pickup'); renderDateStrip('delivery'); }
+        } else if (currentIBPattern === 'A') {
+          renderDualCal();
+          modal.classList.add('ib-centered');
+          modal.style.top = ''; modal.style.left = ''; modal.style.width = '';
+          backdrop.classList.add('ib-dimmed');
+        } else {
+          renderDateStrip('pickup'); renderDateStrip('delivery');
+          // Re-anchor to the IB button of the active column
+          const ibBtn = document.querySelector(`.compare-instant-btn[data-vi="${pendingIBColIndex}"]`);
+          positionIBPopover(modal, ibBtn || patternBtn);
+          backdrop.classList.remove('ib-dimmed');
+        }
+        return;
+      }
+      if (e.target.closest('#ib-next')) { ibGoToStep2(); return; }
+      if (e.target.closest('#ib-back')) { ibGoToStep1(); return; }
+      if (e.target.closest('#ib-confirm')) { ibConfirm(); return; }
+      if (e.target.closest('#ib-cal-prev')) {
+        calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalGrid(); return;
+      }
+      if (e.target.closest('#ib-cal-next')) {
+        calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalGrid(); return;
+      }
+      if (e.target.closest('#ib-dcal-pickup-prev')) {
+        dualCalPickupMonth--; if (dualCalPickupMonth < 0) { dualCalPickupMonth = 11; dualCalPickupYear--; } renderDualCal('pickup'); return;
+      }
+      if (e.target.closest('#ib-dcal-pickup-next')) {
+        dualCalPickupMonth++; if (dualCalPickupMonth > 11) { dualCalPickupMonth = 0; dualCalPickupYear++; } renderDualCal('pickup'); return;
+      }
+      if (e.target.closest('#ib-dcal-delivery-prev')) {
+        dualCalDeliveryMonth--; if (dualCalDeliveryMonth < 0) { dualCalDeliveryMonth = 11; dualCalDeliveryYear--; } renderDualCal('delivery'); return;
+      }
+      if (e.target.closest('#ib-dcal-delivery-next')) {
+        dualCalDeliveryMonth++; if (dualCalDeliveryMonth > 11) { dualCalDeliveryMonth = 0; dualCalDeliveryYear++; } renderDualCal('delivery'); return;
+      }
+      const stripDay = e.target.closest('.ib-strip-day');
+      if (stripDay && stripDay.dataset.strip && stripDay.dataset.date) {
+        const type = stripDay.dataset.strip;
+        const date = stripDay.dataset.date;
+        if (type === 'pickup') {
+          dualCalPickupDate = date;
+          if (dualCalDeliveryDate < dualCalPickupDate) dualCalDeliveryDate = dualCalPickupDate;
+          renderDateStrip('pickup'); renderDateStrip('delivery');
+        } else {
+          dualCalDeliveryDate = date;
+          renderDateStrip('delivery');
+        }
+        return;
+      }
+      const inlineDay = e.target.closest('.ib-inline-day');
+      if (inlineDay && inlineDay.dataset.cal && inlineDay.dataset.date) {
+        const pickedDate = inlineDay.dataset.date;
+        if (inlineDay.dataset.cal === 'pickup') {
+          dualCalPickupDate = pickedDate;
+          const pd = new Date(pickedDate + 'T00:00:00');
+          dualCalPickupYear = pd.getFullYear(); dualCalPickupMonth = pd.getMonth();
+          if (dualCalDeliveryDate < dualCalPickupDate) {
+            dualCalDeliveryDate = dualCalPickupDate;
+            const dd = new Date(dualCalDeliveryDate + 'T00:00:00');
+            dualCalDeliveryYear = dd.getFullYear(); dualCalDeliveryMonth = dd.getMonth();
+          }
+          renderDualCal();
+        } else {
+          dualCalDeliveryDate = pickedDate;
+          renderDualCal('delivery');
+        }
+        return;
+      }
+      const field = e.target.closest('.ib-date-field');
+      if (field) {
+        const key = field.id === 'ib-pickup-field' ? 'pickup' : 'delivery';
+        if (window.innerWidth <= 900) { openCal(key); }
+        else { const inp = document.getElementById(`ib-${key}-input`); if (inp) { try { inp.showPicker(); } catch(err) { inp.click(); } } }
+      }
+    });
+
+    document.getElementById('ib-modal').addEventListener('change', e => {
+      const input = e.target;
+      if (input.classList.contains('ib-date-input') && input.value) {
+        const key = input.id === 'ib-pickup-input' ? 'pickup' : 'delivery';
+        const valEl = document.getElementById(`ib-${key}-val`);
+        if (valEl) valEl.textContent = formatDate(input.value);
+      }
+    });
+
+    document.getElementById('compare-btn').addEventListener('click', openCompare);
+    document.getElementById('compare-close').addEventListener('click', closeCompare);
+    document.getElementById('compare-backdrop').addEventListener('click', e => {
+      if (e.target === document.getElementById('compare-backdrop')) closeCompare();
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
+      updateSelection();
+    });
+
+    function stageCard(btn) {
+      btn.disabled = true;
+      btn.textContent = 'Staged';
+      const ibBtn = btn.closest('.card-actions').querySelector('.card-ib-btn');
+      if (ibBtn) ibBtn.disabled = true;
+    }
+
+    function openCardIB(btn, jobIndex) {
+      const job = jobs[jobIndex];
+      const rect = btn.getBoundingClientRect();
+      const modal = document.getElementById('ib-modal');
+      const modalW = 340;
+      let top = rect.bottom + 8;
+      let left = rect.left;
+      if (left + modalW > window.innerWidth - 8) left = window.innerWidth - modalW - 8;
+      if (top + 240 > window.innerHeight - 8) top = rect.top - 240 - 8;
+      modal.style.top = top + 'px';
+      modal.style.left = left + 'px';
+      pendingIBCardBtn = btn;
+      pendingIBJob = job;
+      pendingIBColIndex = null;
+      document.getElementById('ib-title').textContent = `Instant Book — ${job.name}`;
+      document.getElementById('ib-backdrop').classList.add('open');
+    }
+
+    function openCounterOffer(btn, jobIndex) {
+      const job = jobs[jobIndex];
+      const rect = btn.getBoundingClientRect();
+      const modal = document.getElementById('counter-modal');
+      const modalW = 300;
+      let top = rect.bottom + 8;
+      let left = rect.left;
+      if (left + modalW > window.innerWidth - 8) left = window.innerWidth - modalW - 8;
+      if (top + 200 > window.innerHeight - 8) top = rect.top - 200 - 8;
+      modal.style.top = top + 'px';
+      modal.style.left = left + 'px';
+      document.getElementById('counter-title').textContent = `Negotiate — ${job.name}`;
+      const rateStr = job.perMi ? ` ($${job.perMi}/mi)` : '';
+      document.getElementById('counter-posted-val').textContent = `$${job.price}${rateStr}`;
+      document.getElementById('counter-input').value = '';
+      document.getElementById('counter-backdrop').classList.add('open');
+    }
+
+    function closeCounterOffer() {
+      document.getElementById('counter-backdrop').classList.remove('open');
+    }
+
+    document.getElementById('counter-close').addEventListener('click', closeCounterOffer);
+    document.getElementById('counter-backdrop').addEventListener('click', closeCounterOffer);
+    document.getElementById('counter-modal').addEventListener('click', e => e.stopPropagation());
+    document.querySelector('.counter-send-btn').addEventListener('click', () => {
+      const val = document.getElementById('counter-input').value;
+      if (!val || parseFloat(val) <= 0) return;
+      closeCounterOffer();
+    });
+
+    function openDetails(job) {
+      pendingJob = job;
+      document.getElementById('details-frame').src = 'details-modal.html';
+      document.getElementById('details-backdrop').classList.add('open');
+    }
+
+    function closeDetails() {
+      document.getElementById('details-backdrop').classList.remove('open');
+      document.getElementById('details-frame').src = '';
+    }
+
+    // ── Inspect Mode ──
+    document.getElementById('details-backdrop').addEventListener('click', e => {
+      if (e.target === document.getElementById('details-backdrop')) closeDetails();
+    });
+
+    window.addEventListener('message', e => {
+      if (e.data === 'close-modal') closeDetails();
+      if (e.data === 'modal-ready' && pendingJob) {
+        document.getElementById('details-frame').contentWindow.postMessage({ type: 'populate', job: pendingJob }, '*');
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeIB(); closeDetails(); closeCompare(); closeCounterOffer(); }
+    });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (document.getElementById('compare-backdrop').classList.contains('open') && compareJobs.length) {
+          openCompare._reopen = true;
+          const body = getCompareScrollEl();
+          if (body) body.removeEventListener('scroll', updateCompareScroll);
+          const prevBody = document.querySelector('#compare-modal .compare-body');
+          if (prevBody) prevBody.removeEventListener('scroll', pinYMMRow);
+          renderCompareTable();
+          const w = window.innerWidth;
+          const n = compareJobs.length;
+          const nav = document.getElementById('compare-nav');
+          if (w <= 900) {
+            compareCarousel = n > 2;
+            const colW = compareCarousel ? '48vw' : Math.floor(100 / n) + 'vw';
+            document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => {
+              td.style.width = colW; td.style.minWidth = colW;
+            });
+            if (nav) {
+              nav.style.display = compareCarousel ? 'flex' : 'none';
+            }
+            document.getElementById('compare-modal').style.width = '';
+          } else {
+            compareCarousel = false;
+            if (nav) nav.style.display = 'none';
+            const idealW = 148 + n * 240 + 48;
+            const maxW = Math.floor(w * 0.92);
+            document.getElementById('compare-modal').style.width = Math.min(idealW, maxW) + 'px';
+            if (w <= 1100) {
+              const modalW = Math.min(idealW, maxW);
+              const visibleN = Math.min(n, 4);
+              const colW = Math.floor((modalW - 148) / visibleN) + 'px';
+              document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => {
+                td.style.width = colW; td.style.minWidth = colW;
+              });
+            }
+          }
+          const newBody = getCompareScrollEl();
+          if (newBody) {
+            newBody.scrollLeft = 0;
+            newBody.addEventListener('scroll', updateCompareScroll, { passive: true });
+          }
+          const newCompareBody = document.querySelector('#compare-modal .compare-body');
+          if (newCompareBody) newCompareBody.addEventListener('scroll', pinYMMRow, { passive: true });
+          setTimeout(updateCompareScroll, 50);
+        }
+      }, 200);
+    });
+
+    // ── Image zoom ──────────────────────────────────────────────────────────
+    const zoomBackdrop = document.getElementById('img-zoom-backdrop');
+    const zoomImg      = document.getElementById('img-zoom-img');
+    document.getElementById('img-zoom-close').addEventListener('click', () => { zoomBackdrop.style.display = 'none'; });
+    zoomBackdrop.addEventListener('click', e => { if (e.target === zoomBackdrop) zoomBackdrop.style.display = 'none'; });
+
+    document.getElementById('compare-modal').addEventListener('click', e => {
+      const thumb = e.target.closest('.compare-img-thumb');
+      if (thumb) { zoomImg.src = thumb.dataset.src; zoomImg.alt = thumb.dataset.name; zoomBackdrop.style.display = 'flex'; }
+      const copyBtn = e.target.closest('.compare-vin-copy');
+      if (copyBtn) { navigator.clipboard.writeText(copyBtn.dataset.vin).catch(() => {}); copyBtn.querySelector('.material-symbols-outlined').textContent = 'check'; setTimeout(() => copyBtn.querySelector('.material-symbols-outlined').textContent = 'content_copy', 1500); }
+    });
+  </script>
+
+  <script src="inspect.js"></script>
+
+  <!-- IB Pattern FAB (Calendar / Strip) -->
+  <div id="ib-pattern-fab" class="proto-ui" style="
+    position: fixed; bottom: 136px; left: 20px;
+    display: none; align-items: center; gap: 4px;
+    background: #1c1d1f; border-radius: 20px; padding: 5px;
+    z-index: 99990; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    opacity: 0.6; transition: opacity 0.15s;
+  " onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.6">
+    <button id="ib-fab-cal" onclick="setIBPattern('A')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap;
+      transition: background 0.1s, color 0.1s;
+    "><span class="material-symbols-outlined" style="font-size:15px;">calendar_month</span><span class="proto-label">Calendar</span></button>
+    <button id="ib-fab-strip" onclick="setIBPattern('B')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap;
+      transition: background 0.1s, color 0.1s;
+    "><span class="material-symbols-outlined" style="font-size:15px;">view_day</span><span class="proto-label">Strip</span></button>
+  </div>
+
+  <!-- IB Mode FAB -->
+  <div id="ib-fab" class="proto-ui" style="
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    background: #1c1d1f;
+    border-radius: 20px;
+    padding: 5px;
+    z-index: 99990;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    opacity: 0.6;
+    transition: opacity 0.15s;
+  " onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.6">
+    <button id="ib-fab-accordion" onclick="setIBMode('accordion')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
+      white-space: nowrap;
+    ">
+      <span class="material-symbols-outlined" style="font-size:15px;">table_rows</span>Accordion
+    </button>
+    <button id="ib-fab-popover" onclick="setIBMode('popover')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
+      white-space: nowrap;
+    ">
+      <span class="material-symbols-outlined" style="font-size:15px;">open_in_new</span>Popover
+    </button>
+  </div>
+
+  <script>
+    function setIBMode(mode) {
+      ibDesktopMode = mode;
+      document.querySelectorAll('.ib-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+      const fabAccordion = document.getElementById('ib-fab-accordion');
+      const fabPopover   = document.getElementById('ib-fab-popover');
+      const activeStyle  = 'background:#004e7d;color:white;';
+      const inactiveStyle = '';
+      fabAccordion.style.cssText += mode === 'accordion' ? activeStyle : inactiveStyle;
+      fabPopover.style.cssText   += mode === 'popover'   ? activeStyle : inactiveStyle;
+      fabAccordion.style.background = mode === 'accordion' ? '#004e7d' : '';
+      fabAccordion.style.color      = mode === 'accordion' ? 'white' : '#a0a3a8';
+      fabPopover.style.background   = mode === 'popover'   ? '#004e7d' : '';
+      fabPopover.style.color        = mode === 'popover'   ? 'white' : '#a0a3a8';
+    }
+
+    setIBMode('popover');
+
+    // IB Pattern FAB
+    function updatePatternFab() {
+      const calBtn   = document.getElementById('ib-fab-cal');
+      const stripBtn = document.getElementById('ib-fab-strip');
+      if (!calBtn) return;
+      calBtn.style.background  = currentIBPattern === 'A' ? '#004e7d' : '';
+      calBtn.style.color       = currentIBPattern === 'A' ? 'white'   : '#a0a3a8';
+      stripBtn.style.background = currentIBPattern === 'B' ? '#004e7d' : '';
+      stripBtn.style.color      = currentIBPattern === 'B' ? 'white'   : '#a0a3a8';
+    }
+
+    window.setIBPattern = function(pattern) {
+      currentIBPattern = pattern;
+      updatePatternFab();
+      // Re-render whatever IB is currently open
+      if (pendingIBJob !== null && pendingIBColIndex !== null) {
+        if (ibDesktopMode === 'accordion') openIBInline(pendingIBJob, pendingIBColIndex);
+        else openIBFromCompare(pendingIBJob, pendingIBColIndex, document.querySelector(`[data-vi="${pendingIBColIndex}"].compare-instant-btn`));
+      } else if (pendingIBJob !== null) {
+        const modal = document.getElementById('ib-modal');
+        modal.className = `ib-pattern-${pattern.toLowerCase()}`;
+        if (pattern === 'A') modal.innerHTML = renderIBPatternA(pendingIBJob);
+        else modal.innerHTML = renderIBPatternB(pendingIBJob);
+      }
+    };
+
+    // Show pattern FAB when IB opens, hide when it closes
+    const _origOpenIBFromCompare = openIBFromCompare;
+    const _origOpenIBInline      = openIBInline;
+    const _origCloseIB           = closeIB;
+    const _origCloseIBInline     = closeIBInline;
+
+    const patternFab = document.getElementById('ib-pattern-fab');
+    function showPatternFab() { if (patternFab && location.hostname !== 'maxotronik.github.io') { patternFab.style.display = 'flex'; updatePatternFab(); } }
+    function hidePatternFab() { if (patternFab) patternFab.style.display = 'none'; }
+
+    openIBFromCompare = function(...args) { _origOpenIBFromCompare(...args); showPatternFab(); };
+    openIBInline      = function(...args) { _origOpenIBInline(...args); showPatternFab(); };
+    closeIB           = function(...args) { _origCloseIB(...args); hidePatternFab(); };
+    closeIBInline     = function(...args) { _origCloseIBInline(...args); hidePatternFab(); };
+
+    updatePatternFab();
+
+    if (location.hostname === 'maxotronik.github.io') {
+      document.querySelectorAll('.proto-ui').forEach(el => el.style.display = 'none');
+    }
+  </script>
+</body>
+</html>

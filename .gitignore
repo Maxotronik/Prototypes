@@ -1,0 +1,33 @@
+# Publish only the prototipos/ folder — everything else stays local
+ACV Transport Knowledge Base.html
+ACV Transport Opportunity List.html
+SIA/
+Transport Hub Improvements/
+notifications.html
+segmented-control.html
+srp-promo-badge.html
+testing.html
+transport hub 2.0.html
+transport-journeys/
+transport-vision/
+vehicles.html
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.*
+credentials.*
+
+# OS & editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
