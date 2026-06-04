@@ -9,7 +9,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ACV Transport — Compare Vehicles</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap" rel="stylesheet"></noscript>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -753,7 +756,7 @@
     .handling-icon-badge .material-symbols-outlined { font-size: 14px; line-height: 1; }
 
     .handling-icon-badge.h-disclosure { background: #eff8ff; color: #1565c0; }
-    .handling-icon-badge.h-oversized  { background: #fff4ec; color: #b84c00; }
+    .handling-icon-badge.h-oversized  { background: none; }
 
     .drivetrain-badge {
       display: inline-block;
@@ -1464,6 +1467,7 @@
 
     .compare-table {
       border-collapse: collapse;
+      table-layout: fixed;
     }
 
     .compare-table .label-col {
@@ -1483,7 +1487,9 @@
     }
 
     .compare-table .vehicle-col {
-      min-width: 200px;
+      width: 220px;
+      min-width: 220px;
+      max-width: 220px;
       padding: 14px 20px;
       font-size: 13px;
       color: #55575c;
@@ -1504,6 +1510,7 @@
       background: white !important;
       z-index: 10;
     }
+    .compare-sticky-row td.ib-active-col { background: #e8f4fd !important; }
     .compare-sticky-row .label-col { z-index: 11; }
     .compare-sticky-row-pinned td {
       box-shadow: 0 1px 0 #e8e9eb;
@@ -1629,6 +1636,7 @@
       cursor: pointer;
     }
     .compare-instant-btn:hover { opacity: 0.9; }
+    .compare-instant-btn:disabled { opacity: 0.4; cursor: default; }
     .compare-acted-label {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 5px;
@@ -1680,10 +1688,56 @@
       position: fixed;
       z-index: 210;
       background: white;
-      border-radius: 8px;
+      border-radius: 10px;
       width: 340px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      overflow: visible;
+    }
+
+    #ib-modal.ib-popover-mode {
+      border: 2px solid #2196f5;
+      overflow: visible;
+    }
+
+    #ib-modal.ib-popover-mode .ib-header,
+    #ib-modal.ib-popover-mode .ib-body,
+    #ib-modal.ib-popover-mode .ib-confirm-section,
+    #ib-modal.ib-popover-mode .ib-strip-section {
       overflow: hidden;
+    }
+
+    .ib-popover-arrow {
+      display: none;
+      position: absolute;
+      top: -10px;
+      width: 18px;
+      height: 10px;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    #ib-modal.ib-popover-mode .ib-popover-arrow { display: block; }
+
+    .ib-popover-arrow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #2196f5;
+    }
+
+    .ib-popover-arrow::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 9px solid white;
     }
 
     .ib-header {
@@ -1741,6 +1795,7 @@
     .ib-confirm-btn:hover { opacity: 0.9; }
 
     .staged-col { background: #f5f5f6 !important; color: #b0b2b7 !important; }
+    .ib-active-col { background: #e8f4fd !important; }
 
     @media (max-width: 900px) {
       #ib-backdrop { background: rgba(0,0,0,0.4); }
@@ -2058,6 +2113,97 @@
       cursor: pointer; color: #a0a3a8; font-size: 16px; padding: 0;
     }
     .ib-inline-close:hover { color: #1c1d1f; }
+
+    /* ── Accordion Large ── */
+    .ib-large-row td {
+      padding: 0 !important;
+      border-bottom: none !important;
+      position: sticky;
+      left: 0;
+    }
+    .ib-large-cell {
+      position: relative;
+      border: 2px solid #2196f5;
+      border-radius: 10px;
+      background: white;
+      padding: 20px 24px 20px;
+      margin: 4px 0 4px;
+      box-sizing: border-box;
+    }
+    .ib-large-arrow {
+      position: absolute;
+      top: -10px;
+      width: 18px;
+      height: 10px;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .ib-large-arrow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #2196f5;
+    }
+    .ib-large-arrow::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 9px solid white;
+    }
+    .ib-large-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+    }
+    .ib-large-vehicle-label {
+      flex-shrink: 0;
+      min-width: 140px;
+    }
+    .ib-large-vehicle-label .ib-inline-name-bar {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .ib-large-vehicle-sublabel {
+      font-size: 12px;
+      color: #71747a;
+    }
+    .ib-large-dates {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .ib-large-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .ib-large-confirm-btn {
+      background: linear-gradient(147deg, #f26522 14%, #fc4243 86%);
+      border: none; border-radius: 100px;
+      padding: 11px 24px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+      color: white; cursor: pointer; white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .ib-large-confirm-btn:hover { opacity: 0.88; }
+    .ib-large-close-btn {
+      background: none; border: none; cursor: pointer;
+      color: #004e7d; font-size: 13px; font-weight: 600;
+      font-family: 'Inter', sans-serif; padding: 0;
+      text-align: center;
+    }
+    .ib-large-close-btn:hover { color: #003057; }
 
     /* ── IB Desktop Mode Switcher ── */
     .ib-mode-switcher {
@@ -2493,7 +2639,7 @@
         pickupCity: 'Phoenix, AZ 85004', pickupAddr: '350 N Central Ave',
         deliveryCity: 'Albuquerque, NM 87102', deliveryAddr: '99 Central Ave SE',
         distance: 410, price: 574, perMi: '1.40',
-        img: 'LB/job list_files/7270194466fc4b909a0f66106406df6a.jpg',
+        img: 'Vehicle photos/Vehicle=01.png',
         pickupInstructions: 'Allow after hours: No; Hours: M–F 9–6 & Sat 9–4. Please bring a physical copy of the pick up slip. Must pick up keys at the dealership. Pick up location is 5 miles away at 3375 Millersport Hwy, Getzville, NY 14068. USE MIDDLE ENTRANCE ONLY! ALL CARRIERS ENTRANCE.',
         deliveryInstructions: '',
         postedAgo: '3h ago', isNew: false
@@ -2504,7 +2650,7 @@
         pickupCity: 'Boise, ID 83702', pickupAddr: '800 W Main St',
         deliveryCity: 'Portland, OR 97204', deliveryAddr: '720 SW Broadway',
         distance: 430, price: 645, perMi: '1.50',
-        img: 'LB/job list_files/b88a66d7c28c4bf8b80f8ca45e07d89c.jpg',
+        img: 'Vehicle photos/Vehicle=02.png',
         pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–6; Notes: Rear gate entry',
         deliveryInstructions: 'Allow after hours: No; Hours: M–F 9–5; Notes: Call 24h before',
         postedAgo: '18m ago', isNew: true
@@ -2516,7 +2662,7 @@
         pickupCity: 'Chicago, IL 60616', pickupAddr: '1001 S Michigan Ave',
         deliveryCity: 'Nashville, TN 37203', deliveryAddr: '210 Broadway',
         distance: 480, price: 720, perMi: '1.50',
-        img: 'LB/job list_files/57fba21acb324cb2be0f178d14afcf10.jpg',
+        img: 'Vehicle photos/Vehicle=03.png',
         pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Tight lot access',
         deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5. Dealer requires BOL signed before release. Do NOT leave vehicle unattended in lot — check in with service manager at front desk. Oversized vehicles must use the rear ramp entrance off Cumberland Ave. Call 30 min before arrival: (615) 555-0198.',
         postedAgo: '5h ago', isNew: false
@@ -2527,7 +2673,7 @@
         pickupCity: 'Portland, OR 97204', pickupAddr: '720 SW Broadway',
         deliveryCity: 'Spokane, WA 99201', deliveryAddr: '601 W Spokane Falls Blvd',
         distance: 350, price: 525, perMi: '1.50',
-        img: 'LB/job list_files/3f113691-75c4-4376-a48d-23072ea89cc7.640x480.jpg',
+        img: 'Vehicle photos/Vehicle=04.png',
         pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Tight alley access',
         deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 9–5; Notes: Gate closes 6pm',
         postedAgo: '1d ago', isNew: false
@@ -2539,7 +2685,7 @@
         pickupCity: 'Atlanta, GA 30303', pickupAddr: '145 Peachtree St NE',
         deliveryCity: 'Nashville, TN 37203', deliveryAddr: '210 Broadway',
         distance: 250, price: 350, perMi: '1.40',
-        img: 'LB/job list_files/01ac8f37-6b38-4a48-a5c0-1b9d3c529238.640x480.jpg',
+        img: 'Vehicle photos/Vehicle=05.png',
         pickupInstructions: 'Allow after hours: No; Hours: M–F 8:30–5:30; Notes: Call 48 hrs ahead',
         deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5; Notes: Dock behind building',
         postedAgo: '2h ago', isNew: false
@@ -2550,7 +2696,7 @@
         pickupCity: 'Indianapolis, IN 46204', pickupAddr: '200 S Meridian St',
         deliveryCity: 'Milwaukee, WI 53202', deliveryAddr: '500 W Kilbourn Ave',
         distance: 290, price: 435, perMi: '1.50',
-        img: 'LB/job list_files/bcaffd650eab4411843a7d450e5237e3.jpg',
+        img: 'Vehicle photos/Vehicle=06.png',
         pickupInstructions: 'Allow after hours: No; Hours: M–F 9–6; Notes: Front gate narrow',
         deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5; Notes: Call before 5',
         postedAgo: '7h ago', isNew: false
@@ -2565,7 +2711,7 @@
         pickupCity: 'Detroit, MI 48226', pickupAddr: '2000 Woodward Ave',
         deliveryCity: 'Columbus, OH 43215', deliveryAddr: '45 N High St',
         distance: 200, price: 300, perMi: '1.50',
-        img: 'LB/job list_files/94d8ea891ac741d3ac8347f2434415b8.jpg',
+        img: 'Vehicle photos/Vehicle=07.png',
         pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–8. Vehicle is INOP — does not start. Flatbed or wheel-lift required. Keys are at the security booth, NOT at the main office. Gate code: #4471. After hours contact: Mike (313) 555-0174. Do not attempt to push or roll — engine locked.',
         deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5; Notes: Front gate locked 6pm',
         postedAgo: '9m ago', isNew: true
@@ -2577,7 +2723,7 @@
         pickupCity: 'Boulder, CO 80302', pickupAddr: '1325 Pearl St',
         deliveryCity: 'Salt Lake City, UT 84111', deliveryAddr: '400 State St',
         distance: 520, price: 832, perMi: '1.60',
-        img: 'LB/job list_files/78e96765-2885-4bfc-aa3e-5c9279e491b2.640x480.jpg',
+        img: 'Vehicle photos/Vehicle=08.png',
         pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Enclosed only',
         deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5; Notes: Confirm VIN',
         postedAgo: '4h ago', isNew: false
@@ -2589,7 +2735,7 @@
         pickupCity: 'Austin, TX 78701', pickupAddr: '300 W 6th St',
         deliveryCity: 'Round Rock, TX 78664', deliveryAddr: '1301 Gattis School Rd',
         distance: 23, price: 25, perMi: null,
-        img: 'LB/job list_files/ccc6bcfb-be57-44b3-9c2d-a55653bd3e15.640x480.jpg',
+        img: 'Vehicle photos/Vehicle=09.png',
         pickupInstructions: 'Allow after hours: Yes; Hours: M–F 7–6; Notes: Load from side gate',
         deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5; Notes: Check VIN at arrival',
         postedAgo: '2d ago', isNew: false
@@ -2600,7 +2746,7 @@
         pickupCity: 'Wichita, KS 67202', pickupAddr: '455 N Main St',
         deliveryCity: 'Omaha, NE 68102', deliveryAddr: '123 S 13th St',
         distance: 190, price: 285, perMi: '1.50',
-        img: 'LB/job list_files/5be517d4-d93b-459d-b0dd-3c8b932779fe.640x480.jpg',
+        img: 'Vehicle photos/Vehicle=10.png',
         pickupInstructions: 'Allow after hours: No; Hours: M–F 8–6; Notes: Back entry',
         deliveryInstructions: 'Allow after hours: Yes; Hours: M–F 8–5; Notes: Limited space',
         postedAgo: '6h ago', isNew: false
@@ -2612,7 +2758,7 @@
         pickupCity: 'Minneapolis, MN 55401', pickupAddr: '325 Nicollet Mall',
         deliveryCity: 'Des Moines, IA 50309', deliveryAddr: '1 Court Ave',
         distance: 245, price: 367, perMi: '1.50',
-        img: 'LB/job list_files/94d8ea891ac741d3ac8347f2434415b8.jpg',
+        img: 'Vehicle photos/Vehicle=11.png',
         pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–8; Notes: After hours Monday to Friday only',
         deliveryInstructions: 'Allow after hours: No; Hours: M–F 9–5; Notes: Dock Level 2',
         postedAgo: '45m ago', isNew: true
@@ -2623,7 +2769,7 @@
         pickupCity: 'Charlotte, NC 28202', pickupAddr: '100 Tryon St',
         deliveryCity: 'Savannah, GA 31401', deliveryAddr: '1 MLK Jr Blvd',
         distance: 250, price: 375, perMi: '1.50',
-        img: 'LB/job list_files/b88a66d7c28c4bf8b80f8ca45e07d89c.jpg',
+        img: 'Vehicle photos/placeholder.png',
         pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–7 (Mon–Fri only). Gate code: #2209. Vehicle is located in overflow lot B — follow yellow signs from main entrance. Check in with dispatcher before loading. Do NOT block the service lane. Bring your own straps — dealer does not supply.',
         deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5. Delivery must be confirmed 24h in advance — call (912) 555-0133. Customer will be on-site to inspect. Do not drop without customer signature on BOL. No weekend deliveries accepted.',
         postedAgo: '3h ago', isNew: false
@@ -2772,7 +2918,7 @@
           const inopH = job.vehicleHandling.find(h => h.category === 'Inop');
           const discTypes = job.vehicleHandling.filter(h => h.category !== 'Inop').flatMap(h => h.types);
           if (inopH) badges += ` <span class="inop-badge">INOP</span>`;
-          if (discTypes.length) badges += ` <span class="material-symbols-outlined" style="font-size:20px;color:#1565c0;line-height:1;flex-shrink:0;">report</span>`;
+          if (discTypes.length) badges += ` <span class="handling-icon-badge h-oversized"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#CC9A00"><path d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240ZM330-120 120-330v-300l210-210h300l210 210v300L630-120H330Z"/></svg></span>`;
         }
         if (job.enclosed) badges += ` <span class="enclosed-badge">Enclosed</span>`;
         if (job.drive) badges += ` <span class="drive-badge">Drive My Car</span>`;
@@ -2918,13 +3064,17 @@
         }
         case 'handling': {
           if (!job.vehicleHandling || !job.vehicleHandling.length) return `<span style="color:#b0b3b8;">—</span>`;
-          const isInop = job.vehicleHandling.some(h => h.category === 'Inop');
           const allTypes = job.vehicleHandling.flatMap(h => h.types);
           if (!allTypes.length) return `<span style="color:#b0b3b8;">—</span>`;
-          let html = '';
-          if (isInop) html += `<span class="inop-badge" style="display:inline-block;margin-bottom:6px;">INOP</span>`;
-          html += `<ul style="margin:0;padding-left:14px;display:flex;flex-direction:column;gap:3px;">${allTypes.map(t => `<li style="font-size:12px;color:#55575c;">${t}</li>`).join('')}</ul>`;
-          return html;
+          return `<div style="background:#fafafa;border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:4px;">
+            <div style="display:flex;align-items:center;gap:4px;">
+              <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#CC9A00"><path d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240ZM330-120 120-330v-300l210-210h300l210 210v300L630-120H330Z"/></svg>
+              <span style="font-size:14px;font-weight:500;color:#212121;letter-spacing:0.1px;line-height:20px;">Disclosures</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:2px 0;color:#55575c;font-size:14px;letter-spacing:0.1px;line-height:20px;">
+              ${allTypes.map(t => `<span style="display:flex;align-items:center;"><span style="margin:0 6px;color:#a1a1a1;">•</span>${t}</span>`).join('')}
+            </div>
+          </div>`;
         }
         default: return '—';
       }
@@ -3240,10 +3390,22 @@
         const vi = parseInt(ibBtn.dataset.vi, 10);
         if (window.innerWidth > 900) {
           if (ibDesktopMode === 'accordion') openIBInline(compareJobs[vi], vi);
+          else if (ibDesktopMode === 'accordion-large') openIBLarge(compareJobs[vi], vi);
           else openIBFromCompare(compareJobs[vi], vi, ibBtn);
           return;
         }
         openIBFromCompare(compareJobs[vi], vi, ibBtn);
+      }
+
+      // Large accordion strip nav arrows
+      const largeStripNav = e.target.closest('[data-strip-nav^="large-"]');
+      if (largeStripNav && document.querySelector('.ib-large-row')) {
+        const nav = largeStripNav.dataset.stripNav; // e.g. "large-pickup-left"
+        const dir = nav.endsWith('-left') ? -1 : 1;
+        const type = nav.replace(/^large-/, '').replace(/-(?:left|right)$/, '');
+        const strip = document.getElementById(`ib-strip-large-${type}`);
+        if (strip) strip.scrollBy({ left: dir * 180, behavior: 'smooth' });
+        return;
       }
 
       // Inline strip nav arrows
@@ -3254,6 +3416,22 @@
         if (strip) strip.scrollBy({ left: dir === 'left' ? -180 : 180, behavior: 'smooth' });
         return;
       }
+      // Large accordion strip day click
+      const largeStripDay = e.target.closest('.ib-strip-day');
+      if (largeStripDay && document.querySelector('.ib-large-row') && largeStripDay.dataset.strip && largeStripDay.dataset.date) {
+        const type = largeStripDay.dataset.strip;
+        const date = largeStripDay.dataset.date;
+        if (type === 'pickup') {
+          dualCalPickupDate = date;
+          if (dualCalDeliveryDate < dualCalPickupDate) dualCalDeliveryDate = dualCalPickupDate;
+          renderDateStripInto('pickup', 'ib-strip-large-pickup');
+          renderDateStripInto('delivery', 'ib-strip-large-delivery');
+        } else {
+          dualCalDeliveryDate = date;
+          renderDateStripInto('delivery', 'ib-strip-large-delivery');
+        }
+        return;
+      }
       // Inline strip day click
       const inlineStripDay = e.target.closest('.ib-strip-day');
       if (inlineStripDay && document.querySelector('.ib-inline-row') && inlineStripDay.dataset.strip && inlineStripDay.dataset.date) {
@@ -3262,10 +3440,11 @@
         if (type === 'pickup') {
           dualCalPickupDate = date;
           if (dualCalDeliveryDate < dualCalPickupDate) dualCalDeliveryDate = dualCalPickupDate;
-          renderDateStrip('pickup'); renderDateStrip('delivery');
+          renderDateStripInto('pickup', 'ib-strip-inline-pickup');
+          renderDateStripInto('delivery', 'ib-strip-inline-delivery');
         } else {
           dualCalDeliveryDate = date;
-          renderDateStrip('delivery');
+          renderDateStripInto('delivery', 'ib-strip-inline-delivery');
         }
         return;
       }
@@ -3460,13 +3639,23 @@
             </div>
           </div>
           ${datesBlock}
-          <button class="ib-confirm-btn" id="ib-confirm">Instant Book</button>
+          <button class="ib-confirm-btn" id="ib-confirm">Confirm Booking</button>
         </div>`;
+    }
+
+    function renderDateStripInto(type, stripId) {
+      const strip = document.getElementById(stripId);
+      if (!strip) return;
+      renderDateStripEl(type, strip);
     }
 
     function renderDateStrip(type) {
       const strip = document.getElementById(`ib-strip-${type}`);
       if (!strip) return;
+      renderDateStripEl(type, strip);
+    }
+
+    function renderDateStripEl(type, strip) {
       const sla = pendingIBJob ? getSLA(pendingIBJob.distance) : { suggested: 5, max: 7 };
       const today = new Date(); today.setHours(0,0,0,0);
       const selectedDate = type === 'pickup' ? dualCalPickupDate : dualCalDeliveryDate;
@@ -3515,8 +3704,9 @@
     function updateStripArrows(type, strip) {
       const row = strip.closest('.ib-datestrip-row');
       if (!row) return;
-      const leftBtn = row.querySelector(`[data-strip-nav="${type}-left"]`);
-      const rightBtn = row.querySelector(`[data-strip-nav="${type}-right"]`);
+      // Support both "pickup-left" and "large-pickup-left" buttons
+      const leftBtn = row.querySelector(`[data-strip-nav$="${type}-left"]`);
+      const rightBtn = row.querySelector(`[data-strip-nav$="${type}-right"]`);
       if (!leftBtn || !rightBtn) return;
       const canLeft = strip.scrollLeft > 4;
       const canRight = strip.scrollLeft < strip.scrollWidth - strip.clientWidth - 4;
@@ -3554,7 +3744,7 @@
               <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="delivery-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
             </div>
           </div>
-          <button class="ib-confirm-btn" id="ib-confirm">Instant Book</button>
+          <button class="ib-confirm-btn" id="ib-confirm">Confirm Booking</button>
         </div>`;
     }
 
@@ -3578,9 +3768,23 @@
           </div>
           <div class="ib-col-action">
             ${renderIBDatesHTML()}
-            <button class="ib-confirm-btn" id="ib-confirm">Instant Book</button>
+            <button class="ib-confirm-btn" id="ib-confirm">Confirm Booking</button>
           </div>
         </div>`;
+    }
+
+    function lockCompareBtns() {
+      document.querySelectorAll('#compare-modal .compare-stage-btn, #compare-modal .compare-instant-btn').forEach(btn => {
+        if (!btn.classList.contains('compare-acted-label')) btn.disabled = true;
+      });
+    }
+
+    function unlockCompareBtns() {
+      document.querySelectorAll('#compare-modal .compare-stage-btn, #compare-modal .compare-instant-btn').forEach(btn => {
+        const col = btn.closest('td');
+        if (col && col.querySelector('.compare-acted-label')) return;
+        btn.disabled = false;
+      });
     }
 
     function openIBInline(job, vi) {
@@ -3589,8 +3793,11 @@
         closeIBInline(); return;
       }
       closeIBInline();
+      lockCompareBtns();
       pendingIBJob = job;
       pendingIBColIndex = vi;
+      document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => td.classList.remove('ib-active-col'));
+      document.querySelectorAll(`#compare-modal .vehicle-col[data-col="${vi}"]`).forEach(td => td.classList.add('ib-active-col'));
       // Initialize dates
       const todayDate = new Date(); todayDate.setHours(0,0,0,0);
       const todayStr = todayDate.toISOString().slice(0,10);
@@ -3631,7 +3838,7 @@
           <button class="ib-inline-close">✕</button>
         </div>
         <div id="ib-inline-dates"></div>
-        <button class="ib-inline-confirm-btn">Instant Book</button>`;
+        <button class="ib-inline-confirm-btn">Confirm Booking</button>`;
 
       // Style active pattern btn
       cell.querySelectorAll('.ib-inline-pattern-btn').forEach(b => {
@@ -3650,7 +3857,7 @@
             <div class="ib-inline-strip-scroll">
               <div class="ib-datestrip-row">
                 <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="pickup-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
-                <div class="ib-datestrip" id="ib-strip-pickup"></div>
+                <div class="ib-datestrip" id="ib-strip-inline-pickup"></div>
                 <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="pickup-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
               </div>
             </div>
@@ -3660,41 +3867,202 @@
             <div class="ib-inline-strip-scroll">
               <div class="ib-datestrip-row">
                 <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="delivery-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
-                <div class="ib-datestrip" id="ib-strip-delivery"></div>
+                <div class="ib-datestrip" id="ib-strip-inline-delivery"></div>
                 <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="delivery-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
               </div>
             </div>
           </div>`;
-        renderDateStrip('pickup'); renderDateStrip('delivery');
+        renderDateStripInto('pickup', 'ib-strip-inline-pickup');
+        renderDateStripInto('delivery', 'ib-strip-inline-delivery');
       }
     }
 
     function closeIBInline() {
       const row = document.querySelector('.ib-inline-row');
       if (row) row.remove();
+      document.querySelectorAll('#compare-modal .ib-active-col').forEach(td => td.classList.remove('ib-active-col'));
+      unlockCompareBtns();
+      pendingIBJob = null; pendingIBColIndex = null;
+    }
+
+    function openIBLarge(job, vi) {
+      if (pendingIBColIndex === vi && document.querySelector('.ib-large-row')) {
+        closeIBLarge(); return;
+      }
+      closeIBLarge();
+      lockCompareBtns();
+      pendingIBJob = job;
+      pendingIBColIndex = vi;
+
+      // Init dates
+      const todayDate = new Date(); todayDate.setHours(0,0,0,0);
+      const todayStr = todayDate.toISOString().slice(0,10);
+      const sla = getSLA(job.distance);
+      dualCalPickupDate = todayStr;
+      dualCalPickupYear = todayDate.getFullYear(); dualCalPickupMonth = todayDate.getMonth();
+      dualCalDeliveryDate = addDays(todayStr, sla.suggested);
+      const delD = new Date(dualCalDeliveryDate + 'T00:00:00');
+      dualCalDeliveryYear = delD.getFullYear(); dualCalDeliveryMonth = delD.getMonth();
+
+      // Highlight column
+      document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => td.classList.remove('ib-active-col'));
+      document.querySelectorAll(`#compare-modal .vehicle-col[data-col="${vi}"]`).forEach(td => td.classList.add('ib-active-col'));
+
+      const table = document.querySelector('.compare-table');
+      const tbody = table.querySelector('tbody');
+      const n = compareJobs.length;
+
+      const tr = document.createElement('tr');
+      tr.className = 'ib-large-row';
+
+      // Full-width td spanning all columns (label + vehicle cols)
+      const td = document.createElement('td');
+      td.colSpan = n + 1;
+
+      const perMiStr = job.perMi ? ` · $${job.perMi}/mi.` : '';
+      const puCity = job.pickupCity.replace(/,.*/, '');
+      const delCity = job.deliveryCity.replace(/,.*/, '');
+      td.innerHTML = `<div class="ib-large-cell" id="ib-large-cell">
+        <div class="ib-large-arrow" id="ib-large-arrow"></div>
+        <div class="ib-large-inner">
+          <div style="flex-shrink:0;width:140px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <img class="ib-vehicle-thumb" src="${job.img}" alt="${job.name}" style="width:100%;height:80px;object-fit:cover;border-radius:6px;">
+            <div style="text-align:center;">
+              <div class="ib-vehicle-name" style="font-size:13px;">${job.name}</div>
+              <div class="ib-vehicle-meta" style="font-size:12px;">$${job.price.toLocaleString()}${perMiStr}</div>
+              <div class="ib-vehicle-route" style="font-size:11px;">${puCity} → ${delCity} · ${job.distance} mi.</div>
+            </div>
+          </div>
+          <div class="ib-large-dates">
+            <div class="ib-datestrip-section" style="margin-bottom:12px;">
+              <span class="ib-datestrip-label">Pickup Date</span>
+              <div class="ib-datestrip-row">
+                <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="large-pickup-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
+                <div class="ib-datestrip" id="ib-strip-large-pickup"></div>
+                <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="large-pickup-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
+              </div>
+            </div>
+            <div class="ib-datestrip-section" style="margin-bottom:16px;">
+              <span class="ib-datestrip-label">Delivery Date</span>
+              <div class="ib-datestrip-row">
+                <button class="ib-strip-arrow ib-strip-arrow-left" data-strip-nav="large-delivery-left" hidden><span class="material-symbols-outlined">chevron_left</span></button>
+                <div class="ib-datestrip" id="ib-strip-large-delivery"></div>
+                <button class="ib-strip-arrow ib-strip-arrow-right" data-strip-nav="large-delivery-right" hidden><span class="material-symbols-outlined">chevron_right</span></button>
+              </div>
+            </div>
+            <div class="ib-large-cta">
+              <button class="ib-large-close-btn" id="ib-large-close">Cancel</button>
+              <button class="ib-large-confirm-btn" id="ib-large-confirm">Confirm Booking</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+
+      // Position arrow to point at selected column
+      requestAnimationFrame(() => {
+        const cell = document.getElementById('ib-large-cell');
+        const arrow = document.getElementById('ib-large-arrow');
+        const compareBody = document.querySelector('#compare-modal .compare-body');
+
+        // Limit cell to visible compare-body width, no minimum
+        if (td && compareBody) {
+          const bodyRect = compareBody.getBoundingClientRect();
+          td.style.maxWidth = bodyRect.width + 'px';
+          td.style.width = bodyRect.width + 'px';
+        }
+
+        const colHeader = document.querySelector(`#compare-modal .compare-sticky-row .vehicle-col[data-col="${vi}"]`);
+        if (cell && arrow && colHeader) {
+          const cellRect = cell.getBoundingClientRect();
+          const colRect  = colHeader.getBoundingClientRect();
+          const colCenterX = colRect.left + colRect.width / 2;
+          const cellLeft   = cellRect.left;
+          let arrowLeft = colCenterX - cellLeft - 9;
+          arrowLeft = Math.max(16, Math.min(cellRect.width - 36, arrowLeft));
+          arrow.style.left = arrowLeft + 'px';
+        }
+
+        renderDateStripInto('pickup', 'ib-strip-large-pickup');
+        renderDateStripInto('delivery', 'ib-strip-large-delivery');
+
+        // Scroll compare-body so the large cell is fully visible above the footer
+        const footer = document.getElementById('compare-footer');
+        if (cell && compareBody) {
+          const cellRect   = cell.getBoundingClientRect();
+          const bodyRect   = compareBody.getBoundingClientRect();
+          const footerH    = footer ? footer.getBoundingClientRect().height : 0;
+          const visibleBottom = bodyRect.bottom - footerH - 8;
+          if (cellRect.bottom > visibleBottom) {
+            compareBody.scrollBy({ top: cellRect.bottom - visibleBottom, behavior: 'smooth' });
+          }
+        }
+      });
+
+      // Events
+      document.getElementById('ib-large-close').addEventListener('click', closeIBLarge);
+      document.getElementById('ib-large-confirm').addEventListener('click', () => {
+        markColumnActed(vi, 'Booked');
+        closeIBLarge();
+      });
+    }
+
+    function closeIBLarge() {
+      const row = document.querySelector('.ib-large-row');
+      if (row) row.remove();
+      document.querySelectorAll('#compare-modal .ib-active-col').forEach(td => td.classList.remove('ib-active-col'));
+      unlockCompareBtns();
       pendingIBJob = null; pendingIBColIndex = null;
     }
 
     function positionIBPopover(modal, anchorEl) {
       modal.classList.remove('ib-centered');
-      modal.style.width = '360px';
+      modal.classList.add('ib-popover-mode');
       modal.style.top = '';
       modal.style.left = '';
       modal.style.transform = '';
-      // Position below anchor, flip up if not enough space
+
+      // Calculate width: fit all strip days without scroll
+      // Each day: 54px wide + 6px gap, minus last gap; body padding 20px each side; border 2px each side
+      const sla = pendingIBJob ? getSLA(pendingIBJob.distance) : { max: 7 };
+      const dayCount = sla.max + 1;
+      const stripW = dayCount * 54 + (dayCount - 1) * 6;
+      const bodyPad = 40; // 20px left + 20px right
+      const border = 4;   // 2px each side
+      const modalW = Math.max(340, stripW + bodyPad + border);
+      modal.style.width = modalW + 'px';
+
       const rect = anchorEl.getBoundingClientRect();
-      const modalW = 360;
-      const modalH = 420;
-      let top = rect.bottom + 8;
+      const modalH = 440;
+      let top = rect.bottom + 10;
       let left = rect.left + rect.width / 2 - modalW / 2;
       if (left + modalW > window.innerWidth - 8) left = window.innerWidth - modalW - 8;
       if (left < 8) left = 8;
-      if (top + modalH > window.innerHeight - 8) top = rect.top - modalH - 8;
+      if (top + modalH > window.innerHeight - 8) top = rect.top - modalH - 10;
       modal.style.top = top + 'px';
       modal.style.left = left + 'px';
+
+      // Arrow always pointing up toward anchor
+      let arrow = modal.querySelector('.ib-popover-arrow');
+      if (!arrow) {
+        arrow = document.createElement('div');
+        arrow.className = 'ib-popover-arrow';
+        modal.prepend(arrow);
+      }
+      arrow.style.top = '-10px';
+      arrow.style.bottom = '';
+      arrow.style.transform = '';
+      const anchorCenterX = rect.left + rect.width / 2;
+      const modalLeft = parseFloat(modal.style.left);
+      let arrowX = anchorCenterX - modalLeft - 9;
+      arrowX = Math.max(16, Math.min(modalW - 36, arrowX));
+      arrow.style.left = arrowX + 'px';
     }
 
     function openIBFromCompare(job, vi, anchorEl) {
+      lockCompareBtns();
       pendingIBJob = job;
       pendingIBColIndex = vi;
       pendingIBCardBtn = null;
@@ -3743,6 +4111,8 @@
         modal.style.width = modalW + 'px';
         backdrop.classList.remove('ib-dimmed');
       }
+      document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => td.classList.remove('ib-active-col'));
+      document.querySelectorAll(`#compare-modal .vehicle-col[data-col="${vi}"]`).forEach(td => td.classList.add('ib-active-col'));
       backdrop.classList.add('open');
     }
 
@@ -3793,6 +4163,8 @@
     }
 
     function closeIB() {
+      document.querySelectorAll('#compare-modal .ib-active-col').forEach(td => td.classList.remove('ib-active-col'));
+      unlockCompareBtns();
       const backdrop = document.getElementById('ib-backdrop');
       backdrop.classList.remove('open');
       backdrop.classList.remove('ib-dimmed');
@@ -3800,6 +4172,7 @@
       modal.style.width = '';
       modal.style.transform = '';
       modal.classList.remove('ib-centered');
+      modal.classList.remove('ib-popover-mode');
       const calWidget = document.getElementById('ib-cal-widget');
       if (calWidget) calWidget.classList.remove('open');
       const puField = document.getElementById('ib-pickup-field');
@@ -4200,22 +4573,33 @@
     ">
       <span class="material-symbols-outlined" style="font-size:15px;">open_in_new</span>Popover
     </button>
+    <button id="ib-fab-accordion-large" onclick="setIBMode('accordion-large')" style="
+      background: none; border: none; cursor: pointer;
+      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
+      white-space: nowrap;
+    ">
+      <span class="material-symbols-outlined" style="font-size:15px;">table_rows_narrow</span>Acc. Large
+    </button>
   </div>
 
   <script>
     function setIBMode(mode) {
       ibDesktopMode = mode;
       document.querySelectorAll('.ib-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
-      const fabAccordion = document.getElementById('ib-fab-accordion');
-      const fabPopover   = document.getElementById('ib-fab-popover');
-      const activeStyle  = 'background:#004e7d;color:white;';
-      const inactiveStyle = '';
-      fabAccordion.style.cssText += mode === 'accordion' ? activeStyle : inactiveStyle;
-      fabPopover.style.cssText   += mode === 'popover'   ? activeStyle : inactiveStyle;
-      fabAccordion.style.background = mode === 'accordion' ? '#004e7d' : '';
-      fabAccordion.style.color      = mode === 'accordion' ? 'white' : '#a0a3a8';
-      fabPopover.style.background   = mode === 'popover'   ? '#004e7d' : '';
-      fabPopover.style.color        = mode === 'popover'   ? 'white' : '#a0a3a8';
+      const fabAccordion      = document.getElementById('ib-fab-accordion');
+      const fabPopover        = document.getElementById('ib-fab-popover');
+      const fabAccordionLarge = document.getElementById('ib-fab-accordion-large');
+      [
+        { el: fabAccordion,      key: 'accordion' },
+        { el: fabPopover,        key: 'popover' },
+        { el: fabAccordionLarge, key: 'accordion-large' },
+      ].forEach(({ el, key }) => {
+        if (!el) return;
+        el.style.background = mode === key ? '#004e7d' : '';
+        el.style.color      = mode === key ? 'white' : '#a0a3a8';
+      });
     }
 
     setIBMode('popover');
@@ -4237,6 +4621,7 @@
       // Re-render whatever IB is currently open
       if (pendingIBJob !== null && pendingIBColIndex !== null) {
         if (ibDesktopMode === 'accordion') openIBInline(pendingIBJob, pendingIBColIndex);
+        else if (ibDesktopMode === 'accordion-large') openIBLarge(pendingIBJob, pendingIBColIndex);
         else openIBFromCompare(pendingIBJob, pendingIBColIndex, document.querySelector(`[data-vi="${pendingIBColIndex}"].compare-instant-btn`));
       } else if (pendingIBJob !== null) {
         const modal = document.getElementById('ib-modal');
