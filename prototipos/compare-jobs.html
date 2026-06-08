@@ -316,6 +316,7 @@
       cursor: pointer;
     }
 
+    .job-row { transition: background 140ms ease; }
     .job-row:hover { background: #fafafa; }
     .job-row:has(.checkbox-wrap:hover) { background: white; }
     .checkbox-wrap:hover { background: rgba(0,0,0,0.04); border-radius: 50%; }
@@ -454,7 +455,9 @@
       cursor: pointer;
       white-space: nowrap;
     }
+    .card-ib-btn { transition: opacity 140ms ease, transform 120ms ease-out; }
     .card-ib-btn:hover { opacity: 0.9; }
+    .card-ib-btn:active:not(:disabled) { transform: scale(0.97); opacity: 0.88; }
     .card-ib-btn:disabled { background: #e8e9eb; color: #a1a1a1; cursor: default; opacity: 1; }
 
     .addr-col {
@@ -935,7 +938,7 @@
     .map-btn:hover { opacity: 0.75; }
 
     /* ── Selected row ── */
-    .job-row.selected { background: #e8f4fd; }
+    .job-row.selected { background: #e8f4fd; transition: background 160ms var(--ease-out); }
 
     /* ── NEW badge + posted age ── */
     .new-badge {
@@ -1154,7 +1157,9 @@
       cursor: pointer;
     }
 
+    .compare-btn { transition: background 140ms ease, transform 120ms ease-out; }
     .compare-btn:hover:not(:disabled) { background: #fff5f0; }
+    .compare-btn:active:not(:disabled) { transform: scale(0.97); }
     .compare-btn.visible { display: block; }
     .compare-btn:disabled { border-color: #dcdfe8; color: #a1a1a1; cursor: default; }
 
@@ -1374,17 +1379,25 @@
       font-weight: 400;
     }
 
+    /* ── Easing vars ── */
+    :root {
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
     /* ── Compare Modal ── */
     #compare-backdrop {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 200;
-      background: rgba(0,0,0,0.45);
+      background: rgba(0,0,0,0);
       align-items: center;
       justify-content: center;
+      transition: background 220ms var(--ease-out);
     }
     #compare-backdrop.open { display: flex; }
+    #compare-backdrop.open.anim { background: rgba(0,0,0,0.45); }
 
     #compare-modal {
       background: white;
@@ -1395,7 +1408,11 @@
       flex-direction: column;
       box-shadow: 0 8px 32px rgba(0,0,0,0.18);
       overflow: hidden;
+      opacity: 0;
+      transform: scale(0.97) translateY(8px);
+      transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
     }
+    #compare-backdrop.open.anim #compare-modal { opacity: 1; transform: scale(1) translateY(0); }
 
     #compare-modal .compare-header {
       display: flex;
@@ -1576,6 +1593,13 @@
       color: #1c1d1f;
     }
 
+    .compare-nav-arrow {
+      transition: background 120ms ease, transform 100ms ease-out;
+    }
+    .compare-nav-arrow:active:not(:disabled) {
+      transform: scale(0.92);
+      background: #f2f3f4;
+    }
     .compare-nav-arrow:disabled {
       opacity: 0.3;
       cursor: default;
@@ -1660,10 +1684,15 @@
       width: 340px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.22);
       overflow: visible;
+      animation: ibModalIn 200ms var(--ease-out) both;
+    }
+    @keyframes ibModalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     #ib-modal.ib-popover-mode {
-      border: 2px solid #2196f5;
+      border: 2px solid #e0e3e8;
       overflow: visible;
     }
 
@@ -1694,7 +1723,7 @@
       transform: translateX(-50%);
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-bottom: 10px solid #2196f5;
+      border-bottom: 10px solid #e0e3e8;
     }
 
     .ib-popover-arrow::after {
@@ -1760,13 +1789,16 @@
       color: white;
       cursor: pointer;
     }
+    .ib-confirm-btn { transition: opacity 140ms ease, transform 120ms ease-out; }
     .ib-confirm-btn:hover { opacity: 0.9; }
+    .ib-confirm-btn:active { transform: scale(0.97); }
 
     .staged-col { background: #f5f5f6 !important; color: #b0b2b7 !important; }
     .ib-active-col { background: #e8f4fd !important; }
 
     @media (max-width: 900px) {
-      #ib-backdrop { background: rgba(0,0,0,0.4); }
+      #ib-backdrop { background: rgba(0,0,0,0); transition: background 240ms var(--ease-out); }
+      #ib-backdrop.open { background: rgba(0,0,0,0.4); }
       #ib-modal {
         position: fixed;
         left: 0; right: 0; bottom: 0;
@@ -1776,7 +1808,11 @@
         box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
         max-height: 84vh;
         overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+        animation: none;
       }
+      #ib-backdrop.open #ib-modal { transform: translateY(0); }
       .ib-dates { flex-direction: column; gap: 12px; }
 
       /* Calendar widget — hidden by default, shown via JS */
@@ -1839,7 +1875,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.24);
       opacity: 0;
       transform: translateY(8px);
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out);
       pointer-events: none;
       z-index: 10;
       max-width: 480px;
@@ -1866,11 +1902,13 @@
       position: fixed;
       inset: 0;
       z-index: 200;
-      background: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0);
       align-items: center;
       justify-content: center;
+      transition: background 220ms var(--ease-out);
     }
     #details-backdrop.open { display: flex; }
+    #details-backdrop.open.anim { background: rgba(0,0,0,0.25); }
 
     #details-frame {
       border: none;
@@ -1881,58 +1919,249 @@
       max-height: calc(100vh - 80px);
       background: white;
       box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      opacity: 0;
+      transform: scale(0.97) translateY(8px);
+      transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out);
+    }
+    #details-backdrop.open.anim #details-frame { opacity: 1; transform: scale(1) translateY(0); }
+
+    @media (max-width: 900px) {
+      #details-backdrop { align-items: flex-end; justify-content: flex-end; }
+      #details-frame {
+        width: 100%;
+        max-width: 100%;
+        height: 92vh;
+        max-height: 92vh;
+        border-radius: 0;
+        transform: translateX(100%);
+        opacity: 1;
+        transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      #details-backdrop.open.anim #details-frame { transform: translateX(0); opacity: 1; }
     }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
-      .job-list { padding: 8px 16px 24px; }
+      /* ── Header: hamburger | title | search ── */
+      header {
+        padding: 0 16px;
+        justify-content: space-between;
+      }
+      .nav-logo { display: none; }
+      .nav-tabs { display: none; }
+      .nav-user { display: none; }
+      .menu-btn { display: flex; align-items: center; order: 1; }
 
-      .job-row-main { flex-wrap: wrap; gap: 10px 12px; }
-
-      /* Row 1: thumb | info | checkbox */
-      .vehicle-thumb { display: block; width: 76px; height: 76px; order: 1; }
-      .job-info { flex: 1; min-width: 0; order: 2; }
-      .checkbox-wrap { order: 3; align-self: flex-start; }
-
-      /* Row 2: route (left) + price+pin (right) inside job-row-2 */
-      .job-row-2 {
-        display: flex;
-        flex: 0 0 100%;
-        min-width: 0;
-        order: 4;
-        align-items: center;
-        gap: 16px;
+      header::after {
+        content: 'ACV Transport Load Board';
+        font-size: 17px;
+        font-weight: 700;
+        color: #1c1d1f;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        pointer-events: none;
       }
 
-      .route-col { flex: 0 1 auto; min-width: 0; padding-left: 0; }
+      .header-search-btn {
+        display: flex !important;
+        order: 3;
+        align-items: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #1c1d1f;
+        padding: 4px;
+      }
+
+      /* ── Filter bar: Filters + Saved Searches only ── */
+      .filter-bar {
+        padding: 0 16px;
+        gap: 0;
+        border-bottom: 1px solid #e8e9eb;
+      }
+      .search-box { display: none; }
+      .filters {
+        display: flex;
+        width: 100%;
+        gap: 0;
+      }
+      .filter-btn { display: none; }
+      .sort-btn { display: none; }
+      .or-divider { display: none; }
+      .saved-searches-btn {
+        border: none;
+        border-radius: 0;
+        padding: 12px 0;
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #1c1d1f;
+        background: none;
+        flex: 1;
+        text-align: center;
+      }
+
+      .mobile-filters-btn {
+        display: flex !important;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+        border: none;
+        border-radius: 0;
+        background: none;
+        padding: 12px 0;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: #1c1d1f;
+        cursor: pointer;
+        justify-content: center;
+        border-right: 1px solid #e8e9eb;
+      }
+      .mobile-filters-btn .material-symbols-outlined { font-size: 18px; }
+
+      /* ── Results bar ── */
+      .results-bar { padding: 8px 16px; }
+      .results-controls { display: none; }
+      .results-count { font-size: 12px; color: #71747a; }
+
+      /* ── Job list ── */
+      .job-list { padding: 0 0 80px; gap: 0; background: #f2f3f4; }
+
+      .job-row {
+        padding: 12px 16px;
+        background: white;
+        border-bottom: 1px solid #f0f0f0;
+        border-radius: 0;
+        margin: 0;
+      }
+
+      /* Row 1: thumb | info — wrap so row-2 goes below */
+      .job-row-main {
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: flex-start;
+        position: relative;
+      }
+
+      /* Thumb: 64×64 */
+      .vehicle-thumb { display: block; width: 64px; height: 64px; border-radius: 6px; flex-shrink: 0; }
+
+      /* Info: fills remaining space in row 1, leave room for checkbox */
+      .job-info { flex: 1; min-width: 0; padding: 0; padding-right: 32px; }
+
+      .order-id-row { margin-bottom: 1px; }
+      .order-id-label { font-size: 11px; color: #71747a; }
+      .order-id-val { font-size: 12px; font-weight: 500; }
+      .vehicle-name { font-size: 15px; font-weight: 700; line-height: 1.25; white-space: normal; }
+      .badge-row { margin-top: 5px; gap: 4px; }
+
+      /* Checkbox: absolute top-right corner */
+      .checkbox-wrap {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+      }
+
+      /* Row 2: full-width strip below row 1 */
+      .job-row-2 {
+        display: flex !important;
+        flex-basis: 100%;
+        min-width: 0;
+        align-items: center;
+        gap: 0;
+        margin-top: 8px;
+        padding-top: 10px;
+        border-top: 1px solid #f2f3f4;
+      }
+
+      .route-col {
+        flex: 1;
+        min-width: 0;
+        padding-left: 0;
+      }
 
       /* Hide map on mobile */
       .map-btn { display: none; }
 
+      /* Price: pin icon + stacked price/ppm flush right */
       .job-price {
-        flex: 1;
-        align-self: center;
-        display: grid;
-        grid-template-columns: auto auto;
-        column-gap: 16px;
+        flex-shrink: 0;
+        display: flex;
         align-items: center;
-        justify-content: end;
+        gap: 6px;
+        justify-content: flex-end;
       }
-
       .job-price-pin {
         display: block;
-        grid-column: 1;
-        grid-row: 1 / span 2;
-        font-size: 22px;
+        font-size: 20px;
         color: #004e7d;
-        align-self: center;
+        line-height: 1;
+      }
+      .price-stack { display: flex; flex-direction: column; align-items: flex-end; }
+      .job-price .price { font-size: 20px; font-weight: 700; line-height: 1.1; }
+      .job-price .price-per-mi { font-size: 11px; color: #71747a; }
+
+      .handling-row { display: none; }
+
+      /* ── Bottom nav ── */
+      .mobile-bottom-nav {
+        display: flex !important;
       }
 
-      .job-price .price { grid-column: 2; grid-row: 1; font-size: 20px; }
+      /* Hide IB button on mobile job list */
+      .card-ib-btn { display: none; }
+      .compare-btn-wrap { display: none; }
 
-      .job-price .price-per-mi { grid-column: 2; grid-row: 2; }
+      /* Multiselect footer replaces bottom nav on mobile */
+      .multiselect-footer {
+        height: 64px;
+        padding: 0 20px;
+        z-index: 160;
+      }
+      /* Hide bottom nav when footer is visible */
+      .multiselect-footer.visible ~ .mobile-bottom-nav,
+      body:has(.multiselect-footer.visible) .mobile-bottom-nav { display: none !important; }
 
-      .handling-row { margin-left: 88px; flex-wrap: wrap; gap: 4px 6px; }
+      .selected-count {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1c1d1f;
+      }
+      .clear-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 15px;
+        font-weight: 500;
+        color: #004e7d;
+      }
+      .stage-jobs-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+      /* Both buttons: secondary outline style */
+      .compare-btn {
+        display: none;
+        border: 1.5px solid #f26522;
+        color: #f26522;
+        background: none;
+        padding: 9px 16px;
+        font-size: 13px;
+      }
+      .compare-btn.visible { display: block; }
+      .stage-jobs-btn {
+        background: none;
+        border: 1.5px solid #f26522;
+        color: #f26522;
+        padding: 9px 16px;
+        font-size: 13px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -2075,7 +2304,9 @@
       padding: 10px 0; cursor: pointer;
       transition: opacity 0.15s;
     }
+    .ib-inline-confirm-btn { transition: opacity 140ms ease, transform 120ms ease-out; }
     .ib-inline-confirm-btn:hover { opacity: 0.88; }
+    .ib-inline-confirm-btn:active { transform: scale(0.97); opacity: 0.85; }
     .ib-inline-close {
       float: right; background: none; border: none;
       cursor: pointer; color: #a0a3a8; font-size: 16px; padding: 0;
@@ -2097,6 +2328,11 @@
       padding: 20px 24px 20px;
       margin: 4px 0 4px;
       box-sizing: border-box;
+      animation: ibLargeIn 220ms var(--ease-out) both;
+    }
+    @keyframes ibLargeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .ib-large-arrow {
       position: absolute;
@@ -2164,7 +2400,9 @@
       color: white; cursor: pointer; white-space: nowrap;
       transition: opacity 0.15s;
     }
+    .ib-large-confirm-btn { transition: opacity 140ms ease, transform 120ms ease-out; }
     .ib-large-confirm-btn:hover { opacity: 0.88; }
+    .ib-large-confirm-btn:active { transform: scale(0.97); opacity: 0.85; }
     .ib-large-close-btn {
       background: none; border: none; cursor: pointer;
       color: #004e7d; font-size: 13px; font-weight: 600;
@@ -2268,7 +2506,9 @@
       padding: 12px; font-family: 'Inter', sans-serif;
       font-size: 14px; font-weight: 500; color: white; cursor: pointer;
     }
+    .ib-continue-btn { transition: opacity 140ms ease, transform 120ms ease-out; }
     .ib-continue-btn:hover { opacity: 0.85; }
+    .ib-continue-btn:active { transform: scale(0.97); }
     .ib-back-link {
       background: none; border: none;
       font-family: 'Inter', sans-serif; font-size: 13px;
@@ -2460,12 +2700,79 @@
       .ib-inline-grid { padding: 6px 6px 12px; gap: 2px; }
       .ib-inline-day { font-size: 13px; }
     }
+
+
+    /* ── Mobile base ── */
+    .menu-btn { display: none; }
+    .header-search-btn { display: none; }
+    .mobile-filters-btn { display: none; }
+    .price-stack { display: contents; }
+
+
+
+
+    /* ── Mobile Bottom Nav ── */
+    .mobile-bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      background: white;
+      border-top: 1px solid #e8e9eb;
+      z-index: 150;
+      justify-content: space-around;
+      align-items: stretch;
+    }
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      flex: 1;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 0 10px;
+      text-decoration: none;
+      color: #71747a;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .mobile-nav-item .material-symbols-outlined { font-size: 22px; }
+    .mobile-nav-item.active { color: #f26522; }
+    .mobile-nav-item.active .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .mobile-nav-icon-wrap {
+      width: 44px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 14px;
+    }
+    .mobile-nav-item.active .mobile-nav-icon-wrap { background: #fff0e8; }
+
+    @media (prefers-reduced-motion: reduce) {
+      #compare-backdrop, #compare-modal, #ib-backdrop, #ib-modal, #details-backdrop, #details-frame,
+      .ib-large-cell, .job-row, .compare-btn, .card-ib-btn, .compare-nav-arrow,
+      .ib-large-confirm-btn, .ib-inline-confirm-btn, .ib-confirm-btn, .ib-continue-btn {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+      #compare-backdrop.open.anim #compare-modal,
+      #details-backdrop.open.anim #details-frame { opacity: 1 !important; transform: none !important; }
+    }
   </style>
 </head>
 <body>
 
   <!-- ── Top Nav ── -->
   <header>
+    <button class="menu-btn" aria-label="Menu">
+      <span class="material-symbols-outlined" style="font-size:24px;">menu</span>
+    </button>
     <a class="nav-logo" href="index.html">
       <!-- ACV logo -->
       <span>ACV</span>
@@ -2475,6 +2782,9 @@
       <a href="#" class="tab">Staged</a>
       <a href="manage-page.html" class="tab">Manage</a>
     </nav>
+    <button class="header-search-btn" style="display:none;" aria-label="Search">
+      <span class="material-symbols-outlined" style="font-size:24px;">search</span>
+    </button>
   </header>
 
   <!-- ── Filter Bar ── -->
@@ -2484,6 +2794,9 @@
       <input type="text" placeholder="Search VIN, Order ID, or Bundle ID" />
     </div>
     <div class="filters">
+      <button class="mobile-filters-btn" style="display:none;">
+        <span class="material-symbols-outlined">tune</span>Filters
+      </button>
       <button class="filter-btn">Pickup Location</button>
       <button class="filter-btn">Delivery Location</button>
       <button class="filter-btn">Job Type</button>
@@ -2921,8 +3234,10 @@
               </button>
               <div class="job-price">
                 <span class="material-symbols-outlined job-price-pin">place</span>
-                <span class="price">$${job.price.toLocaleString()}</span>
-                ${job.perMi ? `<span class="price-per-mi">$${job.perMi}/mi.</span>` : ''}
+                <div class="price-stack">
+                  <span class="price">$${job.price.toLocaleString()}</span>
+                  ${job.perMi ? `<span class="price-per-mi">$${job.perMi}/mi.</span>` : ''}
+                </div>
               </div>
             </div>
           </div>`;
@@ -2956,7 +3271,8 @@
         case 'orderId':
           return `<span style="color:#55575c;">${job.orderId}</span>`;
         case 'nameVin':
-          return `<div style="display:flex;flex-direction:column;gap:4px;">
+          return `<div style="display:flex;flex-direction:column;gap:8px;">
+            <img src="${job.img}" alt="${job.name}" class="compare-img-thumb" data-src="${job.img}" data-name="${job.name}" style="width:100%;height:80px;object-fit:cover;border-radius:4px;background:#e8e9eb;cursor:pointer;">
             <span style="font-weight:600;color:#1c1d1f;font-size:13px;">${job.name}</span>
             <div style="display:flex;align-items:center;gap:5px;">
               <span style="font-size:11px;color:#a0a3a8;font-family:monospace;letter-spacing:0.3px;">${job.vin}</span>
@@ -3044,7 +3360,6 @@
     const fieldDefs = [
       { label: 'Vehicle',               key: 'nameVin' },
       { label: 'Order ID',             key: 'orderId' },
-      { label: '',                     key: 'image' },
       { label: 'Price',                 key: 'pricePpm', bestFn: j => j.perMi ? parseFloat(j.perMi) : null, bestLabel: 'Best Pay', bestMax: true },
       { label: 'Drivetrain',            key: 'drivetrain' },
       { label: 'Transport Type',        key: 'transport', showIf: j => j.enclosed || j.drive },
@@ -3148,6 +3463,10 @@
     }
 
     function getCompareScrollEl() {
+      // On mobile the horizontal scroll is on .compare-body, not .compare-table-wrap
+      if (window.innerWidth <= 900) {
+        return document.querySelector('#compare-modal .compare-body');
+      }
       return document.querySelector('#compare-modal .compare-table-wrap') ||
              document.querySelector('#compare-modal .compare-body');
     }
@@ -3158,7 +3477,10 @@
       const colW = (firstCol && firstCol.offsetWidth > 0)
         ? firstCol.offsetWidth
         : Math.round(window.innerWidth * 0.48);
-      if (el) el.scrollBy({ left: dir * colW, behavior: 'smooth' });
+      if (!el || colW === 0) return;
+      const currentSnap = Math.round(el.scrollLeft / colW);
+      const targetSnap  = Math.max(0, Math.min(compareJobs.length - 1, currentSnap + dir));
+      el.scrollTo({ left: targetSnap * colW, behavior: 'smooth' });
       setTimeout(updateCompareScroll, 350);
     }
 
@@ -3231,9 +3553,10 @@
           });
         }
       }
-      document.getElementById('compare-backdrop').classList.add('open');
-      const ibFabEl = document.getElementById('ib-fab');
-      if (ibFabEl && location.hostname !== 'maxotronik.github.io') { ibFabEl.style.display = 'flex'; setIBMode(ibDesktopMode); }
+      const bd = document.getElementById('compare-backdrop');
+      bd.classList.add('open');
+      requestAnimationFrame(() => requestAnimationFrame(() => bd.classList.add('anim')));
+      setIBMode(ibDesktopMode);
       const scrollEl = getCompareScrollEl();
       if (scrollEl) {
         scrollEl.scrollLeft = 0;
@@ -3264,9 +3587,8 @@
         updateSelection();
       }
       document.getElementById('compare-modal').style.width = '';
-      document.getElementById('compare-backdrop').classList.remove('open');
-      const ibFabEl2 = document.getElementById('ib-fab');
-      if (ibFabEl2) ibFabEl2.style.display = 'none';
+      const bd2 = document.getElementById('compare-backdrop');
+      bd2.classList.remove('open', 'anim');
       window.scrollTo(0, savedScrollY);
     }
 
@@ -3949,15 +4271,14 @@
         renderDateStripInto('pickup', 'ib-strip-large-pickup');
         renderDateStripInto('delivery', 'ib-strip-large-delivery');
 
-        // Scroll compare-body so the large cell is fully visible above the footer
+        // Hide footer and scroll accordion into view
         const footer = document.getElementById('compare-footer');
+        if (footer) footer.style.display = 'none';
         if (cell && compareBody) {
-          const cellRect   = cell.getBoundingClientRect();
-          const bodyRect   = compareBody.getBoundingClientRect();
-          const footerH    = footer ? footer.getBoundingClientRect().height : 0;
-          const visibleBottom = bodyRect.bottom - footerH - 8;
-          if (cellRect.bottom > visibleBottom) {
-            compareBody.scrollBy({ top: cellRect.bottom - visibleBottom, behavior: 'smooth' });
+          const cellRect = cell.getBoundingClientRect();
+          const bodyRect = compareBody.getBoundingClientRect();
+          if (cellRect.bottom > bodyRect.bottom) {
+            compareBody.scrollBy({ top: cellRect.bottom - bodyRect.bottom + 16, behavior: 'smooth' });
           }
         }
       });
@@ -3974,6 +4295,8 @@
       const row = document.querySelector('.ib-large-row');
       if (row) row.remove();
       document.querySelectorAll('#compare-modal .ib-active-col').forEach(td => td.classList.remove('ib-active-col'));
+      const footer = document.getElementById('compare-footer');
+      if (footer) footer.style.display = '';
       unlockCompareBtns();
       pendingIBJob = null; pendingIBColIndex = null;
     }
@@ -4044,37 +4367,44 @@
       if (currentIBPattern === 'A') modal.innerHTML = renderIBPatternA(job);
       else if (currentIBPattern === 'B') modal.innerHTML = renderIBPatternB(job);
       else modal.innerHTML = renderIBPatternC(job);
-      modal.style.transform = '';
       if (window.innerWidth <= 900) {
+        // On mobile: let CSS translateY(100%) stay; opening adds class to slide in
+        modal.style.transform = '';
         modal.style.top = ''; modal.style.left = ''; modal.style.width = '';
         backdrop.classList.remove('ib-dimmed');
         if (currentIBPattern === 'A') renderDualCal();
         else if (currentIBPattern === 'B') { renderDateStrip('pickup'); renderDateStrip('delivery'); }
-      } else if (currentIBPattern === 'A') {
-        renderDualCal();
-        modal.classList.add('ib-centered');
-        modal.style.top = ''; modal.style.left = ''; modal.style.width = '';
-        backdrop.classList.add('ib-dimmed');
-      } else if (currentIBPattern === 'B') {
-        renderDateStrip('pickup'); renderDateStrip('delivery');
-        positionIBPopover(modal, anchorEl);
-        backdrop.classList.remove('ib-dimmed');
       } else {
-        const rect = anchorEl.getBoundingClientRect();
-        const modalW = 560;
-        const approxH = 360;
-        let top = rect.bottom + 8;
-        let left = rect.left;
-        if (left + modalW > window.innerWidth - 8) left = window.innerWidth - modalW - 8;
-        if (top + approxH > window.innerHeight - 8) top = rect.top - approxH - 8;
-        modal.style.top = top + 'px';
-        modal.style.left = left + 'px';
-        modal.style.width = modalW + 'px';
-        backdrop.classList.remove('ib-dimmed');
+        modal.style.transform = '';
+      }
+      if (window.innerWidth > 900) {
+        if (currentIBPattern === 'A') {
+          renderDualCal();
+          modal.classList.add('ib-centered');
+          modal.style.top = ''; modal.style.left = ''; modal.style.width = '';
+          backdrop.classList.add('ib-dimmed');
+        } else if (currentIBPattern === 'B') {
+          renderDateStrip('pickup'); renderDateStrip('delivery');
+          positionIBPopover(modal, anchorEl);
+          backdrop.classList.remove('ib-dimmed');
+        } else {
+          const rect = anchorEl.getBoundingClientRect();
+          const modalW = 560;
+          const approxH = 360;
+          let top = rect.bottom + 8;
+          let left = rect.left;
+          if (left + modalW > window.innerWidth - 8) left = window.innerWidth - modalW - 8;
+          if (top + approxH > window.innerHeight - 8) top = rect.top - approxH - 8;
+          modal.style.top = top + 'px';
+          modal.style.left = left + 'px';
+          modal.style.width = modalW + 'px';
+          backdrop.classList.remove('ib-dimmed');
+        }
       }
       document.querySelectorAll('#compare-modal .vehicle-col').forEach(td => td.classList.remove('ib-active-col'));
       document.querySelectorAll(`#compare-modal .vehicle-col[data-col="${vi}"]`).forEach(td => td.classList.add('ib-active-col'));
-      backdrop.classList.add('open');
+      // Double rAF: let browser paint the hidden state first, then trigger transition
+      requestAnimationFrame(() => requestAnimationFrame(() => backdrop.classList.add('open')));
     }
 
     function ibGoToStep2() {
@@ -4127,20 +4457,29 @@
       document.querySelectorAll('#compare-modal .ib-active-col').forEach(td => td.classList.remove('ib-active-col'));
       unlockCompareBtns();
       const backdrop = document.getElementById('ib-backdrop');
+      const modal = document.getElementById('ib-modal');
+      const isMobile = window.innerWidth <= 900;
+      const cleanupIB = () => {
+        modal.style.width = '';
+        modal.style.transform = '';
+        modal.classList.remove('ib-centered');
+        modal.classList.remove('ib-popover-mode');
+        const calWidget = document.getElementById('ib-cal-widget');
+        if (calWidget) calWidget.classList.remove('open');
+        const puField = document.getElementById('ib-pickup-field');
+        if (puField) puField.style.display = '';
+        const delField = document.getElementById('ib-delivery-field');
+        if (delField) delField.style.display = '';
+        calActiveKey = null;
+      };
       backdrop.classList.remove('open');
       backdrop.classList.remove('ib-dimmed');
-      const modal = document.getElementById('ib-modal');
-      modal.style.width = '';
-      modal.style.transform = '';
-      modal.classList.remove('ib-centered');
-      modal.classList.remove('ib-popover-mode');
-      const calWidget = document.getElementById('ib-cal-widget');
-      if (calWidget) calWidget.classList.remove('open');
-      const puField = document.getElementById('ib-pickup-field');
-      if (puField) puField.style.display = '';
-      const delField = document.getElementById('ib-delivery-field');
-      if (delField) delField.style.display = '';
-      calActiveKey = null;
+      if (isMobile) {
+        // Wait for slide-out transition before cleanup
+        setTimeout(cleanupIB, 340);
+      } else {
+        cleanupIB();
+      }
     }
 
     function formatDate(val) {
@@ -4383,13 +4722,18 @@
     });
 
     function openDetails(job) {
+      const dbd = document.getElementById('details-backdrop');
+      dbd.classList.remove('anim');
       pendingJob = job;
       document.getElementById('details-frame').src = 'details-modal.html';
-      document.getElementById('details-backdrop').classList.add('open');
+      const _dbd = document.getElementById('details-backdrop');
+      _dbd.classList.add('open');
+      requestAnimationFrame(() => requestAnimationFrame(() => _dbd.classList.add('anim')));
     }
 
     function closeDetails() {
-      document.getElementById('details-backdrop').classList.remove('open');
+      const _dbd = document.getElementById('details-backdrop');
+      _dbd.classList.remove('open', 'anim');
       document.getElementById('details-frame').src = '';
     }
 
@@ -4474,112 +4818,51 @@
     });
   </script>
 
+  <!-- ── Mobile Bottom Nav ── -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+    <a class="mobile-nav-item active" href="#">
+      <div class="mobile-nav-icon-wrap">
+        <span class="material-symbols-outlined">list_alt</span>
+      </div>
+      Job List
+    </a>
+    <a class="mobile-nav-item" href="#">
+      <div class="mobile-nav-icon-wrap">
+        <span class="material-symbols-outlined">bookmark</span>
+      </div>
+      Stage
+    </a>
+    <a class="mobile-nav-item" href="manage-page.html">
+      <div class="mobile-nav-icon-wrap">
+        <span class="material-symbols-outlined">local_shipping</span>
+      </div>
+      Manage
+    </a>
+  </nav>
+
+  <script src="proto-settings.js"></script>
   <script src="inspect.js"></script>
 
-  <!-- IB Pattern FAB (Calendar / Strip) -->
-  <div id="ib-pattern-fab" class="proto-ui" style="
-    position: fixed; bottom: 136px; left: 20px;
-    display: none; align-items: center; gap: 4px;
-    background: #1c1d1f; border-radius: 20px; padding: 5px;
-    z-index: 99990; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-    opacity: 0.6; transition: opacity 0.15s;
-  " onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.6">
-    <button id="ib-fab-cal" onclick="setIBPattern('A')" style="
-      background: none; border: none; cursor: pointer;
-      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
-      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; gap: 5px; white-space: nowrap;
-      transition: background 0.1s, color 0.1s;
-    "><span class="material-symbols-outlined" style="font-size:15px;">calendar_month</span><span class="proto-label">Calendar</span></button>
-    <button id="ib-fab-strip" onclick="setIBPattern('B')" style="
-      background: none; border: none; cursor: pointer;
-      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
-      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; gap: 5px; white-space: nowrap;
-      transition: background 0.1s, color 0.1s;
-    "><span class="material-symbols-outlined" style="font-size:15px;">view_day</span><span class="proto-label">Strip</span></button>
-  </div>
-
-  <!-- IB Mode FAB -->
-  <div id="ib-fab" class="proto-ui" style="
-    position: fixed;
-    bottom: 80px;
-    left: 20px;
-    display: none;
-    align-items: center;
-    gap: 4px;
-    background: #1c1d1f;
-    border-radius: 20px;
-    padding: 5px;
-    z-index: 99990;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-    opacity: 0.6;
-    transition: opacity 0.15s;
-  " onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.6">
-    <button id="ib-fab-accordion" onclick="setIBMode('accordion')" style="
-      background: none; border: none; cursor: pointer;
-      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
-      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
-      white-space: nowrap;
-    ">
-      <span class="material-symbols-outlined" style="font-size:15px;">table_rows</span>Accordion
-    </button>
-    <button id="ib-fab-popover" onclick="setIBMode('popover')" style="
-      background: none; border: none; cursor: pointer;
-      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
-      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
-      white-space: nowrap;
-    ">
-      <span class="material-symbols-outlined" style="font-size:15px;">open_in_new</span>Popover
-    </button>
-    <button id="ib-fab-accordion-large" onclick="setIBMode('accordion-large')" style="
-      background: none; border: none; cursor: pointer;
-      color: #a0a3a8; border-radius: 16px; padding: 6px 12px;
-      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; gap: 5px; transition: background 0.1s, color 0.1s;
-      white-space: nowrap;
-    ">
-      <span class="material-symbols-outlined" style="font-size:15px;">table_rows_narrow</span>Acc. Large
-    </button>
-  </div>
-
   <script>
+    // ── setIBMode: update bar seg + internal state ─────────────────────────
+    let _ibModeBtns = {};
     function setIBMode(mode) {
       ibDesktopMode = mode;
       document.querySelectorAll('.ib-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
-      const fabAccordion      = document.getElementById('ib-fab-accordion');
-      const fabPopover        = document.getElementById('ib-fab-popover');
-      const fabAccordionLarge = document.getElementById('ib-fab-accordion-large');
-      [
-        { el: fabAccordion,      key: 'accordion' },
-        { el: fabPopover,        key: 'popover' },
-        { el: fabAccordionLarge, key: 'accordion-large' },
-      ].forEach(({ el, key }) => {
-        if (!el) return;
-        el.style.background = mode === key ? '#004e7d' : '';
-        el.style.color      = mode === key ? 'white' : '#a0a3a8';
+      Object.entries(_ibModeBtns).forEach(([key, btn]) => {
+        if (!btn) return;
+        btn.classList.toggle('active', key === mode);
       });
     }
 
-    setIBMode('popover');
-
-    // IB Pattern FAB
-    function updatePatternFab() {
-      const calBtn   = document.getElementById('ib-fab-cal');
-      const stripBtn = document.getElementById('ib-fab-strip');
-      if (!calBtn) return;
-      calBtn.style.background  = currentIBPattern === 'A' ? '#004e7d' : '';
-      calBtn.style.color       = currentIBPattern === 'A' ? 'white'   : '#a0a3a8';
-      stripBtn.style.background = currentIBPattern === 'B' ? '#004e7d' : '';
-      stripBtn.style.color      = currentIBPattern === 'B' ? 'white'   : '#a0a3a8';
-    }
-
+    // ── setIBPattern: update bar seg + re-render ───────────────────────────
+    let _ibPatternBtns = {};
     window.setIBPattern = function(pattern) {
       currentIBPattern = pattern;
-      updatePatternFab();
-      // Re-render whatever IB is currently open
+      Object.entries(_ibPatternBtns).forEach(([key, btn]) => {
+        if (!btn) return;
+        btn.classList.toggle('active', key === pattern);
+      });
       if (pendingIBJob !== null && pendingIBColIndex !== null) {
         if (ibDesktopMode === 'accordion') openIBInline(pendingIBJob, pendingIBColIndex);
         else if (ibDesktopMode === 'accordion-large') openIBLarge(pendingIBJob, pendingIBColIndex);
@@ -4592,26 +4875,41 @@
       }
     };
 
-    // Show pattern FAB when IB opens, hide when it closes
-    const _origOpenIBFromCompare = openIBFromCompare;
-    const _origOpenIBInline      = openIBInline;
-    const _origCloseIB           = closeIB;
-    const _origCloseIBInline     = closeIBInline;
+    // ── Register ProtoSettings groups ──────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!window.ProtoSettings) return;
 
-    const patternFab = document.getElementById('ib-pattern-fab');
-    function showPatternFab() { if (patternFab && location.hostname !== 'maxotronik.github.io') { patternFab.style.display = 'flex'; updatePatternFab(); } }
-    function hidePatternFab() { if (patternFab) patternFab.style.display = 'none'; }
+      // View: Web / Mobile
 
-    openIBFromCompare = function(...args) { _origOpenIBFromCompare(...args); showPatternFab(); };
-    openIBInline      = function(...args) { _origOpenIBInline(...args); showPatternFab(); };
-    closeIB           = function(...args) { _origCloseIB(...args); hidePatternFab(); };
-    closeIBInline     = function(...args) { _origCloseIBInline(...args); hidePatternFab(); };
+      // IB Mode
+      ProtoSettings.addGroup('IB Mode', [{
+        type: 'seg',
+        options: [
+          { label: 'Popover',   icon: 'open_in_new',        value: 'popover' },
+          { label: 'Accordion', icon: 'table_rows',          value: 'accordion' },
+          { label: 'Acc. Large',icon: 'table_rows_narrow',   value: 'accordion-large' },
+        ],
+        default: 'popover',
+        onChange(v) { setIBMode(v); }
+      }]);
 
-    updatePatternFab();
+      // IB Pattern (visible when IB is open — always shown, grayed when not open)
+      ProtoSettings.addGroup('IB Pattern', [{
+        type: 'seg',
+        options: [
+          { label: 'Calendar', icon: 'calendar_month', value: 'A' },
+          { label: 'Strip',    icon: 'view_day',       value: 'B' },
+        ],
+        default: 'B',
+        onChange(v) { window.setIBPattern(v); }
+      }]);
 
-    if (location.hostname === 'maxotronik.github.io') {
-      document.querySelectorAll('.proto-ui').forEach(el => el.style.display = 'none');
-    }
+      // Inspect
+      ProtoSettings.addInspect();
+
+      setIBMode('popover');
+      window.setIBPattern('B');
+    });
   </script>
 </body>
 </html>
