@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- pw-gate-start -->
+<style id="pw-gate-style">html.pw-locked body{overflow:hidden}html.pw-locked body>*{visibility:hidden!important}#pw-gate{display:none;position:fixed;inset:0;z-index:99999;background:#fff;align-items:center;justify-content:center;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}html.pw-locked #pw-gate{display:flex;visibility:visible!important}.pw-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:40px 48px;max-width:360px;width:100%;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.08)}.pw-logo{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f26522;margin-bottom:24px}.pw-title{font-size:20px;font-weight:600;color:#111;margin-bottom:6px}.pw-sub{font-size:13px;color:#6b7280;margin-bottom:28px}.pw-input{width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:15px;outline:none;transition:border-color .15s}.pw-input:focus{border-color:#f26522;box-shadow:0 0 0 3px rgba(242,101,34,.12)}.pw-btn{margin-top:12px;width:100%;padding:11px;background:#f26522;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background .15s}.pw-btn:hover{background:#d95a1e}.pw-error{margin-top:12px;font-size:13px;color:#dc2626;display:none}</style>
+<script>(function(){if(location.hostname!=='maxotronik.github.io')return;if(sessionStorage.getItem('proto_unlocked')==='1')return;document.documentElement.classList.add('pw-locked');document.addEventListener('DOMContentLoaded',function(){var g=document.createElement('div');g.id='pw-gate';g.innerHTML=`<div class="pw-card"><div class="pw-title">Prototype Access</div><div class="pw-sub">This prototype is for internal use only</div><form id="pw-form"><input id="pw-input" class="pw-input" type="password" placeholder="Enter password" autocomplete="current-password" autofocus><button class="pw-btn" type="submit">Unlock</button></form><div id="pw-error" class="pw-error">Incorrect password. Please try again.</div></div>`;document.body.insertBefore(g,document.body.firstChild);document.getElementById('pw-form').addEventListener('submit',async function(e){e.preventDefault();var v=document.getElementById('pw-input').value;var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');if(h==='c3d006a4a35bc24483652f3d34a15bd53bde15438ea05ae77c304d7a10d72952'){sessionStorage.setItem('proto_unlocked','1');document.documentElement.classList.remove('pw-locked');document.getElementById('pw-gate').remove();document.getElementById('pw-gate-style').remove();}else{document.getElementById('pw-error').style.display='block';}});});})();</script>
+<!-- pw-gate-end -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -13,71 +19,9 @@
       background: #f7f7f8;
       min-height: 100vh;
       display: flex;
-      flex-direction: row;
-    }
-
-    /* ── Side nav ── */
-    .side-nav {
-      width: 160px;
-      min-width: 160px;
-      background: #1a1a1a;
-      min-height: 100vh;
-      display: flex;
       flex-direction: column;
-      padding: 32px 0 24px;
-      position: sticky;
-      top: 0;
-      height: 100vh;
     }
 
-    .nav-eyebrow {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #666;
-      padding: 0 20px 16px;
-    }
-
-    .nav-tab {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      padding: 12px 20px;
-      background: none;
-      border: none;
-      border-left: 2px solid transparent;
-      cursor: pointer;
-      text-align: left;
-      transition: background 0.15s;
-    }
-
-    .nav-tab:hover { background: rgba(255,255,255,0.05); }
-
-    .nav-tab.active {
-      border-left-color: #f26522;
-      background: rgba(242,101,34,0.08);
-    }
-
-    .tab-num {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: #555;
-    }
-
-    .nav-tab.active .tab-num { color: #f26522; }
-
-    .tab-name {
-      font-size: 13px;
-      font-weight: 500;
-      color: #888;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .nav-tab.active .tab-name { color: #fff; }
 
     /* ── Design stage ── */
     .design-stage {
@@ -86,6 +30,7 @@
       justify-content: center;
       padding: 40px 20px;
       overflow-y: auto;
+      min-height: 0;
     }
 
     .design-panel {
@@ -1828,34 +1773,207 @@
       color: #004e7d;
       font-weight: 700;
     }
+
+    .fs-variant { display: none; }
+    .fs-variant.active { display: block; }
+
+    /* ── v5: inline expansion ── */
+    .fs-v5-mode .service-row,
+    .fs-v5-mode .service-row.selected {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+    }
+    .fs-v5-main {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 8px 20px 8px 8px;
+    }
+    .fs-v5-breakdown {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      border-top: 2px solid #dcdfe8;
+      padding: 14px 16px 16px;
+    }
+    .fs-v5-mode .service-row.selected .fs-v5-breakdown {
+      display: flex;
+    }
+    .fs-v5-adj-line {
+      display: block;
+      font-size: 13px;
+      color: #55575c;
+      letter-spacing: 0.1px;
+    }
+    .fs-v5-adj-line .adj-amount {
+      color: #004e7d;
+      font-weight: 500;
+    }
+
+    /* Fuel adjustment info tooltip */
+    .fa-tooltip-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: default;
+    }
+    .fa-tooltip-wrap .fa-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      right: 0;
+      background: #1a1a1a;
+      color: white;
+      font-size: 12px;
+      line-height: 1.5;
+      padding: 8px 12px;
+      border-radius: 6px;
+      width: 220px;
+      z-index: 500;
+      pointer-events: none;
+      white-space: normal;
+      text-align: left;
+    }
+    .fa-tooltip-wrap:hover .fa-tooltip { display: block; }
+    .fa-tooltip-wrap.tip-open .fa-tooltip { display: block; }
+
+    /* mobile: disable hover tooltip, tap only */
+    body.in-iframe .fa-tooltip-wrap:hover .fa-tooltip { display: none; }
+    body.in-iframe .fa-tooltip-wrap.tip-open .fa-tooltip { display: block; }
+
+    /* v4 mobile: badge below title, tooltip on tap */
+    body.in-iframe #fs-service-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    /* v4 fuel adjustment badge */
+    .fuel-adj-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #e8f2fb;
+      color: #0061a5;
+      font-size: 12px;
+      font-weight: 400;
+      padding: 3px 8px 3px 10px;
+      border-radius: 100px;
+      border: 1px solid #c2daf0;
+      white-space: nowrap;
+    }
+
+    /* ── PSB offset ── */
+    body.proto-settings-open .design-stage {
+      max-height: calc(100vh - 36px);
+    }
+
+    /* ── Mobile / iframe layout ── */
+    body.in-iframe {
+      flex-direction: column;
+      padding-bottom: 72px;
+      min-height: 100vh;
+    }
+    body.in-iframe .design-stage {
+      padding: 0;
+      overflow-y: initial;
+      height: auto;
+      align-items: flex-start;
+      background: #f7f7f8;
+    }
+    body.in-iframe .design-panel.active {
+      width: 100%;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    body.in-iframe .panel {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0;
+    }
+    body.in-iframe .header { display: none; }
+    body.in-iframe .submit-row { display: none; }
+    body.in-iframe .v2-cta { display: none; }
+    body.in-iframe .content { padding: 16px; gap: 16px; }
+    body.in-iframe .v2-content { padding: 16px; }
+    body.in-iframe .v2-vehicle { display: none; }
+    body.in-iframe .section-title { font-size: 14px; font-weight: 700; }
+    body.in-iframe .v2-section-title { font-size: 9px; letter-spacing: 1.2px; }
+    body.in-iframe .estimates { gap: 24px; flex-wrap: wrap; }
+    body.in-iframe .transport-options > div:first-child { margin-top: 4px !important; }
+    body.in-iframe .prod-rec-badge { top: -1px; left: 8px; font-size: 11px; padding: 2px 10px; }
+    body.in-iframe #design-5 .content { padding: 16px; gap: 14px; }
+    body.in-iframe #design-5 .service-section { padding: 16px 12px 14px; margin-top: 10px; }
+    body.in-iframe .v3-route-estimates { margin-top: 8px; padding-left: 22px; gap: 20px; flex-wrap: wrap; }
+    body.in-iframe #design-5 .v3-route { padding: 14px 14px 0; }
+    body.in-iframe .acv-card { border-radius: 8px; }
+    body.in-iframe .service-section { padding-top: 16px; }
+    body.in-iframe .estimates { gap: 20px; }
+
+    /* Mobile nav header */
+    .mobile-nav-header { display: none; background: #fff; }
+    body.in-iframe .mobile-nav-header { display: block; position: sticky; top: 0; z-index: 50; }
+    .mob-hdr-inner {
+      display: flex; align-items: center;
+      padding: 14px 16px 12px; gap: 10px;
+      background: #fff;
+    }
+    .mob-back-btn {
+      background: none; border: none; padding: 0; cursor: pointer;
+      display: flex; align-items: center; color: #1c1d1f; flex-shrink: 0;
+    }
+    .mob-title {
+      font-size: 20px; font-weight: 700; color: #1c1d1f; line-height: 1.25; flex: 1;
+    }
+    .mob-orange-line { height: 2px; background: #f26522; }
+    .mob-section-lbl {
+      padding: 8px 16px 6px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; color: #71747a;
+      background: #fff;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* Mobile continue bar */
+    .mobile-continue-bar {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 200;
+    }
+    body.in-iframe .mobile-continue-bar { display: block; }
+    .mob-continue-btn {
+      width: 100%; background: #f26522; color: #fff; border: none;
+      font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 20px; cursor: pointer; transition: background 0.15s;
+    }
+    .mob-continue-btn:hover { background: #d95a1e; }
   </style>
+  <script src="proto-settings.js"></script>
+  <script src="inspect.js"></script>
 </head>
 <body>
 
-  <!-- Side navigation -->
-  <nav class="side-nav proto-ui">
-    <div class="nav-eyebrow">Explorations</div>
-    <button class="nav-tab active" onclick="showDesign(1)">
-      <span class="tab-num">01</span>
-      <span class="tab-name">Current</span>
-    </button>
-    <button class="nav-tab" onclick="showDesign(2)">
-      <span class="tab-num">02</span>
-      <span class="tab-name">Simplified</span>
-    </button>
-    <button class="nav-tab" onclick="showDesign(3)">
-      <span class="tab-num">03</span>
-      <span class="tab-name">Fuel surcharge</span>
-    </button>
-    <button class="nav-tab" onclick="showDesign(4)">
-      <span class="tab-num">04</span>
-      <span class="tab-name">Details</span>
-    </button>
-    <button class="nav-tab" onclick="showDesign(5)">
-      <span class="tab-num">05</span>
-      <span class="tab-name">Flat pickup</span>
-    </button>
-  </nav>
+  <!-- Mobile native header (visible only in iframe) -->
+  <div class="mobile-nav-header">
+    <div class="mob-hdr-inner">
+      <button class="mob-back-btn" aria-label="Back">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5M5 12l7 7M5 12l7-7" stroke="#1c1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="mob-title">2019 Honda Passport Sport</span>
+    </div>
+    <div class="mob-orange-line"></div>
+    <div class="mob-section-lbl">Transportation</div>
+  </div>
+
+  <!-- Mobile continue button (visible only in iframe) -->
+  <div class="mobile-continue-bar">
+    <button class="mob-continue-btn">Continue</button>
+  </div>
 
   <!-- Design stage -->
   <main class="design-stage">
@@ -2487,7 +2605,7 @@
     </div>
 
 
-    <!-- Design 03 — Fuel Surcharge (moved) -->
+    <!-- Design 03 — Fuel Adjustment (with sub-tabs v1–v4) -->
     <div class="design-panel" id="design-3">
       <div class="panel">
 
@@ -2503,6 +2621,7 @@
           </div>
         </header>
 
+        <!-- Shared inner structure — rendered once, mutated per variant -->
         <div class="content">
           <p class="section-title">Choose how you Transport:</p>
 
@@ -2526,7 +2645,7 @@
                   <div class="acv-price">
                     <div style="display:flex;align-items:center;gap:5px;">
                       <span class="prod-dollar-icon">$</span>
-                      <span class="main" id="fs-price-main">$89.29</span>
+                      <span class="main" id="fs-price-main">$90</span>
                     </div>
                     <span class="was" id="fs-price-was">$109</span>
                   </div>
@@ -2535,30 +2654,24 @@
                 <!-- Tagline -->
                 <p style="font-size:16px;font-weight:400;color:#0e0e0f;letter-spacing:0.15px;margin-top:-8px;padding-left:40px;">Let us do the work!</p>
 
-                <!-- Expandable (visible when ACV selected) -->
+                <!-- Expandable -->
                 <div class="prod-acv-sections" id="fs-acv-sections">
 
-                  <!-- Pre-service group (padded) -->
+                  <!-- Pre-service group -->
                   <div style="padding-left:40px;display:flex;flex-direction:column;gap:16px;">
 
                     <!-- Benefits -->
                     <div style="display:flex;flex-direction:column;gap:14px;">
                       <div class="benefit-row">
-                        <div class="benefit-icon">
-                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
+                        <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                         <span class="benefit-text">4 days of arb protection after delivery (delays included)</span>
                       </div>
                       <div class="benefit-row">
-                        <div class="benefit-icon">
-                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
+                        <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                         <span class="benefit-text">Coverage against damage &amp; fraud</span>
                       </div>
                       <div class="benefit-row">
-                        <div class="benefit-icon">
-                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
+                        <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                         <span class="benefit-text">Zero Hassle — dry runs, coordination &amp; issues handled</span>
                       </div>
                     </div>
@@ -2577,12 +2690,10 @@
 
                     <!-- Address block -->
                     <div style="display:flex;flex-direction:column;gap:10px;">
-                      <!-- Pickup (plain text) -->
                       <div>
                         <div style="font-size:12px;color:#a1a1a1;letter-spacing:0.4px;line-height:18px;">Pickup</div>
                         <div style="font-size:16px;color:#757575;margin-top:3px;letter-spacing:0.15px;line-height:24px;">Buffalo, NY 14203</div>
                       </div>
-                      <!-- Delivery (styled field with caret) -->
                       <div style="position:relative;" onclick="event.stopPropagation()">
                         <div style="background:#fafafa;border-radius:4px 4px 0 0;padding:8px 36px 8px 0;border-bottom:2px solid #dcdfe8;">
                           <div style="font-size:12px;color:#545454;letter-spacing:0.4px;line-height:18px;">Delivery</div>
@@ -2610,73 +2721,125 @@
 
                   <!-- Service section -->
                   <div class="service-section">
-                    <div class="service-header">
-                      <h3>Select Transport Service:</h3>
+                    <!-- Service header — v4 adds a badge here -->
+                    <div class="service-header" id="fs-service-header">
+                      <h3 id="fs-service-title">Select Transport Service:</h3>
+                      <!-- v4 badge (hidden by default) -->
+                      <div id="fs-fuel-badge" style="display:none;">
+                        <span class="fuel-adj-badge">
+                          Fuel adjustment included
+                          <span class="fa-tooltip-wrap" onclick="event.stopPropagation(); fsTipToggle(this)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;color:#0061a5;">
+                              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                              <path d="M12 11v5m0-8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <div class="fa-tooltip">Includes a 6.3% fuel adjustment for current market costs.</div>
+                          </span>
+                        </span>
+                      </div>
                     </div>
                     <div class="service-options" id="fs-service-options">
 
                       <!-- Open transport (selected) -->
                       <div class="service-row selected" onclick="fsSelectService(event, 84, '$109')">
-                        <div class="service-row-content">
+                        <div class="fs-v5-main service-row-content">
                           <div class="radio"><div class="radio-ring checked-blue"><div class="radio-dot blue"></div></div></div>
-                          <div class="service-text">
+                          <div class="service-text" style="flex:1;min-width:0;">
                             <div class="service-name">Open transport</div>
                             <div class="service-desc">Standard open-air trailers for reliable transport.</div>
                           </div>
+                          <div class="service-price">
+                            <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;">
+                              <div class="price-now" id="fs-open-price">$84</div>
+                              <span class="fa-tooltip-wrap fs-price-info-icon" style="display:none;" onclick="event.stopPropagation(); fsTipToggle(this)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:#0061a5;flex-shrink:0;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5m0-8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                                <div class="fa-tooltip">Includes a 6.3% fuel adjustment for current market costs.</div>
+                              </span>
+                            </div>
+                            <div class="price-was">$109</div>
+                          </div>
                         </div>
-                        <div class="service-price">
-                          <div class="price-now">$84</div>
-                          <div class="price-was">$109</div>
+                        <div class="fs-v5-breakdown">
+                          <div class="d5-breakdown-line fs-v5-adj-line">Includes <span class="adj-amount" id="fs-open-adj">$6</span> fuel adjustment for current market.</div>
                         </div>
                       </div>
 
                       <!-- Enclosed transport -->
                       <div class="service-row" onclick="fsSelectService(event, 279, '$359')">
-                        <div class="service-row-content">
+                        <div class="fs-v5-main service-row-content">
                           <div class="radio"><div class="radio-ring"></div></div>
-                          <div class="service-text">
+                          <div class="service-text" style="flex:1;min-width:0;">
                             <div class="service-name-row">
                               <span class="service-name">Enclosed transport</span>
                               <span class="recommended-chip">Recommended</span>
                             </div>
                             <div class="service-desc">Vehicles are fully enclosed, protected from weather and debris.</div>
                           </div>
+                          <div class="service-price">
+                            <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;">
+                              <div class="price-now" id="fs-enclosed-price">$279</div>
+                              <span class="fa-tooltip-wrap fs-price-info-icon" style="display:none;" onclick="event.stopPropagation(); fsTipToggle(this)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:#0061a5;flex-shrink:0;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5m0-8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                                <div class="fa-tooltip">Includes a 6.3% fuel adjustment for current market costs.</div>
+                              </span>
+                            </div>
+                            <div class="price-was">$359</div>
+                          </div>
                         </div>
-                        <div class="service-price">
-                          <div class="price-now">$279</div>
-                          <div class="price-was">$359</div>
+                        <div class="fs-v5-breakdown">
+                          <div class="d5-breakdown-line fs-v5-adj-line">Includes <span class="adj-amount" id="fs-enclosed-adj">$18</span> fuel adjustment for current market.</div>
                         </div>
                       </div>
 
                       <!-- Drive My Car -->
-                      <div class="service-row" onclick="fsSelectService(event, null, null)">
-                        <div class="service-row-content">
+                      <div class="service-row" onclick="fsSelectService(event, 75, null)">
+                        <div class="fs-v5-main service-row-content">
                           <div class="radio"><div class="radio-ring"></div></div>
-                          <div class="service-text">
+                          <div class="service-text" style="flex:1;min-width:0;">
                             <div class="service-name">Drive My Car transport</div>
                             <div class="service-desc">Fast option for operable vehicles, safely driven by a pro. Miles added to odometer.</div>
                           </div>
+                          <div class="service-price">
+                            <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;">
+                              <div class="price-now" id="fs-dmc-price">$75</div>
+                              <span class="fa-tooltip-wrap fs-price-info-icon" style="display:none;" onclick="event.stopPropagation(); fsTipToggle(this)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:#0061a5;flex-shrink:0;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 11v5m0-8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                                <div class="fa-tooltip">Includes a 6.3% fuel adjustment for current market costs.</div>
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div class="service-price">
-                          <div class="price-now">$75</div>
+                        <div class="fs-v5-breakdown">
+                          <div class="d5-breakdown-line fs-v5-adj-line">Includes <span class="adj-amount" id="fs-dmc-adj">$5</span> fuel adjustment for current market.</div>
                         </div>
                       </div>
 
                     </div>
                   </div>
 
-                  <!-- Fuel surcharge banner -->
-                  <div style="margin:0 16px 4px;display:flex;align-items:center;gap:10px;background:#fef3ec;border-radius:4px;padding:12px 14px;font-size:14px;font-weight:400;color:#55575c;letter-spacing:0.1px;line-height:1.5;">
+                  <!-- v1: Fuel Surcharge banner — orange (original) -->
+                  <div id="fs-banner-v1" style="margin:0 16px 4px;display:flex;align-items:center;gap:10px;background:#fef3ec;border-radius:4px;padding:12px 14px;font-size:14px;font-weight:400;color:#55575c;letter-spacing:0.1px;line-height:1.5;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
                       <circle cx="12" cy="12" r="10" stroke="#f26522" stroke-width="2"/>
                       <path d="M12 11v5m0-8h.01" stroke="#f26522" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                     <span style="flex:1;">Fuel Surcharge — a 6.3% adjustment applied on standard fees.</span>
-                    <span id="fs-surcharge-amount" style="font-weight:500;color:#0e0e0f;white-space:nowrap;">+$5.29</span>
+                    <span id="fs-surcharge-amount" style="font-weight:500;color:#0e0e0f;white-space:nowrap;">+$6</span>
+                  </div>
+
+                  <!-- v2: Fuel Adjustment banner — celeste -->
+                  <div id="fs-banner-v2" style="display:none;margin:0 16px 4px;">
+                    <div class="prod-info-box">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;">
+                        <circle cx="12" cy="12" r="10" stroke="#0061a5" stroke-width="2"/>
+                        <path d="M12 11v5m0-8h.01" stroke="#0061a5" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                      <span style="flex:1;">Fuel adjustment — a 6.3% adjustment applied on standard fees.</span>
+                      <span id="fs-surcharge-amount-v2" style="font-weight:500;color:#0e0e0f;white-space:nowrap;">+$6</span>
+                    </div>
                   </div>
 
                 </div><!-- /fs-acv-sections -->
-
               </div><!-- /acv-card -->
             </div>
 
@@ -2690,15 +2853,11 @@
                 <p class="prod-warning-title">Are you sure you want to risk missing your Arbitration Window?</p>
                 <div style="display:flex;flex-direction:column;gap:10px;">
                   <div class="warning-row">
-                    <div class="warning-icon">
-                      <svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
-                    </div>
+                    <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
                     <span class="warning-text">Standard Arb Window — use ACV Transport or Assurance to cover delays</span>
                   </div>
                   <div class="warning-row">
-                    <div class="warning-icon">
-                      <svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
-                    </div>
+                    <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
                     <span class="warning-text">No Damage, Fraud, or Dry Run Protection</span>
                   </div>
                 </div>
@@ -2971,6 +3130,49 @@
   </main><!-- /design-stage -->
 
   <script>
+    // ── Mobile iframe detection ──
+    if (window.self !== window.top) {
+      document.body.classList.add('in-iframe');
+    }
+
+    // ── Early state restore (runs before paint to avoid flash) ──
+    (function () {
+      if (window.self !== window.top) return; // iframe gets state via postMessage
+      const d = parseInt(localStorage.getItem('activeDesign') || '1');
+      const v = parseInt(localStorage.getItem('activeVariant') || '1');
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.design-panel').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('design-' + d);
+        if (target) target.classList.add('active');
+        if (d === 3) {
+          // apply variant visuals immediately so there's no flash
+          const fsBannerV1 = document.getElementById('fs-banner-v1');
+          const fsBannerV2 = document.getElementById('fs-banner-v2');
+          if (fsBannerV1) fsBannerV1.style.display = v === 1 ? 'flex' : 'none';
+          if (fsBannerV2) fsBannerV2.style.display = v === 2 ? 'block' : 'none';
+          document.querySelectorAll('.fs-price-info-icon').forEach(el => {
+            el.style.display = v === 3 ? 'inline-flex' : 'none';
+          });
+          const badge = document.getElementById('fs-fuel-badge');
+          if (badge) badge.style.display = v === 4 ? 'block' : 'none';
+          const opts = document.getElementById('fs-service-options');
+          if (opts) opts.classList.toggle('fs-v5-mode', v === 5);
+        }
+      }, { once: true });
+    })();
+
+    // ── postMessage bridge (defined early so all functions can call it) ──
+    function _postToIframe(msg) {
+      const iframe = document.getElementById('ps-device-iframe');
+      if (iframe) iframe.contentWindow.postMessage(msg, '*');
+    }
+
+    window.addEventListener('message', function(e) {
+      if (!document.body.classList.contains('in-iframe')) return;
+      if (e.data && e.data.type === 'ps-show-design')  showDesign(e.data.n);
+      if (e.data && e.data.type === 'ps-show-variant') showFsVariant(e.data.n);
+    });
+
     // ── Page logic ──
     function selectService(e, price, wasPrice) {
       e.stopPropagation();
@@ -3261,7 +3463,53 @@
       document.getElementById('v3-warning-bullets').classList.remove('visible');
     }
 
-    // ── Fuel Surcharge (Design 04) logic ──
+    // ── Fuel Adjustment (Design 03) — sub-tab logic ──
+    let fsCurrentVariant = (function () {
+      const d = parseInt(localStorage.getItem('activeDesign') || '1');
+      const v = parseInt(localStorage.getItem('activeVariant') || '1');
+      return d === 3 ? v : 1;
+    })();
+    const FS_SURCHARGE = 0.063;
+
+    function fsRefreshRowPrices() {
+      const showTotal = fsCurrentVariant >= 3;
+      const openTotal  = 84  + Math.ceil(84  * FS_SURCHARGE);
+      const encTotal   = 279 + Math.ceil(279 * FS_SURCHARGE);
+      const dmcTotal   = 75  + Math.ceil(75  * FS_SURCHARGE);
+      document.getElementById('fs-open-price').textContent     = showTotal ? '$' + openTotal : '$84';
+      document.getElementById('fs-enclosed-price').textContent = showTotal ? '$' + encTotal  : '$279';
+      document.getElementById('fs-dmc-price').textContent      = showTotal ? '$' + dmcTotal  : '$75';
+    }
+
+    function showFsVariant(n) {
+      fsCurrentVariant = n;
+      _syncVersionSelect(n);
+      if (!document.body.classList.contains('in-iframe')) {
+        _postToIframe({ type: 'ps-show-variant', n });
+      }
+      showDesign(3, true);
+
+      // Banners: v1 orange, v2 celeste, v3/v4/v5 hidden
+      document.getElementById('fs-banner-v1').style.display = n === 1 ? 'flex' : 'none';
+      document.getElementById('fs-banner-v2').style.display = n === 2 ? 'block' : 'none';
+
+      // v3: show info icon next to each price (except DMC)
+      document.querySelectorAll('.fs-price-info-icon').forEach(el => {
+        el.style.display = n === 3 ? 'inline-flex' : 'none';
+      });
+
+      // v4: show badge in service header
+      document.getElementById('fs-fuel-badge').style.display = n === 4 ? 'block' : 'none';
+
+      // v5: add class to service-options for inline expansion
+      document.getElementById('fs-service-options').classList.toggle('fs-v5-mode', n === 5);
+
+      // Refresh row prices (base vs. total) then re-trigger selection to update header price
+      fsRefreshRowPrices();
+      const selectedRow = document.querySelector('#fs-service-options .service-row.selected');
+      if (selectedRow) selectedRow.click();
+    }
+
     function fsSelectAcv() {
       document.getElementById('fs-acv-radio').className = 'radio-ring checked-black';
       document.getElementById('fs-acv-radio').innerHTML = '<div class="radio-dot black"></div>';
@@ -3293,18 +3541,80 @@
       const ring = row.querySelector('.radio-ring');
       ring.className = 'radio-ring checked-blue';
       ring.innerHTML = '<div class="radio-dot blue"></div>';
+
       const wasEl = document.getElementById('fs-price-was');
       if (base !== null) {
-        const surcharge = Math.round(base * 0.063 * 100) / 100;
-        const total = (base + surcharge).toFixed(2);
+        const surcharge = Math.ceil(base * FS_SURCHARGE);
+        const total = base + surcharge;
         document.getElementById('fs-price-main').textContent = '$' + total;
-        document.getElementById('fs-surcharge-amount').textContent = '+$' + surcharge.toFixed(2);
-      } else {
-        document.getElementById('fs-price-main').textContent = '$75';
+        document.getElementById('fs-surcharge-amount').textContent = '+$' + surcharge;
+        document.getElementById('fs-surcharge-amount-v2').textContent = '+$' + surcharge;
+        // Restore banners for variants that use them
+        if (fsCurrentVariant === 1) document.getElementById('fs-banner-v1').style.display = 'flex';
+        if (fsCurrentVariant === 2) document.getElementById('fs-banner-v2').style.display = 'block';
+        // v5: update breakdown adj amount for the selected row
+        if (fsCurrentVariant === 5) {
+          const adjId = base === 84 ? 'fs-open-adj' : base === 75 ? 'fs-dmc-adj' : 'fs-enclosed-adj';
+          const el = document.getElementById(adjId);
+          if (el) el.textContent = '$' + surcharge;
+        }
       }
       wasEl.textContent = wasPrice || '';
       wasEl.style.display = wasPrice ? '' : 'none';
     }
+
+    // Init row prices on load
+    fsRefreshRowPrices();
+
+    // ── Tooltip tap toggle (mobile) ──
+    function fsTipToggle(el) {
+      const isOpen = el.classList.contains('tip-open');
+      document.querySelectorAll('.fa-tooltip-wrap.tip-open').forEach(t => {
+        t.classList.remove('tip-open');
+        const tip = t.querySelector('.fa-tooltip');
+        if (tip) { tip.style.top = ''; tip.style.bottom = ''; tip.style.left = ''; tip.style.right = ''; }
+      });
+      if (!isOpen) {
+        el.classList.add('tip-open');
+        // Position tooltip to stay within viewport
+        const tip = el.querySelector('.fa-tooltip');
+        if (!tip) return;
+        // Reset first to measure natural size
+        tip.style.top = ''; tip.style.bottom = ''; tip.style.left = ''; tip.style.right = '';
+        const rect = el.getBoundingClientRect();
+        const tipW = 220; // matches CSS width
+        const tipH = tip.offsetHeight || 60;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const gap = 6;
+        // Vertical: prefer above, fall back to below
+        const spaceAbove = rect.top;
+        const spaceBelow = vh - rect.bottom;
+        if (spaceAbove >= tipH + gap) {
+          tip.style.bottom = (el.offsetHeight + gap) + 'px';
+          tip.style.top = '';
+        } else {
+          tip.style.top = (el.offsetHeight + gap) + 'px';
+          tip.style.bottom = '';
+        }
+        // Horizontal: align right edge of tooltip to right of icon, clamp to viewport
+        const naturalRight = 0; // right:0 = right-aligned to parent
+        const leftIfRightAligned = rect.right - tipW;
+        if (leftIfRightAligned < 8) {
+          // Would overflow left — left-align instead
+          tip.style.right = '';
+          tip.style.left = '0';
+        } else {
+          tip.style.right = '0';
+          tip.style.left = '';
+        }
+      }
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.fa-tooltip-wrap')) {
+        document.querySelectorAll('.fa-tooltip-wrap.tip-open').forEach(t => t.classList.remove('tip-open'));
+      }
+    });
 
     // ── Design 05 — Details logic ──
     let d5SelectedAddress = '1250 Amherst Street, Buffalo, NY 14216';
@@ -3426,19 +3736,75 @@
     }
 
     // ── Design switcher ──
-    function showDesign(n) {
+    function showDesign(n, skipVariantReset) {
       document.querySelectorAll('.design-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
       document.getElementById('design-' + n).classList.add('active');
-      document.querySelectorAll('.nav-tab')[n - 1].classList.add('active');
+      if (n === 3 && !skipVariantReset) showFsVariant(1);
+      if (window.ProtoSettings && !document.body.classList.contains('in-iframe')) {
+        if (n === 3) ProtoSettings.showGroup('version');
+        else         ProtoSettings.hideGroup('version');
+      }
+      if (!document.body.classList.contains('in-iframe')) {
+        _postToIframe({ type: 'ps-show-design', n });
+      }
       localStorage.setItem('activeDesign', n);
+      localStorage.setItem('activeVariant', n === 3 ? (skipVariantReset ? fsCurrentVariant : 1) : 1);
     }
 
-    (function restoreTab() {
-      const saved = localStorage.getItem('activeDesign');
-      if (saved && saved !== '1') showDesign(parseInt(saved));
-    })();
+    // ── ProtoSettings groups (outer frame only) ──
+    let _psVersionSel = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!window.ProtoSettings) return;
+      if (document.body.classList.contains('in-iframe')) return;
+
+      const savedDesign  = parseInt(localStorage.getItem('activeDesign')  || '1');
+      const savedVariant = parseInt(localStorage.getItem('activeVariant') || '1');
+
+      ProtoSettings.addGroup('Feature', [{
+        type: 'seg',
+        options: [
+          { label: 'Current',     value: '1' },
+          { label: 'Simplified',  value: '2' },
+          { label: 'Fuel adj.',   value: '3' },
+          { label: 'Details',     value: '4' },
+          { label: 'Flat pickup', value: '5' },
+        ],
+        default: String(savedDesign),
+        onChange(v) {
+          const n = parseInt(v);
+          showDesign(n);
+          _postToIframe({ type: 'ps-show-design', n });
+        }
+      }]);
+
+      ProtoSettings.addGroup('Version', [{
+        type: 'select',
+        options: [
+          { label: 'v1 · Banner orange',    value: '1' },
+          { label: 'v2 · Banner celeste',   value: '2' },
+          { label: 'v3 · Tooltip price',    value: '3' },
+          { label: 'v4 · Badge header',     value: '4' },
+          { label: 'v5 · Inline breakdown', value: '5' },
+        ],
+        default: String(savedVariant),
+        ref(el) { _psVersionSel = el; },
+        onChange(v) {
+          const n = parseInt(v);
+          showFsVariant(n);
+          _postToIframe({ type: 'ps-show-variant', n });
+        }
+      }], { id: 'version', hidden: savedDesign !== 3 });
+
+      // Restore state after PSB is built
+      showDesign(savedDesign, savedDesign === 3);
+      if (savedDesign === 3) showFsVariant(savedVariant);
+    });
+
+    function _syncVersionSelect(n) {
+      if (_psVersionSel) _psVersionSel.value = String(n);
+      localStorage.setItem('activeVariant', n);
+    }
   </script>
-  <script src="inspect.js"></script>
 </body>
 </html>

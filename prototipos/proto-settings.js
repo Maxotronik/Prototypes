@@ -284,6 +284,35 @@
     @media (max-height: 760px) {
       #ps-device-frame { transform: scale(0.72); }
     }
+
+    /* ── Group wrapper (for show/hide) ── */
+    .ps-group-wrap {
+      display: contents;
+    }
+    .ps-group-wrap.ps-hidden {
+      display: none;
+    }
+
+    /* ── Select control ── */
+    .ps-select {
+      appearance: none;
+      background: #2a2b2d url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2371747a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center;
+      border: none;
+      border-radius: 6px;
+      color: #c8cacc;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 28px 4px 9px;
+      cursor: pointer;
+      outline: none;
+      height: 24px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .ps-select:hover { background-color: #3a3b3d; color: #fff; }
+    .ps-select option { background: #1c1d1f; color: #c8cacc; }
   `;
 
   const style = document.createElement('style');
@@ -322,7 +351,7 @@
     document.body.appendChild(tab);
 
     // Add prototype-specific groups first (left side)
-    _pendingGroups.forEach(([label, controls]) => _insertGroup(label, controls));
+    _pendingGroups.forEach(([label, controls, opts]) => _insertGroup(label, controls, opts || {}));
     _pendingGroups.length = 0;
 
     // Built-ins always on the right: View + Inspect
@@ -456,15 +485,20 @@
   }
 
   /* ── Internal group inserter ──────────────────────────────────────────── */
-  function _insertGroup(label, controls) {
+  function _insertGroup(label, controls, opts = {}) {
+    // Wrap everything in a span so show/hide works as a unit
+    const wrap = document.createElement('span');
+    wrap.className = 'ps-group-wrap';
+    if (opts.id) wrap.dataset.groupId = opts.id;
+    if (opts.hidden) wrap.classList.add('ps-hidden');
+
     // Insert before View divider if it exists, otherwise before spacer, otherwise append.
-    // During drain: View not yet added → append. At runtime: insert before View divider.
     const viewDiv = inner.querySelector('.ps-divider');
     const ref = viewDiv || document.getElementById('ps-end') || null;
-    function ins(el) {
-      if (ref && ref.parentNode === inner) inner.insertBefore(el, ref);
-      else inner.appendChild(el);
-    }
+    if (ref && ref.parentNode === inner) inner.insertBefore(wrap, ref);
+    else inner.appendChild(wrap);
+
+    function ins(el) { wrap.appendChild(el); }
 
     const div = document.createElement('span');
     div.className = 'ps-divider';
@@ -509,24 +543,51 @@
           ctrl.onChange?.(btn.classList.toggle('active'));
         });
         ins(btn);
+
+      } else if (ctrl.type === 'select') {
+        const sel = document.createElement('select');
+        sel.className = 'ps-select';
+        ctrl.options.forEach(opt => {
+          const o = document.createElement('option');
+          o.value = opt.value ?? opt.label;
+          o.textContent = opt.label;
+          if ((opt.value ?? opt.label) === ctrl.default) o.selected = true;
+          sel.appendChild(o);
+        });
+        sel.addEventListener('change', () => ctrl.onChange?.(sel.value));
+        ins(sel);
+        if (ctrl.ref) ctrl.ref(sel);
       }
     });
+
+    return wrap;
   }
 
   /* ── Public API ───────────────────────────────────────────────────────── */
   window.ProtoSettings = {
 
     /**
-     * addGroup(label, controls)
-     * controls: [{ type:'seg'|'toggle', options, onChange, default, label }]
+     * addGroup(label, controls, opts?)
+     * controls: [{ type:'seg'|'toggle'|'select', options, onChange, default, label, ref }]
+     * opts: { id, hidden } — id enables showGroup/hideGroup by id
      * Safe to call before DOMContentLoaded — queued and flushed after bar builds.
      */
-    addGroup(label, controls) {
+    addGroup(label, controls, opts = {}) {
       if (!bar) {
-        _pendingGroups.push([label, controls]);
+        _pendingGroups.push([label, controls, opts]);
         return;
       }
-      _insertGroup(label, controls);
+      return _insertGroup(label, controls, opts);
+    },
+
+    showGroup(id) {
+      const el = inner.querySelector(`[data-group-id="${id}"]`);
+      if (el) el.classList.remove('ps-hidden');
+    },
+
+    hideGroup(id) {
+      const el = inner.querySelector(`[data-group-id="${id}"]`);
+      if (el) el.classList.add('ps-hidden');
     },
 
     /** @deprecated — Inspect is now built-in, calling this is a no-op */
