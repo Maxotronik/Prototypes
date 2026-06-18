@@ -433,7 +433,9 @@
 
       const iframe = document.createElement('iframe');
       iframe.id = 'ps-device-iframe';
-      iframe.src = location.href;
+      const _iframeSrc = new URL(location.href);
+      _iframeSrc.searchParams.set('unlocked', '1');
+      iframe.src = _iframeSrc.toString();
       iframe.title = 'Mobile preview';
 
       const home = document.createElement('div');
