@@ -9,193 +9,267 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transport Prototypes</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f5f5f5;
+      background: #f0f1f3;
       color: #1a1a1a;
       min-height: 100vh;
-      padding: 48px 24px;
     }
 
-    header {
-      max-width: 900px;
-      margin: 0 auto 40px;
-    }
-
-    header h1 {
-      font-size: 22px;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-
-    header p {
-      font-size: 13px;
-      color: #888;
-      margin-top: 4px;
-    }
-
-    .grid {
-      max-width: 900px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      border: 1px solid #e8e8e8;
-      transition: box-shadow 0.15s, transform 0.15s;
-    }
-
-    .card:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-      transform: translateY(-2px);
-    }
-
-    .card-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+    /* ── Header ── */
+    .header {
+      background: #1c1d1f;
+      padding: 0 40px;
+      height: 56px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 18px;
+      justify-content: space-between;
     }
 
-    .card-icon .material-symbols-outlined {
-      font-size: 18px;
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-
-    .card-desc {
+    .logo-badge {
+      background: #f26522;
+      color: white;
       font-size: 12px;
-      color: #888;
-      line-height: 1.5;
-      flex: 1;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 7px;
+      border-radius: 3px;
     }
 
-    .card-file {
-      font-size: 11px;
-      color: #bbb;
-      font-family: monospace;
+    .header-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #8c8e93;
     }
 
-    .status {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 99px;
-      letter-spacing: 0.3px;
+    .header-meta {
+      font-size: 12px;
+      color: #55575c;
     }
 
-    .status-done { background: #dcfce7; color: #15803d; }
-    .status-wip  { background: #fef9c3; color: #a16207; }
+    /* ── Layout ── */
+    .page {
+      padding: 28px 40px 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      min-height: calc(100vh - 56px);
+      box-sizing: border-box;
+    }
 
-    .sections {
-      max-width: 900px;
-      margin: 0 auto;
+    /* ── Column ── */
+    .column {
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      height: calc(100vh - 56px - 28px - 64px);
     }
 
+    /* ── Section header ── */
     .section-header {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 16px;
+      padding: 0 0 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #dcdfe5;
     }
 
     .section-dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       flex-shrink: 0;
     }
 
     .section-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #555;
-      letter-spacing: 0.5px;
+      font-size: 11px;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #71747a;
+      flex: 1;
     }
 
     .section-count {
       font-size: 11px;
-      color: #aaa;
+      color: #b0b3ba;
       font-weight: 500;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
+    /* ── Card list ── */
+    .card-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-content: start;
     }
 
-    .grid.empty {
-      display: block;
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 13px 15px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: background .12s, border-left-color .12s;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+    }
+
+    /* Done — green */
+    .col-done .card { border-left-color: #bbf7d0; }
+    .col-done .card:hover { background: #f0fdf4; border-left-color: #22c55e; }
+
+    /* WIP — amber */
+    .col-wip .card { border-left-color: #fde68a; }
+    .col-wip .card:hover { background: #fffbeb; border-left-color: #f59e0b; }
+
+    /* Hold — grey */
+    .col-hold .card { border-left-color: #e5e7eb; }
+    .col-hold .card:hover { background: #f9fafb; border-left-color: #9ca3af; }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1c1d1f;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: #71747a;
+      line-height: 1.5;
+    }
+
+    .card-file {
+      font-size: 10.5px;
+      color: #c4c6cc;
+      font-family: monospace;
+      margin-top: 4px;
     }
 
     .empty-label {
       font-size: 12px;
-      color: #ccc;
+      color: #c4c6cc;
+      padding: 8px 0;
     }
+
+    /* ── Drag & Drop ── */
+    .card {
+      cursor: grab;
+    }
+    .card:active {
+      cursor: grabbing;
+    }
+    .card.dragging {
+      opacity: 0.4;
+      cursor: grabbing;
+    }
+    .card-list.drag-over {
+      outline: 2px dashed #d1d5db;
+      outline-offset: 4px;
+      border-radius: 6px;
+    }
+    .drop-indicator {
+      height: 3px;
+      background: #f26522;
+      border-radius: 2px;
+      margin: 2px 0;
+      pointer-events: none;
+    }
+
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Transport Prototypes</h1>
-    <p>ACV Auctions · Transport Platform · Feature Prototypes</p>
+  <header class="header">
+    <div class="header-left">
+      <span class="logo-badge">ACV</span>
+      <span class="header-title">Transport Prototypes</span>
+    </div>
+    <span class="header-meta">Product &amp; Experience</span>
   </header>
 
-  <div class="sections">
+  <div class="page">
+
+    <!-- Done -->
+    <div class="column col-done">
+      <div class="section-header">
+        <span class="section-dot" style="background:#34d399;"></span>
+        <span class="section-label">Done</span>
+        <span class="section-count">4</span>
+      </div>
+      <div class="card-list">
+
+        <a class="card" href="manage-page.html" target="_blank" draggable="true">
+          <div class="card-title">Manage Page</div>
+          <div class="card-desc">Carrier active job management — dispatched, in-transit, and delivered jobs with Action Required and Schedule View filters.</div>
+          <div class="card-file">manage-page.html</div>
+        </a>
+
+        <a class="card" href="feature-announcements.html" target="_blank" draggable="true">
+          <div class="card-title">Feature Announcements</div>
+          <div class="card-desc">Modal + tooltip + What's New system for surfacing new features to transport platform users.</div>
+          <div class="card-file">feature-announcements.html</div>
+        </a>
+
+        <a class="card" href="release-slip.html" target="_blank" draggable="true">
+          <div class="card-title">Release Slip</div>
+          <div class="card-desc">Vehicle release document flow — confirmation and handoff at pickup.</div>
+          <div class="card-file">release-slip.html</div>
+        </a>
+
+        <a class="card" href="job-list.html" target="_blank" draggable="true">
+          <div class="card-title">Job List</div>
+          <div class="card-desc">Loadboard job listing view for carriers — filters, sorting, and quick-action access.</div>
+          <div class="card-file">job-list.html</div>
+        </a>
+
+      </div>
+    </div>
 
     <!-- WIP -->
-    <div class="section">
+    <div class="column col-wip">
       <div class="section-header">
-        <span class="section-dot" style="background:#f59e0b;"></span>
+        <span class="section-dot" style="background:#fbbf24;"></span>
         <span class="section-label">WIP</span>
-        <span class="section-count">2</span>
+        <span class="section-count">4</span>
       </div>
-      <div class="grid">
+      <div class="card-list">
 
-        <a class="card" href="compare-jobs.html" target="_blank">
-          <div class="card-icon" style="background:#e8f4fd; color:#1565c0;">
-            <span class="material-symbols-outlined">compare_arrows</span>
-          </div>
-          <div><span class="status status-wip">WIP</span></div>
+        <a class="card" href="compare-jobs.html" target="_blank" draggable="true">
           <div class="card-title">Compare Jobs</div>
-          <div class="card-desc">Side-by-side job comparison — evaluate route, price, and conditions before staging.</div>
+          <div class="card-desc">Side-by-side job comparison — evaluate route, price, and conditions before staging or booking.</div>
           <div class="card-file">compare-jobs.html</div>
         </a>
 
-        <a class="card" href="notifications.html" target="_blank">
-          <div class="card-icon" style="background:#fffbeb; color:#b45309;">
-            <span class="material-symbols-outlined">notifications</span>
-          </div>
-          <div><span class="status status-wip">WIP</span></div>
+        <a class="card" href="lot-mode.html" target="_blank" draggable="true">
+          <div class="card-title">Lot Mode</div>
+          <div class="card-desc">Multi-vehicle pickup and delivery at the same location — lot panel, progress tracking, gate pass, and completion state.</div>
+          <div class="card-file">lot-mode.html</div>
+        </a>
+
+        <a class="card" href="checkout.html" target="_blank" draggable="true">
+          <div class="card-title">Checkout — Fuel Surcharge</div>
+          <div class="card-desc">5 design explorations for surfacing a fixed fuel fee at transport service selection. Desktop + iOS. TRA-11755.</div>
+          <div class="card-file">checkout.html</div>
+        </a>
+
+        <a class="card" href="notifications.html" target="_blank" draggable="true">
           <div class="card-title">Notification Settings</div>
           <div class="card-desc">Notification preferences for the Transport Hub — alert types, channels, and frequency controls.</div>
           <div class="card-file">notifications.html</div>
@@ -205,90 +279,164 @@
     </div>
 
     <!-- Hold -->
-    <div class="section">
+    <div class="column col-hold">
       <div class="section-header">
-        <span class="section-dot" style="background:#a0a3a8;"></span>
+        <span class="section-dot" style="background:#d1d5db;"></span>
         <span class="section-label">Hold</span>
         <span class="section-count">0</span>
       </div>
-      <div class="grid empty">
+      <div class="card-list">
         <span class="empty-label">Nothing on hold</span>
-      </div>
-    </div>
-
-    <!-- Done -->
-    <div class="section">
-      <div class="section-header">
-        <span class="section-dot" style="background:#22c55e;"></span>
-        <span class="section-label">Done</span>
-        <span class="section-count">5</span>
-      </div>
-      <div class="grid">
-
-        <a class="card" href="manage-page.html" target="_blank">
-          <div class="card-icon" style="background:#fff0e8; color:#f26522;">
-            <span class="material-symbols-outlined">checklist</span>
-          </div>
-          <div><span class="status status-done">Done</span></div>
-          <div class="card-title">Manage Page</div>
-          <div class="card-desc">Carrier active job management — dispatched, in-transit, and delivered jobs with Action Required / Schedule View filters.</div>
-          <div class="card-file">manage-page.html</div>
-        </a>
-
-        <a class="card" href="feature-announcements.html" target="_blank">
-          <div class="card-icon" style="background:#fff0e8; color:#f26522;">
-            <span class="material-symbols-outlined">campaign</span>
-          </div>
-          <div><span class="status status-done">Done</span></div>
-          <div class="card-title">Feature Announcements</div>
-          <div class="card-desc">Modal + tooltip + What's New system for surfacing new features to transport platform users.</div>
-          <div class="card-file">feature-announcements.html</div>
-        </a>
-
-        <a class="card" href="lot-mode.html" target="_blank">
-          <div class="card-icon" style="background:#fff8ec; color:#7a4500;">
-            <span class="material-symbols-outlined">location_on</span>
-          </div>
-          <div><span class="status status-wip">WIP</span></div>
-          <div class="card-title">Lot Mode</div>
-          <div class="card-desc">Multi-vehicle pickup and delivery at the same location — lot panel, progress tracking, gate pass, and completion state.</div>
-          <div class="card-file">lot-mode.html</div>
-        </a>
-
-        <a class="card" href="release-slip.html" target="_blank">
-          <div class="card-icon" style="background:#fef2f2; color:#dc2626;">
-            <span class="material-symbols-outlined">receipt_long</span>
-          </div>
-          <div><span class="status status-done">Done</span></div>
-          <div class="card-title">Release Slip</div>
-          <div class="card-desc">Vehicle release document flow — confirmation and handoff at pickup.</div>
-          <div class="card-file">release-slip.html</div>
-        </a>
-
-        <a class="card" href="job-list.html" target="_blank">
-          <div class="card-icon" style="background:#f5f3ff; color:#6d28d9;">
-            <span class="material-symbols-outlined">list_alt</span>
-          </div>
-          <div><span class="status status-done">Done</span></div>
-          <div class="card-title">Job List</div>
-          <div class="card-desc">Loadboard job listing view for carriers — filters, sorting, and quick-action access.</div>
-          <div class="card-file">job-list.html</div>
-        </a>
-
-        <a class="card" href="checkout.html" target="_blank">
-          <div class="card-icon" style="background:#fff3ec; color:#f26522;">
-            <span class="material-symbols-outlined">shopping_cart_checkout</span>
-          </div>
-          <div><span class="status status-wip">In progress</span></div>
-          <div class="card-title">Checkout — Fuel Surcharge</div>
-          <div class="card-desc">5 design explorations for surfacing a fixed fuel fee at transport service selection. Desktop + iOS. TRA-11755.</div>
-          <div class="card-file">checkout.html</div>
-        </a>
-
       </div>
     </div>
 
   </div>
 
+<script>
+(function () {
+  let dragged = null;
+  let indicator = null;
+
+  const STORAGE_KEY = 'proto_board_layout';
+
+  function saveState() {
+    const state = {};
+    document.querySelectorAll('.column').forEach(col => {
+      const colClass = [...col.classList].find(c => c.startsWith('col-'));
+      if (!colClass) return;
+      state[colClass] = [...col.querySelectorAll('.card')].map(c => c.getAttribute('href'));
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function restoreState() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    let state;
+    try { state = JSON.parse(raw); } catch { return; }
+
+    // Build a map of all cards by href
+    const allCards = {};
+    document.querySelectorAll('.card').forEach(c => { allCards[c.getAttribute('href')] = c; });
+
+    document.querySelectorAll('.column').forEach(col => {
+      const colClass = [...col.classList].find(c => c.startsWith('col-'));
+      if (!colClass || !state[colClass]) return;
+      const list = col.querySelector('.card-list');
+      state[colClass].forEach(href => {
+        const card = allCards[href];
+        if (card) list.appendChild(card);
+      });
+    });
+
+    // Sync counts + empty labels
+    document.querySelectorAll('.column').forEach(col => {
+      const count = col.querySelectorAll('.card').length;
+      const countEl = col.querySelector('.section-count');
+      if (countEl) countEl.textContent = count;
+      const empty = col.querySelector('.empty-label');
+      if (empty) empty.style.display = count > 0 ? 'none' : '';
+    });
+  }
+
+  restoreState();
+
+  function getIndicator() {
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.className = 'drop-indicator';
+    }
+    return indicator;
+  }
+
+  function removeIndicator() {
+    if (indicator && indicator.parentNode) indicator.parentNode.removeChild(indicator);
+  }
+
+  function getCardAfter(list, y) {
+    const cards = [...list.querySelectorAll('.card:not(.dragging)')];
+    return cards.reduce((closest, card) => {
+      const box = card.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) return { offset, element: card };
+      return closest;
+    }, { offset: -Infinity }).element;
+  }
+
+  document.addEventListener('dragstart', function (e) {
+    const card = e.target.closest('.card');
+    if (!card) return;
+    dragged = card;
+    setTimeout(() => card.classList.add('dragging'), 0);
+    e.dataTransfer.effectAllowed = 'move';
+  });
+
+  document.addEventListener('dragend', function () {
+    if (dragged) dragged.classList.remove('dragging');
+    dragged = null;
+    removeIndicator();
+    document.querySelectorAll('.card-list').forEach(l => l.classList.remove('drag-over'));
+    document.querySelectorAll('.column').forEach(c => c.classList.remove('col-target'));
+  });
+
+  document.addEventListener('dragover', function (e) {
+    const list = e.target.closest('.card-list');
+    if (!list || !dragged) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+
+    document.querySelectorAll('.card-list').forEach(l => l.classList.remove('drag-over'));
+    document.querySelectorAll('.column').forEach(c => c.classList.remove('col-target'));
+    list.classList.add('drag-over');
+    list.closest('.column')?.classList.add('col-target');
+
+    const after = getCardAfter(list, e.clientY);
+    const ind = getIndicator();
+    if (after) list.insertBefore(ind, after);
+    else list.appendChild(ind);
+  });
+
+  document.addEventListener('dragleave', function (e) {
+    const list = e.target.closest('.card-list');
+    if (!list) return;
+    if (!list.contains(e.relatedTarget)) {
+      list.classList.remove('drag-over');
+      list.closest('.column')?.classList.remove('col-target');
+      removeIndicator();
+    }
+  });
+
+  document.addEventListener('drop', function (e) {
+    const list = e.target.closest('.card-list');
+    if (!list || !dragged) return;
+    e.preventDefault();
+
+    const after = getCardAfter(list, e.clientY);
+    if (after) list.insertBefore(dragged, after);
+    else list.appendChild(dragged);
+
+    removeIndicator();
+    list.classList.remove('drag-over');
+    list.closest('.column')?.classList.remove('col-target');
+    document.querySelectorAll('.column').forEach(c => c.classList.remove('col-target'));
+
+    // Update section counts and empty labels
+    document.querySelectorAll('.column').forEach(col => {
+      const count = col.querySelectorAll('.card').length;
+      const countEl = col.querySelector('.section-count');
+      if (countEl) countEl.textContent = count;
+      const empty = col.querySelector('.empty-label');
+      if (empty) empty.style.display = count > 0 ? 'none' : '';
+    });
+
+    saveState();
+  });
+
+  // Prevent anchor navigation on drag
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.card[draggable]') && e.defaultPrevented) e.preventDefault();
+  });
+})();
+</script>
 </body>
 </html>
