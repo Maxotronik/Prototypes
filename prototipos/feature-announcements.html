@@ -3,7 +3,7 @@
 <head>
 <!-- pw-gate-start -->
 <style id="pw-gate-style">html.pw-locked body{overflow:hidden}html.pw-locked body>*{visibility:hidden!important}#pw-gate{display:none;position:fixed;inset:0;z-index:99999;background:#fff;align-items:center;justify-content:center;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}html.pw-locked #pw-gate{display:flex;visibility:visible!important}.pw-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:40px 48px;max-width:360px;width:100%;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.08)}.pw-logo{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f26522;margin-bottom:24px}.pw-title{font-size:20px;font-weight:600;color:#111;margin-bottom:6px}.pw-sub{font-size:13px;color:#6b7280;margin-bottom:28px}.pw-input{width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:15px;outline:none;transition:border-color .15s}.pw-input:focus{border-color:#f26522;box-shadow:0 0 0 3px rgba(242,101,34,.12)}.pw-btn{margin-top:12px;width:100%;padding:11px;background:#f26522;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background .15s}.pw-btn:hover{background:#d95a1e}.pw-error{margin-top:12px;font-size:13px;color:#dc2626;display:none}</style>
-<script>(function(){if(location.hostname!=='maxotronik.github.io')return;if(sessionStorage.getItem('proto_unlocked')==='1')return;if(new URLSearchParams(location.search).get('unlocked')==='1')return;document.documentElement.classList.add('pw-locked');document.addEventListener('DOMContentLoaded',function(){var g=document.createElement('div');g.id='pw-gate';g.innerHTML=`<div class="pw-card"><div class="pw-title">Prototype Access</div><div class="pw-sub">This prototype is for internal use only</div><form id="pw-form"><input id="pw-input" class="pw-input" type="password" placeholder="Enter password" autocomplete="current-password" autofocus><button class="pw-btn" type="submit">Unlock</button></form><div id="pw-error" class="pw-error">Incorrect password. Please try again.</div></div>`;document.body.insertBefore(g,document.body.firstChild);document.getElementById('pw-form').addEventListener('submit',async function(e){e.preventDefault();var v=document.getElementById('pw-input').value;var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');if(h==='c3d006a4a35bc24483652f3d34a15bd53bde15438ea05ae77c304d7a10d72952'){sessionStorage.setItem('proto_unlocked','1');document.documentElement.classList.remove('pw-locked');document.getElementById('pw-gate').remove();document.getElementById('pw-gate-style').remove();}else{document.getElementById('pw-error').style.display='block';}});});})();</script>
+<script>(function(){if(location.hostname!=='maxotronik.github.io')return;if(sessionStorage.getItem('proto_unlocked')==='1')return;document.documentElement.classList.add('pw-locked');document.addEventListener('DOMContentLoaded',function(){var g=document.createElement('div');g.id='pw-gate';g.innerHTML=`<div class="pw-card"><div class="pw-title">Prototype Access</div><div class="pw-sub">This prototype is for internal use only</div><form id="pw-form"><input id="pw-input" class="pw-input" type="password" placeholder="Enter password" autocomplete="current-password" autofocus><button class="pw-btn" type="submit">Unlock</button></form><div id="pw-error" class="pw-error">Incorrect password. Please try again.</div></div>`;document.body.insertBefore(g,document.body.firstChild);document.getElementById('pw-form').addEventListener('submit',async function(e){e.preventDefault();var v=document.getElementById('pw-input').value;var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');if(h==='c3d006a4a35bc24483652f3d34a15bd53bde15438ea05ae77c304d7a10d72952'){sessionStorage.setItem('proto_unlocked','1');document.documentElement.classList.remove('pw-locked');document.getElementById('pw-gate').remove();document.getElementById('pw-gate-style').remove();}else{document.getElementById('pw-error').style.display='block';}});});})();</script>
 <!-- pw-gate-end -->
 
   <meta charset="UTF-8">
@@ -1924,70 +1924,79 @@
       right: 0;
       z-index: 600;
       display: none;
-      filter: drop-shadow(0 8px 24px rgba(0,0,0,.16));
+      box-shadow: 0 24px 38px rgba(132,132,132,.14), 0 9px 46px rgba(132,132,132,.12), 0 11px 15px rgba(132,132,132,.2);
+      border-radius: 16px;
     }
     .fa-panel-wrap.open { display: block; }
     .fa-panel {
       background: white;
-      border: 1px solid #e0e3e8;
-      border-radius: 8px;
-      width: 320px;
+      border-radius: 16px;
+      width: 362px;
       overflow: hidden;
       font-family: 'Roboto', 'Inter', sans-serif;
     }
     .fa-panel-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      padding: 16px 20px;
-      border-bottom: 1px solid #ebecef;
+      padding: 8px 0 8px 16px;
+      border-bottom: 1px solid #e8e9eb;
+      gap: 4px;
     }
-    .fa-panel-header-title { font-size: 14px; font-weight: 700; color: #21242a; }
-    .fa-panel-mute { background: none; border: none; color: #8c8f99; cursor: pointer; padding: 2px; display: flex; align-items: center; }
-    .fa-panel-mute .material-symbols-outlined { font-size: 18px; }
-    .fa-panel-mute:hover { color: #55575c; }
-    .fa-panel-item { display: flex; flex-direction: column; gap: 3px; padding: 14px 20px; cursor: pointer; transition: background .12s; }
-    .fa-panel-item:hover { background: #f9f9fa; }
+    .fa-panel-header-title { font-size: 20px; font-weight: 500; color: #1c1d1f; letter-spacing: 0.15px; padding-top: 12px; flex: 1; font-family: 'Roboto', 'Inter', sans-serif; }
+    .fa-panel-close { background: none; border: none; color: #55575c; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
+    .fa-panel-close .material-symbols-outlined { font-size: 20px; }
+    .fa-panel-close:hover { background: #f0f2f5; }
+    .fa-panel-item { display: flex; flex-direction: column; gap: 4px; padding: 16px 24px 16px 16px; cursor: pointer; border-bottom: 1px solid #e8e9eb; transition: background .12s; }
+    .fa-panel-item:last-child { border-bottom: none; }
+    .fa-panel-item:nth-child(odd) { background: #f7f7f8; }
+    .fa-panel-item:nth-child(even) { background: white; }
+    .fa-panel-item:hover { filter: brightness(0.97); }
     .fa-panel-item-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .fa-panel-item-title { font-size: 13px; font-weight: 500; color: #21242a; }
+    .fa-panel-item-title { font-size: 14px; font-weight: 500; color: #1c1d1f; letter-spacing: 0.1px; line-height: 20px; }
     .fa-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: #f26522; flex-shrink: 0; }
-    .fa-panel-item-desc { font-size: 11px; color: #8c8f99; line-height: 1.4; }
-    .fa-panel-divider { height: 1px; background: #ebecef; margin: 0; }
-    .fa-panel-items-scroll { max-height: 420px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #dcdfe8 transparent; }
-    .fa-panel-items-scroll::-webkit-scrollbar { width: 4px; }
+    .fa-panel-item-desc { font-size: 12px; color: #55575c; line-height: 16px; letter-spacing: 0.4px; }
+    .fa-panel-divider { display: none; }
+    .fa-panel-items-scroll { max-height: 480px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.12) transparent; }
+    .fa-panel-items-scroll::-webkit-scrollbar { width: 8px; }
     .fa-panel-items-scroll::-webkit-scrollbar-track { background: transparent; }
-    .fa-panel-items-scroll::-webkit-scrollbar-thumb { background: #dcdfe8; border-radius: 2px; }
-    .fa-panel-footer { padding: 12px 20px; display: flex; justify-content: flex-end; border-top: 1px solid #ebecef; }
-    .fa-view-all-btn { background: none; border: none; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #004e7d; cursor: pointer; }
-    .fa-view-all-btn:hover { text-decoration: underline; }
+    .fa-panel-items-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 200px; }
+    .fa-panel-footer { padding: 16px; display: flex; justify-content: flex-end; border-top: 1px solid #e8e9eb; }
+    .fa-view-all-btn { display: none; }
+    .fa-panel-cta { background: linear-gradient(152deg, #f26522 14%, #fc4243 86%); border: none; border-radius: 100px; padding: 10px 14px; font-family: 'Roboto', 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: white; cursor: pointer; }
+    .fa-panel-cta:hover { opacity: .9; }
 
     /* ── Announcement Modal ── */
     .fa-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.48); z-index: 700; align-items: center; justify-content: center; }
     .fa-overlay.open { display: flex; }
-    .fa-modal { background: #e3f1fc; border-radius: 16px; width: 420px; max-width: calc(100vw - 40px); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.28); font-family: 'Roboto', 'Inter', sans-serif; }
-    .fa-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 20px 12px 32px; }
-    .fa-modal-date { font-size: 11px; font-weight: 500; color: #005a8d; text-transform: uppercase; letter-spacing: 0.8px; }
-    .fa-modal-close { background: none; border: none; cursor: pointer; padding: 8px; color: #6b6f7a; font-size: 18px; line-height: 1; border-radius: 4px; }
+    .fa-modal { background: #e3f1fc; border-radius: 16px; width: 420px; max-width: calc(100vw - 40px); overflow: hidden; box-shadow: 0 6px 10px rgba(132,132,132,.24), 0 1px 18px rgba(132,132,132,.12), 0 3px 5px rgba(132,132,132,.2); font-family: 'Roboto', 'Inter', sans-serif; }
+    .fa-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 24px 12px; }
+    .fa-modal-label { font-size: 14px; font-weight: 500; color: #004d7e; text-transform: uppercase; letter-spacing: 0.1px; font-family: 'Roboto', 'Inter', sans-serif; }
+    .fa-modal-close { background: none; border: none; cursor: pointer; padding: 4px; color: #6b6f7a; line-height: 1; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+    .fa-modal-close .material-symbols-outlined { font-size: 20px; }
     .fa-modal-close:hover { background: rgba(0,0,0,.08); color: #1c1d1f; }
-    .fa-modal-img { margin: 0 32px 16px; height: 160px; border-radius: 10px; background: #6aa8ce; flex-shrink: 0; overflow: hidden; }
-    .fa-modal-body { padding: 0 32px 8px; }
-    .fa-modal-title { font-size: 18px; font-weight: 700; color: #1c1d1f; margin-bottom: 8px; line-height: 1.3; }
-    .fa-modal-desc { font-size: 13px; color: #55575c; line-height: 1.6; }
-    .fa-modal-footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 32px 28px; gap: 12px; }
-    .fa-step-dots { display: flex; gap: 6px; align-items: center; }
-    .fa-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,.2); transition: all .2s; }
-    .fa-dot.active { background: #f26522; width: 20px; border-radius: 4px; }
-    .fa-modal-actions { display: flex; align-items: center; gap: 8px; }
-    .fa-btn-prev { background: none; border: none; font-family: 'Roboto', 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #55575c; cursor: pointer; padding: 8px 12px; border-radius: 6px; }
-    .fa-btn-prev:hover { background: rgba(0,0,0,.07); }
-    .fa-btn-next { background: linear-gradient(147deg, #f26522 14%, #fc4243 86%); border: none; border-radius: 100px; padding: 9px 22px; font-family: 'Roboto', 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: white; cursor: pointer; }
+    .fa-modal-img { margin: 0 24px 16px; height: 216px; border-radius: 8px; background: #c0daeb; flex-shrink: 0; overflow: hidden; }
+    .fa-modal-body { padding: 0 24px 8px; display: flex; flex-direction: column; gap: 8px; }
+    .fa-modal-title { font-size: 20px; font-weight: 500; color: #1c1d1f; line-height: 1.3; }
+    .fa-modal-desc { font-size: 14px; color: #55575c; line-height: 1.5; letter-spacing: 0.25px; }
+    .fa-modal-view-context { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 500; color: #004e7d; background: none; border: none; cursor: pointer; padding: 0; font-family: 'Roboto', 'Inter', sans-serif; }
+    .fa-modal-view-context .material-symbols-outlined { font-size: 14px; }
+    .fa-modal-view-context:hover { text-decoration: underline; }
+    .fa-modal-footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px 24px; position: relative; }
+    .fa-step-dots { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; pointer-events: none; }
+    .fa-dot { width: 8px; height: 8px; border-radius: 50%; background: #b0c8d9; transition: background .2s; }
+    .fa-dot.active { background: #f26522; }
+    .fa-btn-prev { background: none; border: none; font-family: 'Roboto', 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #004e7d; cursor: pointer; padding: 10px 16px; border-radius: 100px; width: 100px; text-align: center; }
+    .fa-btn-prev:hover { background: rgba(0,77,126,.08); }
+    .fa-btn-next { background: linear-gradient(152deg, #f26522 14%, #fc4243 86%); border: none; border-radius: 100px; padding: 10px 14px; font-family: 'Roboto', 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: white; cursor: pointer; width: 100px; text-align: center; }
     .fa-btn-next:hover { opacity: .9; }
 
     /* ── Contextual Tooltip ── */
-    .fa-tooltip { position: fixed; z-index: 650; background: #e3f1fc; border: 1px solid #b8d8f0; border-radius: 8px; padding: 14px 16px; width: 248px; box-shadow: 0 4px 20px rgba(0,0,0,.16); font-family: 'Roboto', 'Inter', sans-serif; display: none; opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s; }
+    .fa-tooltip { position: fixed; z-index: 850; background: #e3f1fc; border: 1px solid #b8d8f0; border-radius: 8px; padding: 14px 16px; width: 248px; box-shadow: 0 4px 20px rgba(0,0,0,.16); font-family: 'Roboto', 'Inter', sans-serif; display: none; opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s; }
     .fa-tooltip.show { display: block; opacity: 1; transform: translateY(0); }
-    .fa-tooltip::before { content: ''; position: absolute; top: -8px; left: 20px; border: 7px solid transparent; border-bottom-color: #b8d8f0; border-top: none; }
-    .fa-tooltip::after { content: ''; position: absolute; top: -6px; left: 21px; border: 6px solid transparent; border-bottom-color: #e3f1fc; border-top: none; }
+    .fa-tooltip { --arrow-left: 20px; }
+    .fa-tooltip::before { content: ''; position: absolute; top: -8px; left: var(--arrow-left); border: 7px solid transparent; border-bottom-color: #b8d8f0; border-top: none; }
+    .fa-tooltip::after { content: ''; position: absolute; top: -6px; left: calc(var(--arrow-left) + 1px); border: 6px solid transparent; border-bottom-color: #e3f1fc; border-top: none; }
     .fa-tooltip.above::before { top: auto; bottom: -8px; border-bottom-color: transparent; border-top: 7px solid #b8d8f0; }
     .fa-tooltip.above::after  { top: auto; bottom: -7px; border-bottom-color: transparent; border-top: 6px solid #e3f1fc; }
     .fa-tooltip-title { font-size: 14px; font-weight: 500; color: #1c1d1f; margin-bottom: 5px; }
@@ -2059,27 +2068,28 @@
     /* Mobile header */
     .mob-header {
       display: none;
-      position: sticky; top: 0; z-index: 400;
+      position: sticky; top: 0; z-index: 300;
       height: 52px;
-      background: #1c1d1f;
+      background: #fff;
+      border-bottom: 1px solid #e8e9eb;
       padding: 0 12px;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
     }
-    .mob-header-title { flex: 1; text-align: center; font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+    .mob-header-title { flex: 1; text-align: center; font-size: 15px; font-weight: 700; color: #1c1d1f; letter-spacing: -0.2px; }
     .mob-icon-btn {
       background: none; border: none; cursor: pointer;
-      color: #fff; padding: 6px; border-radius: 6px;
+      color: #1c1d1f; padding: 6px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
       position: relative;
     }
     .mob-icon-btn .material-symbols-outlined { font-size: 24px; }
-    .mob-icon-btn:hover { background: rgba(255,255,255,0.1); }
+    .mob-icon-btn:hover { background: rgba(0,0,0,0.06); }
     .mob-hamburger-dot {
       position: absolute; top: 4px; right: 4px;
       width: 8px; height: 8px; border-radius: 50%;
-      background: #e05353; border: 1.5px solid #1c1d1f;
+      background: #f26522; border: 1.5px solid #fff;
       display: none;
     }
     .mob-hamburger-dot.visible { display: block; }
@@ -2091,54 +2101,55 @@
     }
     .mob-drawer-backdrop.open { display: block; }
 
-    /* Drawer panel */
+    /* Drawer panel — Material Design side sheet */
     .mob-drawer {
       position: fixed; top: 0; left: 0; bottom: 0;
-      width: 280px; background: #fff;
+      width: 300px; background: #fff;
       z-index: 501; display: flex; flex-direction: column;
       transform: translateX(-100%);
-      transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+      transition: transform 0.28s cubic-bezier(.4,0,.2,1);
       overflow-y: auto;
+      box-shadow: 4px 0 16px rgba(0,0,0,.18);
     }
     .mob-drawer.open { transform: translateX(0); }
     .mob-drawer-user {
-      padding: 20px 16px 14px;
-      background: #1c1d1f;
+      padding: 20px 16px 16px;
       display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid #f0f2f5;
     }
     .mob-drawer-avatar {
       width: 40px; height: 40px; border-radius: 50%;
-      background: #3366cc; display: flex; align-items: center; justify-content: center;
+      background: #f26522; display: flex; align-items: center; justify-content: center;
       color: #fff; font-size: 16px; font-weight: 700; flex-shrink: 0;
     }
-    .mob-drawer-username { font-size: 14px; font-weight: 600; color: #fff; }
-    .mob-drawer-company { font-size: 12px; color: #a0a3a8; margin-top: 2px; }
+    .mob-drawer-username { font-size: 14px; font-weight: 600; color: #1c1d1f; }
+    .mob-drawer-company { font-size: 12px; color: #71747a; margin-top: 2px; }
     .mob-drawer-divider { height: 1px; background: #f0f2f5; margin: 4px 0; }
     .mob-drawer-item {
       display: flex; align-items: center; gap: 12px;
-      padding: 13px 16px; font-size: 14px; font-weight: 500;
-      color: #2c2d30; cursor: pointer; border: none;
+      padding: 14px 16px; font-size: 15px; font-weight: 400;
+      color: #1c1d1f; cursor: pointer; border: none;
       background: none; width: 100%; text-align: left;
       font-family: 'Inter', sans-serif;
     }
-    .mob-drawer-item:hover { background: #f5f6f8; }
-    .mob-drawer-item .material-symbols-outlined { font-size: 20px; color: #71747a; }
+    .mob-drawer-item:active { background: #f5f6f8; }
     .mob-drawer-item-label { flex: 1; }
     .mob-wn-badge-drawer {
-      display: none; background: #e05353; color: #fff;
+      display: none; background: #f26522; color: #fff;
       font-size: 11px; font-weight: 700; min-width: 18px; height: 18px;
       border-radius: 9px; padding: 0 5px;
       align-items: center; justify-content: center;
     }
     .mob-wn-badge-drawer.visible { display: flex; }
     .mob-drawer-section-label {
-      padding: 10px 16px 4px; font-size: 11px; font-weight: 600;
+      padding: 12px 16px 4px; font-size: 11px; font-weight: 600;
       color: #a0a3a8; text-transform: uppercase; letter-spacing: 0.5px;
     }
-    .mob-drawer-rep { padding: 12px 16px; }
-    .mob-drawer-rep-title { font-size: 12px; font-weight: 600; color: #a0a3a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
-    .mob-drawer-rep-name { font-size: 14px; font-weight: 600; color: #1c1d1f; }
-    .mob-drawer-rep-phone { font-size: 13px; color: #3366cc; margin-top: 2px; }
+    .mob-drawer-rep { padding: 14px 16px; }
+    .mob-drawer-rep-title { font-size: 11px; font-weight: 600; color: #a0a3a8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .mob-drawer-rep-name { font-size: 15px; font-weight: 600; color: #1c1d1f; margin-bottom: 4px; }
+    .mob-drawer-rep-phone { font-size: 14px; color: #004e7d; margin-top: 2px; }
+    .mob-drawer-rep-email { font-size: 14px; color: #004e7d; margin-top: 4px; }
 
     /* Mobile filter bar */
     .mob-filter-bar {
@@ -2176,17 +2187,24 @@
       gap: 3px; border: none; background: none; cursor: pointer;
       font-family: 'Inter', sans-serif; color: #71747a; padding: 0;
     }
-    .mob-nav-tab.active { color: #1c1d1f; }
+    .mob-nav-tab.active { color: #f26522; }
     .mob-nav-tab .material-symbols-outlined { font-size: 22px; }
     .mob-nav-tab span:last-child { font-size: 10px; font-weight: 500; }
 
-    /* Mobile What's New screen (full-screen overlay) */
+    /* Mobile What's New screen (full-screen overlay, iOS slide-in) */
     .mob-wn-screen {
       display: none; position: fixed; inset: 0;
       background: #fff; z-index: 600;
       flex-direction: column;
     }
-    .mob-wn-screen.open { display: flex; }
+    .mob-wn-screen.open {
+      display: flex;
+      animation: mob-wn-slidein 0.32s cubic-bezier(.4,0,.2,1) both;
+    }
+    @keyframes mob-wn-slidein {
+      from { transform: translateX(100%); }
+      to   { transform: translateX(0); }
+    }
     .mob-wn-screen-header {
       display: flex; align-items: center; gap: 8px;
       padding: 0 4px 0 12px; height: 52px;
@@ -2206,21 +2224,28 @@
       padding: 14px 16px; cursor: pointer;
       border-bottom: 1px solid #f0f2f5;
     }
-    .mob-wn-item:hover { background: #f8f9fb; }
+    .mob-wn-item:active { background: #eff6fc; }
     .mob-wn-item-dot {
       width: 8px; height: 8px; border-radius: 50%;
-      background: #3366cc; flex-shrink: 0; margin-top: 5px;
+      background: #f26522; flex-shrink: 0; margin-top: 5px;
     }
     .mob-wn-item-dot.read { background: transparent; }
     .mob-wn-item-content { flex: 1; min-width: 0; }
     .mob-wn-item-title { font-size: 14px; font-weight: 600; color: #1c1d1f; margin-bottom: 3px; line-height: 1.3; }
-    .mob-wn-item-desc { font-size: 13px; color: #71747a; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .mob-wn-item-desc { font-size: 13px; color: #71747a; line-height: 1.4; }
+    .mob-wn-item:nth-child(odd) { background: #f7f7f8; }
+    .mob-wn-item:nth-child(even) { background: #fff; }
 
     /* ── Responsive breakpoint ── */
     @media (max-width: 767px) {
+      #proto-settings-bar { display: none !important; }
+      .hide-mobile { display: none !important; }
+      .results-controls { display: none !important; }
+
       /* Show mobile header, hide desktop header */
       header:not(.mob-header) { display: none !important; }
-      .mob-header { display: flex; }
+      .mob-header { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 450; }
+      body { padding-top: 52px; }
 
       /* Show mobile filter bar, hide desktop filter bar */
       .filter-bar { display: none !important; }
@@ -2232,8 +2257,8 @@
       /* Add bottom padding for fixed bottom nav */
       body { padding-bottom: 56px; }
 
-      /* Job detail: full-screen on mobile */
-      #details-backdrop { align-items: stretch; justify-content: stretch; }
+      /* Job detail: full-screen on mobile, above everything */
+      #details-backdrop { align-items: stretch; justify-content: stretch; z-index: 800 !important; background: #fff; }
       #details-frame { width: 100% !important; max-width: 100% !important; height: 100% !important; max-height: 100% !important; border-radius: 0 !important; }
 
       /* Hide panel dropdown on mobile (replaced by full-screen) */
@@ -2247,7 +2272,7 @@
 <body>
 
   <!-- ── Mobile Header ── -->
-  <header class="mob-header">
+  <header class="mob-header" id="mob-header">
     <button class="mob-icon-btn" id="mob-hamburger-btn" aria-label="Open menu">
       <span class="material-symbols-outlined">menu</span>
       <span class="mob-hamburger-dot" id="mob-hamburger-dot"></span>
@@ -2264,53 +2289,50 @@
   <!-- ── Hamburger Drawer ── -->
   <div class="mob-drawer" id="mob-drawer" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="mob-drawer-user">
-      <div class="mob-drawer-avatar">JD</div>
+      <div class="mob-drawer-avatar">JS</div>
       <div>
-        <div class="mob-drawer-username">John Doe</div>
-        <div class="mob-drawer-company">Dealer Transport Co.</div>
+        <div class="mob-drawer-username">John Smith</div>
+        <div class="mob-drawer-company">Magnacar Auto Corp</div>
       </div>
     </div>
 
     <div class="mob-drawer-divider"></div>
 
     <button class="mob-drawer-item">
-      <span class="material-symbols-outlined">manage_accounts</span>
       <span class="mob-drawer-item-label">Profile Settings</span>
     </button>
 
+    <div class="mob-drawer-divider"></div>
+
     <button class="mob-drawer-item" id="mob-wn-drawer-btn">
-      <span class="material-symbols-outlined">notifications</span>
       <span class="mob-drawer-item-label">What's New</span>
       <span class="mob-wn-badge-drawer" id="mob-wn-badge-drawer"></span>
     </button>
 
     <button class="mob-drawer-item">
-      <span class="material-symbols-outlined">support_agent</span>
       <span class="mob-drawer-item-label">Customer Support</span>
     </button>
 
     <button class="mob-drawer-item">
-      <span class="material-symbols-outlined">feedback</span>
       <span class="mob-drawer-item-label">Send Feedback</span>
     </button>
 
     <button class="mob-drawer-item">
-      <span class="material-symbols-outlined">gavel</span>
       <span class="mob-drawer-item-label">Legal</span>
     </button>
 
     <div class="mob-drawer-divider"></div>
 
     <div class="mob-drawer-rep">
-      <div class="mob-drawer-rep-title">Your ACV Account Rep</div>
-      <div class="mob-drawer-rep-name">Sarah Miller</div>
-      <div class="mob-drawer-rep-phone">+1 (800) 555-0123</div>
+      <div class="mob-drawer-rep-title">ACV Account Rep</div>
+      <div class="mob-drawer-rep-name">Evelyn Suarez</div>
+      <div class="mob-drawer-rep-phone">(555) 123-4567</div>
+      <div class="mob-drawer-rep-email">evelynsuarez@acvauctions.com</div>
     </div>
 
     <div class="mob-drawer-divider"></div>
 
     <button class="mob-drawer-item" style="color:#c0392b;">
-      <span class="material-symbols-outlined" style="color:#c0392b;">logout</span>
       <span class="mob-drawer-item-label">Logout</span>
     </button>
   </div>
@@ -2352,13 +2374,13 @@
           <div class="fa-panel">
             <div class="fa-panel-header">
               <span class="fa-panel-header-title">Announcements</span>
-              <button class="fa-panel-mute" title="Notification settings">
-                <span class="material-symbols-outlined">notifications_off</span>
+              <button class="fa-panel-close" id="fa-panel-close-btn" title="Close" onclick="document.getElementById('fa-panel-wrap').classList.remove('open')">
+                <span class="material-symbols-outlined">close</span>
               </button>
             </div>
             <div id="fa-panel-items" class="fa-panel-items-scroll"></div>
-            <div class="fa-panel-footer" id="fa-panel-footer" style="display:none;">
-              <button class="fa-view-all-btn" id="fa-view-all-btn">View all / History →</button>
+            <div class="fa-panel-footer" id="fa-panel-footer">
+              <button class="fa-panel-cta" id="fa-panel-dismiss-all">Close</button>
             </div>
           </div>
         </div>
@@ -2391,13 +2413,6 @@
     </div>
   </div>
 
-  <!-- ── Scam Warning Banner ── -->
-  <div class="banner">
-    <span class="banner-icon">ℹ</span>
-    <p>Avoid scams: Don't click unknown links, verify senders, and remember ACV Transport will never ask for your password.</p>
-    <button class="dismiss-btn">Dismiss</button>
-  </div>
-
   <!-- ── Results Bar ── -->
   <div class="results-bar">
     <div class="results-count">
@@ -2411,9 +2426,9 @@
         <option>25</option>
         <option>100</option>
       </select>
-      <span class="pagination-info">1-50 of 2066</span>
-      <button class="page-btn">‹</button>
-      <button class="page-btn">›</button>
+      <span class="pagination-info hide-mobile">1-50 of 2066</span>
+      <button class="page-btn hide-mobile">‹</button>
+      <button class="page-btn hide-mobile">›</button>
     </div>
   </div>
 
@@ -2645,7 +2660,7 @@
         pickupCity: 'Charlotte, NC 28202', pickupAddr: '100 Tryon St',
         deliveryCity: 'Savannah, GA 31401', deliveryAddr: '1 MLK Jr Blvd',
         distance: 250, price: 375, perMi: '1.50',
-        img: 'Vehicle photos/Vehicle=01.png',
+        img: 'Vehicle photos/placeholder.png',
         pickupInstructions: 'Allow after hours: Yes; Hours: M–F 8–7; Notes: After hours Monday to Friday only. Gate code required',
         deliveryInstructions: 'Allow after hours: No; Hours: M–F 8–5; Notes: Key drop OK',
         postedAgo: '3h ago', isNew: false
@@ -3333,20 +3348,23 @@
   <div class="fa-overlay" id="fa-overlay" role="dialog" aria-modal="true">
     <div class="fa-modal" id="fa-modal">
       <div class="fa-modal-header">
-        <span class="fa-modal-date" id="fa-modal-date">May 12, 2026</span>
-        <button class="fa-modal-close" id="fa-modal-close" aria-label="Close">✕</button>
+        <span class="fa-modal-label" id="fa-modal-label">Update</span>
+        <button class="fa-modal-close" id="fa-modal-close" aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
       </div>
       <div class="fa-modal-img" id="fa-modal-img"></div>
       <div class="fa-modal-body">
         <div class="fa-modal-title" id="fa-modal-title">Feature Name</div>
         <div class="fa-modal-desc" id="fa-modal-desc">Description text.</div>
+        <button class="fa-modal-view-context" id="fa-modal-view-context" style="display:none">
+          View in context <span class="material-symbols-outlined">chevron_right</span>
+        </button>
       </div>
       <div class="fa-modal-footer">
+        <button class="fa-btn-prev" id="fa-btn-prev" style="visibility:hidden">Previous</button>
         <div class="fa-step-dots" id="fa-step-dots"></div>
-        <div class="fa-modal-actions">
-          <button class="fa-btn-prev" id="fa-btn-prev" style="display:none">← Previous</button>
-          <button class="fa-btn-next" id="fa-btn-next">Next →</button>
-        </div>
+        <button class="fa-btn-next" id="fa-btn-next">Next</button>
       </div>
     </div>
   </div>
@@ -3502,7 +3520,7 @@
 
     // Intro step prepended to modal carousel
     const INTRO_ANN = {
-      id: '__intro', isIntro: true, date: 'May 21, 2026', read: true, tags: [], channel: 'modal', tooltip: null,
+      id: '__intro', isIntro: true, date: 'May 21, 2026', read: true, tags: ['improvement'], channel: 'modal', tooltip: null,
       title: 'Keeping you in the loop',
       desc: "We'll notify you whenever there are new features, improvements, or important changes to the platform. You can browse the full history anytime from the What's New button.",
       imgColor: null,
@@ -3510,6 +3528,8 @@
     };
     const MODAL_STEPS = [INTRO_ANN, ...MODAL_DATA];
 
+    // Panel shows all DATA items; tooltip-channel items get an extra entry if they
+    // also have a tooltip so they always appear as a walkthrough entry.
     const panelOrder = [...DATA].reverse(); // newest first
     let modalStep    = 0;   // index within MODAL_STEPS
     let modalOpen    = false;
@@ -3568,14 +3588,24 @@
     function closePanel() { document.getElementById('fa-panel-wrap').classList.remove('open'); }
     function togglePanel(){ document.getElementById('fa-panel-wrap').classList.toggle('open'); }
 
+    // ── Label text from tag ───────────────────────────────────────────────────
+    function labelFromTag(tags) {
+      const t = (tags || [])[0];
+      if (t === 'new-feature')  return 'New Experience';
+      if (t === 'improvement')  return 'Improved Experience';
+      if (t === 'release-note') return 'Update';
+      if (t === 'walkthrough')  return 'Walkthrough';
+      return 'Update';
+    }
+
     // ── Modal (carousel over MODAL_STEPS) ────────────────────────────────────
     function renderModalStep() {
       const ann = MODAL_STEPS[modalStep];
-      const dateEl = document.getElementById('fa-modal-date');
-      dateEl.textContent   = ann.date || '';
-      dateEl.style.display = '';
+      document.getElementById('fa-modal-label').textContent = labelFromTag(ann.tags);
       document.getElementById('fa-modal-title').textContent = ann.title;
       document.getElementById('fa-modal-desc').textContent  = ann.desc;
+      const vcBtn = document.getElementById('fa-modal-view-context');
+      vcBtn.style.display = 'none'; // never shown in carousel mode, only in detail mode
       const imgEl = document.getElementById('fa-modal-img');
       if (ann.imgHtml) {
         imgEl.style.display = 'flex'; imgEl.style.background = ann.imgColor || '#e3f1fc';
@@ -3590,8 +3620,8 @@
       dots.innerHTML = MODAL_STEPS.map((_, i) =>
         `<div class="fa-dot ${i === modalStep ? 'active' : ''}"></div>`
       ).join('');
-      document.getElementById('fa-btn-prev').style.display = modalStep > 0 ? 'inline-flex' : 'none';
-      document.getElementById('fa-btn-next').textContent   = modalStep < MODAL_STEPS.length - 1 ? 'Next →' : 'Done';
+      document.getElementById('fa-btn-prev').style.visibility = modalStep > 0 ? 'visible' : 'hidden';
+      document.getElementById('fa-btn-next').textContent   = modalStep < MODAL_STEPS.length - 1 ? 'Next' : 'Done';
     }
 
     function openModal() {
@@ -3606,9 +3636,24 @@
       if (modalStep < 0) modalStep = 0; // non-modal items: just show content
       ann.read = true; updateBadge(); renderPanel();
 
-      document.getElementById('fa-modal-date').textContent  = ann.date;
+      document.getElementById('fa-modal-label').textContent = labelFromTag(ann.tags);
       document.getElementById('fa-modal-title').textContent = ann.title;
       document.getElementById('fa-modal-desc').textContent  = ann.desc;
+
+      // "View in context" — show for tooltip announcements
+      const vcBtn2 = document.getElementById('fa-modal-view-context');
+      if (ann.tooltip && ann.tooltip.anchor) {
+        vcBtn2.style.display = 'inline-flex';
+        vcBtn2.onclick = () => navigateToTooltip(ann);
+      } else if (ann.tooltip && ann.tooltip.fixed) {
+        // fixed tooltip (e.g. instant-book): open a job detail and show the tooltip from the iframe
+        vcBtn2.style.display = 'inline-flex';
+        vcBtn2.onclick = () => navigateToFixedTooltip(ann);
+      } else {
+        vcBtn2.style.display = 'none';
+        vcBtn2.onclick = null;
+      }
+
       const imgEl = document.getElementById('fa-modal-img');
       if (ann.imgHtml) {
         imgEl.style.display = 'flex'; imgEl.style.background = ann.imgColor || '#e3f1fc';
@@ -3624,8 +3669,42 @@
       overlay.style.background = 'rgba(0,0,0,.32)';
       overlay.classList.add('open');
       document.getElementById('fa-step-dots').innerHTML = '';
-      document.getElementById('fa-btn-prev').style.display = 'none';
+      document.getElementById('fa-btn-prev').style.visibility = 'hidden';
       document.getElementById('fa-btn-next').textContent   = 'Close';
+    }
+
+    function navigateToFixedTooltip(ann) {
+      // Close modal and panel
+      document.getElementById('fa-overlay').style.background = '';
+      document.getElementById('fa-overlay').classList.remove('open');
+      document.getElementById('mob-wn-screen')?.classList.remove('open');
+      closePanel();
+      modalOpen = false; detailMode = false;
+
+      // Reset so hookOpenDetails fires again when the iframe sends ib-btn-rect
+      ibTooltipShown = false;
+      ann.tooltip._screenRect = null;
+
+      // Open first available job — iframe will postMessage ib-btn-rect → tooltip fires
+      const firstJob = jobs[0];
+      if (firstJob) openDetails(firstJob);
+    }
+
+    function navigateToTooltip(ann) {
+      // Close modal and panel
+      document.getElementById('fa-overlay').style.background = '';
+      document.getElementById('fa-overlay').classList.remove('open');
+      closePanel();
+      modalOpen = false; detailMode = false;
+
+      const target = document.querySelector(ann.tooltip.anchor);
+      if (!target) return;
+
+      // Scroll the anchor into view
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Fire the tooltip after scroll settles
+      setTimeout(() => showTooltip(ann), 420);
     }
 
     function closeModal() {
@@ -3651,24 +3730,28 @@
       if (modalStep > 0) { modalStep--; renderModalStep(); }
     }
 
-    // ── Dismiss tooltip (post-modal, points to What's New btn) ───────────────
+    // ── Dismiss tooltip (post-modal, points to What's New btn or hamburger on mobile) ───
     function showDismissTooltip() {
       if (dismissTooltipShown) { showNextTooltip(); return; }
       dismissTooltipShown = true;
-      const btn = document.getElementById('fa-whats-new-btn');
+      const isMobile = window.innerWidth <= 767;
+      const btn  = isMobile
+        ? document.getElementById('mob-hamburger-btn')
+        : document.getElementById('fa-whats-new-btn');
       const rect = btn.getBoundingClientRect();
       const tip  = document.getElementById('fa-tooltip');
       document.getElementById('fa-tooltip-title').textContent = 'All updates are saved here';
       document.getElementById('fa-tooltip-desc').textContent  = "Every announcement — seen or not — is saved in What's New. Find it whenever you need it.";
-      const tipW   = 248;
-      const arrowX = 20; // CSS ::before left
-      let left = rect.left + rect.width / 2 - arrowX - 7;
-      left = Math.max(8, Math.min(left, window.innerWidth - tipW - 8));
+      const MARGIN = 16, TIP_W = 248;
+      const anchorCX = rect.left + rect.width / 2;
+      const left = Math.max(MARGIN, Math.min(anchorCX - 27, window.innerWidth - TIP_W - MARGIN));
+      const arrowOff = Math.min(Math.max(8, anchorCX - left - 6), TIP_W - 20);
       tip.classList.remove('above');
       tip.style.top    = (rect.bottom + 8) + 'px';
       tip.style.left   = left + 'px';
       tip.style.bottom = 'auto';
       tip.style.right  = 'auto';
+      tip.style.setProperty('--arrow-left', arrowOff + 'px');
       tip.style.display = 'block';
       requestAnimationFrame(() => tip.classList.add('show'));
     }
@@ -3678,8 +3761,23 @@
       if (!tooltipQueue.length) return;
       const ann = tooltipQueue.shift();
       if (ann.tooltip && ann.tooltip.trigger === 'hover') {
-        // Wait for user to hover the anchor element
         const target = document.querySelector(ann.tooltip.anchor);
+        const isMobile = window.innerWidth <= 767;
+        const isHidden = !target || target.offsetParent === null;
+        if (isMobile && isHidden) {
+          // On mobile use click on any .job-price-pin (the map pin in cards) — mirrors desktop hover on .map-btn
+          // Mirror desktop hover behaviour — fires on mouseenter over any .job-price-pin
+          const pins = document.querySelectorAll('.job-price-pin');
+          const onEnter = () => {
+            pins.forEach(p => p.removeEventListener('mouseenter', onEnter));
+            const savedAnchor = ann.tooltip.anchor;
+            ann.tooltip.anchor = '.job-price-pin';
+            showTooltip(ann);
+            ann.tooltip.anchor = savedAnchor;
+          };
+          pins.forEach(p => p.addEventListener('mouseenter', onEnter));
+          return;
+        }
         if (!target) { showNextTooltip(); return; }
         const onEnter = () => { target.removeEventListener('mouseenter', onEnter); showTooltip(ann); };
         target.addEventListener('mouseenter', onEnter);
@@ -3693,23 +3791,58 @@
       document.getElementById('fa-tooltip-desc').textContent  = ann.tooltip.desc;
       const tip = document.getElementById('fa-tooltip');
 
+      const MARGIN = 16;
+      const TIP_W  = 248;
+
+      // Measure tip height after making it invisible-but-rendered
+      tip.style.visibility = 'hidden';
+      tip.style.display = 'block';
+      const tipH = tip.offsetHeight || 120;
+      tip.style.visibility = '';
+
+      function clampLeft(desiredLeft) {
+        return Math.max(MARGIN, Math.min(desiredLeft, window.innerWidth - TIP_W - MARGIN));
+      }
+
+      function placeRelativeTo(rect) {
+        // Anchor center X, try to align arrow to it
+        const anchorCX = rect.left + rect.width / 2;
+        const desiredLeft = anchorCX - 27; // 27px = arrow offset (20) + half arrow width (7)
+        const left = clampLeft(desiredLeft);
+        const arrowOff = Math.min(Math.max(8, anchorCX - left - 6), TIP_W - 20);
+
+        const spaceBelow = window.innerHeight - rect.bottom - MARGIN;
+        const spaceAbove = rect.top - MARGIN;
+        const fitsBelow  = spaceBelow >= tipH + 10;
+        const fitsAbove  = spaceAbove >= tipH + 10;
+
+        if (fitsBelow || (!fitsAbove)) {
+          // Place below
+          tip.classList.remove('above');
+          tip.style.top    = Math.min(rect.bottom + 10, window.innerHeight - tipH - MARGIN) + 'px';
+          tip.style.bottom = 'auto';
+        } else {
+          // Place above
+          tip.classList.add('above');
+          tip.style.top    = 'auto';
+          tip.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+        }
+        tip.style.left  = left + 'px';
+        tip.style.right = 'auto';
+        tip.style.setProperty('--arrow-left', arrowOff + 'px');
+      }
+
       if (ann.tooltip.fixed) {
         const r = ann.tooltip._screenRect;
         if (r) {
-          // Position above the button (it's in the footer), arrow points down
-          tip.classList.add('above');
-          tip.style.top    = 'auto';
-          tip.style.bottom = (window.innerHeight - r.top + 10) + 'px';
-          tip.style.left   = Math.max(8, Math.min(r.left - 10, window.innerWidth - 268)) + 'px';
-          tip.style.right  = 'auto';
+          placeRelativeTo(r);
         } else {
           tip.classList.remove('above');
-          tip.style.top    = '80px';
-          tip.style.left   = 'calc(50% - 124px)';
+          tip.style.top    = MARGIN + 64 + 'px';
+          tip.style.left   = clampLeft(window.innerWidth / 2 - TIP_W / 2) + 'px';
           tip.style.bottom = 'auto';
           tip.style.right  = 'auto';
         }
-        tip.style.display = 'block';
         requestAnimationFrame(() => tip.classList.add('show'));
         return;
       }
@@ -3720,13 +3853,7 @@
       if (!target) { showNextTooltip(); return; }
 
       const rect = target.getBoundingClientRect();
-      tip.style.top    = (rect.bottom + 10) + 'px';
-      tip.style.left   = Math.max(8, rect.left - 10) + 'px';
-      tip.style.bottom = 'auto';
-      tip.style.right  = 'auto';
-      const arrowOff = Math.min(Math.max(8, rect.left + rect.width / 2 - (rect.left - 10) - 6), 230);
-      tip.style.setProperty('--arrow-left', arrowOff + 'px');
-      tip.style.display = 'block';
+      placeRelativeTo(rect);
       requestAnimationFrame(() => tip.classList.add('show'));
     }
 
@@ -3788,22 +3915,29 @@
 
     function closeHistory() { document.getElementById('fa-history-overlay').classList.remove('open'); }
 
-    // ── Receive IB button position from detail iframe and show tooltip ─────────
+    // ── Receive button positions from detail iframe and show tooltips ──────────
     function hookOpenDetails() {
-      const ibAnn = DATA.find(a => a.id === 'instant-book');
-      if (!ibAnn || !ibAnn.tooltip) return;
+      const ibAnn      = DATA.find(a => a.id === 'instant-book');
+      const routeMapAnn = DATA.find(a => a.id === 'route-map');
       window.addEventListener('message', e => {
-        if (!e.data || e.data.type !== 'ib-btn-rect' || ibTooltipShown) return;
+        if (!e.data) return;
         const frame = document.getElementById('details-frame');
         const fr = frame ? frame.getBoundingClientRect() : { top: 0, left: 0 };
-        ibAnn.tooltip._screenRect = {
-          top:    fr.top  + e.data.top,
-          bottom: fr.top  + e.data.bottom,
-          left:   fr.left + e.data.left,
-          width:  e.data.width,
-        };
-        ibTooltipShown = true;
-        showTooltip(ibAnn);
+
+        // Instant Book tooltip (desktop + mobile via iframe postMessage)
+        if (e.data.type === 'ib-btn-rect' && ibAnn && ibAnn.tooltip && !ibTooltipShown) {
+          ibAnn.tooltip._screenRect = {
+            top:    fr.top  + e.data.top,
+            bottom: fr.top  + e.data.bottom,
+            left:   fr.left + e.data.left,
+            width:  e.data.width,
+          };
+          ibTooltipShown = true;
+          showTooltip(ibAnn);
+        }
+
+        // map-btn-rect no longer used for mobile (handled via job-price-pin anchor)
+        void e.data;
       });
     }
 
@@ -3842,7 +3976,7 @@
         const tip = document.getElementById('fa-tooltip');
         if (tip.classList.contains('show') && !tip.contains(e.target)) hideTooltip();
       }, true);
-      document.getElementById('fa-view-all-btn').addEventListener('click', openHistory);
+      document.getElementById('fa-view-all-btn')?.addEventListener('click', openHistory);
       document.getElementById('fa-hist-back-btn').addEventListener('click', closeHistory);
       document.getElementById('fa-history-search-input').addEventListener('input', e => { historyQuery = e.target.value.trim(); renderHistoryList(); });
       document.addEventListener('keydown', e => {
@@ -3908,10 +4042,27 @@
   })();
   </script>
 
+  <script src="proto-settings.js"></script>
   <script src="inspect.js"></script>
+  <script>
+    // Hide proto-settings bar on mobile — PSB is created via setTimeout(0) so poll until it appears
+    if (window.innerWidth <= 767) {
+      var _psbInterval = setInterval(function() {
+        var psb = document.getElementById('proto-settings-bar');
+        var tab = document.getElementById('proto-settings-tab');
+        if (psb || tab) {
+          if (psb) psb.style.setProperty('display', 'none', 'important');
+          if (tab) tab.style.setProperty('display', 'none', 'important');
+          clearInterval(_psbInterval);
+        }
+      }, 16);
+      // Stop polling after 2s regardless
+      setTimeout(function() { clearInterval(_psbInterval); }, 2000);
+    }
+  </script>
 
   <!-- ── Mobile Bottom Nav ── -->
-  <nav class="mob-bottom-nav">
+  <nav class="mob-bottom-nav" id="mob-bottom-nav">
     <button class="mob-nav-tab active">
       <span class="material-symbols-outlined">list_alt</span>
       <span>Job List</span>
