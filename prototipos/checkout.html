@@ -267,7 +267,7 @@
     .acv-identity {
       display: flex;
       gap: 8px;
-      align-items: center;
+      align-items: flex-start;
       flex: 1;
     }
 
@@ -372,8 +372,8 @@
     }
 
     .benefit-icon {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       flex-shrink: 0;
       border-radius: 50%;
       background: #00a576;
@@ -612,8 +612,8 @@
     }
 
     .warning-icon {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       flex-shrink: 0;
       border-radius: 50%;
       background: #ff5449;
@@ -1325,375 +1325,6 @@
       gap: 16px;
     }
 
-    /* ── Design 05 — Flat pickup redesign ── */
-    #design-5 .panel {
-      background: #f4f4f2;
-      width: 600px;
-      max-width: 100%;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    #design-5 .header {
-      background: #fff;
-      border-bottom: 1px solid #e4e4e0;
-    }
-
-    #design-5 .brand-bar {
-      height: 4px;
-      background: linear-gradient(90deg, #f26522 0%, #fc4243 100%);
-    }
-
-    #design-5 .title-bar h1 {
-      font-size: 15px;
-      font-weight: 600;
-      color: #1a1a1a;
-      letter-spacing: -0.2px;
-    }
-
-    #design-5 .content {
-      background: #f4f4f2;
-      padding: 20px;
-      gap: 16px;
-    }
-
-    #design-5 .section-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: #999;
-    }
-
-    /* ACV card — radius 8px everywhere (#1) */
-    #design-5 .acv-card {
-      background: #fff;
-      border: 1.5px solid #e4e4e0;
-      border-radius: 8px;
-      padding: 0;
-      gap: 0;
-      overflow: hidden;
-    }
-
-    #design-5 .acv-card[style*="border-color: rgb(242"] ,
-    #design-5 #v3-acv-card {
-      border-color: #e4e4e0;
-    }
-
-    /* Card header strip */
-    #design-5 .acv-header {
-      padding: 16px 18px;
-      border-bottom: 1px solid #f0f0ec;
-      background: #fff;
-    }
-
-    #design-5 .acv-text h2 {
-      font-size: 15px;
-      font-weight: 600;
-      color: #1a1a1a;
-      line-height: 1.3;
-    }
-
-    /* Price dominates (#6) */
-    #design-5 .acv-price .main {
-      font-size: 28px;
-      font-weight: 500;
-      color: #f26522;
-      line-height: 1.1;
-      letter-spacing: -0.5px;
-      font-family: 'DM Mono', monospace;
-    }
-
-    #design-5 .acv-price .was {
-      font-size: 13px;
-      color: #bbb;
-      line-height: 1.4;
-    }
-
-    #design-5 .see-benefits-btn {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      color: #f26522;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(242,101,34,0.3);
-    }
-
-    /* Benefits */
-    #design-5 .benefits {
-      padding: 0 18px;
-      gap: 10px;
-    }
-
-    #design-5 .benefits.open {
-      padding: 14px 18px;
-      border-bottom: 1px solid #f0f0ec;
-    }
-
-    #design-5 .benefit-text {
-      font-size: 13px;
-      color: #444;
-    }
-
-    /* Route block — tighter spacing between pickup/delivery (#3) */
-    #design-5 .v3-route {
-      padding: 16px 18px 0;
-    }
-
-    #design-5 .v3-route-row {
-      padding: 3px 0;
-    }
-
-    #design-5 .v3-route-label-text {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0;
-      text-transform: none;
-      color: #aaa;
-    }
-
-    #design-5 .v3-route-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #d0d0cc;
-      border: 2px solid #fff;
-      outline: 1.5px solid #d0d0cc;
-    }
-
-    #design-5 .v3-route-dot--delivery {
-      background: #f26522;
-      border: 2px solid #fff;
-      outline: 1.5px solid #f26522;
-      width: 10px;
-      height: 10px;
-      margin-left: 0;
-    }
-
-    #design-5 .v3-route-line {
-      background: #e0e0db;
-      width: 1.5px;
-      min-height: 14px;
-    }
-
-    #design-5 .v3-route-address {
-      font-size: 15px;
-      font-weight: 500;
-      color: #1a1a1a;
-      line-height: 1.4;
-    }
-
-    #design-5 .v3-route-note {
-      font-size: 11px;
-      color: #bbb;
-      margin-top: 1px;
-    }
-
-    /* Delivery field — subtle bg on focus (#8) */
-    #design-5 .v3-route-content--field {
-      background: #f8f8f6;
-      border-radius: 6px;
-      border-bottom: 2px solid #f26522;
-      padding: 6px 10px 8px;
-      transition: background 0.15s;
-    }
-
-    #design-5 .v3-route-content--field:focus-within {
-      background: #fff3ec;
-    }
-
-    #design-5 .v3-route-input {
-      font-size: 15px;
-      font-weight: 500;
-      color: #1a1a1a;
-    }
-
-    #design-5 .address-dropdown {
-      border-radius: 8px;
-      border: 1px solid #e4e4e0;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    /* Estimates — plain, no card box (#3) */
-    #design-5 #v3-acv-estimates {
-      margin: 6px 18px 0 !important;
-      background: transparent !important;
-      border-radius: 0 !important;
-      border: none !important;
-      padding: 0 !important;
-      overflow: visible;
-    }
-
-    #design-5 .v2-estimate-item {
-      padding: 4px 0;
-      gap: 6px;
-    }
-
-    #design-5 .v2-estimate-item + .v2-estimate-item {
-      border-left: none;
-      padding-left: 20px;
-    }
-
-    #design-5 .v2-estimate-label {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #bbb;
-    }
-
-    #design-5 .v2-estimate-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: #1a1a1a;
-      font-family: 'DM Mono', monospace;
-    }
-
-    #design-5 .v2-estimate-sub {
-      font-size: 11px;
-      color: #999;
-    }
-
-    #design-5 .v2-estimate-icon {
-      color: #ccc;
-    }
-
-    /* Service section — more air above (#3) */
-    #design-5 .service-section {
-      border-top: 1px solid #f0f0ec;
-      padding: 20px 18px 18px;
-      margin-top: 14px;
-    }
-
-    #design-5 .service-header h3 {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0;
-      text-transform: none;
-      color: #aaa;
-    }
-
-    #design-5 .service-options {
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    /* Service rows — radius 8px (#1) */
-    #design-5 .service-row {
-      border: 1.5px solid #ebebе8;
-      border-radius: 8px;
-      padding: 12px 14px;
-      gap: 12px;
-      background: #fafaf8;
-      transition: border-color 0.12s, background 0.12s, transform 0.08s;
-    }
-
-    #design-5 .service-row:hover {
-      border-color: #d8d8d3;
-      background: #fff;
-    }
-
-    #design-5 .service-row:active {
-      transform: scale(0.99);
-    }
-
-    #design-5 .service-row.selected {
-      background: #fff8f4;
-      border-color: #f26522;
-      border-radius: 8px;
-    }
-
-    #design-5 .service-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-
-    #design-5 .service-desc {
-      font-size: 12px;
-      color: #888;
-      line-height: 1.5;
-      margin-top: 2px;
-    }
-
-    #design-5 .price-now {
-      font-size: 15px;
-      font-weight: 500;
-      color: #1a1a1a;
-      font-family: 'DM Mono', monospace;
-    }
-
-    #design-5 .service-row.selected .price-now {
-      color: #f26522;
-    }
-
-    #design-5 .price-was {
-      font-size: 11px;
-      color: #ccc;
-    }
-
-    #design-5 .radio-ring {
-      width: 18px;
-      height: 18px;
-      border-color: #d8d8d3;
-    }
-
-    #design-5 .radio-ring.checked-blue {
-      border-color: #f26522;
-    }
-
-    #design-5 .radio-dot.blue {
-      background: #f26522;
-    }
-
-    #design-5 .recommended-chip {
-      background: #fff3ec;
-      color: #f26522;
-      border: 1px solid rgba(242,101,34,0.2);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
-
-    /* Own carrier — radius 8px (#1) */
-    #design-5 .option-card {
-      background: #fff;
-      border: 1.5px solid #e4e4e0;
-      border-radius: 8px;
-      padding: 14px 16px;
-      gap: 10px;
-    }
-
-    #design-5 .option-label {
-      font-size: 13px;
-      color: #666;
-    }
-
-    #design-5 .warning-text {
-      font-size: 12px;
-      color: #555;
-    }
-
-    /* Submit — radius 8px (#1) */
-    #design-5 .submit-row {
-      justify-content: stretch;
-    }
-
-    #design-5 .submit-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #f26522 0%, #fc4243 100%);
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      padding: 16px;
-      box-shadow: 0 4px 14px rgba(242,101,34,0.3);
-      transition: box-shadow 0.15s, opacity 0.15s;
-    }
-
-    #design-5 .submit-btn:hover {
-      opacity: 0.95;
-      box-shadow: 0 6px 20px rgba(242,101,34,0.4);
-    }
-
     /* ── Design 05 — Details breakdown ── */
     #design-4 .service-row {
       flex-direction: column;
@@ -1705,8 +1336,130 @@
     #design-4 .service-row-main {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 0;
       padding: 8px 20px 8px 8px;
+    }
+
+    #design-4 .service-row-main .service-price {
+      margin-left: 28px;
+    }
+
+    /* ── Design 6 spacing overrides (Figma node 3200-6583) ── */
+    #design-6 .acv-card {
+      padding: 24px;
+      gap: 24px;
+      border-radius: 8px;
+    }
+
+    #design-6 .acv-identity {
+      gap: 4px;
+    }
+
+    #design-6 .radio {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+
+    #design-6 .acv-text {
+      padding-top: 4px;
+    }
+
+    #design-6 .acv-text h2 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    #design-6 .acv-text p {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #design-6 .benefits {
+      padding-left: 4px;
+    }
+
+    #design-6 .benefit-row {
+      gap: 16px;
+      align-items: center;
+    }
+
+    #design-6 .pickup-section {
+      padding-left: 48px;
+      gap: 8px;
+    }
+
+    #design-6 .estimates {
+      padding-left: 48px;
+      gap: 48px;
+    }
+
+    #design-6 .estimate-label {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    #design-6 .estimate-value {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: 0.15px;
+    }
+
+    #design-6 .service-section {
+      border-top: 1px solid #e8e9eb;
+      padding-top: 24px;
+      gap: 16px;
+    }
+
+    #design-6 .service-header h3 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #0e0e0f;
+    }
+
+    #design-6 .service-options {
+      gap: 12px;
+    }
+
+    #design-6 .service-row {
+      border-radius: 8px;
+      padding: 8px 16px 8px 4px;
+    }
+
+    #design-6 .service-row-content {
+      gap: 4px;
+    }
+
+    #design-6 #d6-acv-body .service-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+    }
+
+    #design-6 .service-row-main {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 8px 16px 8px 4px;
+    }
+
+    #design-6 .service-row-main .service-price {
+      margin-left: 28px;
+    }
+
+    #design-6 #d6-acv-pickup .text-field.active::after { display: none; }
+    #design-6 .option-card {
+      border-radius: 8px;
+      border-color: #e8e9eb;
+      padding: 8px 24px 8px 24px;
+      gap: 4px;
+    }
+
+    #design-6 .option-label {
+      color: #0e0e0f;
     }
 
     .d5-breakdown {
@@ -1717,8 +1470,280 @@
       padding: 14px 16px 16px;
     }
 
-    #design-4 .service-row.selected .d5-breakdown {
+    #design-4 .service-row.selected .d5-breakdown,
+    #design-6 .service-row.selected .d5-breakdown {
       display: flex;
+    }
+
+    /* v2: delivery speed options side by side */
+    #design-6.d6-v2 #d6-speed-options {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+    }
+    #design-6.d6-v2 #d6-speed-options .service-row {
+      flex: 1;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+    }
+    #design-6.d6-v2 #d6-speed-options .service-price {
+      text-align: left;
+      padding-left: 52px;
+    }
+
+    /* v3: breakdown shown in Transport Total section instead of inside service cards */
+    #design-6.d6-v3 #d6-acv-body .service-row .d5-breakdown {
+      display: none !important;
+    }
+    #design-6 #d6-v3-quote-section {
+      display: none;
+    }
+    #design-6 #d6-quote-toggle-btn {
+      display: none;
+    }
+    #design-6.d6-v3 #d6-quote-toggle-btn {
+      display: inline;
+    }
+
+    /* Design 07 — Tabs: base styling mirrors design-6, always in the "v4" look */
+    #design-7 .acv-card {
+      padding: 24px;
+      gap: 24px;
+      border-radius: 8px;
+    }
+    #design-7 .acv-text h2 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+    #design-7 .pickup-section {
+      padding-left: 0;
+      padding-top: 16px;
+      gap: 8px;
+    }
+    #design-7 #d7-acv-pickup .text-field.active::after {
+      background: transparent;
+    }
+    #design-7 .warning-bullets {
+      padding-left: 0;
+    }
+    #design-7 .estimates {
+      padding-left: 16px;
+      padding-top: 16px;
+      padding-bottom: 16px;
+      gap: 48px;
+    }
+    #design-7 .estimate-label {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    #design-7 .estimate-value {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: 0.15px;
+    }
+    #design-7 .service-section {
+      border-top: 1px solid #e8e9eb;
+      padding-top: 24px;
+      gap: 16px;
+    }
+    #design-7 .service-header h3 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #0e0e0f;
+    }
+    #design-7 .service-options {
+      gap: 12px;
+    }
+    #design-7 .service-row {
+      border-radius: 8px;
+      padding: 8px 16px 8px 4px;
+    }
+    #design-7 .service-row-main {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 8px 16px 8px 4px;
+    }
+    #design-7 .service-row-main .service-price {
+      margin-left: 28px;
+    }
+    #design-7 #d7-acv-body .service-row .d5-breakdown {
+      display: none !important;
+    }
+    #design-7 #d7-v3-quote-section {
+      display: none;
+    }
+
+    /* v4: delivery speed as a segmented control (ACV design system) */
+    .d6-seg-control { display: none; }
+    #design-6.d6-v4 #d6-speed-options { display: none; }
+    #design-6.d6-v4 .d6-seg-control {
+      display: flex;
+      background: #f0f1f3;
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+    #design-6.d6-v4 .d6-seg-btn {
+      flex: 1;
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      color: #55575c;
+      letter-spacing: 0.15px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      transition: background .15s, color .15s, box-shadow .15s, border-color .15s;
+    }
+    #design-6.d6-v4 .d6-seg-top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    #design-6.d6-v4 .d6-seg-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: #71747a;
+      letter-spacing: 0.1px;
+    }
+    #design-6.d6-v4 .d6-seg-btn .d6-seg-price {
+      font-size: 15px;
+      font-weight: 500;
+      color: inherit;
+    }
+    #design-6.d6-v4 .d6-seg-btn.selected {
+      background: #e3f1fc;
+      border-color: #2196f5;
+      color: #0e0e0f;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    #design-6.d6-v4 .d6-seg-btn.selected .d6-seg-sub {
+      color: #55575c;
+    }
+    #design-6.d6-v4 .d6-seg-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    /* Design 07 — Tabs: same segmented control as Expedited v4, always on */
+    #design-7 .d6-seg-control {
+      display: flex;
+      background: #f0f1f3;
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+    #design-7 .d6-seg-btn {
+      flex: 1;
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      color: #55575c;
+      letter-spacing: 0.15px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      transition: background .15s, color .15s, box-shadow .15s, border-color .15s;
+    }
+    #design-7 .d6-seg-top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    #design-7 .d6-seg-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: #71747a;
+      letter-spacing: 0.1px;
+    }
+    #design-7 .d6-seg-btn .d6-seg-price {
+      font-size: 15px;
+      font-weight: 500;
+      color: inherit;
+    }
+    #design-7 .d6-seg-btn.selected {
+      background: #e3f1fc;
+      border-color: #2196f5;
+      color: #0e0e0f;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    #design-7 .d6-seg-btn.selected .d6-seg-sub {
+      color: #55575c;
+    }
+    #design-7 .d6-seg-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    /* Design 07 — Tabs feature */
+    #design-7 .d7-tab-control {
+      display: flex;
+      background: #f0f1f3;
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+    #design-7 .d7-tab-btn {
+      flex: 1;
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 11px 15px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      color: #55575c;
+      letter-spacing: 0.15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background .15s, color .15s, box-shadow .15s, border-color .15s;
+    }
+    #design-7 .d7-tab-btn.selected {
+      background: #e3f1fc;
+      border-color: #2196f5;
+      color: #0e0e0f;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    #design-7 .d7-tab-badge {
+      background: #f26522;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      border-radius: 6px;
+      padding: 3px 6px;
+      line-height: 1;
+    }
+    #design-7 #d7-container {
+      margin-top: 16px;
+      border-color: #f26522;
+    }
+    #design-7 #d7-container.own-mode {
+      border-color: #dcdfe8;
     }
 
     .d5-breakdown-line {
@@ -1737,7 +1762,7 @@
     }
 
     .d5-breakdown-covers {
-      margin-top: 8px;
+      margin-top: 4px;
     }
 
     .d5-breakdown-covers-title {
@@ -1750,7 +1775,7 @@
 
     .d5-breakdown-covers ul {
       list-style: none;
-      padding: 0;
+      padding: 0 0 0 16px;
       margin: 0;
       display: flex;
       flex-direction: column;
@@ -1772,6 +1797,80 @@
       left: 0;
       color: #004e7d;
       font-weight: 700;
+    }
+
+    .d5-breakdown-divider {
+      border-top: 1px solid #dcdfe8;
+      margin: 6px 0;
+    }
+
+    .d5-info-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      margin: 0 2px;
+    }
+
+    .d5-info-icon {
+      font-size: 14px;
+      color: #0061a5;
+      cursor: pointer;
+      vertical-align: middle;
+      user-select: none;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+
+    .d5-info-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a2e;
+      color: #fff;
+      border-radius: 6px;
+      padding: 10px 12px;
+      width: 220px;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .d5-info-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #1a1a2e;
+    }
+
+    .d5-info-tooltip ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .d5-info-tooltip ul li {
+      font-size: 12px;
+      line-height: 17px;
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .d5-info-tooltip ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #7eb8e0;
+    }
+
+    .d5-info-wrap.tip-open .d5-info-tooltip,
+    .d5-info-wrap:hover .d5-info-tooltip {
+      display: block;
     }
 
     .fs-variant { display: none; }
@@ -1904,10 +2003,7 @@
     body.in-iframe .estimates { gap: 24px; flex-wrap: wrap; }
     body.in-iframe .transport-options > div:first-child { margin-top: 4px !important; }
     body.in-iframe .prod-rec-badge { top: -1px; left: 8px; font-size: 11px; padding: 2px 10px; }
-    body.in-iframe #design-5 .content { padding: 16px; gap: 14px; }
-    body.in-iframe #design-5 .service-section { padding: 16px 12px 14px; margin-top: 10px; }
     body.in-iframe .v3-route-estimates { margin-top: 8px; padding-left: 22px; gap: 20px; flex-wrap: wrap; }
-    body.in-iframe #design-5 .v3-route { padding: 14px 14px 0; }
     body.in-iframe .acv-card { border-radius: 8px; }
     body.in-iframe .service-section { padding-top: 16px; }
     body.in-iframe .estimates { gap: 20px; }
@@ -2195,416 +2291,6 @@
       </div>
     </div>
 
-    <!-- Design 02 — Version 2 -->
-    <div class="design-panel" id="design-2">
-      <div class="panel">
-
-    <!-- Header -->
-    <header class="header">
-      <div class="brand-bar"></div>
-      <div class="title-bar">
-        <h1>Finalize Auction:</h1>
-        <button class="close-btn" aria-label="Close">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M1 1L15 15M15 1L1 15" stroke="#55575C" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- Content -->
-    <div class="content">
-      <p class="section-title">Choose how you Transport:</p>
-
-      <div class="transport-options">
-
-        <!-- ACV card -->
-        <div class="acv-card" id="acv-card" onclick="selectAcv()">
-
-          <!-- ACV Header -->
-          <div class="acv-header">
-            <div class="acv-identity">
-              <div class="radio">
-                <div class="radio-ring checked-black" id="acv-radio"><div class="radio-dot black"></div></div>
-              </div>
-              <div class="acv-text">
-                <h2>Transport with ACV</h2>
-                <p id="acv-tagline" style="display:none;">Let us do the work!</p>
-                <button class="see-benefits-btn" id="see-benefits-btn" onclick="toggleBenefits(event)">See benefits</button>
-              </div>
-            </div>
-            <div class="acv-price">
-              <span class="main">$279</span>
-              <span class="was">$359</span>
-            </div>
-          </div>
-
-          <!-- Benefit bullets -->
-          <div class="benefits" id="acv-benefits">
-            <div class="benefit-row">
-              <div class="benefit-icon">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <span class="benefit-text">4 days of arb protection after delivery (delays included)</span>
-            </div>
-            <div class="benefit-row">
-              <div class="benefit-icon">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <span class="benefit-text">Coverage against damage &amp; fraud</span>
-            </div>
-            <div class="benefit-row">
-              <div class="benefit-icon">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <span class="benefit-text">Zero hassle — dry runs, coordination &amp; issues handled</span>
-            </div>
-          </div>
-
-          <!-- Pickup inputs -->
-          <div class="pickup-section" id="acv-pickup">
-            <div>
-              <div class="text-field">
-                <span class="field-label" style="color:#a1a1a1;">Pickup</span>
-                <span class="field-value" style="color:#757575;">Buffalo, NY 14203</span>
-              </div>
-              <div class="assistive-text">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="#0061a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Full pickup address will be shared upon order confirmation
-              </div>
-            </div>
-            <div class="delivery-wrap" id="delivery-wrapper" onclick="event.stopPropagation()">
-              <div class="text-field active">
-                <span class="field-label" style="color:#545454;">Delivery</span>
-                <input class="field-input" id="delivery-input" type="text"
-                  value="1250 Amherst Street, Buffalo, NY 14216"
-                  onfocus="showDropdown()"
-                  oninput="filterDropdown()"
-                  autocomplete="off" />
-              </div>
-              <div class="address-dropdown" id="address-dropdown">
-                <div class="dropdown-section-label">Saved addresses</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Estimates -->
-          <div class="estimates" id="acv-estimates">
-            <div>
-              <div class="estimate-label">Est. Travel Distance:</div>
-              <div class="estimate-value">5 mi</div>
-            </div>
-            <div>
-              <div class="estimate-label">Est. Delivery:</div>
-              <div class="estimate-value">Tue, Aug 27 &nbsp;(1 bus. day)</div>
-            </div>
-          </div>
-
-          <!-- Select Transport Service -->
-          <div class="service-section" id="acv-body">
-            <div class="service-header">
-              <h3>Select Transport Service:</h3>
-            </div>
-
-            <div class="service-options">
-
-              <!-- Open transport -->
-              <div class="service-row" onclick="selectService(event, '$129', '$169')">
-                <div class="service-row-content">
-                  <div class="radio"><div class="radio-ring"></div></div>
-                  <div class="service-text">
-                    <div class="service-name">Open transport</div>
-                    <div class="service-desc">Standard open-air trailers for reliable transport.</div>
-                  </div>
-                </div>
-                <div class="service-price">
-                  <div class="price-now">$129</div>
-                  <div class="price-was">$169</div>
-                </div>
-              </div>
-
-              <!-- Enclosed transport (selected) -->
-              <div class="service-row selected" onclick="selectService(event, '$279', '$359')">
-                <div class="service-row-content">
-                  <div class="radio">
-                    <div class="radio-ring checked-blue"><div class="radio-dot blue"></div></div>
-                  </div>
-                  <div class="service-text">
-                    <div class="service-name-row">
-                      <span class="service-name">Enclosed transport</span>
-                      <span class="recommended-chip">Recommended</span>
-                    </div>
-                    <div class="service-desc">Vehicles are fully enclosed, protected from weather and debris. Recommended for high-value vehicles.</div>
-                  </div>
-                </div>
-                <div class="service-price">
-                  <div class="price-now">$279</div>
-                  <div class="price-was">$359</div>
-                </div>
-              </div>
-
-              <!-- Drive My Car -->
-              <div class="service-row" onclick="selectService(event, '$75', '')">
-                <div class="service-row-content">
-                  <div class="radio"><div class="radio-ring"></div></div>
-                  <div class="service-text">
-                    <div class="service-name">Drive My Car transport</div>
-                    <div class="service-desc">Fast option for operable vehicles, safely driven by a pro within 1 business day—driven miles added to odometer.</div>
-                  </div>
-                </div>
-                <div class="service-price">
-                  <div class="price-now">$75</div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-        <!-- I'll find my own carrier -->
-        <div class="option-card" id="own-carrier" onclick="selectOwnCarrier()" style="flex-direction:column; align-items:flex-start;">
-          <div style="display:flex; align-items:center; gap:8px; width:100%;">
-            <div class="radio"><div class="radio-ring" id="own-carrier-radio"></div></div>
-            <span class="option-label">I'll find my own carrier and cover damages during transport</span>
-          </div>
-          <div class="warning-bullets" id="warning-bullets">
-            <div class="warning-row">
-              <div class="warning-icon">
-                <svg width="10" height="2" viewBox="0 0 10 2" fill="none">
-                  <path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <span class="warning-text">Standard arb window — use ACV transport or assurance to cover delays</span>
-            </div>
-            <div class="warning-row">
-              <div class="warning-icon">
-                <svg width="10" height="2" viewBox="0 0 10 2" fill="none">
-                  <path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <span class="warning-text">No damage, fraud, or dry run protection</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Submit -->
-      <div class="submit-row">
-        <button class="submit-btn">Submit</button>
-      </div>
-    </div><!-- /content -->
-    </div><!-- /panel -->
-    </div><!-- /design-1 -->
-
-    <!-- Design 05 — Flat pickup -->
-    <div class="design-panel" id="design-5">
-      <div class="panel">
-
-        <header class="header">
-          <div class="brand-bar"></div>
-          <div class="title-bar">
-            <h1>Finalize Auction:</h1>
-            <button class="close-btn" aria-label="Close">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M1 1L15 15M15 1L1 15" stroke="#55575C" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-        </header>
-
-        <div class="content">
-          <p class="section-title">Choose how you Transport:</p>
-
-          <div class="transport-options">
-
-            <div class="acv-card" id="v3-acv-card" onclick="v3SelectAcv()">
-
-              <div class="acv-header">
-                <div class="acv-identity">
-                  <div class="radio">
-                    <div class="radio-ring checked-black" id="v3-acv-radio"><div class="radio-dot black"></div></div>
-                  </div>
-                  <div class="acv-text">
-                    <h2>Transport with ACV</h2>
-                    <p id="v3-acv-tagline" style="display:none;">Let us do the work!</p>
-                    <button class="see-benefits-btn" id="v3-see-benefits-btn" onclick="v3ToggleBenefits(event)">See benefits</button>
-                  </div>
-                </div>
-                <div class="acv-price">
-                  <span class="main" id="v3-acv-price-main">$279</span>
-                  <span class="was" id="v3-acv-price-was">$359</span>
-                </div>
-              </div>
-
-              <div class="benefits" id="v3-acv-benefits">
-                <div class="benefit-row">
-                  <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                  <span class="benefit-text">4 days of arb protection after delivery (delays included)</span>
-                </div>
-                <div class="benefit-row">
-                  <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                  <span class="benefit-text">Coverage against damage &amp; fraud</span>
-                </div>
-                <div class="benefit-row">
-                  <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                  <span class="benefit-text">Zero hassle — dry runs, coordination &amp; issues handled</span>
-                </div>
-              </div>
-
-              <!-- Pickup inputs — pickup as plain text, no box -->
-              <div class="v3-route" id="v3-acv-pickup">
-
-                <!-- Pickup row -->
-                <div class="v3-route-row">
-                  <div class="v3-route-indicator">
-                    <div class="v3-route-dot"></div>
-                    <div class="v3-route-line"></div>
-                  </div>
-                  <div class="v3-route-content">
-                    <span class="v3-route-label-text">Pickup</span>
-                    <span class="v3-route-address">Buffalo, NY 14203</span>
-                    <span class="v3-route-note">Exact address shared after confirmation</span>
-                  </div>
-                </div>
-
-                <!-- Delivery row -->
-                <div class="v3-route-row" id="v3-delivery-wrapper" onclick="event.stopPropagation()">
-                  <div class="v3-route-indicator">
-                    <div class="v3-route-dot v3-route-dot--delivery"></div>
-                  </div>
-                  <div class="v3-route-content v3-route-content--field" style="position:relative;">
-                    <span class="v3-route-label-text">Delivery</span>
-                    <input class="v3-route-input" id="v3-delivery-input" type="text"
-                      value="1250 Amherst Street, Buffalo, NY 14216"
-                      onfocus="v3ShowDropdown()"
-                      oninput="v3FilterDropdown()"
-                      autocomplete="off" />
-                    <div class="address-dropdown" id="v3-address-dropdown">
-                      <div class="dropdown-section-label">Saved addresses</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Estimates -->
-                <div class="v2-estimates" id="v3-acv-estimates" style="margin-top: 4px; margin-left: 26px; border: none; background: white; border-radius: 6px; padding: 0;">
-                  <div class="v2-estimate-item">
-                    <div class="v2-estimate-icon">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z" fill="currentColor"/>
-                      </svg>
-                    </div>
-                    <div class="v2-estimate-text">
-                      <span class="v2-estimate-label">Est. delivery</span>
-                      <span class="v2-estimate-value">Tue, Aug 27</span>
-                      <span class="v2-estimate-sub">1 business day</span>
-                    </div>
-                  </div>
-                  <div class="v2-estimate-item" style="border-left: none;">
-                    <div class="v2-estimate-icon">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" fill="currentColor"/>
-                      </svg>
-                    </div>
-                    <div class="v2-estimate-text">
-                      <span class="v2-estimate-label">Distance</span>
-                      <span class="v2-estimate-value">5 mi</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="service-section" id="v3-acv-body">
-                <div class="service-header">
-                  <h3>Transport type</h3>
-                </div>
-                <div class="service-options">
-                  <div class="service-row" onclick="v3SelectService(event, '$129', '$169')">
-                    <div class="service-row-content">
-                      <div class="radio"><div class="radio-ring"></div></div>
-                      <div class="service-text">
-                        <div class="service-name">Open transport</div>
-                        <div class="service-desc">Standard open-air trailers for reliable transport.</div>
-                      </div>
-                    </div>
-                    <div class="service-price">
-                      <div class="price-now">$129</div>
-                      <div class="price-was">$169</div>
-                    </div>
-                  </div>
-                  <div class="service-row selected" onclick="v3SelectService(event, '$279', '$359')">
-                    <div class="service-row-content">
-                      <div class="radio">
-                        <div class="radio-ring checked-blue"><div class="radio-dot blue"></div></div>
-                      </div>
-                      <div class="service-text">
-                        <div class="service-name-row">
-                          <span class="service-name">Enclosed transport</span>
-                          <span class="recommended-chip">Recommended</span>
-                        </div>
-                        <div class="service-desc">Vehicles are fully enclosed, protected from weather and debris. Recommended for high-value vehicles.</div>
-                      </div>
-                    </div>
-                    <div class="service-price">
-                      <div class="price-now">$279</div>
-                      <div class="price-was">$359</div>
-                    </div>
-                  </div>
-                  <div class="service-row" onclick="v3SelectService(event, '$75', '')">
-                    <div class="service-row-content">
-                      <div class="radio"><div class="radio-ring"></div></div>
-                      <div class="service-text">
-                        <div class="service-name">Drive My Car transport</div>
-                        <div class="service-desc">Fast option for operable vehicles, safely driven by a pro within 1 business day—driven miles added to odometer.</div>
-                      </div>
-                    </div>
-                    <div class="service-price">
-                      <div class="price-now">$75</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="option-card" id="v3-own-carrier" onclick="v3SelectOwnCarrier()" style="flex-direction:column; align-items:flex-start;">
-              <div style="display:flex; align-items:center; gap:8px; width:100%;">
-                <div class="radio"><div class="radio-ring" id="v3-own-carrier-radio"></div></div>
-                <span class="option-label">I'll find my own carrier and cover damages during transport</span>
-              </div>
-              <div class="warning-bullets" id="v3-warning-bullets">
-                <div class="warning-row">
-                  <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
-                  <span class="warning-text">Standard arb window — use ACV transport or assurance to cover delays</span>
-                </div>
-                <div class="warning-row">
-                  <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
-                  <span class="warning-text">No damage, fraud, or dry run protection</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="submit-row">
-            <button class="submit-btn">Submit</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
     <!-- Design 03 — Fuel Adjustment (with sub-tabs v1–v4) -->
     <div class="design-panel" id="design-3">
       <div class="panel">
@@ -2873,6 +2559,578 @@
       </div>
     </div>
 
+    <!-- Design 06 — Expedited (duplicate of Details) -->
+    <div class="design-panel" id="design-6">
+      <div class="panel">
+
+        <header class="header">
+          <div class="brand-bar"></div>
+          <div class="title-bar">
+            <h1>Finalize Auction:</h1>
+            <button class="close-btn" aria-label="Close">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1 1L15 15M15 1L1 15" stroke="#55575C" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="content">
+          <p class="section-title">Choose how you Transport:</p>
+
+          <div class="transport-options">
+
+            <!-- ACV card -->
+            <div class="acv-card" id="d6-acv-card" onclick="d6SelectAcv()">
+              <span style="position:absolute;top:-14px;left:8px;background:#f26522;color:#fff;font-size:14px;font-weight:500;letter-spacing:0.25px;border-radius:8px;padding:6px 8px;line-height:1;z-index:1;">Recommended</span>
+
+              <div class="acv-header">
+                <div class="acv-identity">
+                  <div class="radio">
+                    <div class="radio-ring checked-black" id="d6-acv-radio"><div class="radio-dot black"></div></div>
+                  </div>
+                  <div class="acv-text">
+                    <h2>Transport with ACV</h2>
+                    <p id="d6-acv-tagline" style="display:none;">Let us do the work!</p>
+                    <span id="d6-benefits-label" style="font-size:13px;color:#71747a;letter-spacing:0.1px;display:inline-flex;align-items:center;">See the benefits<span class="d5-info-wrap" onclick="event.stopPropagation()">
+                        <span class="material-symbols-outlined d5-info-icon" onclick="d6ToggleTip(this)">info</span>
+                        <span class="d5-info-tooltip">
+                          <ul>
+                            <li>4 days of arb protection after delivery (delays included)</li>
+                            <li>Coverage against damage &amp; fraud</li>
+                            <li>Zero hassle — dry runs, coordination &amp; issues handled</li>
+                          </ul>
+                        </span>
+                      </span></span>
+                    <div class="benefits" id="d6-acv-benefits">
+                      <div class="benefit-row">
+                        <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <span class="benefit-text">4 days of arb protection after delivery (delays included)</span>
+                      </div>
+                      <div class="benefit-row">
+                        <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <span class="benefit-text">Coverage against damage &amp; fraud</span>
+                      </div>
+                      <div class="benefit-row">
+                        <div class="benefit-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <span class="benefit-text">Zero hassle — dry runs, coordination &amp; issues handled</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="acv-price">
+                  <span class="main" id="d6-price-main">$279</span>
+                  <span class="was" id="d6-price-was">$359</span>
+                </div>
+              </div>
+
+              <!-- Pickup inputs -->
+              <div class="pickup-section" id="d6-acv-pickup">
+                <div class="text-field active" style="background:transparent;border-bottom:none;">
+                  <span class="field-label" style="color:#b0b4bd;">Pickup (full address will be shared upon order confirmation)</span>
+                  <span class="field-value" style="color:#b0b4bd;">Buffalo, NY 14203</span>
+                </div>
+                <div class="delivery-wrap" id="d6-delivery-wrapper" onclick="event.stopPropagation()">
+                  <div class="text-field active">
+                    <span class="field-label" style="color:#545454;">Delivery</span>
+                    <input class="field-input" id="d6-delivery-input" type="text"
+                      value="1250 Amherst Street, Buffalo, NY 14216"
+                      onfocus="d6ShowDropdown()"
+                      oninput="d6FilterDropdown()"
+                      autocomplete="off" />
+                  </div>
+                  <div class="address-dropdown" id="d6-address-dropdown">
+                    <div class="dropdown-section-label">Saved addresses</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Estimates -->
+              <div class="estimates" id="d6-acv-estimates" style="margin-left:16px;">
+                <div>
+                  <div class="estimate-label">Est. Travel Distance:</div>
+                  <div class="estimate-value" id="d6-est-distance">25 mi</div>
+                </div>
+                <div>
+                  <div class="estimate-label">Est. Delivery:</div>
+                  <div class="estimate-value" id="d6-est-delivery">Tue, Aug 27 &nbsp;(3 bus. days)</div>
+                </div>
+              </div>
+
+              <!-- Select Transport Service -->
+              <div class="service-section" id="d6-acv-body">
+                <div class="service-header">
+                  <h3>Select Transport Service:</h3>
+                </div>
+
+                <div class="service-options">
+
+                  <!-- Open transport -->
+                  <div class="service-row selected" onclick="d6SelectService(event, 'open')">
+                    <div class="service-row-main">
+                      <div class="radio"><div class="radio-ring checked-blue"><div class="radio-dot blue"></div></div></div>
+                      <div class="service-text">
+                        <div class="service-name">Open transport</div>
+                        <div class="service-desc">Standard open-air trailers for reliable transport.</div>
+                      </div>
+                      <div class="service-price">
+                        <div class="price-now">$129</div>
+                        <div class="price-was">$169</div>
+                      </div>
+                    </div>
+                    <div class="d5-breakdown">
+                      <div class="d5-breakdown-line">
+                        <span>Estimated carrier payout</span>
+                        <span>$110</span>
+                      </div>
+                      <div class="d5-breakdown-line">
+                        <span>Service Charge</span>
+                        <span>$19</span>
+                      </div>
+                      <div class="d5-breakdown-covers">
+                        <ul>
+                          <li>Extra arb days</li>
+                          <li>ACV handles carrier sourcing, cancellations, and negotiations</li>
+                          <li>Damage and fraud protection</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Enclosed transport -->
+                  <div class="service-row" onclick="d6SelectService(event, 'enclosed')">
+                    <div class="service-row-main">
+                      <div class="radio">
+                        <div class="radio-ring"></div>
+                      </div>
+                      <div class="service-text">
+                        <div class="service-name">Enclosed transport</div>
+                        <div class="service-desc">Vehicles are fully enclosed, protected from weather and debris. Recommended for high-value vehicles.</div>
+                      </div>
+                      <div class="service-price">
+                        <div class="price-now">$279</div>
+                        <div class="price-was">$359</div>
+                      </div>
+                    </div>
+                    <div class="d5-breakdown">
+                      <div class="d5-breakdown-line">
+                        <span>Estimated carrier payout</span>
+                        <span>$248</span>
+                      </div>
+                      <div class="d5-breakdown-line">
+                        <span>Service Charge</span>
+                        <span>$31</span>
+                      </div>
+                      <div class="d5-breakdown-covers">
+                        <ul>
+                          <li>Extra arb days</li>
+                          <li>ACV handles carrier sourcing, cancellations, and negotiations</li>
+                          <li>Damage and fraud protection</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Drive My Car -->
+                  <div class="service-row" onclick="d6SelectService(event, 'dmc')">
+                    <div class="service-row-main">
+                      <div class="radio"><div class="radio-ring"></div></div>
+                      <div class="service-text">
+                        <div class="service-name">Drive My Car transport</div>
+                        <div class="service-desc">Fast option for operable vehicles, safely driven by a pro within 1 business day—driven miles added to odometer.</div>
+                      </div>
+                      <div class="service-price">
+                        <div class="price-now">$75</div>
+                      </div>
+                    </div>
+                    <div class="d5-breakdown">
+                      <div class="d5-breakdown-line">
+                        <span>Estimated driver payout</span>
+                        <span>$54</span>
+                      </div>
+                      <div class="d5-breakdown-line">
+                        <span>Service Charge</span>
+                        <span>$15</span>
+                      </div>
+                      <div class="d5-breakdown-covers">
+                        <ul>
+                          <li>Extra arb days</li>
+                          <li>ACV handles driver sourcing, cancellations, and negotiations</li>
+                          <li>Damage and fraud protection</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Delivery Speed -->
+              <div class="service-section" id="d6-delivery-speed-section">
+                <div class="service-header" style="align-items:center;">
+                  <h3>Delivery Speed:</h3>
+                  <span style="background:#00a576;color:#fff;font-size:13px;font-weight:600;padding:4px 14px;border-radius:20px;">New</span>
+                </div>
+                <div class="service-options" id="d6-speed-options">
+
+                  <!-- Standard -->
+                  <div class="service-row selected" id="d6-speed-standard" onclick="d6SelectSpeed('standard')">
+                    <div class="service-row-content">
+                      <div class="radio"><div class="radio-ring checked-blue" id="d6-speed-standard-radio"><div class="radio-dot blue"></div></div></div>
+                      <div class="service-text">
+                        <div class="service-name">Standard</div>
+                        <div class="service-desc">Typically 3 business days</div>
+                      </div>
+                    </div>
+                    <div class="service-price">
+                      <div class="price-now">Free</div>
+                    </div>
+                  </div>
+
+                  <div id="d6-speed-standard-note" style="display:none;font-size:13px;color:#71747a;letter-spacing:0.1px;line-height:20px;">Only available delivery option for this vehicle.</div>
+
+                  <!-- Expedited -->
+                  <div class="service-row" id="d6-speed-expedited" onclick="d6SelectSpeed('expedited')">
+                    <div class="service-row-content">
+                      <div class="radio"><div class="radio-ring" id="d6-speed-expedited-radio"></div></div>
+                      <div class="service-text">
+                        <div class="service-name">Expedited Delivery</div>
+                        <div class="service-desc">Typically 1 business day</div>
+                      </div>
+                    </div>
+                    <div class="service-price">
+                      <div class="price-now">+$49</div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- v4: delivery speed as a segmented control -->
+                <div class="d6-seg-control" id="d6-speed-seg">
+                  <button type="button" class="d6-seg-btn selected" id="d6-seg-standard" onclick="d6SelectSpeed('standard')">
+                    <span class="d6-seg-top"><span>Standard</span><span class="d6-seg-price">Free</span></span>
+                    <span class="d6-seg-sub">Typically 3 business days</span>
+                  </button>
+                  <button type="button" class="d6-seg-btn" id="d6-seg-expedited" onclick="d6SelectSpeed('expedited')">
+                    <span class="d6-seg-top"><span>Expedited</span><span class="d6-seg-price">+$49</span></span>
+                    <span class="d6-seg-sub">Typically 1 business day</span>
+                  </button>
+                </div>
+                <div id="d6-speed-standard-note-v4" style="display:none;font-size:13px;color:#71747a;letter-spacing:0.1px;line-height:20px;margin-top:8px;">Only available delivery option for this vehicle.</div>
+              </div>
+
+              <!-- v3/v4: breakdown shown above the Total row, toggled from the Total row itself -->
+              <div id="d6-v3-quote-section" style="border-top:1px solid #e8e9eb;padding-top:16px;margin-bottom:16px;">
+                <h3 style="font-size:20px;font-weight:500;color:#0e0e0f;margin:0 0 8px;">Quote details</h3>
+                <div id="d6-v3-breakdown" class="d5-breakdown" style="display:flex;border-top:none;padding:0 0 16px;"></div>
+              </div>
+
+              <!-- Total footer -->
+              <div id="d6-total-footer" style="border-top:1px solid #e8e9eb;padding:16px 0 0;display:flex;align-items:flex-start;justify-content:space-between;">
+                <span id="d6-total-footer-label" style="font-size:16px;font-weight:500;color:#0e0e0f;letter-spacing:0.15px;padding-top:2px;">Transport total</span>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                  <span id="d6-footer-price-main" style="font-size:18px;font-weight:700;color:#f26522;line-height:1.2;">$279</span>
+                  <button type="button" class="see-benefits-btn" id="d6-quote-toggle-btn" onclick="d6ToggleV3Quote(event)">See quote details</button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- I'll find my own carrier -->
+            <div class="option-card" id="d6-own-carrier" onclick="d6SelectOwnCarrier()" style="flex-direction:column; align-items:flex-start;">
+              <div style="display:flex; align-items:center; gap:8px; width:100%;">
+                <div class="radio"><div class="radio-ring" id="d6-own-carrier-radio"></div></div>
+                <span class="option-label">I'll find my own carrier and cover damages during transport</span>
+              </div>
+              <div id="d6-arb-warning" style="display:none;font-size:14px;color:#ff5449;font-weight:400;padding:0 0 0 48px;letter-spacing:0.1px;line-height:20px;">Are you sure you want to risk missing your Arbitration Window?</div>
+              <div class="warning-bullets" id="d6-warning-bullets">
+                <div class="warning-row">
+                  <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <span class="warning-text">Standard arb window - use ACV transport or assurance to cover delays</span>
+                </div>
+                <div class="warning-row">
+                  <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+                  <span class="warning-text">No damage, fraud, or dry run protection</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Submit -->
+          <div class="submit-row">
+            <button class="submit-btn">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design 07 — Tabs (duplicate of Expedited v4) -->
+    <div class="design-panel" id="design-7">
+      <div class="panel">
+
+        <header class="header">
+          <div class="brand-bar"></div>
+          <div class="title-bar">
+            <h1>Finalize Auction:</h1>
+            <button class="close-btn" aria-label="Close">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1 1L15 15M15 1L1 15" stroke="#55575C" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="content">
+          <p class="section-title">Choose how you Transport:</p>
+
+          <div class="transport-options">
+
+            <!-- Tabs: ACV vs Own transport -->
+            <div class="d7-tab-control" id="d7-tabs">
+              <button type="button" class="d7-tab-btn selected" id="d7-tab-acv" onclick="d7SelectTab('acv')">
+                Transport with ACV
+                <span class="d7-tab-badge">Recommended</span>
+              </button>
+              <button type="button" class="d7-tab-btn" id="d7-tab-own" onclick="d7SelectTab('own')">I'll arrange my own transport</button>
+            </div>
+
+            <!-- Container: border color reflects the selected tab -->
+            <div class="acv-card" id="d7-container">
+
+              <!-- ACV configuration -->
+              <div id="d7-acv-content">
+
+                <div class="acv-header">
+                  <div class="acv-identity">
+                    <div class="acv-text">
+                      <h2>Transport with ACV</h2>
+                      <span id="d7-benefits-label" style="font-size:13px;color:#71747a;letter-spacing:0.1px;display:inline-flex;align-items:center;">See the benefits<span class="d5-info-wrap" onclick="event.stopPropagation()">
+                          <span class="material-symbols-outlined d5-info-icon" onclick="d7ToggleTip(this)">info</span>
+                          <span class="d5-info-tooltip">
+                            <ul>
+                              <li>4 days of arb protection after delivery (delays included)</li>
+                              <li>Coverage against damage &amp; fraud</li>
+                              <li>Zero hassle — dry runs, coordination &amp; issues handled</li>
+                            </ul>
+                          </span>
+                        </span></span>
+                    </div>
+                  </div>
+                  <div class="acv-price">
+                    <span class="main" id="d7-price-main">$279</span>
+                    <span class="was" id="d7-price-was">$359</span>
+                  </div>
+                </div>
+
+                <!-- Pickup inputs -->
+                <div class="pickup-section" id="d7-acv-pickup">
+                  <div class="text-field active" style="background:transparent;border-bottom:none;">
+                    <span class="field-label" style="color:#b0b4bd;">Pickup (full address will be shared upon order confirmation)</span>
+                    <span class="field-value" style="color:#b0b4bd;">Buffalo, NY 14203</span>
+                  </div>
+                  <div class="delivery-wrap" id="d7-delivery-wrapper" onclick="event.stopPropagation()">
+                    <div class="text-field active">
+                      <span class="field-label" style="color:#545454;">Delivery</span>
+                      <input class="field-input" id="d7-delivery-input" type="text"
+                        value="1250 Amherst Street, Buffalo, NY 14216"
+                        onfocus="d7ShowDropdown()"
+                        oninput="d7FilterDropdown()"
+                        autocomplete="off" />
+                    </div>
+                    <div class="address-dropdown" id="d7-address-dropdown">
+                      <div class="dropdown-section-label">Saved addresses</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Estimates -->
+                <div class="estimates" id="d7-acv-estimates">
+                  <div>
+                    <div class="estimate-label">Est. Travel Distance:</div>
+                    <div class="estimate-value" id="d7-est-distance">25 mi</div>
+                  </div>
+                  <div>
+                    <div class="estimate-label">Est. Delivery:</div>
+                    <div class="estimate-value" id="d7-est-delivery">Tue, Aug 27 &nbsp;(3 bus. days)</div>
+                  </div>
+                </div>
+
+                <!-- Select Transport Service -->
+                <div class="service-section" id="d7-acv-body">
+                  <div class="service-header">
+                    <h3>Select Transport Service:</h3>
+                  </div>
+
+                  <div class="service-options">
+
+                    <!-- Open transport -->
+                    <div class="service-row selected" onclick="d7SelectService(event, 'open')">
+                      <div class="service-row-main">
+                        <div class="radio"><div class="radio-ring checked-blue"><div class="radio-dot blue"></div></div></div>
+                        <div class="service-text">
+                          <div class="service-name">Open transport</div>
+                          <div class="service-desc">Standard open-air trailers for reliable transport.</div>
+                        </div>
+                        <div class="service-price">
+                          <div class="price-now">$129</div>
+                          <div class="price-was">$169</div>
+                        </div>
+                      </div>
+                      <div class="d5-breakdown">
+                        <div class="d5-breakdown-line">
+                          <span>Estimated carrier payout</span>
+                          <span>$110</span>
+                        </div>
+                        <div class="d5-breakdown-line">
+                          <span>Service Charge</span>
+                          <span>$19</span>
+                        </div>
+                        <div class="d5-breakdown-covers">
+                          <ul>
+                            <li>Extra arb days</li>
+                            <li>ACV handles carrier sourcing, cancellations, and negotiations</li>
+                            <li>Damage and fraud protection</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Enclosed transport -->
+                    <div class="service-row" onclick="d7SelectService(event, 'enclosed')">
+                      <div class="service-row-main">
+                        <div class="radio">
+                          <div class="radio-ring"></div>
+                        </div>
+                        <div class="service-text">
+                          <div class="service-name">Enclosed transport</div>
+                          <div class="service-desc">Vehicles are fully enclosed, protected from weather and debris. Recommended for high-value vehicles.</div>
+                        </div>
+                        <div class="service-price">
+                          <div class="price-now">$279</div>
+                          <div class="price-was">$359</div>
+                        </div>
+                      </div>
+                      <div class="d5-breakdown">
+                        <div class="d5-breakdown-line">
+                          <span>Estimated carrier payout</span>
+                          <span>$248</span>
+                        </div>
+                        <div class="d5-breakdown-line">
+                          <span>Service Charge</span>
+                          <span>$31</span>
+                        </div>
+                        <div class="d5-breakdown-covers">
+                          <ul>
+                            <li>Extra arb days</li>
+                            <li>ACV handles carrier sourcing, cancellations, and negotiations</li>
+                            <li>Damage and fraud protection</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Drive My Car -->
+                    <div class="service-row" onclick="d7SelectService(event, 'dmc')">
+                      <div class="service-row-main">
+                        <div class="radio"><div class="radio-ring"></div></div>
+                        <div class="service-text">
+                          <div class="service-name">Drive My Car transport</div>
+                          <div class="service-desc">Fast option for operable vehicles, safely driven by a pro within 1 business day—driven miles added to odometer.</div>
+                        </div>
+                        <div class="service-price">
+                          <div class="price-now">$75</div>
+                        </div>
+                      </div>
+                      <div class="d5-breakdown">
+                        <div class="d5-breakdown-line">
+                          <span>Estimated driver payout</span>
+                          <span>$54</span>
+                        </div>
+                        <div class="d5-breakdown-line">
+                          <span>Service Charge</span>
+                          <span>$15</span>
+                        </div>
+                        <div class="d5-breakdown-covers">
+                          <ul>
+                            <li>Extra arb days</li>
+                            <li>ACV handles driver sourcing, cancellations, and negotiations</li>
+                            <li>Damage and fraud protection</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Delivery Speed -->
+                <div class="service-section" id="d7-delivery-speed-section">
+                  <div class="service-header" style="align-items:center;">
+                    <h3>Delivery Speed:</h3>
+                    <span style="background:#00a576;color:#fff;font-size:13px;font-weight:600;padding:4px 14px;border-radius:20px;">New</span>
+                  </div>
+
+                  <!-- Segmented control (v4-style) -->
+                  <div class="d6-seg-control" id="d7-speed-seg">
+                    <button type="button" class="d6-seg-btn selected" id="d7-seg-standard" onclick="d7SelectSpeed('standard')">
+                      <span class="d6-seg-top"><span>Standard</span><span class="d6-seg-price">Free</span></span>
+                      <span class="d6-seg-sub">Typically 3 business days</span>
+                    </button>
+                    <button type="button" class="d6-seg-btn" id="d7-seg-expedited" onclick="d7SelectSpeed('expedited')">
+                      <span class="d6-seg-top"><span>Expedited</span><span class="d6-seg-price">+$49</span></span>
+                      <span class="d6-seg-sub">Typically 1 business day</span>
+                    </button>
+                  </div>
+                  <div id="d7-speed-standard-note-v4" style="display:none;font-size:13px;color:#71747a;letter-spacing:0.1px;line-height:20px;margin-top:8px;">Only available delivery option for this vehicle.</div>
+                </div>
+
+                <!-- Quote details, toggled from the Total row -->
+                <div id="d7-v3-quote-section" style="border-top:1px solid #e8e9eb;padding-top:16px;margin-bottom:16px;">
+                  <h3 style="font-size:20px;font-weight:500;color:#0e0e0f;margin:0 0 8px;">Quote details</h3>
+                  <div id="d7-v3-breakdown" class="d5-breakdown" style="display:flex;border-top:none;padding:0 0 16px;"></div>
+                </div>
+
+                <!-- Total footer -->
+                <div id="d7-total-footer" style="border-top:1px solid #e8e9eb;padding:16px 0 0;display:flex;align-items:flex-start;justify-content:space-between;">
+                  <span id="d7-total-footer-label" style="font-size:16px;font-weight:500;color:#0e0e0f;letter-spacing:0.15px;padding-top:2px;">Transport total</span>
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+                    <span id="d7-footer-price-main" style="font-size:18px;font-weight:700;color:#f26522;line-height:1.2;">$279</span>
+                    <button type="button" class="see-benefits-btn" id="d7-quote-toggle-btn" onclick="d7ToggleV3Quote(event)">See quote details</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Own-transport message -->
+              <div id="d7-own-content" style="display:none;">
+                <h2 style="font-size:20px;font-weight:600;color:#0e0e0f;margin:0 0 8px;">I'll arrange my own transport</h2>
+                <p style="font-size:14px;color:#55575c;letter-spacing:0.1px;line-height:20px;margin:0 0 16px;">You'll coordinate your own carrier and take on responsibility for delivery.</p>
+                <p style="font-size:14px;color:#ff5449;font-weight:400;letter-spacing:0.1px;line-height:20px;margin:0 0 16px;">Are you sure you want to risk missing your Arbitration Window?</p>
+                <div class="warning-bullets visible">
+                  <div class="warning-row">
+                    <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+                    <span class="warning-text">Standard arb window - use ACV transport or assurance to cover delays</span>
+                  </div>
+                  <div class="warning-row">
+                    <div class="warning-icon"><svg width="10" height="2" viewBox="0 0 10 2" fill="none"><path d="M1 1h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+                    <span class="warning-text">No damage, fraud, or dry run protection</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Submit -->
+          <div class="submit-row">
+            <button class="submit-btn">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Design 04 — Details (moved) -->
     <div class="design-panel" id="design-4">
       <div class="panel">
@@ -2994,19 +3252,14 @@
                     </div>
                     <div class="d5-breakdown">
                       <div class="d5-breakdown-line">
-                        <span>Quote:</span>
-                        <span class="d5-quote-price">$129</span>
-                      </div>
-                      <div class="d5-breakdown-line">
-                        <span>Estimated carrier payout:</span>
+                        <span>Estimated carrier payout</span>
                         <span>$110</span>
                       </div>
                       <div class="d5-breakdown-line">
-                        <span>Service Charge:</span>
+                        <span>Service charge, including:</span>
                         <span>$19</span>
                       </div>
                       <div class="d5-breakdown-covers">
-                        <div class="d5-breakdown-covers-title">Your service charge covers:</div>
                         <ul>
                           <li>Extra arb days</li>
                           <li>ACV handles carrier sourcing, cancellations, and negotiations</li>
@@ -3016,17 +3269,14 @@
                     </div>
                   </div>
 
-                  <!-- Enclosed transport (selected) -->
-                  <div class="service-row selected" onclick="d5SelectService(event, 'enclosed')">
+                  <!-- Enclosed transport -->
+                  <div class="service-row" onclick="d5SelectService(event, 'enclosed')">
                     <div class="service-row-main">
                       <div class="radio">
-                        <div class="radio-ring checked-blue"><div class="radio-dot blue"></div></div>
+                        <div class="radio-ring"></div>
                       </div>
                       <div class="service-text">
-                        <div class="service-name-row">
-                          <span class="service-name">Enclosed transport</span>
-                          <span class="recommended-chip">Recommended</span>
-                        </div>
+                        <div class="service-name">Enclosed transport</div>
                         <div class="service-desc">Vehicles are fully enclosed, protected from weather and debris. Recommended for high-value vehicles.</div>
                       </div>
                       <div class="service-price">
@@ -3036,19 +3286,14 @@
                     </div>
                     <div class="d5-breakdown">
                       <div class="d5-breakdown-line">
-                        <span>Quote:</span>
-                        <span class="d5-quote-price">$279</span>
-                      </div>
-                      <div class="d5-breakdown-line">
-                        <span>Estimated carrier payout:</span>
+                        <span>Estimated carrier payout</span>
                         <span>$248</span>
                       </div>
                       <div class="d5-breakdown-line">
-                        <span>Service Charge:</span>
+                        <span>Service charge, including:</span>
                         <span>$31</span>
                       </div>
                       <div class="d5-breakdown-covers">
-                        <div class="d5-breakdown-covers-title">Your service charge covers:</div>
                         <ul>
                           <li>Extra arb days</li>
                           <li>ACV handles carrier sourcing, cancellations, and negotiations</li>
@@ -3059,9 +3304,9 @@
                   </div>
 
                   <!-- Drive My Car -->
-                  <div class="service-row" onclick="d5SelectService(event, 'dmc')">
+                  <div class="service-row selected" onclick="d5SelectService(event, 'dmc')">
                     <div class="service-row-main">
-                      <div class="radio"><div class="radio-ring"></div></div>
+                      <div class="radio"><div class="radio-ring checked-blue"><div class="radio-dot blue"></div></div></div>
                       <div class="service-text">
                         <div class="service-name">Drive My Car transport</div>
                         <div class="service-desc">Fast option for operable vehicles, safely driven by a pro within 1 business day—driven miles added to odometer.</div>
@@ -3072,19 +3317,14 @@
                     </div>
                     <div class="d5-breakdown">
                       <div class="d5-breakdown-line">
-                        <span>Quote:</span>
-                        <span class="d5-quote-price">$75</span>
+                        <span>Estimated driver payout</span>
+                        <span>$54</span>
                       </div>
                       <div class="d5-breakdown-line">
-                        <span>Estimated driver payout:</span>
-                        <span>$60</span>
-                      </div>
-                      <div class="d5-breakdown-line">
-                        <span>Service Charge:</span>
+                        <span>Service charge, including:</span>
                         <span>$15</span>
                       </div>
                       <div class="d5-breakdown-covers">
-                        <div class="d5-breakdown-covers-title">Your service charge covers:</div>
                         <ul>
                           <li>Extra arb days</li>
                           <li>ACV handles driver sourcing, cancellations, and negotiations</li>
@@ -3139,7 +3379,7 @@
     (function () {
       if (window.self !== window.top) return; // iframe gets state via postMessage
       const d = parseInt(localStorage.getItem('activeDesign') || '1');
-      const v = parseInt(localStorage.getItem('activeVariant') || '1');
+      const v = parseInt(localStorage.getItem('activeVariant') || '5');
       document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.design-panel').forEach(p => p.classList.remove('active'));
         const target = document.getElementById('design-' + d);
@@ -3171,146 +3411,20 @@
       if (!document.body.classList.contains('in-iframe')) return;
       if (e.data && e.data.type === 'ps-show-design')  showDesign(e.data.n);
       if (e.data && e.data.type === 'ps-show-variant') showFsVariant(e.data.n);
+      if (e.data && e.data.type === 'ps-d6-version')   showD6Version(e.data.n);
     });
 
-    // ── Page logic ──
-    function selectService(e, price, wasPrice) {
-      e.stopPropagation();
-      document.querySelectorAll('#acv-body .service-row').forEach(r => {
-        r.classList.remove('selected');
-        const ring = r.querySelector('.radio-ring');
-        ring.className = 'radio-ring';
-        ring.innerHTML = '';
-      });
-      const row = e.currentTarget;
-      row.classList.add('selected');
-      const ring = row.querySelector('.radio-ring');
-      ring.className = 'radio-ring checked-blue';
-      ring.innerHTML = '<div class="radio-dot blue"></div>';
-      document.querySelector('.acv-price .main').textContent = price;
-      const wasEl = document.querySelector('.acv-price .was');
-      wasEl.textContent = wasPrice;
-      wasEl.style.display = wasPrice ? '' : 'none';
-    }
-
-    // ── Delivery address search ──
+    // ── Delivery address search (shared data) ──
     const savedAddresses = [
-      { address: '3101 Silver Maple Court, Vestal, NY 13850', sub: '', badge: 'Pick up' },
-      { address: '2801 Silent Brook Ln, Bronx, NY 10469', sub: 'Bronx Motors Group', badge: 'Delivery' },
-      { address: '1716 Winding Ridge Rd, Yonkers, NY 10710', sub: '', badge: 'Billing' },
-      { address: '642 Wheatland Center Rd, Rochester, NY 14624', sub: '', badge: 'Delivery' },
-      { address: '835 Pleasant Valley Blvd, Selden, NY 11784', sub: '', badge: 'Pick up' },
-      { address: '3199 Honey Creek Pkwy, Westchester, NY 10511', sub: 'Auto Dealers Inc', badge: 'Delivery' },
-      { address: '142 Marsh Rd, Rochester, NY 14609', sub: 'Metro Certified Motors', badge: 'Delivery' },
-      { address: '1160 Teakwood Drive, Hornell, NY 14843', sub: '', badge: 'Delivery' },
+      { address: '3101 Silver Maple Court, Vestal, NY 13850', sub: '', badge: 'Pick up', distance: 180 },
+      { address: '2801 Silent Brook Ln, Bronx, NY 10469', sub: 'Bronx Motors Group', badge: 'Delivery', distance: 420 },
+      { address: '1716 Winding Ridge Rd, Yonkers, NY 10710', sub: '', badge: 'Billing', distance: 610 },
+      { address: '642 Wheatland Center Rd, Rochester, NY 14624', sub: '', badge: 'Delivery', distance: 60 },
+      { address: '835 Pleasant Valley Blvd, Selden, NY 11784', sub: '', badge: 'Pick up', distance: 780 },
+      { address: '3199 Honey Creek Pkwy, Westchester, NY 10511', sub: 'Auto Dealers Inc', badge: 'Delivery', distance: 1320 },
+      { address: '142 Marsh Rd, Rochester, NY 14609', sub: 'Metro Certified Motors', badge: 'Delivery', distance: 45 },
+      { address: '1160 Teakwood Drive, Hornell, NY 14843', sub: '', badge: 'Delivery', distance: 2200 },
     ];
-
-    let selectedAddress = '1250 Amherst Street, Buffalo, NY 14216';
-    let addressChosen = false;
-
-    function buildDropdown() {
-      const dropdown = document.getElementById('address-dropdown');
-      savedAddresses.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'dropdown-item';
-        div.innerHTML = `
-          <div class="dropdown-item-text">
-            <div class="dropdown-item-address">${item.address}</div>
-            ${item.sub ? `<div class="dropdown-item-sub">${item.sub}</div>` : ''}
-          </div>
-          <div class="dropdown-badge">${item.badge}</div>`;
-        div.addEventListener('mousedown', function(e) {
-          e.preventDefault();
-          selectAddress(item.address);
-        });
-        dropdown.appendChild(div);
-      });
-    }
-
-    function showDropdown() {
-      addressChosen = false;
-      document.getElementById('delivery-input').value = '';
-      showAllItems();
-      document.getElementById('address-dropdown').classList.add('open');
-    }
-
-    function showAllItems() {
-      document.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('hidden'));
-    }
-
-    function filterDropdown() {
-      const val = document.getElementById('delivery-input').value.toLowerCase();
-      if (!val) {
-        showAllItems();
-        return;
-      }
-      document.querySelectorAll('.dropdown-item').forEach(item => {
-        const text = item.querySelector('.dropdown-item-address').textContent.toLowerCase();
-        item.classList.toggle('hidden', !text.includes(val));
-      });
-    }
-
-    function selectAddress(address) {
-      selectedAddress = address;
-      addressChosen = true;
-      document.getElementById('delivery-input').value = address;
-      document.getElementById('address-dropdown').classList.remove('open');
-    }
-
-    document.getElementById('delivery-input').addEventListener('blur', function() {
-      setTimeout(function() {
-        document.getElementById('address-dropdown').classList.remove('open');
-        if (!addressChosen) {
-          document.getElementById('delivery-input').value = selectedAddress;
-        }
-      }, 150);
-    });
-
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('#delivery-wrapper')) {
-        document.getElementById('address-dropdown').classList.remove('open');
-        document.getElementById('delivery-input').value = selectedAddress;
-      }
-    });
-
-    buildDropdown();
-
-    function toggleBenefits(e) {
-      e.stopPropagation();
-      const benefits = document.getElementById('acv-benefits');
-      const btn = document.getElementById('see-benefits-btn');
-      const open = benefits.classList.toggle('open');
-      btn.textContent = open ? 'Hide benefits' : 'See benefits';
-    }
-
-    const acvSections = ['acv-pickup', 'acv-estimates', 'acv-body'];
-
-    function selectOwnCarrier() {
-      acvSections.forEach(id => document.getElementById(id).style.display = 'none');
-      document.getElementById('acv-benefits').classList.add('open');
-      document.getElementById('see-benefits-btn').style.display = 'none';
-      document.getElementById('acv-tagline').style.display = '';
-      document.getElementById('acv-card').style.borderColor = '#dcdfe8';
-      document.getElementById('acv-radio').className = 'radio-ring';
-      document.getElementById('acv-radio').innerHTML = '';
-      document.getElementById('own-carrier-radio').className = 'radio-ring checked-black';
-      document.getElementById('own-carrier-radio').innerHTML = '<div class="radio-dot black"></div>';
-      document.getElementById('warning-bullets').classList.add('visible');
-    }
-
-    function selectAcv() {
-      acvSections.forEach(id => document.getElementById(id).style.display = '');
-      document.getElementById('acv-benefits').classList.remove('open');
-      document.getElementById('see-benefits-btn').style.display = '';
-      document.getElementById('see-benefits-btn').textContent = 'See benefits';
-      document.getElementById('acv-tagline').style.display = 'none';
-      document.getElementById('acv-card').style.borderColor = '#f26522';
-      document.getElementById('acv-radio').className = 'radio-ring checked-black';
-      document.getElementById('acv-radio').innerHTML = '<div class="radio-dot black"></div>';
-      document.getElementById('own-carrier-radio').className = 'radio-ring';
-      document.getElementById('own-carrier-radio').innerHTML = '';
-      document.getElementById('warning-bullets').classList.remove('visible');
-    }
 
     // ── Production Current logic ──
     function prodSelectAcv() {
@@ -3350,124 +3464,11 @@
       document.getElementById('prod-warning-block').style.display = 'flex';
     }
 
-    // ── Design 03 logic ──
-    let v3SelectedAddress = '1250 Amherst Street, Buffalo, NY 14216';
-    let v3AddressChosen = false;
-    const v3AcvSections = ['v3-acv-pickup', 'v3-acv-body'];
-
-    (function v3BuildDropdown() {
-      const dropdown = document.getElementById('v3-address-dropdown');
-      savedAddresses.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'dropdown-item';
-        div.innerHTML = `
-          <div class="dropdown-item-text">
-            <div class="dropdown-item-address">${item.address}</div>
-            ${item.sub ? `<div class="dropdown-item-sub">${item.sub}</div>` : ''}
-          </div>
-          <div class="dropdown-badge">${item.badge}</div>`;
-        div.addEventListener('mousedown', e => { e.preventDefault(); v3SelectAddress(item.address); });
-        dropdown.appendChild(div);
-      });
-
-      document.getElementById('v3-delivery-input').addEventListener('blur', function() {
-        setTimeout(function() {
-          document.getElementById('v3-address-dropdown').classList.remove('open');
-          if (!v3AddressChosen) document.getElementById('v3-delivery-input').value = v3SelectedAddress;
-        }, 150);
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!e.target.closest('#v3-delivery-wrapper')) {
-          document.getElementById('v3-address-dropdown').classList.remove('open');
-          document.getElementById('v3-delivery-input').value = v3SelectedAddress;
-        }
-      });
-    })();
-
-    function v3ShowDropdown() {
-      v3AddressChosen = false;
-      document.getElementById('v3-delivery-input').value = '';
-      document.getElementById('v3-address-dropdown').querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('hidden'));
-      document.getElementById('v3-address-dropdown').classList.add('open');
-    }
-
-    function v3FilterDropdown() {
-      const val = document.getElementById('v3-delivery-input').value.toLowerCase();
-      document.getElementById('v3-address-dropdown').querySelectorAll('.dropdown-item').forEach(item => {
-        const text = item.querySelector('.dropdown-item-address').textContent.toLowerCase();
-        item.classList.toggle('hidden', val && !text.includes(val));
-      });
-    }
-
-    function v3SelectAddress(address) {
-      v3SelectedAddress = address;
-      v3AddressChosen = true;
-      const input = document.getElementById('v3-delivery-input');
-      input.value = address;
-      document.getElementById('v3-address-dropdown').classList.remove('open');
-      input.blur();
-    }
-
-    function v3SelectService(e, price, wasPrice) {
-      e.stopPropagation();
-      document.querySelectorAll('#v3-acv-body .service-row').forEach(r => {
-        r.classList.remove('selected');
-        const ring = r.querySelector('.radio-ring');
-        ring.className = 'radio-ring';
-        ring.innerHTML = '';
-      });
-      const row = e.currentTarget;
-      row.classList.add('selected');
-      const ring = row.querySelector('.radio-ring');
-      ring.className = 'radio-ring checked-blue';
-      ring.innerHTML = '<div class="radio-dot blue"></div>';
-      document.getElementById('v3-acv-price-main').textContent = price;
-      const wasEl = document.getElementById('v3-acv-price-was');
-      wasEl.textContent = wasPrice;
-      wasEl.style.display = wasPrice ? '' : 'none';
-    }
-
-    function v3ToggleBenefits(e) {
-      e.stopPropagation();
-      const benefits = document.getElementById('v3-acv-benefits');
-      const btn = document.getElementById('v3-see-benefits-btn');
-      const open = benefits.classList.toggle('open');
-      btn.textContent = open ? 'Hide benefits' : 'See benefits';
-    }
-
-    function v3SelectOwnCarrier() {
-      v3AcvSections.forEach(id => document.getElementById(id).style.display = 'none');
-      document.getElementById('v3-acv-benefits').classList.add('open');
-      document.getElementById('v3-see-benefits-btn').style.display = 'none';
-      document.getElementById('v3-acv-tagline').style.display = '';
-      document.getElementById('v3-acv-card').style.borderColor = '#dcdfe8';
-      document.getElementById('v3-acv-radio').className = 'radio-ring';
-      document.getElementById('v3-acv-radio').innerHTML = '';
-      document.getElementById('v3-own-carrier-radio').className = 'radio-ring checked-black';
-      document.getElementById('v3-own-carrier-radio').innerHTML = '<div class="radio-dot black"></div>';
-      document.getElementById('v3-warning-bullets').classList.add('visible');
-    }
-
-    function v3SelectAcv() {
-      v3AcvSections.forEach(id => document.getElementById(id).style.display = '');
-      document.getElementById('v3-acv-benefits').classList.remove('open');
-      document.getElementById('v3-see-benefits-btn').style.display = '';
-      document.getElementById('v3-see-benefits-btn').textContent = 'See benefits';
-      document.getElementById('v3-acv-tagline').style.display = 'none';
-      document.getElementById('v3-acv-card').style.borderColor = '#f26522';
-      document.getElementById('v3-acv-radio').className = 'radio-ring checked-black';
-      document.getElementById('v3-acv-radio').innerHTML = '<div class="radio-dot black"></div>';
-      document.getElementById('v3-own-carrier-radio').className = 'radio-ring';
-      document.getElementById('v3-own-carrier-radio').innerHTML = '';
-      document.getElementById('v3-warning-bullets').classList.remove('visible');
-    }
-
     // ── Fuel Adjustment (Design 03) — sub-tab logic ──
     let fsCurrentVariant = (function () {
       const d = parseInt(localStorage.getItem('activeDesign') || '1');
-      const v = parseInt(localStorage.getItem('activeVariant') || '1');
-      return d === 3 ? v : 1;
+      const v = parseInt(localStorage.getItem('activeVariant') || '5');
+      return d === 3 ? v : 5;
     })();
     const FS_SURCHARGE = 0.063;
 
@@ -3616,6 +3617,19 @@
       }
     });
 
+    function d5ToggleTip(icon) {
+      const wrap = icon.closest('.d5-info-wrap');
+      const isOpen = wrap.classList.contains('tip-open');
+      document.querySelectorAll('.d5-info-wrap.tip-open').forEach(w => w.classList.remove('tip-open'));
+      if (!isOpen) wrap.classList.add('tip-open');
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.d5-info-wrap')) {
+        document.querySelectorAll('.d5-info-wrap.tip-open').forEach(w => w.classList.remove('tip-open'));
+      }
+    });
+
     // ── Design 05 — Details logic ──
     let d5SelectedAddress = '1250 Amherst Street, Buffalo, NY 14216';
     let d5AddressChosen = false;
@@ -3735,6 +3749,549 @@
       document.getElementById('d5-warning-bullets').classList.remove('visible');
     }
 
+    // ── Design 06 — Expedited (duplicate of Details) logic ──
+    let d6SelectedAddress = '1250 Amherst Street, Buffalo, NY 14216';
+    let d6AddressChosen = false;
+    const d6AcvSections = ['d6-acv-pickup', 'd6-acv-estimates', 'd6-delivery-speed-section', 'd6-acv-body', 'd6-v3-quote-section'];
+
+    const d6ServiceData = {
+      open:     { price: 129, was: 169, payoutLabel: 'Estimated carrier payout', payout: 110, serviceCharge: 19,
+                  covers: ['Extra arb days', 'ACV handles carrier sourcing, cancellations, and negotiations', 'Damage and fraud protection'] },
+      enclosed: { price: 279, was: 359, payoutLabel: 'Estimated carrier payout', payout: 248, serviceCharge: 31,
+                  covers: ['Extra arb days', 'ACV handles carrier sourcing, cancellations, and negotiations', 'Damage and fraud protection'] },
+      dmc:      { price: 75,  was: null, payoutLabel: 'Estimated driver payout', payout: 54, serviceCharge: 15,
+                  covers: ['Extra arb days', 'ACV handles driver sourcing, cancellations, and negotiations', 'Damage and fraud protection'] },
+    };
+
+    let d6CurrentService = 'open';
+    let d6SpeedExpedited = false;
+    let d6CurrentVersion = 1;
+
+    function showD6Version(v) {
+      d6CurrentVersion = v;
+      const panel = document.getElementById('design-6');
+      panel.classList.toggle('d6-v2', v === 2);
+      panel.classList.toggle('d6-v3', v === 3 || v === 4);
+      panel.classList.toggle('d6-v4', v === 4);
+      const labelEl = document.getElementById('d6-total-footer-label');
+      if (labelEl) labelEl.textContent = (v === 3 || v === 4) ? 'Total:' : 'Transport total';
+      localStorage.setItem('d6Version', v);
+      if (_psD6VersionSel) _psD6VersionSel.value = String(v);
+      if (!document.body.classList.contains('in-iframe')) {
+        _postToIframe({ type: 'ps-d6-version', n: v });
+      }
+      _syncShareUrl();
+    }
+
+    function d6UpdateHeaderPrice() {
+      const data = d6ServiceData[d6CurrentService];
+      const exp = d6SpeedExpedited ? 49 : 0;
+      const priceStr = '$' + (data.price + exp);
+      document.getElementById('d6-price-main').textContent = priceStr;
+      document.getElementById('d6-footer-price-main').textContent = priceStr;
+      const wasEl = document.getElementById('d6-price-was');
+      if (data.was !== null) {
+        wasEl.textContent = '$' + (data.was + exp);
+        wasEl.style.display = '';
+      } else {
+        wasEl.textContent = '';
+        wasEl.style.display = 'none';
+      }
+      d6RenderV3Breakdown();
+    }
+
+    let d6V3QuoteExpanded = false;
+
+    function d6ToggleV3Quote(e) {
+      if (e) e.stopPropagation();
+      d6V3QuoteExpanded = !d6V3QuoteExpanded;
+      document.getElementById('d6-v3-quote-section').style.display = d6V3QuoteExpanded ? 'block' : 'none';
+      document.getElementById('d6-quote-toggle-btn').textContent = d6V3QuoteExpanded ? 'Hide quote details' : 'See quote details';
+    }
+
+    function d6RenderV3Breakdown() {
+      const el = document.getElementById('d6-v3-breakdown');
+      if (!el) return;
+      const data = d6ServiceData[d6CurrentService];
+      const fuelSurcharge = Math.round(data.serviceCharge * 0.08);
+      const discount = data.was !== null ? Math.round(data.price * 0.20) : 0;
+      const adjustedPayout = data.payout - fuelSurcharge + discount;
+      el.innerHTML = `
+        <div class="d5-breakdown-line"><span>${data.payoutLabel}</span><span>$${adjustedPayout}</span></div>
+        <div class="d5-breakdown-line"><span>Service Charge</span><span>$${data.serviceCharge}</span></div>
+        <div class="d5-breakdown-covers"><ul>
+          ${data.covers.map(c => `<li>${c}</li>`).join('')}
+        </ul></div>
+        <div class="d5-breakdown-line"><span>Fuel surcharge based on current market rates</span><span>$${fuelSurcharge}</span></div>
+        ${d6SpeedExpedited ? `<div class="d5-breakdown-line"><span>Expedited delivery</span><span>$49</span></div>` : ''}
+        ${discount > 0 ? `<div class="d5-breakdown-line"><span>Promotional discount</span><span>-$${discount}</span></div>` : ''}`;
+    }
+
+    function d6SelectSpeed(key) {
+      const segStd    = document.getElementById('d6-seg-standard');
+      const segExp    = document.getElementById('d6-seg-expedited');
+      if (key === 'expedited' && segExp.disabled) return;
+      d6SpeedExpedited = (key === 'expedited');
+
+      const stdRow    = document.getElementById('d6-speed-standard');
+      const expRow    = document.getElementById('d6-speed-expedited');
+      const stdRadio  = document.getElementById('d6-speed-standard-radio');
+      const expRadio  = document.getElementById('d6-speed-expedited-radio');
+
+      if (d6SpeedExpedited) {
+        stdRow.classList.remove('selected');
+        expRow.classList.add('selected');
+        stdRadio.className = 'radio-ring';
+        stdRadio.innerHTML = '';
+        expRadio.className = 'radio-ring checked-blue';
+        expRadio.innerHTML = '<div class="radio-dot blue"></div>';
+        segStd.classList.remove('selected');
+        segExp.classList.add('selected');
+      } else {
+        expRow.classList.remove('selected');
+        stdRow.classList.add('selected');
+        expRadio.className = 'radio-ring';
+        expRadio.innerHTML = '';
+        stdRadio.className = 'radio-ring checked-blue';
+        stdRadio.innerHTML = '<div class="radio-dot blue"></div>';
+        segExp.classList.remove('selected');
+        segStd.classList.add('selected');
+      }
+
+      d6UpdateHeaderPrice();
+      d6UpdateEstDeliveryText();
+    }
+
+    // ── Delivery days from distance (per ACV suggested-delivery table) ──
+    function d6DeliveryDaysForDistance(miles) {
+      if (miles <= 250)  return 3;
+      if (miles <= 550)  return 4;
+      if (miles <= 850)  return 5;
+      if (miles <= 1150) return 6;
+      if (miles <= 1450) return 7;
+      if (miles <= 1750) return 8;
+      if (miles <= 2050) return 9;
+      return 10;
+    }
+
+    function d6AddBusinessDays(date, days) {
+      const result = new Date(date);
+      let added = 0;
+      while (added < days) {
+        result.setDate(result.getDate() + 1);
+        const dow = result.getDay();
+        if (dow !== 0 && dow !== 6) added++;
+      }
+      return result;
+    }
+
+    function d6FormatEstDate(date) {
+      const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const month   = date.toLocaleDateString('en-US', { month: 'short' });
+      return `${weekday}, ${month} ${date.getDate()}`;
+    }
+
+    const d6BookingDate = new Date();
+    let d6CurrentDistance = 25;
+    let d6StandardDays = d6DeliveryDaysForDistance(d6CurrentDistance);
+    let d6ExpeditedDays = Math.max(1, d6StandardDays - 2);
+
+    function d6UpdateEstDeliveryText() {
+      const days = d6SpeedExpedited ? d6ExpeditedDays : d6StandardDays;
+      const date = d6AddBusinessDays(d6BookingDate, days);
+      const deliveryEl = document.getElementById('d6-est-delivery');
+      if (deliveryEl) {
+        deliveryEl.innerHTML = d6FormatEstDate(date) + ' &nbsp;(' + days + ' bus. day' + (days === 1 ? '' : 's') + ')';
+      }
+    }
+
+    function d6UpdateDeliveryEstimates(distance) {
+      d6CurrentDistance = distance;
+      d6StandardDays = d6DeliveryDaysForDistance(distance);
+      d6ExpeditedDays = Math.max(1, d6StandardDays - 2);
+
+      const distEl = document.getElementById('d6-est-distance');
+      if (distEl) distEl.textContent = distance + ' mi';
+
+      const stdText = 'Typically ' + d6StandardDays + ' business day' + (d6StandardDays === 1 ? '' : 's');
+      const expText = 'Typically ' + d6ExpeditedDays + ' business day' + (d6ExpeditedDays === 1 ? '' : 's');
+
+      const stdDesc = document.querySelector('#d6-speed-standard .service-desc');
+      if (stdDesc) stdDesc.textContent = stdText;
+      const expDesc = document.querySelector('#d6-speed-expedited .service-desc');
+      if (expDesc) expDesc.textContent = expText;
+      const segStdSub = document.querySelector('#d6-seg-standard .d6-seg-sub');
+      if (segStdSub) segStdSub.textContent = stdText;
+      const segExpSub = document.querySelector('#d6-seg-expedited .d6-seg-sub');
+      if (segExpSub) segExpSub.textContent = expText;
+
+      d6UpdateEstDeliveryText();
+    }
+
+    function d6ToggleTip(icon) {
+      const wrap = icon.closest('.d5-info-wrap');
+      const isOpen = wrap.classList.contains('tip-open');
+      document.querySelectorAll('#design-6 .d5-info-wrap.tip-open').forEach(w => w.classList.remove('tip-open'));
+      if (!isOpen) wrap.classList.add('tip-open');
+    }
+
+    (function d6BuildDropdown() {
+      const dropdown = document.getElementById('d6-address-dropdown');
+      savedAddresses.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'dropdown-item';
+        div.innerHTML = `
+          <div class="dropdown-item-text">
+            <div class="dropdown-item-address">${item.address}</div>
+            ${item.sub ? `<div class="dropdown-item-sub">${item.sub}</div>` : ''}
+          </div>
+          <div class="dropdown-badge">${item.badge}</div>`;
+        div.addEventListener('mousedown', e => { e.preventDefault(); d6SelectAddress(item.address); });
+        dropdown.appendChild(div);
+      });
+
+      document.getElementById('d6-delivery-input').addEventListener('blur', function() {
+        setTimeout(function() {
+          document.getElementById('d6-address-dropdown').classList.remove('open');
+          if (!d6AddressChosen) document.getElementById('d6-delivery-input').value = d6SelectedAddress;
+        }, 150);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#d6-delivery-wrapper')) {
+          document.getElementById('d6-address-dropdown').classList.remove('open');
+          document.getElementById('d6-delivery-input').value = d6SelectedAddress;
+        }
+      });
+    })();
+
+    d6UpdateDeliveryEstimates(d6CurrentDistance);
+
+    function d6ShowDropdown() {
+      d6AddressChosen = false;
+      document.getElementById('d6-delivery-input').value = '';
+      document.getElementById('d6-address-dropdown').querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('hidden'));
+      document.getElementById('d6-address-dropdown').classList.add('open');
+    }
+
+    function d6FilterDropdown() {
+      const val = document.getElementById('d6-delivery-input').value.toLowerCase();
+      document.getElementById('d6-address-dropdown').querySelectorAll('.dropdown-item').forEach(item => {
+        const text = item.querySelector('.dropdown-item-address').textContent.toLowerCase();
+        item.classList.toggle('hidden', val && !text.includes(val));
+      });
+    }
+
+    function d6SelectAddress(address) {
+      d6SelectedAddress = address;
+      d6AddressChosen = true;
+      document.getElementById('d6-delivery-input').value = address;
+      document.getElementById('d6-address-dropdown').classList.remove('open');
+      const item = savedAddresses.find(a => a.address === address);
+      if (item && item.distance) d6UpdateDeliveryEstimates(item.distance);
+    }
+
+    function d6SelectService(e, key) {
+      e.stopPropagation();
+      d6CurrentService = key;
+
+      const rows = document.querySelectorAll('#d6-acv-body .service-row');
+      rows.forEach(r => {
+        r.classList.remove('selected');
+        const ring = r.querySelector('.radio-ring');
+        ring.className = 'radio-ring';
+        ring.innerHTML = '';
+      });
+      const row = e.currentTarget;
+      row.classList.add('selected');
+      const ring = row.querySelector('.radio-ring');
+      ring.className = 'radio-ring checked-blue';
+      ring.innerHTML = '<div class="radio-dot blue"></div>';
+
+      const expRow   = document.getElementById('d6-speed-expedited');
+      const note     = document.getElementById('d6-speed-standard-note');
+      const noteV4   = document.getElementById('d6-speed-standard-note-v4');
+      const stdRow   = document.getElementById('d6-speed-standard');
+      const segExp   = document.getElementById('d6-seg-expedited');
+
+      if (key === 'dmc') {
+        expRow.style.display = 'none';
+        note.style.display = '';
+        noteV4.style.display = '';
+        stdRow.style.cursor = 'default';
+        segExp.disabled = true;
+        if (d6SpeedExpedited) d6SelectSpeed('standard');
+      } else {
+        expRow.style.display = '';
+        note.style.display = 'none';
+        noteV4.style.display = 'none';
+        stdRow.style.cursor = '';
+        segExp.disabled = false;
+      }
+
+      d6UpdateHeaderPrice();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Open is selected by default — both speed options visible
+      document.getElementById('d6-speed-expedited').style.display = '';
+      document.getElementById('d6-speed-standard-note').style.display = 'none';
+      document.getElementById('d6-speed-standard').style.cursor = '';
+      d6UpdateHeaderPrice();
+    });
+
+    function d6SelectOwnCarrier() {
+      d6AcvSections.forEach(id => document.getElementById(id).style.display = 'none');
+      document.getElementById('d6-total-footer').style.display = 'none';
+      document.getElementById('d6-acv-benefits').classList.add('open');
+      document.getElementById('d6-benefits-label').style.display = 'none';
+      document.getElementById('d6-acv-tagline').style.display = '';
+      document.getElementById('d6-acv-card').style.borderColor = '#dcdfe8';
+      document.getElementById('d6-acv-radio').className = 'radio-ring';
+      document.getElementById('d6-acv-radio').innerHTML = '';
+      document.getElementById('d6-own-carrier-radio').className = 'radio-ring checked-black';
+      document.getElementById('d6-own-carrier-radio').innerHTML = '<div class="radio-dot black"></div>';
+      document.getElementById('d6-arb-warning').style.display = '';
+      document.getElementById('d6-warning-bullets').classList.add('visible');
+    }
+
+    function d6SelectAcv() {
+      d6AcvSections.forEach(id => document.getElementById(id).style.display = '');
+      document.getElementById('d6-total-footer').style.display = 'flex';
+      document.getElementById('d6-acv-benefits').classList.remove('open');
+      document.getElementById('d6-benefits-label').style.display = 'inline-flex';
+      document.getElementById('d6-acv-tagline').style.display = 'none';
+      document.getElementById('d6-acv-card').style.borderColor = '#f26522';
+      document.getElementById('d6-acv-radio').className = 'radio-ring checked-black';
+      document.getElementById('d6-acv-radio').innerHTML = '<div class="radio-dot black"></div>';
+      document.getElementById('d6-own-carrier-radio').className = 'radio-ring';
+      document.getElementById('d6-own-carrier-radio').innerHTML = '';
+      document.getElementById('d6-arb-warning').style.display = 'none';
+      document.getElementById('d6-warning-bullets').classList.remove('visible');
+    }
+
+    // ── Design 07 — Tabs (duplicate of Expedited v4, with a top ACV/Own tab switch) ──
+    let d7SelectedAddress = '1250 Amherst Street, Buffalo, NY 14216';
+    let d7AddressChosen = false;
+
+    const d7ServiceData = {
+      open:     { price: 129, was: 169, payoutLabel: 'Estimated carrier payout', payout: 110, serviceCharge: 19,
+                  covers: ['Extra arb days', 'ACV handles carrier sourcing, cancellations, and negotiations', 'Damage and fraud protection'] },
+      enclosed: { price: 279, was: 359, payoutLabel: 'Estimated carrier payout', payout: 248, serviceCharge: 31,
+                  covers: ['Extra arb days', 'ACV handles carrier sourcing, cancellations, and negotiations', 'Damage and fraud protection'] },
+      dmc:      { price: 75,  was: null, payoutLabel: 'Estimated driver payout', payout: 54, serviceCharge: 15,
+                  covers: ['Extra arb days', 'ACV handles driver sourcing, cancellations, and negotiations', 'Damage and fraud protection'] },
+    };
+
+    let d7CurrentService = 'open';
+    let d7SpeedExpedited = false;
+    let d7V3QuoteExpanded = false;
+
+    function d7UpdateHeaderPrice() {
+      const data = d7ServiceData[d7CurrentService];
+      const exp = d7SpeedExpedited ? 49 : 0;
+      const priceStr = '$' + (data.price + exp);
+      document.getElementById('d7-price-main').textContent = priceStr;
+      document.getElementById('d7-footer-price-main').textContent = priceStr;
+      const wasEl = document.getElementById('d7-price-was');
+      if (data.was !== null) {
+        wasEl.textContent = '$' + (data.was + exp);
+        wasEl.style.display = '';
+      } else {
+        wasEl.textContent = '';
+        wasEl.style.display = 'none';
+      }
+      d7RenderV3Breakdown();
+    }
+
+    function d7ToggleV3Quote(e) {
+      if (e) e.stopPropagation();
+      d7V3QuoteExpanded = !d7V3QuoteExpanded;
+      document.getElementById('d7-v3-quote-section').style.display = d7V3QuoteExpanded ? 'block' : 'none';
+      document.getElementById('d7-quote-toggle-btn').textContent = d7V3QuoteExpanded ? 'Hide quote details' : 'See quote details';
+    }
+
+    function d7RenderV3Breakdown() {
+      const el = document.getElementById('d7-v3-breakdown');
+      if (!el) return;
+      const data = d7ServiceData[d7CurrentService];
+      const fuelSurcharge = Math.round(data.serviceCharge * 0.08);
+      const discount = data.was !== null ? Math.round(data.price * 0.20) : 0;
+      const adjustedPayout = data.payout - fuelSurcharge + discount;
+      el.innerHTML = `
+        <div class="d5-breakdown-line"><span>${data.payoutLabel}</span><span>$${adjustedPayout}</span></div>
+        <div class="d5-breakdown-line"><span>Service Charge</span><span>$${data.serviceCharge}</span></div>
+        <div class="d5-breakdown-covers"><ul>
+          ${data.covers.map(c => `<li>${c}</li>`).join('')}
+        </ul></div>
+        <div class="d5-breakdown-line"><span>Fuel surcharge based on current market rates</span><span>$${fuelSurcharge}</span></div>
+        ${d7SpeedExpedited ? `<div class="d5-breakdown-line"><span>Expedited delivery</span><span>$49</span></div>` : ''}
+        ${discount > 0 ? `<div class="d5-breakdown-line"><span>Promotional discount</span><span>-$${discount}</span></div>` : ''}`;
+    }
+
+    function d7SelectSpeed(key) {
+      const segStd = document.getElementById('d7-seg-standard');
+      const segExp = document.getElementById('d7-seg-expedited');
+      if (key === 'expedited' && segExp.disabled) return;
+      d7SpeedExpedited = (key === 'expedited');
+
+      if (d7SpeedExpedited) {
+        segStd.classList.remove('selected');
+        segExp.classList.add('selected');
+      } else {
+        segExp.classList.remove('selected');
+        segStd.classList.add('selected');
+      }
+
+      d7UpdateHeaderPrice();
+      d7UpdateEstDeliveryText();
+    }
+
+    const d7BookingDate = new Date();
+    let d7CurrentDistance = 25;
+    let d7StandardDays = d6DeliveryDaysForDistance(d7CurrentDistance);
+    let d7ExpeditedDays = Math.max(1, d7StandardDays - 2);
+
+    function d7UpdateEstDeliveryText() {
+      const days = d7SpeedExpedited ? d7ExpeditedDays : d7StandardDays;
+      const date = d6AddBusinessDays(d7BookingDate, days);
+      const deliveryEl = document.getElementById('d7-est-delivery');
+      if (deliveryEl) {
+        deliveryEl.innerHTML = d6FormatEstDate(date) + ' &nbsp;(' + days + ' bus. day' + (days === 1 ? '' : 's') + ')';
+      }
+    }
+
+    function d7UpdateDeliveryEstimates(distance) {
+      d7CurrentDistance = distance;
+      d7StandardDays = d6DeliveryDaysForDistance(distance);
+      d7ExpeditedDays = Math.max(1, d7StandardDays - 2);
+
+      const distEl = document.getElementById('d7-est-distance');
+      if (distEl) distEl.textContent = distance + ' mi';
+
+      const stdText = 'Typically ' + d7StandardDays + ' business day' + (d7StandardDays === 1 ? '' : 's');
+      const expText = 'Typically ' + d7ExpeditedDays + ' business day' + (d7ExpeditedDays === 1 ? '' : 's');
+
+      const segStdSub = document.querySelector('#d7-seg-standard .d6-seg-sub');
+      if (segStdSub) segStdSub.textContent = stdText;
+      const segExpSub = document.querySelector('#d7-seg-expedited .d6-seg-sub');
+      if (segExpSub) segExpSub.textContent = expText;
+
+      d7UpdateEstDeliveryText();
+    }
+
+    function d7ToggleTip(icon) {
+      const wrap = icon.closest('.d5-info-wrap');
+      const isOpen = wrap.classList.contains('tip-open');
+      document.querySelectorAll('#design-7 .d5-info-wrap.tip-open').forEach(w => w.classList.remove('tip-open'));
+      if (!isOpen) wrap.classList.add('tip-open');
+    }
+
+    (function d7BuildDropdown() {
+      const dropdown = document.getElementById('d7-address-dropdown');
+      savedAddresses.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'dropdown-item';
+        div.innerHTML = `
+          <div class="dropdown-item-text">
+            <div class="dropdown-item-address">${item.address}</div>
+            ${item.sub ? `<div class="dropdown-item-sub">${item.sub}</div>` : ''}
+          </div>
+          <div class="dropdown-badge">${item.badge}</div>`;
+        div.addEventListener('mousedown', e => { e.preventDefault(); d7SelectAddress(item.address); });
+        dropdown.appendChild(div);
+      });
+
+      document.getElementById('d7-delivery-input').addEventListener('blur', function() {
+        setTimeout(function() {
+          document.getElementById('d7-address-dropdown').classList.remove('open');
+          if (!d7AddressChosen) document.getElementById('d7-delivery-input').value = d7SelectedAddress;
+        }, 150);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#d7-delivery-wrapper')) {
+          document.getElementById('d7-address-dropdown').classList.remove('open');
+          document.getElementById('d7-delivery-input').value = d7SelectedAddress;
+        }
+      });
+    })();
+
+    d7UpdateDeliveryEstimates(d7CurrentDistance);
+    d7UpdateHeaderPrice();
+
+    function d7ShowDropdown() {
+      d7AddressChosen = false;
+      document.getElementById('d7-delivery-input').value = '';
+      document.getElementById('d7-address-dropdown').querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('hidden'));
+      document.getElementById('d7-address-dropdown').classList.add('open');
+    }
+
+    function d7FilterDropdown() {
+      const val = document.getElementById('d7-delivery-input').value.toLowerCase();
+      document.getElementById('d7-address-dropdown').querySelectorAll('.dropdown-item').forEach(item => {
+        const text = item.querySelector('.dropdown-item-address').textContent.toLowerCase();
+        item.classList.toggle('hidden', val && !text.includes(val));
+      });
+    }
+
+    function d7SelectAddress(address) {
+      d7SelectedAddress = address;
+      d7AddressChosen = true;
+      document.getElementById('d7-delivery-input').value = address;
+      document.getElementById('d7-address-dropdown').classList.remove('open');
+      const item = savedAddresses.find(a => a.address === address);
+      if (item && item.distance) d7UpdateDeliveryEstimates(item.distance);
+    }
+
+    function d7SelectService(e, key) {
+      e.stopPropagation();
+      d7CurrentService = key;
+
+      const rows = document.querySelectorAll('#d7-acv-body .service-row');
+      rows.forEach(r => {
+        r.classList.remove('selected');
+        const ring = r.querySelector('.radio-ring');
+        ring.className = 'radio-ring';
+        ring.innerHTML = '';
+      });
+      const row = e.currentTarget;
+      row.classList.add('selected');
+      const ring = row.querySelector('.radio-ring');
+      ring.className = 'radio-ring checked-blue';
+      ring.innerHTML = '<div class="radio-dot blue"></div>';
+
+      const segExp = document.getElementById('d7-seg-expedited');
+      const noteV4 = document.getElementById('d7-speed-standard-note-v4');
+
+      if (key === 'dmc') {
+        noteV4.style.display = '';
+        segExp.disabled = true;
+        if (d7SpeedExpedited) d7SelectSpeed('standard');
+      } else {
+        noteV4.style.display = 'none';
+        segExp.disabled = false;
+      }
+
+      d7UpdateHeaderPrice();
+    }
+
+    // ── Tabs: Transport with ACV vs I'll arrange my own transport ──
+    function d7SelectTab(tab) {
+      const container = document.getElementById('d7-container');
+      const tabAcv  = document.getElementById('d7-tab-acv');
+      const tabOwn  = document.getElementById('d7-tab-own');
+      const acvContent = document.getElementById('d7-acv-content');
+      const ownContent = document.getElementById('d7-own-content');
+
+      const isAcv = (tab === 'acv');
+      tabAcv.classList.toggle('selected', isAcv);
+      tabOwn.classList.toggle('selected', !isAcv);
+      container.classList.toggle('own-mode', !isAcv);
+      acvContent.style.display = isAcv ? '' : 'none';
+      ownContent.style.display = isAcv ? 'none' : '';
+    }
+
     // ── Design switcher ──
     function showDesign(n, skipVariantReset) {
       document.querySelectorAll('.design-panel').forEach(p => p.classList.remove('active'));
@@ -3743,32 +4300,66 @@
       if (window.ProtoSettings && !document.body.classList.contains('in-iframe')) {
         if (n === 3) ProtoSettings.showGroup('version');
         else         ProtoSettings.hideGroup('version');
+        if (n === 6) ProtoSettings.showGroup('exp-version');
+        else         ProtoSettings.hideGroup('exp-version');
       }
       if (!document.body.classList.contains('in-iframe')) {
         _postToIframe({ type: 'ps-show-design', n });
       }
       localStorage.setItem('activeDesign', n);
-      localStorage.setItem('activeVariant', n === 3 ? (skipVariantReset ? fsCurrentVariant : 1) : 1);
+      localStorage.setItem('activeVariant', n === 3 ? (skipVariantReset ? fsCurrentVariant : 5) : 5);
+      _syncShareUrl();
+    }
+
+    // ── Shareable URL sync (?d=design&v=version) ──
+    function _syncShareUrl() {
+      if (document.body.classList.contains('in-iframe')) return;
+      const d = parseInt(localStorage.getItem('activeDesign') || '1');
+      const params = new URLSearchParams(window.location.search);
+      params.set('d', String(d));
+      if (d === 3) {
+        params.set('v', localStorage.getItem('activeVariant') || '5');
+      } else if (d === 6) {
+        params.set('v', localStorage.getItem('d6Version') || '1');
+      } else {
+        params.delete('v');
+      }
+      const newUrl = window.location.pathname + '?' + params.toString();
+      history.replaceState(null, '', newUrl);
     }
 
     // ── ProtoSettings groups (outer frame only) ──
     let _psVersionSel = null;
+    let _psD6VersionSel = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       if (!window.ProtoSettings) return;
       if (document.body.classList.contains('in-iframe')) return;
 
-      const savedDesign  = parseInt(localStorage.getItem('activeDesign')  || '1');
-      const savedVariant = parseInt(localStorage.getItem('activeVariant') || '1');
+      // URL params (?d=design&v=version) take priority over localStorage, so a specific
+      // PSB configuration can be shared via a direct link.
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlDesign = urlParams.get('d');
+      const urlVersion = urlParams.get('v');
+
+      let savedDesign  = parseInt(urlDesign || localStorage.getItem('activeDesign')  || '1');
+      if (savedDesign === 5) savedDesign = 1; // removed "Flat pickup" feature
+      if (savedDesign === 2) savedDesign = 1; // removed "Simplified" feature
+      const savedVariant = parseInt((urlDesign === '3' && urlVersion) ? urlVersion : (localStorage.getItem('activeVariant') || '5'));
+      const savedD6Version = parseInt((urlDesign === '6' && urlVersion) ? urlVersion : (localStorage.getItem('d6Version') || '1'));
+
+      if (urlDesign) localStorage.setItem('activeDesign', savedDesign);
+      if (urlDesign === '3' && urlVersion) localStorage.setItem('activeVariant', savedVariant);
+      if (urlDesign === '6' && urlVersion) localStorage.setItem('d6Version', savedD6Version);
 
       ProtoSettings.addGroup('Feature', [{
         type: 'seg',
         options: [
           { label: 'Current',     value: '1' },
-          { label: 'Simplified',  value: '2' },
           { label: 'Fuel adj.',   value: '3' },
           { label: 'Details',     value: '4' },
-          { label: 'Flat pickup', value: '5' },
+          { label: 'Expedited',   value: '6' },
+          { label: 'Tabs',        value: '7' },
         ],
         default: String(savedDesign),
         onChange(v) {
@@ -3781,11 +4372,11 @@
       ProtoSettings.addGroup('Version', [{
         type: 'select',
         options: [
-          { label: 'v1 · Banner orange',    value: '1' },
-          { label: 'v2 · Banner celeste',   value: '2' },
-          { label: 'v3 · Tooltip price',    value: '3' },
-          { label: 'v4 · Badge header',     value: '4' },
           { label: 'v5 · Inline breakdown', value: '5' },
+          { label: 'v4 · Badge header',     value: '4' },
+          { label: 'v3 · Tooltip price',    value: '3' },
+          { label: 'v2 · Banner celeste',   value: '2' },
+          { label: 'v1 · Banner orange',    value: '1' },
         ],
         default: String(savedVariant),
         ref(el) { _psVersionSel = el; },
@@ -3796,9 +4387,25 @@
         }
       }], { id: 'version', hidden: savedDesign !== 3 });
 
+      ProtoSettings.addGroup('Version', [{
+        type: 'select',
+        options: [
+          { label: 'v1', value: '1' },
+          { label: 'v2', value: '2' },
+          { label: 'v3', value: '3' },
+          { label: 'v4', value: '4' },
+        ],
+        default: String(savedD6Version),
+        ref(el) { _psD6VersionSel = el; },
+        onChange(v) {
+          showD6Version(parseInt(v));
+        }
+      }], { id: 'exp-version', hidden: savedDesign !== 6 });
+
       // Restore state after PSB is built
       showDesign(savedDesign, savedDesign === 3);
       if (savedDesign === 3) showFsVariant(savedVariant);
+      if (savedDesign === 6) showD6Version(savedD6Version);
     });
 
     function _syncVersionSelect(n) {

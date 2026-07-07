@@ -549,6 +549,7 @@
       } else if (ctrl.type === 'select') {
         const sel = document.createElement('select');
         sel.className = 'ps-select';
+        sel.setAttribute('autocomplete', 'off');
         ctrl.options.forEach(opt => {
           const o = document.createElement('option');
           o.value = opt.value ?? opt.label;
@@ -583,11 +584,13 @@
     },
 
     showGroup(id) {
+      if (!inner) return;
       const el = inner.querySelector(`[data-group-id="${id}"]`);
       if (el) el.classList.remove('ps-hidden');
     },
 
     hideGroup(id) {
+      if (!inner) return;
       const el = inner.querySelector(`[data-group-id="${id}"]`);
       if (el) el.classList.add('ps-hidden');
     },
